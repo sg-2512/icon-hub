@@ -1,5 +1,25 @@
-import { icons, getIconBySlug } from '../../../lib/icons'
+import { icons } from '../../../lib/icons'
+import { lucideIconsData } from '../../../data/libraries/lucide-icons'
+import { heroiconsData } from '../../../data/libraries/heroicons'
+import { tablerIconsData } from '../../../data/libraries/tabler-icons'
+import { phosphorIconsData } from '../../../data/libraries/phosphor-icons'
+import { remixIconData } from '../../../data/libraries/remix-icon'
+import { featherIconsData } from '../../../data/libraries/feather-icons'
+import { bootstrapIconsData } from '../../../data/libraries/bootstrap-icons'
+import { radixIconsData } from '../../../data/libraries/radix-icons'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
+const libraryData: Record<string, any> = {
+  'lucide-icons': lucideIconsData,
+  'heroicons': heroiconsData,
+  'tabler-icons': tablerIconsData,
+  'phosphor-icons': phosphorIconsData,
+  'remix-icon': remixIconData,
+  'feather-icons': featherIconsData,
+  'bootstrap-icons': bootstrapIconsData,
+  'radix-icons': radixIconsData,
+}
 
 export async function generateStaticParams() {
   return icons.map(icon => ({ slug: icon.slug }))
@@ -7,110 +27,327 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const icon = getIconBySlug(slug)
+  const icon = icons.find(i => i.slug === slug)
   if (!icon) return {}
   return {
-    title: `${icon.name} — Installation, Usage & Examples (2026)`,
-    description: `Complete guide to ${icon.name}. ${icon.iconCount} icons, ${icon.license} license. Works with ${icon.frameworks.join(', ')}.`,
+    title: `${icon.name} — Complete Guide, Installation & Examples (2026)`,
+    description: `Everything you need to know about ${icon.name}. Installation for React, Next.js, Vue. Code examples, pros & cons, and comparisons with alternatives.`,
   }
 }
 
 export default async function LibraryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const icon = getIconBySlug(slug)
+  const icon = icons.find(i => i.slug === slug)
+  if (!icon) notFound()
 
-  if (!icon) {
+  const data = libraryData[slug]
+
+  // Basic page for libraries without detailed data yet
+  if (!data) {
     return (
-      <main className="max-w-3xl mx-auto px-6 py-12">
-        <h1 className="text-2xl font-bold">Library not found</h1>
-        <Link href="/" className="text-blue-500">← Back to home</Link>
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px' }}>
+        <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace' }}>
+          ← back to all libraries
+        </Link>
+        <h1 style={{ fontSize: '48px', fontWeight: 800, margin: '24px 0 12px' }}>{icon.name}</h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: '18px', marginBottom: '40px' }}>{icon.description}</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '40px' }}>
+          {[
+            { label: 'Icons', value: icon.iconCount.toLocaleString() },
+            { label: 'GitHub Stars', value: icon.stars.toLocaleString() },
+            { label: 'License', value: icon.license },
+          ].map(stat => (
+            <div key={stat.label} style={{ background: 'var(--bg-card)', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '28px', fontWeight: 800, fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent)' }}>{stat.value}</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>{stat.label}</div>
+            </div>
+          ))}
+        </div>
+        <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px' }}>Installation</h2>
+        <pre style={{ background: 'var(--code-bg)', border: '1px solid var(--border)', borderRadius: '8px', padding: '16px', fontFamily: 'JetBrains Mono, monospace', fontSize: '14px', color: 'var(--green)', marginBottom: '40px' }}>
+          {icon.installCommand}
+        </pre>
+        <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px' }}>Compare with others</h2>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {icons.filter(i => i.slug !== slug).map(i => (
+            <Link key={i.slug} href={`/compare/${slug}-vs-${i.slug}`} style={{
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              padding: '8px 14px',
+              textDecoration: 'none',
+              color: 'var(--text-muted)',
+              fontSize: '13px',
+              fontFamily: 'JetBrains Mono, monospace',
+            }}>
+              vs {i.name} →
+            </Link>
+          ))}
+        </div>
       </main>
     )
   }
 
+  // Full detailed page for libraries with rich data
   return (
-    <main className="max-w-3xl mx-auto px-6 py-12">
-      <Link href="/" className="text-sm text-gray-500 hover:text-gray-700 mb-6 block">
-        ← Back to all libraries
+    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 24px' }}>
+
+      {/* Breadcrumb */}
+      <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace' }}>
+        ← back to all libraries
       </Link>
 
-      <h1 className="text-4xl font-bold mb-3">{icon.name}</h1>
-      <p className="text-gray-600 text-lg mb-8">{icon.description}</p>
-
-      <div className="grid grid-cols-3 gap-4 mb-10">
-        <div className="border rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold">{icon.iconCount.toLocaleString()}</div>
-          <div className="text-sm text-gray-500">Icons</div>
+      {/* Hero */}
+      <section style={{ margin: '24px 0 48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <div style={{ fontSize: '12px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '12px' }}>
+          // ICON LIBRARY
         </div>
-        <div className="border rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold">{icon.stars.toLocaleString()}</div>
-          <div className="text-sm text-gray-500">GitHub Stars</div>
+        <h1 style={{ fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 800, lineHeight: 1.1, marginBottom: '12px' }}>
+          {data.name}
+        </h1>
+        <p style={{ color: 'var(--accent)', fontSize: '18px', marginBottom: '20px', fontFamily: 'JetBrains Mono, monospace' }}>
+          {data.tagline}
+        </p>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '24px' }}>
+          {icon.frameworks.map(f => (
+            <span key={f} style={{
+              background: 'var(--accent-dim)',
+              border: '1px solid var(--accent)',
+              color: 'var(--accent)',
+              padding: '3px 10px',
+              borderRadius: '100px',
+              fontSize: '11px',
+              fontFamily: 'JetBrains Mono, monospace',
+            }}>{f}</span>
+          ))}
+          <span style={{
+            background: '#4ade8015',
+            border: '1px solid var(--green)',
+            color: 'var(--green)',
+            padding: '3px 10px',
+            borderRadius: '100px',
+            fontSize: '11px',
+            fontFamily: 'JetBrains Mono, monospace',
+          }}>{icon.license}</span>
         </div>
-        <div className="border rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold">{icon.license}</div>
-          <div className="text-sm text-gray-500">License</div>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <a href={data.links.github} target="_blank" style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
+            color: 'var(--text)',
+            padding: '10px 20px',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontSize: '13px',
+            fontFamily: 'JetBrains Mono, monospace',
+          }}>GitHub →</a>
+          <a href={data.links.website} target="_blank" style={{
+            background: 'var(--accent)',
+            color: 'white',
+            padding: '10px 20px',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontSize: '13px',
+            fontFamily: 'JetBrains Mono, monospace',
+          }}>Official Site →</a>
         </div>
-      </div>
+      </section>
 
-      <h2 className="text-2xl font-bold mb-3">Installation</h2>
-      <pre className="bg-gray-900 text-green-400 rounded-lg p-4 mb-8 overflow-x-auto">
-        {icon.installCommand}
-      </pre>
-
-      <h2 className="text-2xl font-bold mb-3">Usage Example</h2>
-      <pre className="bg-gray-900 text-gray-100 rounded-lg p-4 mb-8 overflow-x-auto text-sm">
-        {icon.usageExample}
-      </pre>
-
-      <div className="grid grid-cols-2 gap-6 mb-10">
-        <div>
-          <h3 className="font-bold text-green-600 mb-2">Pros</h3>
-          <ul className="space-y-1">
-            {icon.pros.map(p => (
-              <li key={p} className="text-sm text-gray-600">✅ {p}</li>
-            ))}
-          </ul>
+      {/* Stats */}
+      <section style={{ marginBottom: '48px' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>
+          STATS
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+          {[
+            { label: 'Icons', value: data.stats.iconCount.toLocaleString() },
+            { label: 'GitHub Stars', value: data.stats.stars.toLocaleString() },
+            { label: 'Weekly Downloads', value: (data.stats.weeklyDownloads / 1000000).toFixed(1) + 'M' },
+            { label: 'License', value: data.stats.license },
+            { label: 'Bundle Size', value: data.stats.bundleSize },
+            { label: 'Since', value: data.stats.firstRelease },
+          ].map(stat => (
+            <div key={stat.label} style={{ background: 'var(--bg-card)', padding: '20px', textAlign: 'center' }}>
+              <div style={{ fontSize: '22px', fontWeight: 800, fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent)', marginBottom: '4px' }}>{stat.value}</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</div>
+            </div>
+          ))}
         </div>
-        <div>
-          <h3 className="font-bold text-red-500 mb-2">Cons</h3>
-          <ul className="space-y-1">
-            {icon.cons.map(c => (
-              <li key={c} className="text-sm text-gray-600">❌ {c}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      </section>
 
-      <h2 className="text-2xl font-bold mb-3">Framework Support</h2>
-      <div className="flex gap-2 flex-wrap mb-10">
-        {icon.frameworks.map(f => (
-          <span key={f} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-            {f}
-          </span>
+      {/* Description */}
+      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          OVERVIEW
+        </h2>
+        {[data.description.intro, data.description.detail, data.description.technical, data.description.verdict].map((para, i) => (
+          <p key={i} style={{ color: i === 3 ? 'var(--text)' : 'var(--text-muted)', fontSize: '16px', lineHeight: 1.8, marginBottom: '16px', background: i === 3 ? 'var(--accent-dim)' : 'transparent', border: i === 3 ? '1px solid var(--accent)' : 'none', borderRadius: i === 3 ? '8px' : '0', padding: i === 3 ? '16px' : '0' }}>
+            {i === 3 && <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', display: 'block', marginBottom: '8px' }}>// VERDICT</span>}
+            {para}
+          </p>
         ))}
-      </div>
+      </section>
 
-      <div className="flex gap-4 mb-16">
-        <a href={icon.github} target="_blank" className="border px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
-          GitHub →
-        </a>
-        <a href={icon.website} target="_blank" className="border px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
-          Official Site →
-        </a>
-      </div>
-
-      <h2 className="text-2xl font-bold mb-4">Compare {icon.name} With Others</h2>
-      <div className="flex gap-3 flex-wrap">
-        {icons.filter(i => i.slug !== icon.slug).map(i => (
-          <Link
-            key={i.slug}
-            href={`/compare/${icon.slug}-vs-${i.slug}`}
-            className="border rounded-lg px-3 py-2 text-sm hover:bg-gray-50"
-          >
-            {icon.name} vs {i.name}
-          </Link>
+      {/* Installation */}
+      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          INSTALLATION
+        </h2>
+        {Object.entries(data.installation).map(([framework, install]) => (
+          <div key={framework} style={{ marginBottom: '20px' }}>
+            <div style={{ fontSize: '12px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '8px', textTransform: 'uppercase' }}>
+              {framework}
+            </div>
+            <pre style={{
+              background: 'var(--code-bg)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              padding: '16px',
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '14px',
+              color: 'var(--green)',
+              overflowX: 'auto',
+            }}>
+              {'command' in install ? install.command : ''}
+              {'note' in install && install.note ? `\n\n// Note: ${install.note}` : ''}
+            </pre>
+          </div>
         ))}
-      </div>
+      </section>
+
+      {/* Code Examples */}
+      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          CODE EXAMPLES
+        </h2>
+        {Object.entries(data.codeExamples).map(([title, code]) => (
+          <div key={title} style={{ marginBottom: '24px' }}>
+            <div style={{ fontSize: '12px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '8px', textTransform: 'uppercase' }}>
+              {title.replace(/([A-Z])/g, ' $1').trim()}
+            </div>
+            <pre style={{
+              background: 'var(--code-bg)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              padding: '20px',
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '13px',
+              color: 'var(--text)',
+              overflowX: 'auto',
+              lineHeight: 1.7,
+            }}>
+              {code}
+            </pre>
+          </div>
+        ))}
+      </section>
+
+      {/* Pros & Cons */}
+      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          PROS & CONS
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+          <div>
+            <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>PROS</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {data.pros.map(pro => (
+                <div key={pro.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px' }}>
+                  <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--green)' }}>✓ {pro.title}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{pro.detail}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: '12px', color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>CONS</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {data.cons.map(con => (
+                <div key={con.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px' }}>
+                  <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--red)' }}>✗ {con.title}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{con.detail}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who Should Use */}
+      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          WHO SHOULD USE THIS
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+          <div>
+            <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>USE IF YOU...</div>
+            {data.whoShouldUse.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                <span style={{ color: 'var(--green)', flexShrink: 0 }}>→</span>
+                <span style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: '12px', color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>AVOID IF YOU...</div>
+            {data.whoShouldNot.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                <span style={{ color: 'var(--red)', flexShrink: 0 }}>✗</span>
+                <span style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          FREQUENTLY ASKED QUESTIONS
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {data.faqs.map((faq, i) => (
+            <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '20px' }}>
+              <div style={{ fontWeight: 700, fontSize: '15px', marginBottom: '10px', color: 'var(--text)' }}>
+                <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', marginRight: '8px' }}>Q.</span>
+                {faq.q}
+              </div>
+              <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7 }}>
+                <span style={{ color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', marginRight: '8px' }}>A.</span>
+                {faq.a}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Comparisons */}
+      <section style={{ marginBottom: '48px' }}>
+        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
+          COMPARE WITH ALTERNATIVES
+        </h2>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          {icons.filter(i => i.slug !== slug).map(i => (
+            <Link key={i.slug} href={`/compare/${slug}-vs-${i.slug}`} style={{
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              padding: '10px 16px',
+              textDecoration: 'none',
+              color: 'var(--text-muted)',
+              fontSize: '13px',
+              fontFamily: 'JetBrains Mono, monospace',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}>
+              {data.name} vs {i.name}
+              <span style={{ color: 'var(--accent)' }}>→</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
     </main>
   )
 }

@@ -1,1 +1,68 @@
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap');
+
 @import "tailwindcss";
+
+:root {
+  --bg: #0a0a0f;
+  --bg-secondary: #111118;
+  --bg-card: #13131a;
+  --border: #1e1e2e;
+  --border-hover: #2e2e4e;
+  --text: #e2e2f0;
+  --text-muted: #6b6b8a;
+  --text-dim: #3a3a5c;
+  --accent: #7c6af7;
+  --accent-hover: #9b8cff;
+  --accent-dim: #7c6af715;
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --cyan: #22d3ee;
+  --code-bg: #0d0d14;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+
+/* Selection */
+::selection { background: var(--accent); color: white; }
+
+code, pre, .mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.card-hover:hover {
+  background: var(--bg-secondary) !important;
+}
+
+.link-hover:hover {
+  border-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+.nav-link:hover {
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+  background: var(--bg-card) !important;
+}
