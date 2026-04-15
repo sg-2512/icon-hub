@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^5.15.9",
-    "@next/swc-win32-x64-msvc": "^16.2.2",
     "gray-matter": "^4.0.3",
     "next": "^16.2.3",
     "next-mdx-remote": "^6.0.0",
