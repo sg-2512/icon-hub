@@ -208,8 +208,13 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
               color: 'var(--green)',
               overflowX: 'auto',
             }}>
-              {'command' in install ? install.command : ''}
-              {'note' in install && install.note ? `\n\n// Note: ${install.note}` : ''}
+              {typeof install === 'object' && install !== null && 'command' in install
+                ? (install as any).command
+                : ''}
+
+              {typeof install === 'object' && install !== null && 'note' in install && (install as any).note
+                ? `\n\n// Note: ${(install as any).note}`
+                : ''}
             </pre>
           </div>
         ))}
@@ -236,7 +241,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
               overflowX: 'auto',
               lineHeight: 1.7,
             }}>
-              {code}
+              {String(code)}
             </pre>
           </div>
         ))}
@@ -251,7 +256,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           <div>
             <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>PROS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {data.pros.map(pro => (
+              {(data.pros as any[]).map((pro) => (
                 <div key={pro.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px' }}>
                   <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--green)' }}>✓ {pro.title}</div>
                   <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{pro.detail}</div>
@@ -262,7 +267,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           <div>
             <div style={{ fontSize: '12px', color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>CONS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {data.cons.map(con => (
+              {(data.cons as any[]).map((con) => (
                 <div key={con.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px' }}>
                   <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--red)' }}>✗ {con.title}</div>
                   <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{con.detail}</div>
@@ -281,7 +286,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
           <div>
             <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>USE IF YOU...</div>
-            {data.whoShouldUse.map((item, i) => (
+            {(data.whoShouldUse as any[]).map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                 <span style={{ color: 'var(--green)', flexShrink: 0 }}>→</span>
                 <span style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</span>
@@ -290,7 +295,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           </div>
           <div>
             <div style={{ fontSize: '12px', color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>AVOID IF YOU...</div>
-            {data.whoShouldNot.map((item, i) => (
+            {(data.whoShouldNot as any[]).map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                 <span style={{ color: 'var(--red)', flexShrink: 0 }}>✗</span>
                 <span style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</span>
@@ -306,7 +311,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           FREQUENTLY ASKED QUESTIONS
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {data.faqs.map((faq, i) => (
+          {(data.faqs as any[]).map((faq, i) => (
             <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '20px' }}>
               <div style={{ fontWeight: 700, fontSize: '15px', marginBottom: '10px', color: 'var(--text)' }}>
                 <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', marginRight: '8px' }}>Q.</span>
