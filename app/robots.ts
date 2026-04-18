@@ -9,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/'],
       },
     ],
-    sitemap: 'https://www.iconshub.netlify.app/sitemap.xml',
-    host: 'https://www.iconshub.netlify.app',
+    sitemap: 'https://iconshub.netlify.app/sitemap.xml',
   }
 }
