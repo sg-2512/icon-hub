@@ -5,7 +5,7 @@ import { categories } from '../data/categories'
 import { useCases } from '../data/usecases'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://www.iconshub.netlify.app'
+  const base = 'https://iconshub.netlify.app'
 
   // Static pages
   const staticPages = [
