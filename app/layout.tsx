@@ -9,6 +9,20 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "IconHub",
+              "alternateName": "IconsHub",
+              "url": "https://iconshub.netlify.app"
+            })
+          }}
+        />
+      </head>
       <body>
         <nav style={{
           borderBottom: '1px solid var(--border)',
