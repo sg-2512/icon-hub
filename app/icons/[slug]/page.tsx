@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!icon) return {}
   return {
     title: `${icon.name} — Complete Guide, Installation & Examples (2026)`,
-    description: `Everything you need to know about ${icon.name}. Installation for React, Next.js, Vue. Code examples, pros & cons, and comparisons with alternatives.`,
+    description: `${icon.name} complete guide 2026 — installation for ${icon.frameworks.slice(0,2).join(' and ')}, ${icon.iconCount} icons, ${icon.license} license, TypeScript ${icon.typescript ? 'supported' : 'not supported'}. Compare with alternatives.`,
   }
 }
 
@@ -352,7 +352,6 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
       </section>
-
     </main>
   )
 }
