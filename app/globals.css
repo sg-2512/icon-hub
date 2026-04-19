@@ -66,3 +66,23 @@ code, pre, .mono {
   border-color: var(--border) !important;
   background: var(--bg-card) !important;
 }
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .mobile-menu-btn {
+    display: block !important;
+  }
+}
+
+/* Desktop — hide hamburger */
+@media (min-width: 769px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
+  .mobile-menu {
+    display: none !important;
+  }
+}

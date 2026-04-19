@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import Navbar from './components/Navbar'
 
 export const metadata: Metadata = {
   title: 'IconHub — Best Free Icon Libraries for Developers',
@@ -24,55 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <nav style={{
-          borderBottom: '1px solid var(--border)',
-          padding: '0 48px',
-          height: '60px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          background: 'rgba(10,10,15,0.85)',
-          backdropFilter: 'blur(12px)',
-        }}>
-          <a href="/" style={{
-            fontFamily: 'JetBrains Mono, monospace',
-            fontWeight: 700,
-            fontSize: '18px',
-            color: 'var(--text)',
-            textDecoration: 'none',
-          }}>
-            <span style={{ color: 'var(--accent)' }}>&lt;</span>
-            IconHub
-            <span style={{ color: 'var(--accent)' }}>/&gt;</span>
-          </a>
-          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-            {[
-              { label: 'Browse', href: '/free-svg-icons' },
-              { label: 'Compare', href: '/compare' },
-              { label: 'Categories', href: '/icons/category' },
-              { label: 'Use Cases', href: '/use-cases' },
-              { label: 'Stats', href: '/stats' },
-              { label: 'Blog', href: '/blog' },
-            ].map(link => (
-              <a key={link.href} href={link.href} className="nav-link" style={{
-                color: 'var(--text-muted)',
-                textDecoration: 'none',
-                fontSize: '13px',
-                padding: '6px 10px',
-                borderRadius: '6px',
-                border: '1px solid transparent',
-                transition: 'all 0.2s',
-                fontFamily: 'JetBrains Mono, monospace',
-              }}>
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </nav>
-
+        <Navbar />
         <div style={{ minHeight: 'calc(100vh - 60px - 80px)' }}>
           {children}
         </div>
