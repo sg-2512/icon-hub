@@ -203,6 +203,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             ))}
           </div>
         )}
+
+        {/* AI Disclosure */}
+        <div style={{
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border)',
+          borderRadius: '6px',
+          padding: '10px 14px',
+          marginTop: '12px',
+          fontSize: '11px',
+          color: 'var(--text-dim)',
+          fontFamily: 'JetBrains Mono, monospace',
+        }}>
+          // This article was researched and edited by the IconHub team.
+          Content may be AI-assisted and is reviewed for accuracy.
+        </div>
+        
       </section>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '48px', alignItems: 'flex-start' }}>
