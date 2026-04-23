@@ -1,6 +1,19 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from './components/Navbar'
+import { JetBrains_Mono, Syne } from 'next/font/google'
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+})
+
+const syne = Syne({
+  subsets: ['latin'],
+  variable: '--font-syne',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'IconHub — Best Free Icon Libraries for Developers',
@@ -9,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${jetbrainsMono.variable} ${syne.variable}`}>
       <head>
         <script
           type="application/ld+json"
