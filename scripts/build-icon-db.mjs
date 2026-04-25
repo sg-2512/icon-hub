@@ -47,7 +47,7 @@ try {
         tags: toTags(name),
         reactImport: `import { ${componentName} } from 'lucide-react'`,
         reactUsage: `<${componentName} size={24} />`,
-        svgUrl: `https://unpkg.com/lucide-static@latest/icons/${name}.svg`,
+        svgUrl: `https://cdn.jsdelivr.net/npm/lucide-static/icons/${name}.svg`,
       })
     }
     console.log(`✓ Lucide: ${files.length} icons`)
@@ -118,7 +118,7 @@ try {
         tags: toTags(name),
         reactImport: `import { ${componentName} } from '@heroicons/react/24/outline'`,
         reactUsage: `<${componentName} className="h-6 w-6" />`,
-        svgUrl: `https://unpkg.com/@heroicons/react@latest/24/outline/${componentName}.js`,
+        svgUrl: `https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/outline/${name}.svg`,
       })
     }
     console.log(`✓ Heroicons: ${seen.size} icons`)
@@ -146,9 +146,11 @@ try {
       const componentName = file.replace(/\.mjs$/, '')
       // Tabler components are named IconCamera, IconHome, etc.
       if (!isSvg && !componentName.startsWith('Icon')) continue
-      const name = isSvg
-        ? componentName
-        : componentName.replace(/^Icon/, '').replace(/([A-Z])/g, s => `-${s.toLowerCase()}`).replace(/^-/, '')
+      const name = componentName
+      .replace(/^Icon/, '')
+      .replace(/([A-Z])/g, (s) => `-${s.toLowerCase()}`)
+      .replace(/^-/, '')
+      .replace(/--+/g, '-')
       const display = isSvg
         ? 'Icon' + name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
         : componentName
@@ -163,7 +165,7 @@ try {
         tags: toTags(name),
         reactImport: `import { ${display} } from '@tabler/icons-react'`,
         reactUsage: `<${display} size={24} />`,
-        svgUrl: `https://unpkg.com/@tabler/icons@latest/icons/${name}.svg`,
+        svgUrl: `https://cdn.jsdelivr.net/npm/@tabler/icons/icons/${name}.svg`,
       })
     }
     console.log(`✓ Tabler: ${files.length} icons`)
@@ -197,6 +199,12 @@ try {
         if (/^[A-Z][a-zA-Z]{2,}$/.test(name)) names.add(name)
       })
     }
+    // Remove entries ending in 'Icon' if base name exists
+    for (const n of names) {
+      if (n.endsWith('Icon') && names.has(n.replace(/Icon$/, ''))) {
+        names.delete(n)
+      }
+    }
     // Also catch `export function X` / `export const X`
     const directMatches = [...content.matchAll(/export\s+(?:function|const|var)\s+([A-Z][a-zA-Z]+)/g)]
     directMatches.forEach(m => { if (m[1].length > 2) names.add(m[1]) })
@@ -213,7 +221,7 @@ try {
         tags: toTags(name),
         reactImport: `import { ${componentName} } from '@phosphor-icons/react'`,
         reactUsage: `<${componentName} size={24} />`,
-        svgUrl: `https://unpkg.com/@phosphor-icons/core@latest/assets/regular/${name}.svg`,
+        svgUrl: `https://cdn.jsdelivr.net/npm/@phosphor-icons/core/assets/regular/${name}.svg`,
       })
     }
     console.log(`✓ Phosphor: ${names.size} icons`)
@@ -275,7 +283,7 @@ try {
           tags: toTags(name),
           reactImport: `import { ${componentName} } from '@radix-ui/react-icons'`,
           reactUsage: `<${componentName} />`,
-          svgUrl: `https://www.radix-ui.com/icons`,
+          svgUrl: `https://raw.githubusercontent.com/radix-ui/icons/main/packages/radix-icons/icons/${name}.svg`,
         })
       }
       console.log(`✓ Radix: ${dtFiles.length} icons`)

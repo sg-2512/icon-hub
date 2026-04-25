@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 
 type Icon = {
   id: string
@@ -161,6 +161,24 @@ export default function IconSearchPage() {
   const [icons, setIcons] = useState<Icon[]>([])
   const [loaded, setLoaded] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(120)
+  const searchRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setVisibleCount(120)
+  }, [query, selectedLib])
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === '/' && document.activeElement !== searchRef.current) {
+        e.preventDefault()
+        searchRef.current?.focus()
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [])
+
 
   // Lazy load icon data
   async function loadIcons() {
@@ -187,8 +205,8 @@ export default function IconSearchPage() {
         icon.displayName.toLowerCase().includes(q) ||
         icon.tags.some(t => t.includes(q))
       return matchesLib && matchesQuery
-    }).slice(0, 120)
-  }, [query, selectedLib, icons])
+    }).slice(0, visibleCount)
+  }, [query, selectedLib, icons, visibleCount])
 
   return (
     <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px' }}>
@@ -210,6 +228,7 @@ export default function IconSearchPage() {
       {/* Search Bar */}
       <div style={{ marginBottom: '24px' }}>
         <input
+            ref={searchRef}
             type="text"
             placeholder="Search icons — try 'camera', 'home', 'arrow'..."
             value={query}
@@ -236,6 +255,36 @@ export default function IconSearchPage() {
             }}
         />
       </div>
+
+      {/* Per-library counts */}
+      {loaded && (query || selectedLib !== 'all') && (
+        <div style={{
+          marginBottom: '16px',
+          fontSize: '12px',
+          fontFamily: 'JetBrains Mono, monospace',
+          display: 'flex',
+          gap: '16px',
+          flexWrap: 'wrap',
+        }}>
+          {LIBRARIES.filter(l => l.slug !== 'all').map(lib => {
+            const count = icons.filter(icon => {
+              const q = query.toLowerCase().trim()
+              return icon.library === lib.slug && (!q ||
+                icon.name.includes(q) ||
+                icon.displayName.toLowerCase().includes(q) ||
+                icon.tags.some(t => t.includes(q)))
+            }).length
+            return (
+              <span key={lib.slug} style={{ color: LIBRARY_COLORS[lib.slug] }}>
+                {lib.name} ({count.toLocaleString()})
+              </span>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Library Filter */}
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '32px' }}></div>
 
       {/* Library Filter */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '32px' }}>
@@ -292,7 +341,7 @@ export default function IconSearchPage() {
       {filtered.length > 0 && (
         <>
           <div style={{ marginBottom: '16px', fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
-            // showing {filtered.length} results{filtered.length === 120 ? ' (top 120)' : ''}
+            // showing {filtered.length} results{filtered.length === visibleCount ? ' (top ${visibleCount})' : ''}
           </div>
           <div style={{
             display: 'grid',
@@ -303,6 +352,26 @@ export default function IconSearchPage() {
               <IconCard key={icon.id} icon={icon} />
             ))}
           </div>
+          {/* ← ADD LOAD MORE RIGHT HERE, before the closing </> */}
+          {filtered.length === visibleCount && (
+            <div style={{ textAlign: 'center', marginTop: '32px' }}>
+              <button
+                onClick={() => setVisibleCount(v => v + 120)}
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-muted)',
+                  padding: '12px 32px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontFamily: 'JetBrains Mono, monospace',
+                }}
+              >
+                // load more
+              </button>
+            </div>
+          )}
         </>
       )}
 

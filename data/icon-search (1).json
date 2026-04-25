@@ -1,0 +1,5238 @@
+[
+  {
+    "id": "heroicons-academic-cap",
+    "name": "academic-cap",
+    "displayName": "AcademicCapIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "academic",
+      "cap"
+    ],
+    "reactImport": "import { AcademicCapIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<AcademicCapIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/AcademicCapIcon.js"
+  },
+  {
+    "id": "heroicons-adjustments-horizontal",
+    "name": "adjustments-horizontal",
+    "displayName": "AdjustmentsHorizontalIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "adjustments",
+      "horizontal"
+    ],
+    "reactImport": "import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<AdjustmentsHorizontalIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/AdjustmentsHorizontalIcon.js"
+  },
+  {
+    "id": "heroicons-adjustments-vertical",
+    "name": "adjustments-vertical",
+    "displayName": "AdjustmentsVerticalIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "adjustments",
+      "vertical"
+    ],
+    "reactImport": "import { AdjustmentsVerticalIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<AdjustmentsVerticalIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/AdjustmentsVerticalIcon.js"
+  },
+  {
+    "id": "heroicons-archive-box-arrow-down",
+    "name": "archive-box-arrow-down",
+    "displayName": "ArchiveBoxArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "archive",
+      "box",
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { ArchiveBoxArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArchiveBoxArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArchiveBoxArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-archive-box",
+    "name": "archive-box",
+    "displayName": "ArchiveBoxIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "archive",
+      "box"
+    ],
+    "reactImport": "import { ArchiveBoxIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArchiveBoxIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArchiveBoxIcon.js"
+  },
+  {
+    "id": "heroicons-archive-box-x-mark",
+    "name": "archive-box-x-mark",
+    "displayName": "ArchiveBoxXMarkIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "archive",
+      "box",
+      "x",
+      "mark"
+    ],
+    "reactImport": "import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArchiveBoxXMarkIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArchiveBoxXMarkIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down-circle",
+    "name": "arrow-down-circle",
+    "displayName": "ArrowDownCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down",
+      "circle"
+    ],
+    "reactImport": "import { ArrowDownCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownCircleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down",
+    "name": "arrow-down",
+    "displayName": "ArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { ArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down-left",
+    "name": "arrow-down-left",
+    "displayName": "ArrowDownLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down",
+      "left"
+    ],
+    "reactImport": "import { ArrowDownLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down-on-square",
+    "name": "arrow-down-on-square",
+    "displayName": "ArrowDownOnSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down",
+      "on",
+      "square"
+    ],
+    "reactImport": "import { ArrowDownOnSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownOnSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownOnSquareIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down-on-square-stack",
+    "name": "arrow-down-on-square-stack",
+    "displayName": "ArrowDownOnSquareStackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down",
+      "on",
+      "square",
+      "stack"
+    ],
+    "reactImport": "import { ArrowDownOnSquareStackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownOnSquareStackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownOnSquareStackIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down-right",
+    "name": "arrow-down-right",
+    "displayName": "ArrowDownRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down",
+      "right"
+    ],
+    "reactImport": "import { ArrowDownRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-down-tray",
+    "name": "arrow-down-tray",
+    "displayName": "ArrowDownTrayIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "down",
+      "tray"
+    ],
+    "reactImport": "import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowDownTrayIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowDownTrayIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-left-circle",
+    "name": "arrow-left-circle",
+    "displayName": "ArrowLeftCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "left",
+      "circle"
+    ],
+    "reactImport": "import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLeftCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLeftCircleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-left-end-on-rectangle",
+    "name": "arrow-left-end-on-rectangle",
+    "displayName": "ArrowLeftEndOnRectangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "left",
+      "end",
+      "on",
+      "rectangle"
+    ],
+    "reactImport": "import { ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLeftEndOnRectangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLeftEndOnRectangleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-left",
+    "name": "arrow-left",
+    "displayName": "ArrowLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "left"
+    ],
+    "reactImport": "import { ArrowLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-left-on-rectangle",
+    "name": "arrow-left-on-rectangle",
+    "displayName": "ArrowLeftOnRectangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "left",
+      "on",
+      "rectangle"
+    ],
+    "reactImport": "import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLeftOnRectangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLeftOnRectangleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-left-start-on-rectangle",
+    "name": "arrow-left-start-on-rectangle",
+    "displayName": "ArrowLeftStartOnRectangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "left",
+      "start",
+      "on",
+      "rectangle"
+    ],
+    "reactImport": "import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLeftStartOnRectangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLeftStartOnRectangleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-long-down",
+    "name": "arrow-long-down",
+    "displayName": "ArrowLongDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "long",
+      "down"
+    ],
+    "reactImport": "import { ArrowLongDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLongDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLongDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-long-left",
+    "name": "arrow-long-left",
+    "displayName": "ArrowLongLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "long",
+      "left"
+    ],
+    "reactImport": "import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLongLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLongLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-long-right",
+    "name": "arrow-long-right",
+    "displayName": "ArrowLongRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "long",
+      "right"
+    ],
+    "reactImport": "import { ArrowLongRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLongRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLongRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-long-up",
+    "name": "arrow-long-up",
+    "displayName": "ArrowLongUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "long",
+      "up"
+    ],
+    "reactImport": "import { ArrowLongUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowLongUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowLongUpIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-path",
+    "name": "arrow-path",
+    "displayName": "ArrowPathIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "path"
+    ],
+    "reactImport": "import { ArrowPathIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowPathIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowPathIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-path-rounded-square",
+    "name": "arrow-path-rounded-square",
+    "displayName": "ArrowPathRoundedSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "path",
+      "rounded",
+      "square"
+    ],
+    "reactImport": "import { ArrowPathRoundedSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowPathRoundedSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowPathRoundedSquareIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-right-circle",
+    "name": "arrow-right-circle",
+    "displayName": "ArrowRightCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "right",
+      "circle"
+    ],
+    "reactImport": "import { ArrowRightCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowRightCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowRightCircleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-right-end-on-rectangle",
+    "name": "arrow-right-end-on-rectangle",
+    "displayName": "ArrowRightEndOnRectangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "right",
+      "end",
+      "on",
+      "rectangle"
+    ],
+    "reactImport": "import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowRightEndOnRectangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowRightEndOnRectangleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-right",
+    "name": "arrow-right",
+    "displayName": "ArrowRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "right"
+    ],
+    "reactImport": "import { ArrowRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-right-on-rectangle",
+    "name": "arrow-right-on-rectangle",
+    "displayName": "ArrowRightOnRectangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "right",
+      "on",
+      "rectangle"
+    ],
+    "reactImport": "import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowRightOnRectangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowRightOnRectangleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-right-start-on-rectangle",
+    "name": "arrow-right-start-on-rectangle",
+    "displayName": "ArrowRightStartOnRectangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "right",
+      "start",
+      "on",
+      "rectangle"
+    ],
+    "reactImport": "import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowRightStartOnRectangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowRightStartOnRectangleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-small-down",
+    "name": "arrow-small-down",
+    "displayName": "ArrowSmallDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "small",
+      "down"
+    ],
+    "reactImport": "import { ArrowSmallDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowSmallDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowSmallDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-small-left",
+    "name": "arrow-small-left",
+    "displayName": "ArrowSmallLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "small",
+      "left"
+    ],
+    "reactImport": "import { ArrowSmallLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowSmallLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowSmallLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-small-right",
+    "name": "arrow-small-right",
+    "displayName": "ArrowSmallRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "small",
+      "right"
+    ],
+    "reactImport": "import { ArrowSmallRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowSmallRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowSmallRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-small-up",
+    "name": "arrow-small-up",
+    "displayName": "ArrowSmallUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "small",
+      "up"
+    ],
+    "reactImport": "import { ArrowSmallUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowSmallUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowSmallUpIcon.js"
+  },
+  {
+    "id": "heroicons-arrows-pointing-in",
+    "name": "arrows-pointing-in",
+    "displayName": "ArrowsPointingInIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrows",
+      "pointing",
+      "in"
+    ],
+    "reactImport": "import { ArrowsPointingInIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowsPointingInIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowsPointingInIcon.js"
+  },
+  {
+    "id": "heroicons-arrows-pointing-out",
+    "name": "arrows-pointing-out",
+    "displayName": "ArrowsPointingOutIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrows",
+      "pointing",
+      "out"
+    ],
+    "reactImport": "import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowsPointingOutIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowsPointingOutIcon.js"
+  },
+  {
+    "id": "heroicons-arrows-right-left",
+    "name": "arrows-right-left",
+    "displayName": "ArrowsRightLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrows",
+      "right",
+      "left"
+    ],
+    "reactImport": "import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowsRightLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowsRightLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrows-up-down",
+    "name": "arrows-up-down",
+    "displayName": "ArrowsUpDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrows",
+      "up",
+      "down"
+    ],
+    "reactImport": "import { ArrowsUpDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowsUpDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowsUpDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-top-right-on-square",
+    "name": "arrow-top-right-on-square",
+    "displayName": "ArrowTopRightOnSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "top",
+      "right",
+      "on",
+      "square"
+    ],
+    "reactImport": "import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTopRightOnSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTopRightOnSquareIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-trending-down",
+    "name": "arrow-trending-down",
+    "displayName": "ArrowTrendingDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "trending",
+      "down"
+    ],
+    "reactImport": "import { ArrowTrendingDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTrendingDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTrendingDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-trending-up",
+    "name": "arrow-trending-up",
+    "displayName": "ArrowTrendingUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "trending",
+      "up"
+    ],
+    "reactImport": "import { ArrowTrendingUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTrendingUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTrendingUpIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-down-left",
+    "name": "arrow-turn-down-left",
+    "displayName": "ArrowTurnDownLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "down",
+      "left"
+    ],
+    "reactImport": "import { ArrowTurnDownLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnDownLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnDownLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-down-right",
+    "name": "arrow-turn-down-right",
+    "displayName": "ArrowTurnDownRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "down",
+      "right"
+    ],
+    "reactImport": "import { ArrowTurnDownRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnDownRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnDownRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-left-down",
+    "name": "arrow-turn-left-down",
+    "displayName": "ArrowTurnLeftDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "left",
+      "down"
+    ],
+    "reactImport": "import { ArrowTurnLeftDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnLeftDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnLeftDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-left-up",
+    "name": "arrow-turn-left-up",
+    "displayName": "ArrowTurnLeftUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "left",
+      "up"
+    ],
+    "reactImport": "import { ArrowTurnLeftUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnLeftUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnLeftUpIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-right-down",
+    "name": "arrow-turn-right-down",
+    "displayName": "ArrowTurnRightDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "right",
+      "down"
+    ],
+    "reactImport": "import { ArrowTurnRightDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnRightDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnRightDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-right-up",
+    "name": "arrow-turn-right-up",
+    "displayName": "ArrowTurnRightUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "right",
+      "up"
+    ],
+    "reactImport": "import { ArrowTurnRightUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnRightUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnRightUpIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-up-left",
+    "name": "arrow-turn-up-left",
+    "displayName": "ArrowTurnUpLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "up",
+      "left"
+    ],
+    "reactImport": "import { ArrowTurnUpLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnUpLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnUpLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-turn-up-right",
+    "name": "arrow-turn-up-right",
+    "displayName": "ArrowTurnUpRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "turn",
+      "up",
+      "right"
+    ],
+    "reactImport": "import { ArrowTurnUpRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowTurnUpRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowTurnUpRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up-circle",
+    "name": "arrow-up-circle",
+    "displayName": "ArrowUpCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up",
+      "circle"
+    ],
+    "reactImport": "import { ArrowUpCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpCircleIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up",
+    "name": "arrow-up",
+    "displayName": "ArrowUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up"
+    ],
+    "reactImport": "import { ArrowUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up-left",
+    "name": "arrow-up-left",
+    "displayName": "ArrowUpLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up",
+      "left"
+    ],
+    "reactImport": "import { ArrowUpLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up-on-square",
+    "name": "arrow-up-on-square",
+    "displayName": "ArrowUpOnSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up",
+      "on",
+      "square"
+    ],
+    "reactImport": "import { ArrowUpOnSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpOnSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpOnSquareIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up-on-square-stack",
+    "name": "arrow-up-on-square-stack",
+    "displayName": "ArrowUpOnSquareStackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up",
+      "on",
+      "square",
+      "stack"
+    ],
+    "reactImport": "import { ArrowUpOnSquareStackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpOnSquareStackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpOnSquareStackIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up-right",
+    "name": "arrow-up-right",
+    "displayName": "ArrowUpRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up",
+      "right"
+    ],
+    "reactImport": "import { ArrowUpRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-up-tray",
+    "name": "arrow-up-tray",
+    "displayName": "ArrowUpTrayIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "up",
+      "tray"
+    ],
+    "reactImport": "import { ArrowUpTrayIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUpTrayIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUpTrayIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-uturn-down",
+    "name": "arrow-uturn-down",
+    "displayName": "ArrowUturnDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "uturn",
+      "down"
+    ],
+    "reactImport": "import { ArrowUturnDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUturnDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUturnDownIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-uturn-left",
+    "name": "arrow-uturn-left",
+    "displayName": "ArrowUturnLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "uturn",
+      "left"
+    ],
+    "reactImport": "import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUturnLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUturnLeftIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-uturn-right",
+    "name": "arrow-uturn-right",
+    "displayName": "ArrowUturnRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "uturn",
+      "right"
+    ],
+    "reactImport": "import { ArrowUturnRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUturnRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUturnRightIcon.js"
+  },
+  {
+    "id": "heroicons-arrow-uturn-up",
+    "name": "arrow-uturn-up",
+    "displayName": "ArrowUturnUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "arrow",
+      "uturn",
+      "up"
+    ],
+    "reactImport": "import { ArrowUturnUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ArrowUturnUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ArrowUturnUpIcon.js"
+  },
+  {
+    "id": "heroicons-at-symbol",
+    "name": "at-symbol",
+    "displayName": "AtSymbolIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "at",
+      "symbol"
+    ],
+    "reactImport": "import { AtSymbolIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<AtSymbolIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/AtSymbolIcon.js"
+  },
+  {
+    "id": "heroicons-backspace",
+    "name": "backspace",
+    "displayName": "BackspaceIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "backspace"
+    ],
+    "reactImport": "import { BackspaceIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BackspaceIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BackspaceIcon.js"
+  },
+  {
+    "id": "heroicons-backward",
+    "name": "backward",
+    "displayName": "BackwardIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "backward"
+    ],
+    "reactImport": "import { BackwardIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BackwardIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BackwardIcon.js"
+  },
+  {
+    "id": "heroicons-banknotes",
+    "name": "banknotes",
+    "displayName": "BanknotesIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "banknotes"
+    ],
+    "reactImport": "import { BanknotesIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BanknotesIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BanknotesIcon.js"
+  },
+  {
+    "id": "heroicons-bars2",
+    "name": "bars2",
+    "displayName": "Bars2Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars2"
+    ],
+    "reactImport": "import { Bars2Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Bars2Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Bars2Icon.js"
+  },
+  {
+    "id": "heroicons-bars3-bottom-left",
+    "name": "bars3-bottom-left",
+    "displayName": "Bars3BottomLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars3",
+      "bottom",
+      "left"
+    ],
+    "reactImport": "import { Bars3BottomLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Bars3BottomLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Bars3BottomLeftIcon.js"
+  },
+  {
+    "id": "heroicons-bars3-bottom-right",
+    "name": "bars3-bottom-right",
+    "displayName": "Bars3BottomRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars3",
+      "bottom",
+      "right"
+    ],
+    "reactImport": "import { Bars3BottomRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Bars3BottomRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Bars3BottomRightIcon.js"
+  },
+  {
+    "id": "heroicons-bars3-center-left",
+    "name": "bars3-center-left",
+    "displayName": "Bars3CenterLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars3",
+      "center",
+      "left"
+    ],
+    "reactImport": "import { Bars3CenterLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Bars3CenterLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Bars3CenterLeftIcon.js"
+  },
+  {
+    "id": "heroicons-bars3",
+    "name": "bars3",
+    "displayName": "Bars3Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars3"
+    ],
+    "reactImport": "import { Bars3Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Bars3Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Bars3Icon.js"
+  },
+  {
+    "id": "heroicons-bars4",
+    "name": "bars4",
+    "displayName": "Bars4Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars4"
+    ],
+    "reactImport": "import { Bars4Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Bars4Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Bars4Icon.js"
+  },
+  {
+    "id": "heroicons-bars-arrow-down",
+    "name": "bars-arrow-down",
+    "displayName": "BarsArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars",
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { BarsArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BarsArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BarsArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-bars-arrow-up",
+    "name": "bars-arrow-up",
+    "displayName": "BarsArrowUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bars",
+      "arrow",
+      "up"
+    ],
+    "reactImport": "import { BarsArrowUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BarsArrowUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BarsArrowUpIcon.js"
+  },
+  {
+    "id": "heroicons-battery0",
+    "name": "battery0",
+    "displayName": "Battery0Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "battery0"
+    ],
+    "reactImport": "import { Battery0Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Battery0Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Battery0Icon.js"
+  },
+  {
+    "id": "heroicons-battery100",
+    "name": "battery100",
+    "displayName": "Battery100Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "battery100"
+    ],
+    "reactImport": "import { Battery100Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Battery100Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Battery100Icon.js"
+  },
+  {
+    "id": "heroicons-battery50",
+    "name": "battery50",
+    "displayName": "Battery50Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "battery50"
+    ],
+    "reactImport": "import { Battery50Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Battery50Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Battery50Icon.js"
+  },
+  {
+    "id": "heroicons-beaker",
+    "name": "beaker",
+    "displayName": "BeakerIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "beaker"
+    ],
+    "reactImport": "import { BeakerIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BeakerIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BeakerIcon.js"
+  },
+  {
+    "id": "heroicons-bell-alert",
+    "name": "bell-alert",
+    "displayName": "BellAlertIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bell",
+      "alert"
+    ],
+    "reactImport": "import { BellAlertIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BellAlertIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BellAlertIcon.js"
+  },
+  {
+    "id": "heroicons-bell",
+    "name": "bell",
+    "displayName": "BellIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bell"
+    ],
+    "reactImport": "import { BellIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BellIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BellIcon.js"
+  },
+  {
+    "id": "heroicons-bell-slash",
+    "name": "bell-slash",
+    "displayName": "BellSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bell",
+      "slash"
+    ],
+    "reactImport": "import { BellSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BellSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BellSlashIcon.js"
+  },
+  {
+    "id": "heroicons-bell-snooze",
+    "name": "bell-snooze",
+    "displayName": "BellSnoozeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bell",
+      "snooze"
+    ],
+    "reactImport": "import { BellSnoozeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BellSnoozeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BellSnoozeIcon.js"
+  },
+  {
+    "id": "heroicons-bold",
+    "name": "bold",
+    "displayName": "BoldIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bold"
+    ],
+    "reactImport": "import { BoldIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BoldIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BoldIcon.js"
+  },
+  {
+    "id": "heroicons-bolt",
+    "name": "bolt",
+    "displayName": "BoltIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bolt"
+    ],
+    "reactImport": "import { BoltIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BoltIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BoltIcon.js"
+  },
+  {
+    "id": "heroicons-bolt-slash",
+    "name": "bolt-slash",
+    "displayName": "BoltSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bolt",
+      "slash"
+    ],
+    "reactImport": "import { BoltSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BoltSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BoltSlashIcon.js"
+  },
+  {
+    "id": "heroicons-bookmark",
+    "name": "bookmark",
+    "displayName": "BookmarkIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bookmark"
+    ],
+    "reactImport": "import { BookmarkIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BookmarkIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BookmarkIcon.js"
+  },
+  {
+    "id": "heroicons-bookmark-slash",
+    "name": "bookmark-slash",
+    "displayName": "BookmarkSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bookmark",
+      "slash"
+    ],
+    "reactImport": "import { BookmarkSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BookmarkSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BookmarkSlashIcon.js"
+  },
+  {
+    "id": "heroicons-bookmark-square",
+    "name": "bookmark-square",
+    "displayName": "BookmarkSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bookmark",
+      "square"
+    ],
+    "reactImport": "import { BookmarkSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BookmarkSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BookmarkSquareIcon.js"
+  },
+  {
+    "id": "heroicons-book-open",
+    "name": "book-open",
+    "displayName": "BookOpenIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "book",
+      "open"
+    ],
+    "reactImport": "import { BookOpenIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BookOpenIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BookOpenIcon.js"
+  },
+  {
+    "id": "heroicons-briefcase",
+    "name": "briefcase",
+    "displayName": "BriefcaseIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "briefcase"
+    ],
+    "reactImport": "import { BriefcaseIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BriefcaseIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BriefcaseIcon.js"
+  },
+  {
+    "id": "heroicons-bug-ant",
+    "name": "bug-ant",
+    "displayName": "BugAntIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "bug",
+      "ant"
+    ],
+    "reactImport": "import { BugAntIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BugAntIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BugAntIcon.js"
+  },
+  {
+    "id": "heroicons-building-library",
+    "name": "building-library",
+    "displayName": "BuildingLibraryIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "building",
+      "library"
+    ],
+    "reactImport": "import { BuildingLibraryIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BuildingLibraryIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BuildingLibraryIcon.js"
+  },
+  {
+    "id": "heroicons-building-office2",
+    "name": "building-office2",
+    "displayName": "BuildingOffice2Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "building",
+      "office2"
+    ],
+    "reactImport": "import { BuildingOffice2Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BuildingOffice2Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BuildingOffice2Icon.js"
+  },
+  {
+    "id": "heroicons-building-office",
+    "name": "building-office",
+    "displayName": "BuildingOfficeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "building",
+      "office"
+    ],
+    "reactImport": "import { BuildingOfficeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BuildingOfficeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BuildingOfficeIcon.js"
+  },
+  {
+    "id": "heroicons-building-storefront",
+    "name": "building-storefront",
+    "displayName": "BuildingStorefrontIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "building",
+      "storefront"
+    ],
+    "reactImport": "import { BuildingStorefrontIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<BuildingStorefrontIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/BuildingStorefrontIcon.js"
+  },
+  {
+    "id": "heroicons-cake",
+    "name": "cake",
+    "displayName": "CakeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cake"
+    ],
+    "reactImport": "import { CakeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CakeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CakeIcon.js"
+  },
+  {
+    "id": "heroicons-calculator",
+    "name": "calculator",
+    "displayName": "CalculatorIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "calculator"
+    ],
+    "reactImport": "import { CalculatorIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CalculatorIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CalculatorIcon.js"
+  },
+  {
+    "id": "heroicons-calendar-date-range",
+    "name": "calendar-date-range",
+    "displayName": "CalendarDateRangeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "calendar",
+      "date",
+      "range"
+    ],
+    "reactImport": "import { CalendarDateRangeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CalendarDateRangeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CalendarDateRangeIcon.js"
+  },
+  {
+    "id": "heroicons-calendar-days",
+    "name": "calendar-days",
+    "displayName": "CalendarDaysIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "calendar",
+      "days"
+    ],
+    "reactImport": "import { CalendarDaysIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CalendarDaysIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CalendarDaysIcon.js"
+  },
+  {
+    "id": "heroicons-calendar",
+    "name": "calendar",
+    "displayName": "CalendarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "calendar"
+    ],
+    "reactImport": "import { CalendarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CalendarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CalendarIcon.js"
+  },
+  {
+    "id": "heroicons-camera",
+    "name": "camera",
+    "displayName": "CameraIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "camera"
+    ],
+    "reactImport": "import { CameraIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CameraIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CameraIcon.js"
+  },
+  {
+    "id": "heroicons-chart-bar",
+    "name": "chart-bar",
+    "displayName": "ChartBarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chart",
+      "bar"
+    ],
+    "reactImport": "import { ChartBarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChartBarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChartBarIcon.js"
+  },
+  {
+    "id": "heroicons-chart-bar-square",
+    "name": "chart-bar-square",
+    "displayName": "ChartBarSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chart",
+      "bar",
+      "square"
+    ],
+    "reactImport": "import { ChartBarSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChartBarSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChartBarSquareIcon.js"
+  },
+  {
+    "id": "heroicons-chart-pie",
+    "name": "chart-pie",
+    "displayName": "ChartPieIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chart",
+      "pie"
+    ],
+    "reactImport": "import { ChartPieIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChartPieIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChartPieIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-bottom-center",
+    "name": "chat-bubble-bottom-center",
+    "displayName": "ChatBubbleBottomCenterIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "bottom",
+      "center"
+    ],
+    "reactImport": "import { ChatBubbleBottomCenterIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleBottomCenterIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleBottomCenterIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-bottom-center-text",
+    "name": "chat-bubble-bottom-center-text",
+    "displayName": "ChatBubbleBottomCenterTextIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "bottom",
+      "center",
+      "text"
+    ],
+    "reactImport": "import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleBottomCenterTextIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleBottomCenterTextIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-left-ellipsis",
+    "name": "chat-bubble-left-ellipsis",
+    "displayName": "ChatBubbleLeftEllipsisIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "left",
+      "ellipsis"
+    ],
+    "reactImport": "import { ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleLeftEllipsisIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleLeftEllipsisIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-left",
+    "name": "chat-bubble-left",
+    "displayName": "ChatBubbleLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "left"
+    ],
+    "reactImport": "import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleLeftIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-left-right",
+    "name": "chat-bubble-left-right",
+    "displayName": "ChatBubbleLeftRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "left",
+      "right"
+    ],
+    "reactImport": "import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleLeftRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleLeftRightIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-oval-left-ellipsis",
+    "name": "chat-bubble-oval-left-ellipsis",
+    "displayName": "ChatBubbleOvalLeftEllipsisIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "oval",
+      "left",
+      "ellipsis"
+    ],
+    "reactImport": "import { ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleOvalLeftEllipsisIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleOvalLeftEllipsisIcon.js"
+  },
+  {
+    "id": "heroicons-chat-bubble-oval-left",
+    "name": "chat-bubble-oval-left",
+    "displayName": "ChatBubbleOvalLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chat",
+      "bubble",
+      "oval",
+      "left"
+    ],
+    "reactImport": "import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChatBubbleOvalLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChatBubbleOvalLeftIcon.js"
+  },
+  {
+    "id": "heroicons-check-badge",
+    "name": "check-badge",
+    "displayName": "CheckBadgeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "check",
+      "badge"
+    ],
+    "reactImport": "import { CheckBadgeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CheckBadgeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CheckBadgeIcon.js"
+  },
+  {
+    "id": "heroicons-check-circle",
+    "name": "check-circle",
+    "displayName": "CheckCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "check",
+      "circle"
+    ],
+    "reactImport": "import { CheckCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CheckCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CheckCircleIcon.js"
+  },
+  {
+    "id": "heroicons-check",
+    "name": "check",
+    "displayName": "CheckIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "check"
+    ],
+    "reactImport": "import { CheckIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CheckIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CheckIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-double-down",
+    "name": "chevron-double-down",
+    "displayName": "ChevronDoubleDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "double",
+      "down"
+    ],
+    "reactImport": "import { ChevronDoubleDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronDoubleDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronDoubleDownIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-double-left",
+    "name": "chevron-double-left",
+    "displayName": "ChevronDoubleLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "double",
+      "left"
+    ],
+    "reactImport": "import { ChevronDoubleLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronDoubleLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronDoubleLeftIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-double-right",
+    "name": "chevron-double-right",
+    "displayName": "ChevronDoubleRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "double",
+      "right"
+    ],
+    "reactImport": "import { ChevronDoubleRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronDoubleRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronDoubleRightIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-double-up",
+    "name": "chevron-double-up",
+    "displayName": "ChevronDoubleUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "double",
+      "up"
+    ],
+    "reactImport": "import { ChevronDoubleUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronDoubleUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronDoubleUpIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-down",
+    "name": "chevron-down",
+    "displayName": "ChevronDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "down"
+    ],
+    "reactImport": "import { ChevronDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronDownIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-left",
+    "name": "chevron-left",
+    "displayName": "ChevronLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "left"
+    ],
+    "reactImport": "import { ChevronLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronLeftIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-right",
+    "name": "chevron-right",
+    "displayName": "ChevronRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "right"
+    ],
+    "reactImport": "import { ChevronRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronRightIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-up-down",
+    "name": "chevron-up-down",
+    "displayName": "ChevronUpDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "up",
+      "down"
+    ],
+    "reactImport": "import { ChevronUpDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronUpDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronUpDownIcon.js"
+  },
+  {
+    "id": "heroicons-chevron-up",
+    "name": "chevron-up",
+    "displayName": "ChevronUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "chevron",
+      "up"
+    ],
+    "reactImport": "import { ChevronUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ChevronUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ChevronUpIcon.js"
+  },
+  {
+    "id": "heroicons-circle-stack",
+    "name": "circle-stack",
+    "displayName": "CircleStackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "circle",
+      "stack"
+    ],
+    "reactImport": "import { CircleStackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CircleStackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CircleStackIcon.js"
+  },
+  {
+    "id": "heroicons-clipboard-document-check",
+    "name": "clipboard-document-check",
+    "displayName": "ClipboardDocumentCheckIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "clipboard",
+      "document",
+      "check"
+    ],
+    "reactImport": "import { ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ClipboardDocumentCheckIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ClipboardDocumentCheckIcon.js"
+  },
+  {
+    "id": "heroicons-clipboard-document",
+    "name": "clipboard-document",
+    "displayName": "ClipboardDocumentIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "clipboard",
+      "document"
+    ],
+    "reactImport": "import { ClipboardDocumentIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ClipboardDocumentIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ClipboardDocumentIcon.js"
+  },
+  {
+    "id": "heroicons-clipboard-document-list",
+    "name": "clipboard-document-list",
+    "displayName": "ClipboardDocumentListIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "clipboard",
+      "document",
+      "list"
+    ],
+    "reactImport": "import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ClipboardDocumentListIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ClipboardDocumentListIcon.js"
+  },
+  {
+    "id": "heroicons-clipboard",
+    "name": "clipboard",
+    "displayName": "ClipboardIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "clipboard"
+    ],
+    "reactImport": "import { ClipboardIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ClipboardIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ClipboardIcon.js"
+  },
+  {
+    "id": "heroicons-clock",
+    "name": "clock",
+    "displayName": "ClockIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "clock"
+    ],
+    "reactImport": "import { ClockIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ClockIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ClockIcon.js"
+  },
+  {
+    "id": "heroicons-cloud-arrow-down",
+    "name": "cloud-arrow-down",
+    "displayName": "CloudArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cloud",
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { CloudArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CloudArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CloudArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-cloud-arrow-up",
+    "name": "cloud-arrow-up",
+    "displayName": "CloudArrowUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cloud",
+      "arrow",
+      "up"
+    ],
+    "reactImport": "import { CloudArrowUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CloudArrowUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CloudArrowUpIcon.js"
+  },
+  {
+    "id": "heroicons-cloud",
+    "name": "cloud",
+    "displayName": "CloudIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cloud"
+    ],
+    "reactImport": "import { CloudIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CloudIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CloudIcon.js"
+  },
+  {
+    "id": "heroicons-code-bracket",
+    "name": "code-bracket",
+    "displayName": "CodeBracketIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "code",
+      "bracket"
+    ],
+    "reactImport": "import { CodeBracketIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CodeBracketIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CodeBracketIcon.js"
+  },
+  {
+    "id": "heroicons-code-bracket-square",
+    "name": "code-bracket-square",
+    "displayName": "CodeBracketSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "code",
+      "bracket",
+      "square"
+    ],
+    "reactImport": "import { CodeBracketSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CodeBracketSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CodeBracketSquareIcon.js"
+  },
+  {
+    "id": "heroicons-cog6-tooth",
+    "name": "cog6-tooth",
+    "displayName": "Cog6ToothIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cog6",
+      "tooth"
+    ],
+    "reactImport": "import { Cog6ToothIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Cog6ToothIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Cog6ToothIcon.js"
+  },
+  {
+    "id": "heroicons-cog8-tooth",
+    "name": "cog8-tooth",
+    "displayName": "Cog8ToothIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cog8",
+      "tooth"
+    ],
+    "reactImport": "import { Cog8ToothIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Cog8ToothIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Cog8ToothIcon.js"
+  },
+  {
+    "id": "heroicons-cog",
+    "name": "cog",
+    "displayName": "CogIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cog"
+    ],
+    "reactImport": "import { CogIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CogIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CogIcon.js"
+  },
+  {
+    "id": "heroicons-command-line",
+    "name": "command-line",
+    "displayName": "CommandLineIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "command",
+      "line"
+    ],
+    "reactImport": "import { CommandLineIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CommandLineIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CommandLineIcon.js"
+  },
+  {
+    "id": "heroicons-computer-desktop",
+    "name": "computer-desktop",
+    "displayName": "ComputerDesktopIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "computer",
+      "desktop"
+    ],
+    "reactImport": "import { ComputerDesktopIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ComputerDesktopIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ComputerDesktopIcon.js"
+  },
+  {
+    "id": "heroicons-cpu-chip",
+    "name": "cpu-chip",
+    "displayName": "CpuChipIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cpu",
+      "chip"
+    ],
+    "reactImport": "import { CpuChipIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CpuChipIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CpuChipIcon.js"
+  },
+  {
+    "id": "heroicons-credit-card",
+    "name": "credit-card",
+    "displayName": "CreditCardIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "credit",
+      "card"
+    ],
+    "reactImport": "import { CreditCardIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CreditCardIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CreditCardIcon.js"
+  },
+  {
+    "id": "heroicons-cube",
+    "name": "cube",
+    "displayName": "CubeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cube"
+    ],
+    "reactImport": "import { CubeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CubeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CubeIcon.js"
+  },
+  {
+    "id": "heroicons-cube-transparent",
+    "name": "cube-transparent",
+    "displayName": "CubeTransparentIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cube",
+      "transparent"
+    ],
+    "reactImport": "import { CubeTransparentIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CubeTransparentIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CubeTransparentIcon.js"
+  },
+  {
+    "id": "heroicons-currency-bangladeshi",
+    "name": "currency-bangladeshi",
+    "displayName": "CurrencyBangladeshiIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "currency",
+      "bangladeshi"
+    ],
+    "reactImport": "import { CurrencyBangladeshiIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CurrencyBangladeshiIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CurrencyBangladeshiIcon.js"
+  },
+  {
+    "id": "heroicons-currency-dollar",
+    "name": "currency-dollar",
+    "displayName": "CurrencyDollarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "currency",
+      "dollar"
+    ],
+    "reactImport": "import { CurrencyDollarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CurrencyDollarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CurrencyDollarIcon.js"
+  },
+  {
+    "id": "heroicons-currency-euro",
+    "name": "currency-euro",
+    "displayName": "CurrencyEuroIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "currency",
+      "euro"
+    ],
+    "reactImport": "import { CurrencyEuroIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CurrencyEuroIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CurrencyEuroIcon.js"
+  },
+  {
+    "id": "heroicons-currency-pound",
+    "name": "currency-pound",
+    "displayName": "CurrencyPoundIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "currency",
+      "pound"
+    ],
+    "reactImport": "import { CurrencyPoundIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CurrencyPoundIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CurrencyPoundIcon.js"
+  },
+  {
+    "id": "heroicons-currency-rupee",
+    "name": "currency-rupee",
+    "displayName": "CurrencyRupeeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "currency",
+      "rupee"
+    ],
+    "reactImport": "import { CurrencyRupeeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CurrencyRupeeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CurrencyRupeeIcon.js"
+  },
+  {
+    "id": "heroicons-currency-yen",
+    "name": "currency-yen",
+    "displayName": "CurrencyYenIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "currency",
+      "yen"
+    ],
+    "reactImport": "import { CurrencyYenIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CurrencyYenIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CurrencyYenIcon.js"
+  },
+  {
+    "id": "heroicons-cursor-arrow-rays",
+    "name": "cursor-arrow-rays",
+    "displayName": "CursorArrowRaysIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cursor",
+      "arrow",
+      "rays"
+    ],
+    "reactImport": "import { CursorArrowRaysIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CursorArrowRaysIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CursorArrowRaysIcon.js"
+  },
+  {
+    "id": "heroicons-cursor-arrow-ripple",
+    "name": "cursor-arrow-ripple",
+    "displayName": "CursorArrowRippleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "cursor",
+      "arrow",
+      "ripple"
+    ],
+    "reactImport": "import { CursorArrowRippleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<CursorArrowRippleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/CursorArrowRippleIcon.js"
+  },
+  {
+    "id": "heroicons-device-phone-mobile",
+    "name": "device-phone-mobile",
+    "displayName": "DevicePhoneMobileIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "device",
+      "phone",
+      "mobile"
+    ],
+    "reactImport": "import { DevicePhoneMobileIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DevicePhoneMobileIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DevicePhoneMobileIcon.js"
+  },
+  {
+    "id": "heroicons-device-tablet",
+    "name": "device-tablet",
+    "displayName": "DeviceTabletIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "device",
+      "tablet"
+    ],
+    "reactImport": "import { DeviceTabletIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DeviceTabletIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DeviceTabletIcon.js"
+  },
+  {
+    "id": "heroicons-divide",
+    "name": "divide",
+    "displayName": "DivideIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "divide"
+    ],
+    "reactImport": "import { DivideIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DivideIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DivideIcon.js"
+  },
+  {
+    "id": "heroicons-document-arrow-down",
+    "name": "document-arrow-down",
+    "displayName": "DocumentArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { DocumentArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-document-arrow-up",
+    "name": "document-arrow-up",
+    "displayName": "DocumentArrowUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "arrow",
+      "up"
+    ],
+    "reactImport": "import { DocumentArrowUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentArrowUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentArrowUpIcon.js"
+  },
+  {
+    "id": "heroicons-document-chart-bar",
+    "name": "document-chart-bar",
+    "displayName": "DocumentChartBarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "chart",
+      "bar"
+    ],
+    "reactImport": "import { DocumentChartBarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentChartBarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentChartBarIcon.js"
+  },
+  {
+    "id": "heroicons-document-check",
+    "name": "document-check",
+    "displayName": "DocumentCheckIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "check"
+    ],
+    "reactImport": "import { DocumentCheckIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCheckIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCheckIcon.js"
+  },
+  {
+    "id": "heroicons-document-currency-bangladeshi",
+    "name": "document-currency-bangladeshi",
+    "displayName": "DocumentCurrencyBangladeshiIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "currency",
+      "bangladeshi"
+    ],
+    "reactImport": "import { DocumentCurrencyBangladeshiIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCurrencyBangladeshiIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCurrencyBangladeshiIcon.js"
+  },
+  {
+    "id": "heroicons-document-currency-dollar",
+    "name": "document-currency-dollar",
+    "displayName": "DocumentCurrencyDollarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "currency",
+      "dollar"
+    ],
+    "reactImport": "import { DocumentCurrencyDollarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCurrencyDollarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCurrencyDollarIcon.js"
+  },
+  {
+    "id": "heroicons-document-currency-euro",
+    "name": "document-currency-euro",
+    "displayName": "DocumentCurrencyEuroIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "currency",
+      "euro"
+    ],
+    "reactImport": "import { DocumentCurrencyEuroIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCurrencyEuroIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCurrencyEuroIcon.js"
+  },
+  {
+    "id": "heroicons-document-currency-pound",
+    "name": "document-currency-pound",
+    "displayName": "DocumentCurrencyPoundIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "currency",
+      "pound"
+    ],
+    "reactImport": "import { DocumentCurrencyPoundIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCurrencyPoundIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCurrencyPoundIcon.js"
+  },
+  {
+    "id": "heroicons-document-currency-rupee",
+    "name": "document-currency-rupee",
+    "displayName": "DocumentCurrencyRupeeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "currency",
+      "rupee"
+    ],
+    "reactImport": "import { DocumentCurrencyRupeeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCurrencyRupeeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCurrencyRupeeIcon.js"
+  },
+  {
+    "id": "heroicons-document-currency-yen",
+    "name": "document-currency-yen",
+    "displayName": "DocumentCurrencyYenIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "currency",
+      "yen"
+    ],
+    "reactImport": "import { DocumentCurrencyYenIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentCurrencyYenIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentCurrencyYenIcon.js"
+  },
+  {
+    "id": "heroicons-document-duplicate",
+    "name": "document-duplicate",
+    "displayName": "DocumentDuplicateIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "duplicate"
+    ],
+    "reactImport": "import { DocumentDuplicateIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentDuplicateIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentDuplicateIcon.js"
+  },
+  {
+    "id": "heroicons-document",
+    "name": "document",
+    "displayName": "DocumentIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document"
+    ],
+    "reactImport": "import { DocumentIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentIcon.js"
+  },
+  {
+    "id": "heroicons-document-magnifying-glass",
+    "name": "document-magnifying-glass",
+    "displayName": "DocumentMagnifyingGlassIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "magnifying",
+      "glass"
+    ],
+    "reactImport": "import { DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentMagnifyingGlassIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentMagnifyingGlassIcon.js"
+  },
+  {
+    "id": "heroicons-document-minus",
+    "name": "document-minus",
+    "displayName": "DocumentMinusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "minus"
+    ],
+    "reactImport": "import { DocumentMinusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentMinusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentMinusIcon.js"
+  },
+  {
+    "id": "heroicons-document-plus",
+    "name": "document-plus",
+    "displayName": "DocumentPlusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "plus"
+    ],
+    "reactImport": "import { DocumentPlusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentPlusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentPlusIcon.js"
+  },
+  {
+    "id": "heroicons-document-text",
+    "name": "document-text",
+    "displayName": "DocumentTextIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "document",
+      "text"
+    ],
+    "reactImport": "import { DocumentTextIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<DocumentTextIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/DocumentTextIcon.js"
+  },
+  {
+    "id": "heroicons-ellipsis-horizontal-circle",
+    "name": "ellipsis-horizontal-circle",
+    "displayName": "EllipsisHorizontalCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "ellipsis",
+      "horizontal",
+      "circle"
+    ],
+    "reactImport": "import { EllipsisHorizontalCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EllipsisHorizontalCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EllipsisHorizontalCircleIcon.js"
+  },
+  {
+    "id": "heroicons-ellipsis-horizontal",
+    "name": "ellipsis-horizontal",
+    "displayName": "EllipsisHorizontalIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "ellipsis",
+      "horizontal"
+    ],
+    "reactImport": "import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EllipsisHorizontalIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EllipsisHorizontalIcon.js"
+  },
+  {
+    "id": "heroicons-ellipsis-vertical",
+    "name": "ellipsis-vertical",
+    "displayName": "EllipsisVerticalIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "ellipsis",
+      "vertical"
+    ],
+    "reactImport": "import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EllipsisVerticalIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EllipsisVerticalIcon.js"
+  },
+  {
+    "id": "heroicons-envelope",
+    "name": "envelope",
+    "displayName": "EnvelopeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "envelope"
+    ],
+    "reactImport": "import { EnvelopeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EnvelopeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EnvelopeIcon.js"
+  },
+  {
+    "id": "heroicons-envelope-open",
+    "name": "envelope-open",
+    "displayName": "EnvelopeOpenIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "envelope",
+      "open"
+    ],
+    "reactImport": "import { EnvelopeOpenIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EnvelopeOpenIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EnvelopeOpenIcon.js"
+  },
+  {
+    "id": "heroicons-equals",
+    "name": "equals",
+    "displayName": "EqualsIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "equals"
+    ],
+    "reactImport": "import { EqualsIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EqualsIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EqualsIcon.js"
+  },
+  {
+    "id": "heroicons-exclamation-circle",
+    "name": "exclamation-circle",
+    "displayName": "ExclamationCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "exclamation",
+      "circle"
+    ],
+    "reactImport": "import { ExclamationCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ExclamationCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ExclamationCircleIcon.js"
+  },
+  {
+    "id": "heroicons-exclamation-triangle",
+    "name": "exclamation-triangle",
+    "displayName": "ExclamationTriangleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "exclamation",
+      "triangle"
+    ],
+    "reactImport": "import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ExclamationTriangleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ExclamationTriangleIcon.js"
+  },
+  {
+    "id": "heroicons-eye-dropper",
+    "name": "eye-dropper",
+    "displayName": "EyeDropperIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "eye",
+      "dropper"
+    ],
+    "reactImport": "import { EyeDropperIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EyeDropperIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EyeDropperIcon.js"
+  },
+  {
+    "id": "heroicons-eye",
+    "name": "eye",
+    "displayName": "EyeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "eye"
+    ],
+    "reactImport": "import { EyeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EyeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EyeIcon.js"
+  },
+  {
+    "id": "heroicons-eye-slash",
+    "name": "eye-slash",
+    "displayName": "EyeSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "eye",
+      "slash"
+    ],
+    "reactImport": "import { EyeSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<EyeSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/EyeSlashIcon.js"
+  },
+  {
+    "id": "heroicons-face-frown",
+    "name": "face-frown",
+    "displayName": "FaceFrownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "face",
+      "frown"
+    ],
+    "reactImport": "import { FaceFrownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FaceFrownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FaceFrownIcon.js"
+  },
+  {
+    "id": "heroicons-face-smile",
+    "name": "face-smile",
+    "displayName": "FaceSmileIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "face",
+      "smile"
+    ],
+    "reactImport": "import { FaceSmileIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FaceSmileIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FaceSmileIcon.js"
+  },
+  {
+    "id": "heroicons-film",
+    "name": "film",
+    "displayName": "FilmIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "film"
+    ],
+    "reactImport": "import { FilmIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FilmIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FilmIcon.js"
+  },
+  {
+    "id": "heroicons-finger-print",
+    "name": "finger-print",
+    "displayName": "FingerPrintIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "finger",
+      "print"
+    ],
+    "reactImport": "import { FingerPrintIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FingerPrintIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FingerPrintIcon.js"
+  },
+  {
+    "id": "heroicons-fire",
+    "name": "fire",
+    "displayName": "FireIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "fire"
+    ],
+    "reactImport": "import { FireIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FireIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FireIcon.js"
+  },
+  {
+    "id": "heroicons-flag",
+    "name": "flag",
+    "displayName": "FlagIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "flag"
+    ],
+    "reactImport": "import { FlagIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FlagIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FlagIcon.js"
+  },
+  {
+    "id": "heroicons-folder-arrow-down",
+    "name": "folder-arrow-down",
+    "displayName": "FolderArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "folder",
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { FolderArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FolderArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FolderArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-folder",
+    "name": "folder",
+    "displayName": "FolderIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "folder"
+    ],
+    "reactImport": "import { FolderIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FolderIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FolderIcon.js"
+  },
+  {
+    "id": "heroicons-folder-minus",
+    "name": "folder-minus",
+    "displayName": "FolderMinusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "folder",
+      "minus"
+    ],
+    "reactImport": "import { FolderMinusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FolderMinusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FolderMinusIcon.js"
+  },
+  {
+    "id": "heroicons-folder-open",
+    "name": "folder-open",
+    "displayName": "FolderOpenIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "folder",
+      "open"
+    ],
+    "reactImport": "import { FolderOpenIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FolderOpenIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FolderOpenIcon.js"
+  },
+  {
+    "id": "heroicons-folder-plus",
+    "name": "folder-plus",
+    "displayName": "FolderPlusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "folder",
+      "plus"
+    ],
+    "reactImport": "import { FolderPlusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FolderPlusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FolderPlusIcon.js"
+  },
+  {
+    "id": "heroicons-forward",
+    "name": "forward",
+    "displayName": "ForwardIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "forward"
+    ],
+    "reactImport": "import { ForwardIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ForwardIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ForwardIcon.js"
+  },
+  {
+    "id": "heroicons-funnel",
+    "name": "funnel",
+    "displayName": "FunnelIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "funnel"
+    ],
+    "reactImport": "import { FunnelIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<FunnelIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/FunnelIcon.js"
+  },
+  {
+    "id": "heroicons-gif",
+    "name": "gif",
+    "displayName": "GifIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "gif"
+    ],
+    "reactImport": "import { GifIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GifIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GifIcon.js"
+  },
+  {
+    "id": "heroicons-gift",
+    "name": "gift",
+    "displayName": "GiftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "gift"
+    ],
+    "reactImport": "import { GiftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GiftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GiftIcon.js"
+  },
+  {
+    "id": "heroicons-gift-top",
+    "name": "gift-top",
+    "displayName": "GiftTopIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "gift",
+      "top"
+    ],
+    "reactImport": "import { GiftTopIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GiftTopIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GiftTopIcon.js"
+  },
+  {
+    "id": "heroicons-globe-alt",
+    "name": "globe-alt",
+    "displayName": "GlobeAltIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "globe",
+      "alt"
+    ],
+    "reactImport": "import { GlobeAltIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GlobeAltIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GlobeAltIcon.js"
+  },
+  {
+    "id": "heroicons-globe-americas",
+    "name": "globe-americas",
+    "displayName": "GlobeAmericasIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "globe",
+      "americas"
+    ],
+    "reactImport": "import { GlobeAmericasIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GlobeAmericasIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GlobeAmericasIcon.js"
+  },
+  {
+    "id": "heroicons-globe-asia-australia",
+    "name": "globe-asia-australia",
+    "displayName": "GlobeAsiaAustraliaIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "globe",
+      "asia",
+      "australia"
+    ],
+    "reactImport": "import { GlobeAsiaAustraliaIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GlobeAsiaAustraliaIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GlobeAsiaAustraliaIcon.js"
+  },
+  {
+    "id": "heroicons-globe-europe-africa",
+    "name": "globe-europe-africa",
+    "displayName": "GlobeEuropeAfricaIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "globe",
+      "europe",
+      "africa"
+    ],
+    "reactImport": "import { GlobeEuropeAfricaIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<GlobeEuropeAfricaIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/GlobeEuropeAfricaIcon.js"
+  },
+  {
+    "id": "heroicons-h1",
+    "name": "h1",
+    "displayName": "H1Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "h1"
+    ],
+    "reactImport": "import { H1Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<H1Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/H1Icon.js"
+  },
+  {
+    "id": "heroicons-h2",
+    "name": "h2",
+    "displayName": "H2Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "h2"
+    ],
+    "reactImport": "import { H2Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<H2Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/H2Icon.js"
+  },
+  {
+    "id": "heroicons-h3",
+    "name": "h3",
+    "displayName": "H3Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "h3"
+    ],
+    "reactImport": "import { H3Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<H3Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/H3Icon.js"
+  },
+  {
+    "id": "heroicons-hand-raised",
+    "name": "hand-raised",
+    "displayName": "HandRaisedIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "hand",
+      "raised"
+    ],
+    "reactImport": "import { HandRaisedIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HandRaisedIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HandRaisedIcon.js"
+  },
+  {
+    "id": "heroicons-hand-thumb-down",
+    "name": "hand-thumb-down",
+    "displayName": "HandThumbDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "hand",
+      "thumb",
+      "down"
+    ],
+    "reactImport": "import { HandThumbDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HandThumbDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HandThumbDownIcon.js"
+  },
+  {
+    "id": "heroicons-hand-thumb-up",
+    "name": "hand-thumb-up",
+    "displayName": "HandThumbUpIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "hand",
+      "thumb",
+      "up"
+    ],
+    "reactImport": "import { HandThumbUpIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HandThumbUpIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HandThumbUpIcon.js"
+  },
+  {
+    "id": "heroicons-hashtag",
+    "name": "hashtag",
+    "displayName": "HashtagIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "hashtag"
+    ],
+    "reactImport": "import { HashtagIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HashtagIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HashtagIcon.js"
+  },
+  {
+    "id": "heroicons-heart",
+    "name": "heart",
+    "displayName": "HeartIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "heart"
+    ],
+    "reactImport": "import { HeartIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HeartIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HeartIcon.js"
+  },
+  {
+    "id": "heroicons-home",
+    "name": "home",
+    "displayName": "HomeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "home"
+    ],
+    "reactImport": "import { HomeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HomeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HomeIcon.js"
+  },
+  {
+    "id": "heroicons-home-modern",
+    "name": "home-modern",
+    "displayName": "HomeModernIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "home",
+      "modern"
+    ],
+    "reactImport": "import { HomeModernIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<HomeModernIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/HomeModernIcon.js"
+  },
+  {
+    "id": "heroicons-identification",
+    "name": "identification",
+    "displayName": "IdentificationIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "identification"
+    ],
+    "reactImport": "import { IdentificationIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<IdentificationIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/IdentificationIcon.js"
+  },
+  {
+    "id": "heroicons-inbox-arrow-down",
+    "name": "inbox-arrow-down",
+    "displayName": "InboxArrowDownIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "inbox",
+      "arrow",
+      "down"
+    ],
+    "reactImport": "import { InboxArrowDownIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<InboxArrowDownIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/InboxArrowDownIcon.js"
+  },
+  {
+    "id": "heroicons-inbox",
+    "name": "inbox",
+    "displayName": "InboxIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "inbox"
+    ],
+    "reactImport": "import { InboxIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<InboxIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/InboxIcon.js"
+  },
+  {
+    "id": "heroicons-inbox-stack",
+    "name": "inbox-stack",
+    "displayName": "InboxStackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "inbox",
+      "stack"
+    ],
+    "reactImport": "import { InboxStackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<InboxStackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/InboxStackIcon.js"
+  },
+  {
+    "id": "heroicons-information-circle",
+    "name": "information-circle",
+    "displayName": "InformationCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "information",
+      "circle"
+    ],
+    "reactImport": "import { InformationCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<InformationCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/InformationCircleIcon.js"
+  },
+  {
+    "id": "heroicons-italic",
+    "name": "italic",
+    "displayName": "ItalicIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "italic"
+    ],
+    "reactImport": "import { ItalicIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ItalicIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ItalicIcon.js"
+  },
+  {
+    "id": "heroicons-key",
+    "name": "key",
+    "displayName": "KeyIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "key"
+    ],
+    "reactImport": "import { KeyIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<KeyIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/KeyIcon.js"
+  },
+  {
+    "id": "heroicons-language",
+    "name": "language",
+    "displayName": "LanguageIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "language"
+    ],
+    "reactImport": "import { LanguageIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LanguageIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LanguageIcon.js"
+  },
+  {
+    "id": "heroicons-lifebuoy",
+    "name": "lifebuoy",
+    "displayName": "LifebuoyIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "lifebuoy"
+    ],
+    "reactImport": "import { LifebuoyIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LifebuoyIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LifebuoyIcon.js"
+  },
+  {
+    "id": "heroicons-light-bulb",
+    "name": "light-bulb",
+    "displayName": "LightBulbIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "light",
+      "bulb"
+    ],
+    "reactImport": "import { LightBulbIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LightBulbIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LightBulbIcon.js"
+  },
+  {
+    "id": "heroicons-link",
+    "name": "link",
+    "displayName": "LinkIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "link"
+    ],
+    "reactImport": "import { LinkIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LinkIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LinkIcon.js"
+  },
+  {
+    "id": "heroicons-link-slash",
+    "name": "link-slash",
+    "displayName": "LinkSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "link",
+      "slash"
+    ],
+    "reactImport": "import { LinkSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LinkSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LinkSlashIcon.js"
+  },
+  {
+    "id": "heroicons-list-bullet",
+    "name": "list-bullet",
+    "displayName": "ListBulletIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "list",
+      "bullet"
+    ],
+    "reactImport": "import { ListBulletIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ListBulletIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ListBulletIcon.js"
+  },
+  {
+    "id": "heroicons-lock-closed",
+    "name": "lock-closed",
+    "displayName": "LockClosedIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "lock",
+      "closed"
+    ],
+    "reactImport": "import { LockClosedIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LockClosedIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LockClosedIcon.js"
+  },
+  {
+    "id": "heroicons-lock-open",
+    "name": "lock-open",
+    "displayName": "LockOpenIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "lock",
+      "open"
+    ],
+    "reactImport": "import { LockOpenIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<LockOpenIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/LockOpenIcon.js"
+  },
+  {
+    "id": "heroicons-magnifying-glass-circle",
+    "name": "magnifying-glass-circle",
+    "displayName": "MagnifyingGlassCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "magnifying",
+      "glass",
+      "circle"
+    ],
+    "reactImport": "import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MagnifyingGlassCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MagnifyingGlassCircleIcon.js"
+  },
+  {
+    "id": "heroicons-magnifying-glass",
+    "name": "magnifying-glass",
+    "displayName": "MagnifyingGlassIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "magnifying",
+      "glass"
+    ],
+    "reactImport": "import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MagnifyingGlassIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MagnifyingGlassIcon.js"
+  },
+  {
+    "id": "heroicons-magnifying-glass-minus",
+    "name": "magnifying-glass-minus",
+    "displayName": "MagnifyingGlassMinusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "magnifying",
+      "glass",
+      "minus"
+    ],
+    "reactImport": "import { MagnifyingGlassMinusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MagnifyingGlassMinusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MagnifyingGlassMinusIcon.js"
+  },
+  {
+    "id": "heroicons-magnifying-glass-plus",
+    "name": "magnifying-glass-plus",
+    "displayName": "MagnifyingGlassPlusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "magnifying",
+      "glass",
+      "plus"
+    ],
+    "reactImport": "import { MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MagnifyingGlassPlusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MagnifyingGlassPlusIcon.js"
+  },
+  {
+    "id": "heroicons-map",
+    "name": "map",
+    "displayName": "MapIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "map"
+    ],
+    "reactImport": "import { MapIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MapIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MapIcon.js"
+  },
+  {
+    "id": "heroicons-map-pin",
+    "name": "map-pin",
+    "displayName": "MapPinIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "map",
+      "pin"
+    ],
+    "reactImport": "import { MapPinIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MapPinIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MapPinIcon.js"
+  },
+  {
+    "id": "heroicons-megaphone",
+    "name": "megaphone",
+    "displayName": "MegaphoneIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "megaphone"
+    ],
+    "reactImport": "import { MegaphoneIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MegaphoneIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MegaphoneIcon.js"
+  },
+  {
+    "id": "heroicons-microphone",
+    "name": "microphone",
+    "displayName": "MicrophoneIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "microphone"
+    ],
+    "reactImport": "import { MicrophoneIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MicrophoneIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MicrophoneIcon.js"
+  },
+  {
+    "id": "heroicons-minus-circle",
+    "name": "minus-circle",
+    "displayName": "MinusCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "minus",
+      "circle"
+    ],
+    "reactImport": "import { MinusCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MinusCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MinusCircleIcon.js"
+  },
+  {
+    "id": "heroicons-minus",
+    "name": "minus",
+    "displayName": "MinusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "minus"
+    ],
+    "reactImport": "import { MinusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MinusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MinusIcon.js"
+  },
+  {
+    "id": "heroicons-minus-small",
+    "name": "minus-small",
+    "displayName": "MinusSmallIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "minus",
+      "small"
+    ],
+    "reactImport": "import { MinusSmallIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MinusSmallIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MinusSmallIcon.js"
+  },
+  {
+    "id": "heroicons-moon",
+    "name": "moon",
+    "displayName": "MoonIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "moon"
+    ],
+    "reactImport": "import { MoonIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MoonIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MoonIcon.js"
+  },
+  {
+    "id": "heroicons-musical-note",
+    "name": "musical-note",
+    "displayName": "MusicalNoteIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "musical",
+      "note"
+    ],
+    "reactImport": "import { MusicalNoteIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<MusicalNoteIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/MusicalNoteIcon.js"
+  },
+  {
+    "id": "heroicons-newspaper",
+    "name": "newspaper",
+    "displayName": "NewspaperIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "newspaper"
+    ],
+    "reactImport": "import { NewspaperIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<NewspaperIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/NewspaperIcon.js"
+  },
+  {
+    "id": "heroicons-no-symbol",
+    "name": "no-symbol",
+    "displayName": "NoSymbolIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "no",
+      "symbol"
+    ],
+    "reactImport": "import { NoSymbolIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<NoSymbolIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/NoSymbolIcon.js"
+  },
+  {
+    "id": "heroicons-numbered-list",
+    "name": "numbered-list",
+    "displayName": "NumberedListIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "numbered",
+      "list"
+    ],
+    "reactImport": "import { NumberedListIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<NumberedListIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/NumberedListIcon.js"
+  },
+  {
+    "id": "heroicons-paint-brush",
+    "name": "paint-brush",
+    "displayName": "PaintBrushIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "paint",
+      "brush"
+    ],
+    "reactImport": "import { PaintBrushIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PaintBrushIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PaintBrushIcon.js"
+  },
+  {
+    "id": "heroicons-paper-airplane",
+    "name": "paper-airplane",
+    "displayName": "PaperAirplaneIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "paper",
+      "airplane"
+    ],
+    "reactImport": "import { PaperAirplaneIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PaperAirplaneIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PaperAirplaneIcon.js"
+  },
+  {
+    "id": "heroicons-paper-clip",
+    "name": "paper-clip",
+    "displayName": "PaperClipIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "paper",
+      "clip"
+    ],
+    "reactImport": "import { PaperClipIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PaperClipIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PaperClipIcon.js"
+  },
+  {
+    "id": "heroicons-pause-circle",
+    "name": "pause-circle",
+    "displayName": "PauseCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "pause",
+      "circle"
+    ],
+    "reactImport": "import { PauseCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PauseCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PauseCircleIcon.js"
+  },
+  {
+    "id": "heroicons-pause",
+    "name": "pause",
+    "displayName": "PauseIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "pause"
+    ],
+    "reactImport": "import { PauseIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PauseIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PauseIcon.js"
+  },
+  {
+    "id": "heroicons-pencil",
+    "name": "pencil",
+    "displayName": "PencilIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "pencil"
+    ],
+    "reactImport": "import { PencilIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PencilIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PencilIcon.js"
+  },
+  {
+    "id": "heroicons-pencil-square",
+    "name": "pencil-square",
+    "displayName": "PencilSquareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "pencil",
+      "square"
+    ],
+    "reactImport": "import { PencilSquareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PencilSquareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PencilSquareIcon.js"
+  },
+  {
+    "id": "heroicons-percent-badge",
+    "name": "percent-badge",
+    "displayName": "PercentBadgeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "percent",
+      "badge"
+    ],
+    "reactImport": "import { PercentBadgeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PercentBadgeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PercentBadgeIcon.js"
+  },
+  {
+    "id": "heroicons-phone-arrow-down-left",
+    "name": "phone-arrow-down-left",
+    "displayName": "PhoneArrowDownLeftIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "phone",
+      "arrow",
+      "down",
+      "left"
+    ],
+    "reactImport": "import { PhoneArrowDownLeftIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PhoneArrowDownLeftIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PhoneArrowDownLeftIcon.js"
+  },
+  {
+    "id": "heroicons-phone-arrow-up-right",
+    "name": "phone-arrow-up-right",
+    "displayName": "PhoneArrowUpRightIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "phone",
+      "arrow",
+      "up",
+      "right"
+    ],
+    "reactImport": "import { PhoneArrowUpRightIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PhoneArrowUpRightIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PhoneArrowUpRightIcon.js"
+  },
+  {
+    "id": "heroicons-phone",
+    "name": "phone",
+    "displayName": "PhoneIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "phone"
+    ],
+    "reactImport": "import { PhoneIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PhoneIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PhoneIcon.js"
+  },
+  {
+    "id": "heroicons-phone-x-mark",
+    "name": "phone-x-mark",
+    "displayName": "PhoneXMarkIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "phone",
+      "x",
+      "mark"
+    ],
+    "reactImport": "import { PhoneXMarkIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PhoneXMarkIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PhoneXMarkIcon.js"
+  },
+  {
+    "id": "heroicons-photo",
+    "name": "photo",
+    "displayName": "PhotoIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "photo"
+    ],
+    "reactImport": "import { PhotoIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PhotoIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PhotoIcon.js"
+  },
+  {
+    "id": "heroicons-play-circle",
+    "name": "play-circle",
+    "displayName": "PlayCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "play",
+      "circle"
+    ],
+    "reactImport": "import { PlayCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PlayCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PlayCircleIcon.js"
+  },
+  {
+    "id": "heroicons-play",
+    "name": "play",
+    "displayName": "PlayIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "play"
+    ],
+    "reactImport": "import { PlayIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PlayIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PlayIcon.js"
+  },
+  {
+    "id": "heroicons-play-pause",
+    "name": "play-pause",
+    "displayName": "PlayPauseIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "play",
+      "pause"
+    ],
+    "reactImport": "import { PlayPauseIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PlayPauseIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PlayPauseIcon.js"
+  },
+  {
+    "id": "heroicons-plus-circle",
+    "name": "plus-circle",
+    "displayName": "PlusCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "plus",
+      "circle"
+    ],
+    "reactImport": "import { PlusCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PlusCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PlusCircleIcon.js"
+  },
+  {
+    "id": "heroicons-plus",
+    "name": "plus",
+    "displayName": "PlusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "plus"
+    ],
+    "reactImport": "import { PlusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PlusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PlusIcon.js"
+  },
+  {
+    "id": "heroicons-plus-small",
+    "name": "plus-small",
+    "displayName": "PlusSmallIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "plus",
+      "small"
+    ],
+    "reactImport": "import { PlusSmallIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PlusSmallIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PlusSmallIcon.js"
+  },
+  {
+    "id": "heroicons-power",
+    "name": "power",
+    "displayName": "PowerIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "power"
+    ],
+    "reactImport": "import { PowerIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PowerIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PowerIcon.js"
+  },
+  {
+    "id": "heroicons-presentation-chart-bar",
+    "name": "presentation-chart-bar",
+    "displayName": "PresentationChartBarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "presentation",
+      "chart",
+      "bar"
+    ],
+    "reactImport": "import { PresentationChartBarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PresentationChartBarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PresentationChartBarIcon.js"
+  },
+  {
+    "id": "heroicons-presentation-chart-line",
+    "name": "presentation-chart-line",
+    "displayName": "PresentationChartLineIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "presentation",
+      "chart",
+      "line"
+    ],
+    "reactImport": "import { PresentationChartLineIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PresentationChartLineIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PresentationChartLineIcon.js"
+  },
+  {
+    "id": "heroicons-printer",
+    "name": "printer",
+    "displayName": "PrinterIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "printer"
+    ],
+    "reactImport": "import { PrinterIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PrinterIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PrinterIcon.js"
+  },
+  {
+    "id": "heroicons-puzzle-piece",
+    "name": "puzzle-piece",
+    "displayName": "PuzzlePieceIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "puzzle",
+      "piece"
+    ],
+    "reactImport": "import { PuzzlePieceIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<PuzzlePieceIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/PuzzlePieceIcon.js"
+  },
+  {
+    "id": "heroicons-qr-code",
+    "name": "qr-code",
+    "displayName": "QrCodeIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "qr",
+      "code"
+    ],
+    "reactImport": "import { QrCodeIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<QrCodeIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/QrCodeIcon.js"
+  },
+  {
+    "id": "heroicons-question-mark-circle",
+    "name": "question-mark-circle",
+    "displayName": "QuestionMarkCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "question",
+      "mark",
+      "circle"
+    ],
+    "reactImport": "import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<QuestionMarkCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/QuestionMarkCircleIcon.js"
+  },
+  {
+    "id": "heroicons-queue-list",
+    "name": "queue-list",
+    "displayName": "QueueListIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "queue",
+      "list"
+    ],
+    "reactImport": "import { QueueListIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<QueueListIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/QueueListIcon.js"
+  },
+  {
+    "id": "heroicons-radio",
+    "name": "radio",
+    "displayName": "RadioIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "radio"
+    ],
+    "reactImport": "import { RadioIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<RadioIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/RadioIcon.js"
+  },
+  {
+    "id": "heroicons-receipt-percent",
+    "name": "receipt-percent",
+    "displayName": "ReceiptPercentIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "receipt",
+      "percent"
+    ],
+    "reactImport": "import { ReceiptPercentIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ReceiptPercentIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ReceiptPercentIcon.js"
+  },
+  {
+    "id": "heroicons-receipt-refund",
+    "name": "receipt-refund",
+    "displayName": "ReceiptRefundIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "receipt",
+      "refund"
+    ],
+    "reactImport": "import { ReceiptRefundIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ReceiptRefundIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ReceiptRefundIcon.js"
+  },
+  {
+    "id": "heroicons-rectangle-group",
+    "name": "rectangle-group",
+    "displayName": "RectangleGroupIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "rectangle",
+      "group"
+    ],
+    "reactImport": "import { RectangleGroupIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<RectangleGroupIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/RectangleGroupIcon.js"
+  },
+  {
+    "id": "heroicons-rectangle-stack",
+    "name": "rectangle-stack",
+    "displayName": "RectangleStackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "rectangle",
+      "stack"
+    ],
+    "reactImport": "import { RectangleStackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<RectangleStackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/RectangleStackIcon.js"
+  },
+  {
+    "id": "heroicons-rocket-launch",
+    "name": "rocket-launch",
+    "displayName": "RocketLaunchIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "rocket",
+      "launch"
+    ],
+    "reactImport": "import { RocketLaunchIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<RocketLaunchIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/RocketLaunchIcon.js"
+  },
+  {
+    "id": "heroicons-rss",
+    "name": "rss",
+    "displayName": "RssIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "rss"
+    ],
+    "reactImport": "import { RssIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<RssIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/RssIcon.js"
+  },
+  {
+    "id": "heroicons-scale",
+    "name": "scale",
+    "displayName": "ScaleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "scale"
+    ],
+    "reactImport": "import { ScaleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ScaleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ScaleIcon.js"
+  },
+  {
+    "id": "heroicons-scissors",
+    "name": "scissors",
+    "displayName": "ScissorsIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "scissors"
+    ],
+    "reactImport": "import { ScissorsIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ScissorsIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ScissorsIcon.js"
+  },
+  {
+    "id": "heroicons-server",
+    "name": "server",
+    "displayName": "ServerIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "server"
+    ],
+    "reactImport": "import { ServerIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ServerIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ServerIcon.js"
+  },
+  {
+    "id": "heroicons-server-stack",
+    "name": "server-stack",
+    "displayName": "ServerStackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "server",
+      "stack"
+    ],
+    "reactImport": "import { ServerStackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ServerStackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ServerStackIcon.js"
+  },
+  {
+    "id": "heroicons-share",
+    "name": "share",
+    "displayName": "ShareIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "share"
+    ],
+    "reactImport": "import { ShareIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ShareIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ShareIcon.js"
+  },
+  {
+    "id": "heroicons-shield-check",
+    "name": "shield-check",
+    "displayName": "ShieldCheckIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "shield",
+      "check"
+    ],
+    "reactImport": "import { ShieldCheckIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ShieldCheckIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ShieldCheckIcon.js"
+  },
+  {
+    "id": "heroicons-shield-exclamation",
+    "name": "shield-exclamation",
+    "displayName": "ShieldExclamationIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "shield",
+      "exclamation"
+    ],
+    "reactImport": "import { ShieldExclamationIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ShieldExclamationIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ShieldExclamationIcon.js"
+  },
+  {
+    "id": "heroicons-shopping-bag",
+    "name": "shopping-bag",
+    "displayName": "ShoppingBagIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "shopping",
+      "bag"
+    ],
+    "reactImport": "import { ShoppingBagIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ShoppingBagIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ShoppingBagIcon.js"
+  },
+  {
+    "id": "heroicons-shopping-cart",
+    "name": "shopping-cart",
+    "displayName": "ShoppingCartIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "shopping",
+      "cart"
+    ],
+    "reactImport": "import { ShoppingCartIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ShoppingCartIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ShoppingCartIcon.js"
+  },
+  {
+    "id": "heroicons-signal",
+    "name": "signal",
+    "displayName": "SignalIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "signal"
+    ],
+    "reactImport": "import { SignalIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SignalIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SignalIcon.js"
+  },
+  {
+    "id": "heroicons-signal-slash",
+    "name": "signal-slash",
+    "displayName": "SignalSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "signal",
+      "slash"
+    ],
+    "reactImport": "import { SignalSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SignalSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SignalSlashIcon.js"
+  },
+  {
+    "id": "heroicons-slash",
+    "name": "slash",
+    "displayName": "SlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "slash"
+    ],
+    "reactImport": "import { SlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SlashIcon.js"
+  },
+  {
+    "id": "heroicons-sparkles",
+    "name": "sparkles",
+    "displayName": "SparklesIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "sparkles"
+    ],
+    "reactImport": "import { SparklesIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SparklesIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SparklesIcon.js"
+  },
+  {
+    "id": "heroicons-speaker-wave",
+    "name": "speaker-wave",
+    "displayName": "SpeakerWaveIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "speaker",
+      "wave"
+    ],
+    "reactImport": "import { SpeakerWaveIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SpeakerWaveIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SpeakerWaveIcon.js"
+  },
+  {
+    "id": "heroicons-speaker-x-mark",
+    "name": "speaker-x-mark",
+    "displayName": "SpeakerXMarkIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "speaker",
+      "x",
+      "mark"
+    ],
+    "reactImport": "import { SpeakerXMarkIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SpeakerXMarkIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SpeakerXMarkIcon.js"
+  },
+  {
+    "id": "heroicons-square2-stack",
+    "name": "square2-stack",
+    "displayName": "Square2StackIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "square2",
+      "stack"
+    ],
+    "reactImport": "import { Square2StackIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Square2StackIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Square2StackIcon.js"
+  },
+  {
+    "id": "heroicons-square3-stack3-d",
+    "name": "square3-stack3-d",
+    "displayName": "Square3Stack3DIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "square3",
+      "stack3",
+      "d"
+    ],
+    "reactImport": "import { Square3Stack3DIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Square3Stack3DIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Square3Stack3DIcon.js"
+  },
+  {
+    "id": "heroicons-squares2-x2",
+    "name": "squares2-x2",
+    "displayName": "Squares2X2Icon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "squares2",
+      "x2"
+    ],
+    "reactImport": "import { Squares2X2Icon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<Squares2X2Icon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/Squares2X2Icon.js"
+  },
+  {
+    "id": "heroicons-squares-plus",
+    "name": "squares-plus",
+    "displayName": "SquaresPlusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "squares",
+      "plus"
+    ],
+    "reactImport": "import { SquaresPlusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SquaresPlusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SquaresPlusIcon.js"
+  },
+  {
+    "id": "heroicons-star",
+    "name": "star",
+    "displayName": "StarIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "star"
+    ],
+    "reactImport": "import { StarIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<StarIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/StarIcon.js"
+  },
+  {
+    "id": "heroicons-stop-circle",
+    "name": "stop-circle",
+    "displayName": "StopCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "stop",
+      "circle"
+    ],
+    "reactImport": "import { StopCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<StopCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/StopCircleIcon.js"
+  },
+  {
+    "id": "heroicons-stop",
+    "name": "stop",
+    "displayName": "StopIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "stop"
+    ],
+    "reactImport": "import { StopIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<StopIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/StopIcon.js"
+  },
+  {
+    "id": "heroicons-strikethrough",
+    "name": "strikethrough",
+    "displayName": "StrikethroughIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "strikethrough"
+    ],
+    "reactImport": "import { StrikethroughIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<StrikethroughIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/StrikethroughIcon.js"
+  },
+  {
+    "id": "heroicons-sun",
+    "name": "sun",
+    "displayName": "SunIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "sun"
+    ],
+    "reactImport": "import { SunIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SunIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SunIcon.js"
+  },
+  {
+    "id": "heroicons-swatch",
+    "name": "swatch",
+    "displayName": "SwatchIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "swatch"
+    ],
+    "reactImport": "import { SwatchIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<SwatchIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/SwatchIcon.js"
+  },
+  {
+    "id": "heroicons-table-cells",
+    "name": "table-cells",
+    "displayName": "TableCellsIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "table",
+      "cells"
+    ],
+    "reactImport": "import { TableCellsIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TableCellsIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TableCellsIcon.js"
+  },
+  {
+    "id": "heroicons-tag",
+    "name": "tag",
+    "displayName": "TagIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "tag"
+    ],
+    "reactImport": "import { TagIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TagIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TagIcon.js"
+  },
+  {
+    "id": "heroicons-ticket",
+    "name": "ticket",
+    "displayName": "TicketIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "ticket"
+    ],
+    "reactImport": "import { TicketIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TicketIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TicketIcon.js"
+  },
+  {
+    "id": "heroicons-trash",
+    "name": "trash",
+    "displayName": "TrashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "trash"
+    ],
+    "reactImport": "import { TrashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TrashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TrashIcon.js"
+  },
+  {
+    "id": "heroicons-trophy",
+    "name": "trophy",
+    "displayName": "TrophyIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "trophy"
+    ],
+    "reactImport": "import { TrophyIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TrophyIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TrophyIcon.js"
+  },
+  {
+    "id": "heroicons-truck",
+    "name": "truck",
+    "displayName": "TruckIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "truck"
+    ],
+    "reactImport": "import { TruckIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TruckIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TruckIcon.js"
+  },
+  {
+    "id": "heroicons-tv",
+    "name": "tv",
+    "displayName": "TvIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "tv"
+    ],
+    "reactImport": "import { TvIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<TvIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/TvIcon.js"
+  },
+  {
+    "id": "heroicons-underline",
+    "name": "underline",
+    "displayName": "UnderlineIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "underline"
+    ],
+    "reactImport": "import { UnderlineIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UnderlineIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UnderlineIcon.js"
+  },
+  {
+    "id": "heroicons-user-circle",
+    "name": "user-circle",
+    "displayName": "UserCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "user",
+      "circle"
+    ],
+    "reactImport": "import { UserCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UserCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UserCircleIcon.js"
+  },
+  {
+    "id": "heroicons-user-group",
+    "name": "user-group",
+    "displayName": "UserGroupIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "user",
+      "group"
+    ],
+    "reactImport": "import { UserGroupIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UserGroupIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UserGroupIcon.js"
+  },
+  {
+    "id": "heroicons-user",
+    "name": "user",
+    "displayName": "UserIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "user"
+    ],
+    "reactImport": "import { UserIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UserIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UserIcon.js"
+  },
+  {
+    "id": "heroicons-user-minus",
+    "name": "user-minus",
+    "displayName": "UserMinusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "user",
+      "minus"
+    ],
+    "reactImport": "import { UserMinusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UserMinusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UserMinusIcon.js"
+  },
+  {
+    "id": "heroicons-user-plus",
+    "name": "user-plus",
+    "displayName": "UserPlusIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "user",
+      "plus"
+    ],
+    "reactImport": "import { UserPlusIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UserPlusIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UserPlusIcon.js"
+  },
+  {
+    "id": "heroicons-users",
+    "name": "users",
+    "displayName": "UsersIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "users"
+    ],
+    "reactImport": "import { UsersIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<UsersIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/UsersIcon.js"
+  },
+  {
+    "id": "heroicons-variable",
+    "name": "variable",
+    "displayName": "VariableIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "variable"
+    ],
+    "reactImport": "import { VariableIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<VariableIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/VariableIcon.js"
+  },
+  {
+    "id": "heroicons-video-camera",
+    "name": "video-camera",
+    "displayName": "VideoCameraIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "video",
+      "camera"
+    ],
+    "reactImport": "import { VideoCameraIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<VideoCameraIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/VideoCameraIcon.js"
+  },
+  {
+    "id": "heroicons-video-camera-slash",
+    "name": "video-camera-slash",
+    "displayName": "VideoCameraSlashIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "video",
+      "camera",
+      "slash"
+    ],
+    "reactImport": "import { VideoCameraSlashIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<VideoCameraSlashIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/VideoCameraSlashIcon.js"
+  },
+  {
+    "id": "heroicons-view-columns",
+    "name": "view-columns",
+    "displayName": "ViewColumnsIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "view",
+      "columns"
+    ],
+    "reactImport": "import { ViewColumnsIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ViewColumnsIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ViewColumnsIcon.js"
+  },
+  {
+    "id": "heroicons-viewfinder-circle",
+    "name": "viewfinder-circle",
+    "displayName": "ViewfinderCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "viewfinder",
+      "circle"
+    ],
+    "reactImport": "import { ViewfinderCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<ViewfinderCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/ViewfinderCircleIcon.js"
+  },
+  {
+    "id": "heroicons-wallet",
+    "name": "wallet",
+    "displayName": "WalletIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "wallet"
+    ],
+    "reactImport": "import { WalletIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<WalletIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/WalletIcon.js"
+  },
+  {
+    "id": "heroicons-wifi",
+    "name": "wifi",
+    "displayName": "WifiIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "wifi"
+    ],
+    "reactImport": "import { WifiIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<WifiIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/WifiIcon.js"
+  },
+  {
+    "id": "heroicons-window",
+    "name": "window",
+    "displayName": "WindowIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "window"
+    ],
+    "reactImport": "import { WindowIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<WindowIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/WindowIcon.js"
+  },
+  {
+    "id": "heroicons-wrench",
+    "name": "wrench",
+    "displayName": "WrenchIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "wrench"
+    ],
+    "reactImport": "import { WrenchIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<WrenchIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/WrenchIcon.js"
+  },
+  {
+    "id": "heroicons-wrench-screwdriver",
+    "name": "wrench-screwdriver",
+    "displayName": "WrenchScrewdriverIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "wrench",
+      "screwdriver"
+    ],
+    "reactImport": "import { WrenchScrewdriverIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<WrenchScrewdriverIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/WrenchScrewdriverIcon.js"
+  },
+  {
+    "id": "heroicons-x-circle",
+    "name": "x-circle",
+    "displayName": "XCircleIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "x",
+      "circle"
+    ],
+    "reactImport": "import { XCircleIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<XCircleIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/XCircleIcon.js"
+  },
+  {
+    "id": "heroicons-x-mark",
+    "name": "x-mark",
+    "displayName": "XMarkIcon",
+    "library": "heroicons",
+    "libraryName": "Heroicons",
+    "npmPackage": "@heroicons/react",
+    "license": "MIT",
+    "tags": [
+      "x",
+      "mark"
+    ],
+    "reactImport": "import { XMarkIcon } from '@heroicons/react/24/outline'",
+    "reactUsage": "<XMarkIcon className=\"h-6 w-6\" />",
+    "svgUrl": "https://unpkg.com/@heroicons/react@latest/24/outline/XMarkIcon.js"
+  }
+]
