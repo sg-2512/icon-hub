@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/free-svg-icons`, priority: 0.9, changeFrequency: 'weekly' as const },
     { url: `${base}/react-icons`, priority: 0.9, changeFrequency: 'weekly' as const },
     { url: `${base}/nextjs-icons`, priority: 0.9, changeFrequency: 'weekly' as const },
+    { url: `${base}/icon-search`, priority: 0.9, changeFrequency: 'monthly' as const },
     { url: `${base}/compare`, priority: 0.8, changeFrequency: 'weekly' as const },
     { url: `${base}/blog`, priority: 0.8, changeFrequency: 'daily' as const },
     { url: `${base}/contact`, priority: 0.5, changeFrequency: 'monthly' as const },

@@ -13,6 +13,7 @@ export default function Navbar() {
     { label: 'Use Cases', href: '/use-cases' },
     { label: 'Stats', href: '/stats' },
     { label: 'Blog', href: '/blog' },
+    { label: 'Icon Search', href: '/icon-search' },
   ]
 
   return (
