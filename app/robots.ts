@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/'],
       },
     ],
-    sitemap: 'https://iconshub.netlify.app/sitemap.xml',
+    sitemap: 'https://iconsearch.info/sitemap.xml',
   }
 }
