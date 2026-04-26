@@ -41,7 +41,7 @@ export default function Navbar() {
         flexShrink: 0,
       }}>
         <span style={{ color: 'var(--accent)' }}>&lt;</span>
-        IconHub
+        IconSearch
         <span style={{ color: 'var(--accent)' }}>/&gt;</span>
       </a>
 

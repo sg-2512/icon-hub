@@ -16,7 +16,8 @@ const syne = Syne({
 })
 
 export const metadata: Metadata = {
-  title: 'IconHub — Best Free Icon Libraries for Developers',
+  metadataBase: new URL('https://iconsearch.info'),
+  title: 'IconSearch — Best Free Icon Libraries for Developers',
   description: 'Compare and find the best free open source icon libraries for React, Next.js, Vue and more.',
 }
 
@@ -30,9 +31,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "IconHub",
-              "alternateName": "IconsHub",
-              "url": "https://iconshub.netlify.app"
+              "name": "IconSearch",
+              "alternateName": "IconSearch",
+              "url": "https://iconsearch.info"
             })
           }}
         />
@@ -56,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Brand */}
               <div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: '16px', color: 'var(--text)', marginBottom: '12px' }}>
-                  <span style={{ color: 'var(--accent)' }}>&lt;</span>IconHub<span style={{ color: 'var(--accent)' }}>/&gt;</span>
+                  <span style={{ color: 'var(--accent)' }}>&lt;</span>IconSearch<span style={{ color: 'var(--accent)' }}>/&gt;</span>
                 </div>
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.7 }}>
                   Independent resource for comparing open source icon libraries.
@@ -144,7 +145,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div style={{ borderTop: '1px solid var(--border)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
               <span style={{ color: 'var(--text-dim)', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace' }}>
                 <span style={{ color: 'var(--accent)' }}>// </span>
-                IconHub is an independent resource not affiliated with any icon library project.
+                IconSearch is an independent resource not affiliated with any icon library project.
               </span>
               <div style={{ display: 'flex', gap: '20px' }}>
                 {[
