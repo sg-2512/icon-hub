@@ -3,22 +3,24 @@
 import Link from 'next/link'
 import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
 
+const FIGMA_PLUGIN_URL = 'https://www.figma.com/community/plugin/1652731113142368438/iconsearch-free-svg-icons'
+
 export default function FigmaPluginPage() {
   return (
     <main style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 48px' }}>
 
       <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
         <div style={{ fontSize: '12px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '12px' }}>
-          {'// FIGMA PLUGIN - LAUNCHING SOON'}
+          {'// FIGMA PLUGIN - LIVE ON FIGMA COMMUNITY'}
         </div>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.1, marginBottom: '16px', letterSpacing: '-0.02em' }}>
           IconSearch <span style={{ color: 'var(--accent)' }}>Figma Plugin</span>
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: 1.7, maxWidth: '600px', marginBottom: '24px' }}>
-          The IconSearch Figma plugin is preparing for public launch. It brings the live IconSearch database into your design canvas so you can search, filter, and insert {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from {NAMED_LIBRARY_COUNT} named libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections.
+          The IconSearch Figma plugin is live and approved on Figma Community. Bring the IconSearch database into your design canvas to search, filter, and insert {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from {NAMED_LIBRARY_COUNT} named libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections.
         </p>
 
-        {/* Launching Soon Badge */}
+        {/* Live Badge */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
           <span style={{
             display: 'inline-flex',
@@ -35,13 +37,15 @@ export default function FigmaPluginPage() {
             letterSpacing: '0.5px',
           }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)', animation: 'pulse 2s ease-in-out infinite' }} />
-            Launching Soon
+            Review Passed
           </span>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <Link
-            href="/icon-search"
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <a
+            href={FIGMA_PLUGIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               background: 'var(--accent)',
               color: '#000',
@@ -55,6 +59,24 @@ export default function FigmaPluginPage() {
             onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
             onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
           >
+            Install Figma Plugin
+          </a>
+          <Link
+            href="/icon-search"
+            style={{
+              background: 'transparent',
+              color: 'var(--text)',
+              fontWeight: 700,
+              fontSize: '14px',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              border: '1px solid var(--border)',
+              transition: 'opacity 0.2s',
+            }}
+            onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
+            onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+          >
             Try Web Search
           </Link>
         </div>
@@ -62,10 +84,10 @@ export default function FigmaPluginPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
 
-        {/* What to Expect */}
+        {/* What You Get */}
         <div>
           <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '16px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
-            What to Expect
+            What You Get
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
             {[
@@ -75,7 +97,7 @@ export default function FigmaPluginPage() {
               },
               {
                 title: 'Instant Native Insertion',
-                desc: 'Click on any icon and click "Insert" to place a perfectly grouped, named, and formatted vector SVG layer in the center of your active screen viewport.',
+                desc: 'Search, preview, and insert named vector SVG layers directly into your active Figma file without switching tools.',
               },
               {
                 title: 'Advanced Style Filters',
@@ -89,9 +111,9 @@ export default function FigmaPluginPage() {
                 title: 'Personal Bookmarks / Saves',
                 desc: 'Save your most frequently used icons to a local favorites panel inside Figma so they are always one click away.',
               }
-            ].map(item => (
-              <div key={item.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '10px', padding: '18px 22px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>✓</span>
+            ].map((item, index) => (
+              <div key={item.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '18px 22px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>{String(index + 1).padStart(2, '0')}</span>
                 <div>
                   <h3 style={{ fontWeight: 700, fontSize: '15px', color: 'var(--text)', marginBottom: '4px' }}>{item.title}</h3>
                   <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7 }}>{item.desc}</p>
@@ -107,26 +129,28 @@ export default function FigmaPluginPage() {
             Perfect Designer-Developer Handoff
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8 }}>
-            Our Figma plugin will use the exact same icons and library IDs as our website search engine and the live{' '}
+            Our Figma plugin uses the exact same icons and library IDs as our website search engine and the live{' '}
             <Link href="/vscode-extension" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>VS Code extension</Link>.
-            {' '}Your developers will be able to find and import the exact matching components — no more searching for custom icon packages or mismatching SVG paths during frontend implementation.
+            {' '}Your developers can find and import the exact matching components, with less time lost to custom icon packages or mismatched SVG paths during frontend implementation.
           </p>
         </div>
 
-        {/* Stay Updated */}
+        {/* Available Now */}
         <div style={{
           background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(59, 130, 246, 0.04))',
           border: '1px solid rgba(139, 92, 246, 0.2)',
-          borderRadius: '12px',
+          borderRadius: '8px',
           padding: '24px 28px',
         }}>
           <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '8px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
-            Stay in the Loop
+            Available Now
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: 1.7 }}>
-            We&apos;re preparing the Figma plugin for public launch. In the meantime, you can use the full-featured{' '}
+            The plugin has passed Figma review and is ready to install from{' '}
+            <a href={FIGMA_PLUGIN_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Figma Community</a>.
+            {' '}You can also use the full-featured{' '}
             <Link href="/icon-search" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>web search</Link>{' '}
-            to find, customize, and export icons for your design projects.
+            when you need browser-based search, customization, and export.
           </p>
         </div>
 
