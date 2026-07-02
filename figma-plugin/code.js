@@ -2,8 +2,10 @@ const AUTH_API_URL = 'https://iconsearch.info/api';
 const EXTENSION_API_URL = 'https://iconsearch.info/api/extension/icon-search';
 const SESSION_TOKEN_KEY = 'iconsearch.sessionToken';
 const ACCESS_CACHE_KEY = 'iconsearch.accessCache';
+const SVG_CACHE_LIMIT = 60;
 
 let authAttempt = 0;
+const svgMarkupCache = new Map();
 
 figma.showUI(__html__, { width: 380, height: 540, themeColors: true });
 
@@ -142,6 +144,162 @@ async function signOut() {
   await postAccessState();
 }
 
+function trimMap(map, limit) {
+  while (map.size > limit) {
+    map.delete(map.keys().next().value);
+  }
+}
+
+function normalizeIconSize(value) {
+  const size = Number(value);
+  if (!Number.isFinite(size)) return 24;
+  return Math.min(512, Math.max(8, Math.round(size)));
+}
+
+function normalizeHexColor(value) {
+  const color = String(value || '').trim();
+  return /^#[0-9a-f]{6}$/i.test(color) ? color : '';
+}
+
+function shouldReplacePaintValue(value) {
+  const paint = String(value || '').trim().toLowerCase();
+  if (!paint) return false;
+  if (paint === 'none' || paint === 'transparent') return false;
+  if (paint.startsWith('url(') || paint.startsWith('var(')) return false;
+  if (paint.startsWith('context-')) return false;
+  return true;
+}
+
+function sanitizeSvgMarkup(svg) {
+  return String(svg || '')
+    .replace(/<\?[\s\S]*?\?>/g, '')
+    .replace(/<!doctype[\s\S]*?>/gi, '')
+    .replace(/<script\b[\s\S]*?<\/script\s*>/gi, '')
+    .replace(/<foreignObject\b[\s\S]*?<\/foreignObject\s*>/gi, '')
+    .replace(/\s(on[a-z]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+    .replace(/\s(?:href|xlink:href)\s*=\s*(["'])\s*javascript:[\s\S]*?\1/gi, '')
+    .trim();
+}
+
+function upsertSvgAttribute(svgTagStart, attributeName, value) {
+  const pattern = new RegExp(`\\s${attributeName}\\s*=\\s*(".*?"|'.*?'|[^\\s>]+)`, 'i');
+  if (pattern.test(svgTagStart)) {
+    return svgTagStart.replace(pattern, ` ${attributeName}="${value}"`);
+  }
+  return `${svgTagStart} ${attributeName}="${value}"`;
+}
+
+function applySvgColor(svg, color) {
+  const safeColor = normalizeHexColor(color);
+  if (!safeColor) return svg;
+
+  let output = svg.replace(/(<svg\b[^>]*)(>)/i, (_match, start, end) => {
+    let tag = upsertSvgAttribute(start, 'color', safeColor);
+    if (!/\sfill\s*=/i.test(tag)) tag = `${tag} fill="${safeColor}"`;
+    return `${tag}${end}`;
+  });
+
+  output = output.replace(/\s(fill|stroke)\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/gi, (match, name, _raw, doubleValue, singleValue, bareValue) => {
+    const value = doubleValue || singleValue || bareValue || '';
+    return shouldReplacePaintValue(value) ? ` ${name}="${safeColor}"` : match;
+  });
+
+  output = output.replace(/\sstyle\s*=\s*(["'])(.*?)\1/gi, (match, quote, style) => {
+    const updated = style.replace(/(^|;)\s*(fill|stroke)\s*:\s*([^;]+)/gi, (styleMatch, prefix, name, value) => {
+      return shouldReplacePaintValue(value) ? `${prefix}${name}: ${safeColor}` : styleMatch;
+    });
+    return ` style=${quote}${updated}${quote}`;
+  });
+
+  return output;
+}
+
+function prepareSvgMarkup(svg, color) {
+  const sanitized = sanitizeSvgMarkup(svg);
+  return applySvgColor(sanitized, color);
+}
+
+function resizeNodeToIconSize(node, sizeValue) {
+  const size = normalizeIconSize(sizeValue);
+  if (!node || typeof node.resize !== 'function') return;
+  if (!Number.isFinite(node.width) || !Number.isFinite(node.height) || node.width <= 0 || node.height <= 0) return;
+
+  const scale = size / Math.max(node.width, node.height);
+  node.resize(node.width * scale, node.height * scale);
+}
+
+function placeNode(node, x, y, scrollIntoView = true) {
+  const center = figma.viewport.center;
+  const targetX = Number.isFinite(x) ? x : center.x;
+  const targetY = Number.isFinite(y) ? y : center.y;
+  node.x = targetX - node.width / 2;
+  node.y = targetY - node.height / 2;
+  figma.currentPage.appendChild(node);
+  figma.currentPage.selection = [node];
+  if (scrollIntoView) figma.viewport.scrollAndZoomIntoView([node]);
+}
+
+function insertIconNode({ svg, name, size, color, x, y, notify = true, scrollIntoView = true }) {
+  const preparedSvg = prepareSvgMarkup(svg, color);
+  if (!preparedSvg.includes('<svg')) throw new Error('The source did not include SVG markup.');
+
+  const node = figma.createNodeFromSvg(preparedSvg);
+  node.name = name || 'Icon';
+  resizeNodeToIconSize(node, size);
+  placeNode(node, x, y, scrollIntoView);
+  if (notify) figma.notify(`Inserted ${node.name} successfully!`);
+  return node;
+}
+
+async function fetchSvgMarkup(url) {
+  const normalizedUrl = String(url || '').trim();
+  if (!normalizedUrl) throw new Error('No SVG source URL was provided.');
+  if (svgMarkupCache.has(normalizedUrl)) return svgMarkupCache.get(normalizedUrl);
+
+  const request = fetch(normalizedUrl, {
+    headers: { accept: 'image/svg+xml,text/plain,*/*' }
+  })
+    .then(async response => {
+      if (!response.ok) throw new Error('Failed to fetch SVG.');
+      const text = await response.text();
+      if (!text.includes('<svg')) throw new Error('The source did not return SVG markup.');
+      return text.trim();
+    })
+    .catch(error => {
+      svgMarkupCache.delete(normalizedUrl);
+      throw error;
+    });
+
+  svgMarkupCache.set(normalizedUrl, request);
+  trimMap(svgMarkupCache, SVG_CACHE_LIMIT);
+  return request;
+}
+
+async function insertIconFromUrl(metadata, x, y) {
+  const svg = await fetchSvgMarkup(metadata.url);
+  return insertIconNode({
+    svg,
+    name: metadata.name,
+    size: metadata.size,
+    color: metadata.color,
+    x,
+    y,
+    scrollIntoView: false
+  });
+}
+
+figma.on('drop', (event) => {
+  const metadata = event.dropMetadata;
+  if (!metadata || metadata.type !== 'iconsearch-icon') return true;
+
+  void insertIconFromUrl(metadata, event.absoluteX, event.absoluteY).catch(error => {
+    console.error('Error dropping SVG into Figma:', error);
+    figma.notify('Error dropping SVG: Please try Insert instead.', { error: true });
+  });
+
+  return false;
+});
+
 figma.ui.onmessage = async (msg) => {
   if (msg.type === 'auth-ready') {
     await postAccessState();
@@ -202,17 +360,12 @@ figma.ui.onmessage = async (msg) => {
 
   if (msg.type === 'insert-icon') {
     try {
-      const { svg, name } = msg;
-      const node = figma.createNodeFromSvg(svg);
-      node.name = name || 'Icon';
-
-      const center = figma.viewport.center;
-      node.x = center.x - node.width / 2;
-      node.y = center.y - node.height / 2;
-      figma.currentPage.appendChild(node);
-      figma.currentPage.selection = [node];
-
-      figma.notify(`Inserted ${node.name} successfully!`);
+      insertIconNode({
+        svg: msg.svg,
+        name: msg.name,
+        size: msg.size,
+        color: msg.color
+      });
     } catch (err) {
       console.error('Error inserting SVG into Figma:', err);
       figma.notify('Error inserting SVG: Please check the console.', { error: true });

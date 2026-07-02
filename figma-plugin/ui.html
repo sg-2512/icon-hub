@@ -288,11 +288,12 @@
       border-radius: 6px;
       display: grid;
       place-items: center;
-      cursor: pointer;
+      cursor: grab;
       background: transparent;
       border: 1.5px solid transparent;
       transition: all 0.12s ease;
       position: relative;
+      user-select: none;
     }
 
     .icon-item:hover {
@@ -305,6 +306,14 @@
       border-color: #818cf8;
     }
 
+    .icon-item:active {
+      cursor: grabbing;
+    }
+
+    .icon-item.is-dragging {
+      opacity: 0.55;
+    }
+
     .icon-item img {
       width: 20px;
       height: 20px;
@@ -315,6 +324,22 @@
 
     .icon-item img.loaded {
       opacity: 1;
+    }
+
+    .icon-fallback {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      background: #eef2ff;
+      color: #64748b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      pointer-events: none;
+      text-transform: uppercase;
     }
 
     /* ===== LOADING SKELETON ===== */
@@ -409,11 +434,16 @@
       place-items: center;
       flex-shrink: 0;
       background: var(--bg-secondary);
+      cursor: grab;
     }
 
     .preview-icon-box img {
       width: 18px;
       height: 18px;
+    }
+
+    .preview-icon-box.is-dragging {
+      opacity: 0.55;
     }
 
     .preview-details {
@@ -433,6 +463,71 @@
       font-size: 9.5px;
       color: var(--text-dim);
       margin-top: 1px;
+    }
+
+    .preview-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .color-control {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-secondary);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .color-control:focus-within {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.12);
+    }
+
+    .color-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      background: #111827;
+      pointer-events: none;
+    }
+
+    .color-input {
+      position: absolute;
+      inset: -6px;
+      width: calc(100% + 12px);
+      height: calc(100% + 12px);
+      border: 0;
+      padding: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .size-select {
+      width: 62px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background-color: var(--bg-secondary);
+      color: var(--text);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 0 6px;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .size-select:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.12);
     }
 
     .btn-group {
@@ -722,6 +817,22 @@
           <div class="preview-pack" id="previewPack"></div>
         </div>
       </div>
+      <div class="preview-controls">
+        <label class="color-control" title="Icon color">
+          <span class="color-swatch" id="colorSwatch"></span>
+          <input class="color-input" id="colorInput" type="color" value="#111827" aria-label="Icon color">
+        </label>
+        <select class="size-select" id="sizeSelect" aria-label="Icon size">
+          <option value="16">16px</option>
+          <option value="20">20px</option>
+          <option value="24" selected>24px</option>
+          <option value="32">32px</option>
+          <option value="48">48px</option>
+          <option value="64">64px</option>
+          <option value="96">96px</option>
+          <option value="128">128px</option>
+        </select>
+      </div>
       <div class="btn-group">
         <button class="btn btn-save" id="saveBtn" type="button">Save</button>
         <button class="btn btn-insert" id="insertBtn" type="button">Insert</button>
@@ -809,23 +920,48 @@
       { id: 'elusive-icons',      name: 'Elusive Icons',       count: 304,    color: '#38bdf8' },
     ];
 
-    const BATCH_SIZE = 48; // Render progressively to keep it extremely fast
-    const COLLECTION_PAGE_SIZE = 5000;
+    const BATCH_SIZE = 64; // Render a capped number of DOM nodes per frame.
+    const STARTUP_ICON_LIMIT = 16;
+    const SEARCH_RESULT_LIMIT = 480;
+    const LIBRARY_BROWSE_LIMIT = 360;
     const SEARCHABLE_ICON_COUNT = 351639;
     const ICONIFY_ICON_COUNT = 326602;
     const NAMED_LIBRARY_COUNT = 16;
     const ICONIFY_COLLECTION_COUNT = 224;
+    const ICONIFY_PREFIXES = {
+      'lucide-icons': 'lucide',
+      'heroicons': 'heroicons',
+      'tabler-icons': 'tabler',
+      'phosphor-icons': 'ph',
+      'remix-icon': 'ri',
+      'feather-icons': 'feather',
+      'bootstrap-icons': 'bi',
+      'radix-icons': 'radix-icons',
+      iconoir: 'iconoir',
+      ionicons: 'ion',
+      octicons: 'octicon',
+      'ant-design-icons': 'ant-design',
+      devicons: 'devicon',
+      teenyicons: 'teenyicons',
+      'circum-icons': 'circum',
+      'elusive-icons': 'el'
+    };
+    const ICONIFY_PREVIEW_FIRST_LIBRARIES = new Set(['teenyicons', 'circum-icons', 'elusive-icons']);
 
     // ===== DOM REFERENCES =====
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const scrollContainer = document.getElementById('scrollContainer');
     const previewCard = document.getElementById('previewCard');
+    const previewIconBox = document.getElementById('previewIconBox');
     const previewImg = document.getElementById('previewImg');
     const previewName = document.getElementById('previewName');
     const previewPack = document.getElementById('previewPack');
     const insertBtn = document.getElementById('insertBtn');
     const saveBtn = document.getElementById('saveBtn');
+    const colorInput = document.getElementById('colorInput');
+    const colorSwatch = document.getElementById('colorSwatch');
+    const sizeSelect = document.getElementById('sizeSelect');
     const libraryFilter = document.getElementById('libraryFilter');
     const styleFilter = document.getElementById('styleFilter');
     const savedGrid = document.getElementById('savedGrid');
@@ -849,6 +985,167 @@
     let libraryCounts = {};
     let viewportFillScheduled = false;
     let appStarted = false;
+    let previewObserver = null;
+    let activeSearchId = 0;
+    const svgTextCache = new Map();
+
+    function getSelectedSize() {
+      const size = Number(sizeSelect.value);
+      if (!Number.isFinite(size)) return 24;
+      return Math.min(512, Math.max(8, Math.round(size)));
+    }
+
+    function getSelectedColor() {
+      const value = String(colorInput.value || '').trim();
+      return /^#[0-9a-f]{6}$/i.test(value) ? value : '#111827';
+    }
+
+    function updateColorSwatch() {
+      colorSwatch.style.background = getSelectedColor();
+    }
+
+    updateColorSwatch();
+
+    function toHttpUrl(url) {
+      const value = String(url || '').trim();
+      if (!value) return '';
+      if (value.startsWith('//')) return `https:${value}`;
+      return /^https?:\/\//i.test(value) ? value : '';
+    }
+
+    function getIconifyPrefix(library) {
+      if (library.startsWith('iconify-')) return library.replace(/^iconify-/, '');
+      return ICONIFY_PREFIXES[library] || '';
+    }
+
+    function addUniqueUrl(urls, seen, url) {
+      const value = toHttpUrl(url);
+      if (!value || seen.has(value)) return;
+      seen.add(value);
+      urls.push(value);
+    }
+
+    function addIconifyPreviewUrls(urls, seen, library, name) {
+      const prefix = getIconifyPrefix(library);
+      if (!prefix || !name) return;
+
+      const exactName = String(name);
+      const dashedName = exactName.replace(/_/g, '-');
+      const underscoredName = exactName.replace(/-/g, '_');
+      [exactName, dashedName, underscoredName].forEach(iconName => {
+        addUniqueUrl(urls, seen, `https://api.iconify.design/${prefix}/${iconName}.svg`);
+      });
+    }
+
+    function getIconPreviewUrls(icon, preferredUrl) {
+      const urls = [];
+      const seen = new Set();
+      const library = String((icon && icon.library) || '');
+      const name = String((icon && icon.name) || '');
+      const rawPreviewUrls = icon && Array.isArray(icon.previewUrls) ? icon.previewUrls : [];
+
+      if (ICONIFY_PREVIEW_FIRST_LIBRARIES.has(library)) {
+        addIconifyPreviewUrls(urls, seen, library, name);
+      }
+
+      addUniqueUrl(urls, seen, preferredUrl);
+      rawPreviewUrls.forEach(url => addUniqueUrl(urls, seen, url));
+      addUniqueUrl(urls, seen, icon && icon.resolvedUrl);
+      addUniqueUrl(urls, seen, icon && icon.svgUrl);
+
+      if (!ICONIFY_PREVIEW_FIRST_LIBRARIES.has(library)) {
+        addIconifyPreviewUrls(urls, seen, library, name);
+      }
+
+      return urls;
+    }
+
+    function createIconFallback(icon) {
+      const fallback = document.createElement('span');
+      fallback.className = 'icon-fallback';
+      const label = String((icon && icon.name) || 'icon')
+        .split(/[-_\s]+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(part => part.charAt(0))
+        .join('') || 'IS';
+      fallback.textContent = label;
+      fallback.title = `${(icon && icon.name) || 'Icon'} preview unavailable`;
+      return fallback;
+    }
+
+    function loadNextIconImage(img) {
+      const urls = Array.isArray(img._previewUrls) ? img._previewUrls : [];
+      const index = Number(img._previewIndex) || 0;
+      const nextUrl = urls[index];
+
+      if (!nextUrl) {
+        img.replaceWith(createIconFallback(img._iconData));
+        return;
+      }
+
+      img._previewIndex = index + 1;
+      img.src = nextUrl;
+    }
+
+    function revealIconImage(img) {
+      if (img.dataset.revealed === '1') return;
+      img.dataset.revealed = '1';
+      loadNextIconImage(img);
+    }
+
+    function getPreviewObserver() {
+      if (!('IntersectionObserver' in window)) return null;
+      if (previewObserver) return previewObserver;
+
+      previewObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          previewObserver.unobserve(entry.target);
+          revealIconImage(entry.target);
+        });
+      }, {
+        root: scrollContainer,
+        rootMargin: '220px 0px',
+        threshold: 0.01
+      });
+
+      return previewObserver;
+    }
+
+    function resetPreviewObserver() {
+      if (!previewObserver) return;
+      previewObserver.disconnect();
+      previewObserver = null;
+    }
+
+    function attachIconPreviewImage(container, icon, urls) {
+      const previewUrls = Array.isArray(urls) ? urls : [urls].filter(Boolean);
+
+      if (previewUrls.length === 0) {
+        container.appendChild(createIconFallback(icon));
+        return;
+      }
+
+      const img = document.createElement('img');
+      img._previewUrls = previewUrls;
+      img._previewIndex = 0;
+      img._iconData = icon;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.referrerPolicy = 'no-referrer';
+      img.alt = icon.name;
+      img.onload = function() { this.classList.add('loaded'); };
+      img.onerror = function() { loadNextIconImage(this); };
+      container.appendChild(img);
+
+      const observer = getPreviewObserver();
+      if (observer) {
+        observer.observe(img);
+      } else {
+        revealIconImage(img);
+      }
+    }
 
     // Progressive rendering state
     let allGroupedData = {};
@@ -954,6 +1251,7 @@
 
     // ===== LOADING SKELETON =====
     function showLoadingSkeleton(count = 4) {
+      resetPreviewObserver();
       let html = '';
       for (let i = 0; i < count; i++) {
         html += `
@@ -979,6 +1277,22 @@
 
     libraryFilter.addEventListener('change', () => performSearch());
     styleFilter.addEventListener('change', () => performSearch());
+    colorInput.addEventListener('input', updateColorSwatch);
+    sizeSelect.addEventListener('change', () => {
+      if (selectedIcon) setStatus(`${getSelectedSize()}px icon size selected`);
+    });
+
+    previewIconBox.draggable = true;
+    previewIconBox.addEventListener('dragstart', (event) => {
+      if (!selectedIcon) {
+        event.preventDefault();
+        return;
+      }
+      beginIconDrag(event, selectedIcon, selectedIcon.resolvedUrl, previewIconBox);
+    });
+    previewIconBox.addEventListener('dragend', () => {
+      previewIconBox.classList.remove('is-dragging');
+    });
 
     // Scroll listener for progressive/lazy DOM rendering
     scrollContainer.addEventListener('scroll', () => {
@@ -988,34 +1302,13 @@
       }
     });
 
-    async function fetchCompleteCollection(params) {
-      const firstResponse = await apiFetch(`${params}&limit=${COLLECTION_PAGE_SIZE}&page=1`);
-      const firstPage = await firstResponse.json();
-      const totalPages = Math.max(1, Number(firstPage.totalPages) || 1);
-      const total = typeof firstPage.total === 'number' ? firstPage.total : (firstPage.icons || []).length;
-
-      if (totalPages === 1) return firstPage;
-
-      setStatus(`Loading all ${total.toLocaleString('en-US')} icons...`, true);
-      const remainingPages = await Promise.all(
-        Array.from({ length: totalPages - 1 }, (_, index) => index + 2).map(async page => {
-          const response = await apiFetch(`${params}&limit=${COLLECTION_PAGE_SIZE}&page=${page}`);
-          const data = await response.json();
-          return Array.isArray(data.icons) ? data.icons : [];
-        })
-      );
-
-      return {
-        ...firstPage,
-        icons: [
-          ...(Array.isArray(firstPage.icons) ? firstPage.icons : []),
-          ...remainingPages.flat()
-        ]
-      };
+    async function fetchIconPage(params, limit) {
+      const response = await apiFetch(`${params}&limit=${limit}&page=1`);
+      return response.json();
     }
 
     async function performSearch() {
-      if (isLoading) return;
+      const searchId = ++activeSearchId;
       isLoading = true;
 
       const q = searchInput.value.trim();
@@ -1023,7 +1316,10 @@
       const style = styleFilter.value;
 
       if (q && q.length < 2) {
-        isLoading = false;
+        if (searchId === activeSearchId) {
+          isLoading = false;
+          setStatus('Type 2+ characters to search');
+        }
         return;
       }
 
@@ -1032,11 +1328,12 @@
 
       try {
         let icons = [];
+        let resultStatus = 'Ready';
 
         if (!q && lib === 'all') {
           // ===== POPULAR BROWSE (Startup Mode) =====
           // Batch 5 libraries at a time, render progressively as batches arrive
-          const BATCH_FETCH = 5;
+          const BATCH_FETCH = 4;
           // Initialize progressive rendering state early
           allGroupedData = {};
           groupKeysOrder = [];
@@ -1046,7 +1343,7 @@
           for (let b = 0; b < STARTUP_SETS.length; b += BATCH_FETCH) {
             const batch = STARTUP_SETS.slice(b, b + BATCH_FETCH);
             const batchResults = await Promise.all(batch.map(async (set) => {
-              let params = `?limit=24&lib=${set.id}&legalOnly=0`;
+              let params = `?limit=${STARTUP_ICON_LIMIT}&lib=${set.id}&legalOnly=0`;
               if (style !== 'all') params += `&style=${style}`;
               try {
                 const res = await apiFetch(params);
@@ -1064,6 +1361,8 @@
                 return [];
               }
             }));
+
+            if (searchId !== activeSearchId) return;
 
             // Immediately group & render this batch
             batchResults.forEach(list => {
@@ -1092,8 +1391,10 @@
             setStatus(`Loaded ${Math.min(b + BATCH_FETCH, STARTUP_SETS.length)}/${STARTUP_SETS.length} libraries...`, b + BATCH_FETCH < STARTUP_SETS.length);
           }
 
-          setStatus('Ready');
-          isLoading = false;
+          if (searchId === activeSearchId) {
+            setStatus('Ready');
+            isLoading = false;
+          }
           return;
         } else {
           // ===== TARGETED SEARCH / FILTER BROWSE =====
@@ -1104,11 +1405,13 @@
 
           let data;
           if (!q && lib !== 'all') {
-            data = await fetchCompleteCollection(params);
+            data = await fetchIconPage(params, LIBRARY_BROWSE_LIMIT);
           } else {
-            const res = await apiFetch(`${params}&limit=1500`);
-            data = await res.json();
+            data = await fetchIconPage(params, SEARCH_RESULT_LIMIT);
           }
+
+          if (searchId !== activeSearchId) return;
+
           icons = (data.icons || []).map(icon => {
             const libInfo = ALL_LIBRARIES.find(l => l.id === icon.library);
             return {
@@ -1119,6 +1422,11 @@
               _setTotal: 0
             };
           });
+
+          const total = typeof data.total === 'number' ? data.total : icons.length;
+          resultStatus = total > icons.length
+            ? `Showing ${icons.length.toLocaleString('en-US')} of ${total.toLocaleString('en-US')}`
+            : 'Ready';
         }
 
         if (icons.length === 0) {
@@ -1162,8 +1470,9 @@
         // Run the first rendering pass
         renderNextBatch();
         scheduleViewportFill();
-        setStatus('Ready');
+        setStatus(resultStatus);
       } catch (err) {
+        if (searchId !== activeSearchId) return;
         console.error('Search error:', err);
         searchResults.innerHTML = `
           <div class="empty-state">
@@ -1174,16 +1483,112 @@
         `;
         setStatus('Error loading icons');
       } finally {
-        isLoading = false;
+        if (searchId === activeSearchId) isLoading = false;
       }
+    }
+
+    function setTransferData(transfer, type, data) {
+      if (!transfer || !data) return;
+      try {
+        transfer.setData(type, data);
+      } catch (_error) {}
+    }
+
+    function buildIconDropMetadata(icon, url) {
+      return {
+        type: 'iconsearch-icon',
+        name: icon.name || 'Icon',
+        library: icon.library || '',
+        libraryName: icon._setName || icon.libraryName || icon.library || '',
+        url,
+        size: getSelectedSize(),
+        color: getSelectedColor()
+      };
+    }
+
+    function beginIconDrag(event, icon, url, item) {
+      if (!url) {
+        event.preventDefault();
+        setStatus('No SVG source for this icon');
+        return;
+      }
+
+      const metadata = buildIconDropMetadata(icon, url);
+      const transfer = event.dataTransfer;
+      if (transfer) {
+        transfer.effectAllowed = 'copy';
+        setTransferData(transfer, 'text/plain', icon.name || 'IconSearch icon');
+        setTransferData(transfer, 'text/uri-list', url);
+      }
+
+      item.classList.add('is-dragging');
+      parent.postMessage({
+        pluginDrop: {
+          clientX: event.clientX,
+          clientY: event.clientY,
+          items: [
+            { type: 'text/plain', data: icon.name || 'IconSearch icon' },
+            { type: 'text/uri-list', data: url }
+          ],
+          dropMetadata: metadata
+        }
+      }, '*');
+      setStatus('Drop on canvas to place icon');
+    }
+
+    function wireIconItem(item, icon, svgUrl) {
+      item.draggable = Boolean(svgUrl);
+
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.icon-item.selected').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
+        selectIcon(icon, svgUrl);
+      });
+
+      item.addEventListener('dragstart', (e) => {
+        document.querySelectorAll('.icon-item.selected').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
+        selectIcon(icon, svgUrl);
+        beginIconDrag(e, icon, svgUrl, item);
+      });
+
+      item.addEventListener('dragend', () => {
+        item.classList.remove('is-dragging');
+      });
+    }
+
+    function fetchSvgText(url) {
+      if (!url) return Promise.reject(new Error('No SVG source available.'));
+      if (svgTextCache.has(url)) return svgTextCache.get(url);
+
+      const request = fetch(url, { headers: { accept: 'image/svg+xml,text/plain,*/*' } })
+        .then(async response => {
+          if (!response.ok) throw new Error('Failed to fetch SVG');
+          const text = await response.text();
+          if (!text.includes('<svg')) throw new Error('The source did not return SVG markup.');
+          return text.trim();
+        })
+        .catch(error => {
+          svgTextCache.delete(url);
+          throw error;
+        });
+
+      svgTextCache.set(url, request);
+      if (svgTextCache.size > 60) {
+        svgTextCache.delete(svgTextCache.keys().next().value);
+      }
+      return request;
     }
 
     // ===== PROGRESSIVE BATCH RENDERER =====
     function renderNextBatch() {
       let renderedSomething = false;
       const q = searchInput.value.trim();
+      let remaining = BATCH_SIZE;
 
       groupKeysOrder.forEach(key => {
+        if (remaining <= 0) return;
         const group = allGroupedData[key];
         if (group.renderedCount >= group.icons.length) return;
 
@@ -1243,7 +1648,7 @@
 
         // Render next slice of icons
         const start = group.renderedCount;
-        const end = Math.min(start + BATCH_SIZE, group.icons.length);
+        const end = Math.min(start + remaining, group.icons.length);
 
         for (let i = start; i < end; i++) {
           const icon = group.icons[i];
@@ -1251,27 +1656,17 @@
           item.className = 'icon-item';
           item.title = icon.name;
 
-          const svgUrl = icon.svgUrl || (icon.previewUrls && icon.previewUrls[0]) || '';
+          const previewUrls = getIconPreviewUrls(icon);
+          const svgUrl = previewUrls[0] || '';
 
-          const img = document.createElement('img');
-          img.src = svgUrl;
-          img.loading = 'lazy';
-          img.alt = icon.name;
-          img.onload = function() { this.classList.add('loaded'); };
-          img.onerror = function() { this.style.display = 'none'; };
-          item.appendChild(img);
-
-          item.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.querySelectorAll('.icon-item.selected').forEach(el => el.classList.remove('selected'));
-            item.classList.add('selected');
-            selectIcon(icon, svgUrl);
-          });
+          attachIconPreviewImage(item, icon, previewUrls);
+          wireIconItem(item, icon, svgUrl);
 
           grid.appendChild(item);
         }
 
         group.renderedCount = end;
+        remaining -= end - start;
         renderedSomething = true;
       });
 
@@ -1299,7 +1694,8 @@
     function startApp() {
       if (appStarted) return;
       appStarted = true;
-      initializeLibraryFilter().finally(() => performSearch());
+      initializeLibraryFilter();
+      performSearch();
     }
 
     authButton.addEventListener('click', () => {
@@ -1379,9 +1775,16 @@
 
     // ===== PREVIEW CARD CONTROL =====
     function selectIcon(icon, url) {
-      selectedIcon = { ...icon, resolvedUrl: url };
+      const previewUrls = getIconPreviewUrls(icon, url);
+      const resolvedUrl = previewUrls[0] || url || '';
+      selectedIcon = { ...icon, resolvedUrl, previewUrls };
 
-      previewImg.src = url;
+      previewImg.src = resolvedUrl || '';
+      previewImg.alt = icon.name;
+      previewImg.classList.remove('loaded');
+      previewImg.style.display = resolvedUrl ? '' : 'none';
+      previewImg.onload = function() { this.classList.add('loaded'); };
+      previewImg.onerror = function() { this.style.display = 'none'; };
       previewName.textContent = icon.name;
       previewPack.textContent = `${icon._setName || icon.libraryName || icon.library}`;
 
@@ -1423,6 +1826,7 @@
     });
 
     function renderSavedIcons() {
+      resetPreviewObserver();
       savedGrid.innerHTML = '';
       if (savedIcons.length === 0) {
         savedEmptyState.classList.remove('hidden');
@@ -1435,17 +1839,10 @@
         item.className = 'icon-item';
         item.title = icon.name;
 
-        const img = document.createElement('img');
-        img.src = icon.resolvedUrl;
-        img.onload = function() { this.classList.add('loaded'); };
-        item.appendChild(img);
-
-        item.addEventListener('click', (e) => {
-          e.stopPropagation();
-          document.querySelectorAll('.icon-item.selected').forEach(el => el.classList.remove('selected'));
-          item.classList.add('selected');
-          selectIcon(icon, icon.resolvedUrl);
-        });
+        const previewUrls = getIconPreviewUrls(icon, icon.resolvedUrl);
+        const svgUrl = previewUrls[0] || icon.resolvedUrl || '';
+        attachIconPreviewImage(item, icon, previewUrls);
+        wireIconItem(item, icon, svgUrl);
 
         savedGrid.appendChild(item);
       });
@@ -1460,16 +1857,15 @@
       setStatus('Inserting icon...', true);
 
       try {
-        const response = await fetch(selectedIcon.resolvedUrl);
-        if (!response.ok) throw new Error('Failed to fetch SVG');
-
-        const svgText = await response.text();
+        const svgText = await fetchSvgText(selectedIcon.resolvedUrl);
 
         parent.postMessage({
           pluginMessage: {
             type: 'insert-icon',
             svg: svgText.trim(),
-            name: selectedIcon.name
+            name: selectedIcon.name,
+            size: getSelectedSize(),
+            color: getSelectedColor()
           }
         }, '*');
 
