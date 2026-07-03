@@ -1,167 +1,201 @@
-'use client'
-
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import styles from './figma-plugin.module.css'
 
 const FIGMA_PLUGIN_URL = 'https://www.figma.com/community/plugin/1652731113142368438/iconsearch-free-svg-icons'
+const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
+
+export const metadata: Metadata = {
+  title: `IconSearch Figma Plugin - Search ${formattedIconCount} Free SVG Icons`,
+  description: `Install the live IconSearch Figma plugin to search, filter, and insert ${formattedIconCount} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+  alternates: {
+    canonical: '/figma-plugin',
+  },
+  openGraph: {
+    title: 'IconSearch Figma Plugin',
+    description: `Search and insert ${formattedIconCount} free SVG icons directly inside Figma.`,
+    url: '/figma-plugin',
+    type: 'website',
+  },
+}
+
+const stats = [
+  { value: formattedIconCount, label: 'searchable SVG icons' },
+  { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
+  { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
+  { value: 'Live', label: 'on Figma Community' },
+]
+
+const features = [
+  {
+    title: 'Search without leaving Figma',
+    text: 'Find icons by name, library, and style while staying in the same design file.',
+  },
+  {
+    title: 'Insert clean vector SVGs',
+    text: 'Place icons as editable vector layers, ready for layouts, components, and design systems.',
+  },
+  {
+    title: 'Use the same source as code',
+    text: 'Designers and developers can reference the same icon names and libraries across IconSearch.',
+  },
+  {
+    title: 'Save frequent picks',
+    text: 'Keep favorite and recently used icons close for faster repeated work.',
+  },
+]
+
+const workflow = [
+  'Open IconSearch from Figma Community',
+  'Search home, arrow, chart, menu, brand, or system icons',
+  'Filter by library or icon style',
+  'Insert the selected SVG into your active canvas',
+]
+
+const iconSamples = ['home', 'arrow', 'chart', 'bell', 'lock', 'menu', 'user', 'spark']
 
 export default function FigmaPluginPage() {
   return (
-    <main style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 48px' }}>
+    <main className={styles.page}>
+      <section className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <div className={styles.eyebrow}>
+            <span className={styles.liveDot} />
+            Live on Figma Community
+          </div>
 
-      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ fontSize: '12px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '12px' }}>
-          {'// FIGMA PLUGIN - LIVE ON FIGMA COMMUNITY'}
-        </div>
-        <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.1, marginBottom: '16px', letterSpacing: '-0.02em' }}>
-          IconSearch <span style={{ color: 'var(--accent)' }}>Figma Plugin</span>
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: 1.7, maxWidth: '600px', marginBottom: '24px' }}>
-          The IconSearch Figma plugin is live and approved on Figma Community. Bring the IconSearch database into your design canvas to search, filter, and insert {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from {NAMED_LIBRARY_COUNT} named libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections.
-        </p>
+          <h1>IconSearch for Figma</h1>
 
-        {/* Live Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-          <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.12))',
-            border: '1px solid rgba(139, 92, 246, 0.35)',
-            borderRadius: '999px',
-            padding: '10px 22px',
-            fontSize: '14px',
-            fontWeight: 700,
-            fontFamily: 'JetBrains Mono, monospace',
-            color: 'var(--accent)',
-            letterSpacing: '0.5px',
-          }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)', animation: 'pulse 2s ease-in-out infinite' }} />
-            Review Passed
-          </span>
-        </div>
+          <p className={styles.lede}>
+            Search, filter, and insert {formattedIconCount} free SVG icons directly in your Figma
+            canvas. Built for faster design exploration, cleaner handoff, and fewer browser tabs.
+          </p>
 
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <a
-            href={FIGMA_PLUGIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              background: 'var(--accent)',
-              color: '#000',
-              fontWeight: 700,
-              fontSize: '14px',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              transition: 'opacity 0.2s',
-            }}
-            onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
-            onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
-          >
-            Install Figma Plugin
-          </a>
-          <Link
-            href="/icon-search"
-            style={{
-              background: 'transparent',
-              color: 'var(--text)',
-              fontWeight: 700,
-              fontSize: '14px',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              border: '1px solid var(--border)',
-              transition: 'opacity 0.2s',
-            }}
-            onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
-            onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
-          >
-            Try Web Search
-          </Link>
-        </div>
-      </section>
+          <div className={styles.actions} aria-label="Primary actions">
+            <a className={styles.primaryAction} href={FIGMA_PLUGIN_URL} target="_blank" rel="noopener noreferrer">
+              Install Figma Plugin
+            </a>
+            <Link className={styles.secondaryAction} href="/icon-search">
+              Try Web Search
+            </Link>
+          </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
-
-        {/* What You Get */}
-        <div>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '16px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
-            What You Get
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
-            {[
-              {
-                title: `${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Vector SVGs`,
-                desc: 'Access Lucide, Heroicons, Tabler, Phosphor, Bootstrap, Remix, Feather, Radix, Iconoir, IonIcons, Octicons, and the complete Iconify library directly from Figma.',
-              },
-              {
-                title: 'Instant Native Insertion',
-                desc: 'Search, preview, and insert named vector SVG layers directly into your active Figma file without switching tools.',
-              },
-              {
-                title: 'Advanced Style Filters',
-                desc: 'Instantly toggle between outline (stroke), solid (fill), duotone, twotone, and sharp variations to match your design system guidelines.',
-              },
-              {
-                title: 'IconBuddy-Style Startup Sets',
-                desc: 'Browse major sets (Lucide Icons, Heroicons, Mage Icons, Line Awesome) immediately upon opening the plugin, complete with live database counts.',
-              },
-              {
-                title: 'Personal Bookmarks / Saves',
-                desc: 'Save your most frequently used icons to a local favorites panel inside Figma so they are always one click away.',
-              }
-            ].map((item, index) => (
-              <div key={item.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '18px 22px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3 style={{ fontWeight: 700, fontSize: '15px', color: 'var(--text)', marginBottom: '4px' }}>{item.title}</h3>
-                  <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7 }}>{item.desc}</p>
-                </div>
-              </div>
-            ))}
+          <div className={styles.trustRow} aria-label="Plugin highlights">
+            <span>Review passed</span>
+            <span>Free SVG icons</span>
+            <span>Design to code ready</span>
           </div>
         </div>
 
-        {/* Developer Handoff */}
+        <div className={styles.heroVisual} aria-label="IconSearch Figma plugin preview">
+          <div className={styles.figmaTopbar}>
+            <div className={styles.figmaMark} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+            <strong>Cooperative Software</strong>
+            <span>main</span>
+          </div>
+
+          <div className={styles.figmaWorkspace}>
+            <div className={styles.canvasPreview}>
+              <div className={styles.canvasLabel}>Desktop 1200</div>
+              <div className={styles.insertedIcon} aria-hidden="true">
+                <span />
+                <span />
+              </div>
+              <p>Selected SVG inserted as an editable layer</p>
+            </div>
+
+            <div className={styles.pluginPanel}>
+              <div className={styles.panelHeader}>
+                <span className={styles.logoMark}>IS</span>
+                <div>
+                  <strong>IconSearch</strong>
+                  <small>{formattedIconCount} icons ready</small>
+                </div>
+              </div>
+              <div className={styles.searchInput}>Search home, arrow, chart...</div>
+              <div className={styles.filterGrid}>
+                <span>All libraries</span>
+                <span>All styles</span>
+              </div>
+              <div className={styles.iconGrid}>
+                {iconSamples.map((icon) => (
+                  <div className={styles.iconCard} key={icon}>
+                    <span>{icon.slice(0, 2)}</span>
+                    <strong>{icon}</strong>
+                    <small>SVG</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.statsGrid} aria-label="IconSearch Figma plugin stats">
+        {stats.map((stat) => (
+          <div className={styles.statCard} key={stat.label}>
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+          </div>
+        ))}
+      </section>
+
+      <section className={styles.sectionHeader}>
+        <span>{'// BUILT FOR DESIGN WORK'}</span>
+        <h2>A focused icon workflow inside Figma.</h2>
+        <p>
+          IconSearch keeps the searching, filtering, previewing, and insertion flow close to the canvas,
+          so designers can move from idea to production-ready SVG faster.
+        </p>
+      </section>
+
+      <section className={styles.featureGrid} aria-label="Figma plugin features">
+        {features.map((feature) => (
+          <article className={styles.featureCard} key={feature.title}>
+            <span className={styles.featureDot} />
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className={styles.workflowSection}>
+        <div className={styles.sectionHeader}>
+          <span>{'// HOW IT WORKS'}</span>
+          <h2>Four steps from search to canvas.</h2>
+        </div>
+
+        <div className={styles.workflowList}>
+          {workflow.map((step, index) => (
+            <div className={styles.workflowItem} key={step}>
+              <strong>{String(index + 1).padStart(2, '0')}</strong>
+              <p>{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.handoffSection}>
         <div>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '12px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
-            Perfect Designer-Developer Handoff
-          </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8 }}>
-            Our Figma plugin uses the exact same icons and library IDs as our website search engine and the live{' '}
-            <Link href="/vscode-extension" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>VS Code extension</Link>.
-            {' '}Your developers can find and import the exact matching components, with less time lost to custom icon packages or mismatched SVG paths during frontend implementation.
+          <span>{'// HANDOFF READY'}</span>
+          <h2>One icon source for designers and developers.</h2>
+          <p>
+            The Figma plugin uses the same IconSearch catalog as the website and the{' '}
+            <Link href="/vscode-extension">VS Code extension</Link>. That makes it easier to match
+            design assets with code imports, SVG files, and icon names during implementation.
           </p>
         </div>
-
-        {/* Available Now */}
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.06), rgba(59, 130, 246, 0.04))',
-          border: '1px solid rgba(139, 92, 246, 0.2)',
-          borderRadius: '8px',
-          padding: '24px 28px',
-        }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '8px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
-            Available Now
-          </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: 1.7 }}>
-            The plugin has passed Figma review and is ready to install from{' '}
-            <a href={FIGMA_PLUGIN_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Figma Community</a>.
-            {' '}You can also use the full-featured{' '}
-            <Link href="/icon-search" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>web search</Link>{' '}
-            when you need browser-based search, customization, and export.
-          </p>
-        </div>
-
-      </div>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
+        <a className={styles.primaryAction} href={FIGMA_PLUGIN_URL} target="_blank" rel="noopener noreferrer">
+          Open Figma Listing
+        </a>
+      </section>
     </main>
   )
 }
