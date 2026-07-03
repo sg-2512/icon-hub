@@ -41,9 +41,9 @@
 .hero h1 {
   max-width: 720px;
   margin: 18px 0 20px;
-  font-size: clamp(46px, 6.5vw, 76px);
+  font-size: 74px;
   line-height: 0.94;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
 }
 
 .lede {
@@ -113,32 +113,47 @@
 }
 
 .heroVisual {
+  position: relative;
+  isolation: isolate;
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 28px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 14% 12%, rgba(26, 188, 254, 0.18), transparent 18rem),
-    radial-gradient(circle at 88% 18%, rgba(162, 89, 255, 0.2), transparent 21rem),
-    #111318;
+    linear-gradient(135deg, rgba(26, 188, 254, 0.12), transparent 38%),
+    linear-gradient(315deg, rgba(162, 89, 255, 0.2), transparent 40%),
+    #0b0d14;
   box-shadow: 0 32px 100px rgba(0, 0, 0, 0.38);
 }
 
-.figmaTopbar {
+.heroVisual::before {
+  content: "";
+  position: absolute;
+  inset: 52px 0 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: linear-gradient(#000, transparent 92%);
+  -webkit-mask-image: linear-gradient(#000, transparent 92%);
+}
+
+.visualTopbar {
   display: flex;
   align-items: center;
   gap: 12px;
   height: 52px;
   padding: 0 18px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.14);
-  background: rgba(9, 9, 11, 0.72);
+  background: rgba(9, 9, 11, 0.78);
 }
 
-.figmaTopbar strong {
+.visualTopbar strong {
   color: #f8fafc;
   font-size: 13px;
 }
 
-.figmaTopbar > span {
+.branchLabel {
   border-radius: 999px;
   background: rgba(248, 250, 252, 0.08);
   color: #94a3b8;
@@ -164,91 +179,165 @@
 .figmaMark span:nth-child(4) { background: #1abcfe; }
 .figmaMark span:nth-child(5) { background: #0acf83; }
 
-.figmaWorkspace {
+.visualStage {
   position: relative;
-  min-height: 530px;
-  padding: 28px;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 34px 34px;
-}
-
-.canvasPreview {
-  width: 74%;
-  min-height: 388px;
-  border: 1px solid rgba(248, 250, 252, 0.11);
-  border-radius: 20px;
-  background: #f8fafc;
-  color: #111827;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: stretch;
+  min-height: 0;
   padding: 18px;
 }
 
-.canvasLabel {
-  width: fit-content;
-  border-radius: 999px;
-  background: #e2e8f0;
+.canvasFrame {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 26px;
+  background: #f8fafc;
+  color: #111827;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+}
+
+.canvasToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  padding: 12px 15px;
+}
+
+.canvasToolbar span,
+.canvasToolbar div {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: #475569;
-  padding: 6px 10px;
   font-size: 12px;
   font-weight: 800;
 }
 
-.insertedIcon {
+.canvasToolbar div {
+  color: #4f46e5;
+}
+
+.artboard {
   position: relative;
+  min-height: 188px;
+  margin: 12px;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #f8fafc;
+}
+
+.artboardGrid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(15, 23, 42, 0.055) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.insertedHome {
+  position: absolute;
+  left: 50%;
+  top: 44%;
   display: grid;
   place-items: center;
-  width: 150px;
-  height: 150px;
-  margin: 82px auto 34px;
-  border-radius: 34px;
+  width: 116px;
+  height: 116px;
+  border: 2px solid #4f46e5;
+  border-radius: 28px;
   background:
-    radial-gradient(circle at 30% 22%, rgba(26, 188, 254, 0.18), transparent 4rem),
-    rgba(15, 23, 42, 0.04);
+    radial-gradient(circle at 50% 35%, rgba(26, 188, 254, 0.16), transparent 5rem),
+    rgba(255, 255, 255, 0.86);
+  color: #111827;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 24px 58px rgba(79, 70, 229, 0.16);
 }
 
-.insertedIcon span:first-child {
-  width: 78px;
-  height: 70px;
-  border: 10px solid #111827;
-  border-bottom: 0;
-  border-radius: 18px 18px 4px 4px;
-  transform: translateY(12px);
+.insertedHome svg {
+  width: 64px;
+  height: 64px;
 }
 
-.insertedIcon span:last-child {
+.selectionHandle {
   position: absolute;
-  bottom: 40px;
-  width: 36px;
-  height: 48px;
-  border: 9px solid #111827;
-  border-bottom: 0;
-  border-radius: 10px 10px 0 0;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #4f46e5;
 }
 
-.canvasPreview p {
-  max-width: 270px;
-  margin: 0 auto;
-  color: #64748b;
-  text-align: center;
-  font-size: 13px;
-  line-height: 1.5;
+.selectionHandle:nth-child(2) { left: -6px; top: -6px; }
+.selectionHandle:nth-child(3) { right: -6px; top: -6px; }
+.selectionHandle:nth-child(4) { right: -6px; bottom: -6px; }
+.selectionHandle:nth-child(5) { left: -6px; bottom: -6px; }
+
+.iconCluster {
+  position: absolute;
+  left: 22px;
+  bottom: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.iconCluster span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #4f46e5;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.canvasCaption {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #dbe3ef;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #475569;
+  padding: 8px 11px;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .pluginPanel {
-  position: absolute;
-  right: 22px;
-  top: 74px;
-  width: min(348px, calc(100% - 44px));
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.97);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  grid-template-areas:
+    "header icons"
+    "search icons"
+    "filters insert";
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.98);
   color: #111827;
-  padding: 18px;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.26);
+  padding: 14px;
+  box-shadow: 0 32px 86px rgba(0, 0, 0, 0.28);
 }
 
 .panelHeader {
+  grid-area: header;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -257,9 +346,9 @@
 .logoMark {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
   background: linear-gradient(135deg, #1abcfe, #a259ff);
   color: white;
   font-family: var(--font-mono), "JetBrains Mono", monospace;
@@ -277,58 +366,64 @@
 }
 
 .searchInput {
-  margin-top: 16px;
+  grid-area: search;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   border: 1px solid #dbe3ef;
   border-radius: 13px;
   background: #f8fafc;
   color: #64748b;
-  padding: 12px;
-  font-size: 13px;
+  padding: 11px 12px;
+  font-size: 12px;
 }
 
 .filterGrid {
+  grid-area: filters;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .filterGrid span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   border: 1px solid #dbe3ef;
   border-radius: 12px;
   background: white;
-  padding: 10px;
+  min-width: 0;
+  padding: 9px;
   color: #334155;
   font-size: 12px;
   font-weight: 800;
 }
 
 .iconGrid {
+  grid-area: icons;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .iconCard {
   border: 1px solid #e2e8f0;
   border-radius: 15px;
-  background: #f8fafc;
-  padding: 12px;
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  min-width: 0;
+  padding: 9px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.045);
 }
 
 .iconCard span {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  background: #eef2ff;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, rgba(26, 188, 254, 0.16), rgba(162, 89, 255, 0.14));
   color: #4f46e5;
-  font-family: var(--font-mono), "JetBrains Mono", monospace;
-  font-weight: 900;
-  text-transform: uppercase;
 }
 
 .iconCard strong,
@@ -338,12 +433,67 @@
 
 .iconCard strong {
   color: #0f172a;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .iconCard small {
   color: #64748b;
   font-size: 11px;
+}
+
+.insertBar {
+  grid-area: insert;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.insertBar span,
+.insertBar strong {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.insertBar span {
+  border: 1px solid #dbe3ef;
+  color: #475569;
+  padding: 0 12px;
+}
+
+.insertBar strong {
+  background: #111827;
+  color: #ffffff;
+  padding: 0 16px;
+}
+
+.workflowRail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.workflowRail div {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  background: rgba(9, 9, 11, 0.52);
+  color: #dbeafe;
+  padding: 11px;
+  font-size: 12px;
+  font-weight: 900;
+  backdrop-filter: blur(16px);
 }
 
 .statsGrid {
@@ -369,7 +519,7 @@
   display: block;
   color: #67e8f9;
   font-family: var(--font-mono), "JetBrains Mono", monospace;
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: 34px;
   line-height: 1;
 }
 
@@ -389,9 +539,9 @@
 .sectionHeader h2,
 .handoffSection h2 {
   margin: 10px 0 0;
-  font-size: clamp(30px, 4.2vw, 50px);
+  font-size: 48px;
   line-height: 1.04;
-  letter-spacing: -0.055em;
+  letter-spacing: 0;
 }
 
 .sectionHeader p,
@@ -431,7 +581,7 @@
 .featureCard h3 {
   font-size: 17px;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .featureCard p {
@@ -516,7 +666,7 @@
   }
 
   .hero h1 {
-    font-size: clamp(40px, 14vw, 58px);
+    font-size: 42px;
   }
 
   .lede {
@@ -534,31 +684,84 @@
     width: 100%;
   }
 
-  .figmaWorkspace {
-    min-height: 590px;
+  .visualStage {
+    display: grid;
+    gap: 14px;
+    min-height: 0;
     padding: 18px;
   }
 
-  .canvasPreview {
+  .canvasFrame,
+  .pluginPanel,
+  .workflowRail {
+    position: relative;
+    inset: auto;
     width: 100%;
-    min-height: 260px;
-  }
-
-  .insertedIcon {
-    width: 118px;
-    height: 118px;
-    margin: 42px auto 22px;
   }
 
   .pluginPanel {
+    display: block;
+  }
+
+  .searchInput,
+  .filterGrid,
+  .iconGrid,
+  .insertBar {
+    margin-top: 12px;
+  }
+
+  .artboard {
+    min-height: 250px;
+    margin: 12px;
+  }
+
+  .insertedHome {
+    width: 112px;
+    height: 112px;
+  }
+
+  .insertedHome svg {
+    width: 58px;
+    height: 58px;
+  }
+
+  .iconCluster {
     left: 18px;
+    bottom: 18px;
+  }
+
+  .iconCluster span {
+    width: 40px;
+    height: 40px;
+  }
+
+  .canvasCaption {
     right: 18px;
-    top: 284px;
-    width: auto;
+    bottom: 18px;
+  }
+
+  .workflowRail {
+    grid-template-columns: 1fr;
+    left: auto;
+    right: auto;
+    bottom: auto;
   }
 
   .statsGrid,
   .featureGrid {
     grid-template-columns: 1fr;
+  }
+
+  .iconGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statCard strong {
+    font-size: 30px;
+  }
+
+  .sectionHeader h2,
+  .handoffSection h2 {
+    font-size: 34px;
   }
 }

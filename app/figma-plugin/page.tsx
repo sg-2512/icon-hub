@@ -1,5 +1,20 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import {
+  Bell,
+  ChartColumn,
+  CodeXml,
+  House,
+  Layers,
+  ListFilter,
+  Lock,
+  MousePointer2,
+  Palette,
+  Search,
+  Sparkles,
+  Star,
+  type LucideIcon,
+} from 'lucide-react'
 import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
 import styles from './figma-plugin.module.css'
 
@@ -53,7 +68,18 @@ const workflow = [
   'Insert the selected SVG into your active canvas',
 ]
 
-const iconSamples = ['home', 'arrow', 'chart', 'bell', 'lock', 'menu', 'user', 'spark']
+const iconSamples: Array<{ name: string; library: string; Icon: LucideIcon }> = [
+  { name: 'home', library: 'Lucide', Icon: House },
+  { name: 'chart', library: 'Tabler', Icon: ChartColumn },
+  { name: 'bell', library: 'Heroicons', Icon: Bell },
+  { name: 'lock', library: 'Phosphor', Icon: Lock },
+]
+
+const visualSteps = [
+  { label: 'Search', Icon: Search },
+  { label: 'Filter', Icon: ListFilter },
+  { label: 'Insert', Icon: MousePointer2 },
+]
 
 export default function FigmaPluginPage() {
   return (
@@ -88,8 +114,8 @@ export default function FigmaPluginPage() {
           </div>
         </div>
 
-        <div className={styles.heroVisual} aria-label="IconSearch Figma plugin preview">
-          <div className={styles.figmaTopbar}>
+        <div className={styles.heroVisual} aria-label="IconSearch Figma plugin workflow preview">
+          <div className={styles.visualTopbar}>
             <div className={styles.figmaMark} aria-hidden="true">
               <span />
               <span />
@@ -98,17 +124,41 @@ export default function FigmaPluginPage() {
               <span />
             </div>
             <strong>Cooperative Software</strong>
-            <span>main</span>
+            <span className={styles.branchLabel}>main</span>
           </div>
 
-          <div className={styles.figmaWorkspace}>
-            <div className={styles.canvasPreview}>
-              <div className={styles.canvasLabel}>Desktop 1200</div>
-              <div className={styles.insertedIcon} aria-hidden="true">
-                <span />
-                <span />
+          <div className={styles.visualStage}>
+            <div className={styles.canvasFrame}>
+              <div className={styles.canvasToolbar}>
+                <span>Desktop 1200</span>
+                <div>
+                  <Layers size={14} />
+                  <span>Icon layer</span>
+                </div>
               </div>
-              <p>Selected SVG inserted as an editable layer</p>
+
+              <div className={styles.artboard}>
+                <div className={styles.artboardGrid} aria-hidden="true" />
+
+                <div className={styles.insertedHome}>
+                  <House size={78} strokeWidth={2.3} />
+                  <span className={styles.selectionHandle} />
+                  <span className={styles.selectionHandle} />
+                  <span className={styles.selectionHandle} />
+                  <span className={styles.selectionHandle} />
+                </div>
+
+                <div className={styles.iconCluster} aria-hidden="true">
+                  <span><ChartColumn size={22} /></span>
+                  <span><Sparkles size={22} /></span>
+                  <span><CodeXml size={22} /></span>
+                </div>
+
+                <div className={styles.canvasCaption}>
+                  <MousePointer2 size={16} />
+                  <span>Inserted as clean SVG</span>
+                </div>
+              </div>
             </div>
 
             <div className={styles.pluginPanel}>
@@ -119,20 +169,40 @@ export default function FigmaPluginPage() {
                   <small>{formattedIconCount} icons ready</small>
                 </div>
               </div>
-              <div className={styles.searchInput}>Search home, arrow, chart...</div>
-              <div className={styles.filterGrid}>
-                <span>All libraries</span>
-                <span>All styles</span>
+
+              <div className={styles.searchInput}>
+                <Search size={17} />
+                <span>Search home, chart, lock...</span>
               </div>
+
+              <div className={styles.filterGrid}>
+                <span><ListFilter size={14} /> All libraries</span>
+                <span><Palette size={14} /> All styles</span>
+              </div>
+
               <div className={styles.iconGrid}>
-                {iconSamples.map((icon) => (
-                  <div className={styles.iconCard} key={icon}>
-                    <span>{icon.slice(0, 2)}</span>
-                    <strong>{icon}</strong>
-                    <small>SVG</small>
+                {iconSamples.map(({ name, library, Icon }) => (
+                  <div className={styles.iconCard} key={name}>
+                    <span><Icon size={24} /></span>
+                    <strong>{name}</strong>
+                    <small>{library}</small>
                   </div>
                 ))}
               </div>
+
+              <div className={styles.insertBar}>
+                <span><Star size={14} /> Pin</span>
+                <strong>Insert SVG</strong>
+              </div>
+            </div>
+
+            <div className={styles.workflowRail} aria-label="IconSearch Figma workflow">
+              {visualSteps.map(({ label, Icon }) => (
+                <div key={label}>
+                  <Icon size={16} />
+                  <span>{label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
