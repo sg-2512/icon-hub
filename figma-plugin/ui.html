@@ -293,6 +293,7 @@
       border: 1.5px solid transparent;
       transition: all 0.12s ease;
       position: relative;
+      -webkit-user-select: none;
       user-select: none;
     }
 
@@ -739,7 +740,7 @@
     <header class="header" id="searchHeader">
       <div class="search-wrapper">
         <svg class="search-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input type="text" id="searchInput" class="search-input" aria-label="Search icons" placeholder="Search 351,639 Open Source Icons" autocomplete="off">
+        <input type="text" id="searchInput" class="search-input" aria-label="Search 354,523 Open Source Icons" autocomplete="off">
       </div>
       <div class="filter-row">
         <select id="libraryFilter" class="filter-select" aria-label="Filter by icon library">
@@ -783,11 +784,11 @@
         <div class="empty-state" style="padding-top: 24px;">
           <div class="sidebar-logo" style="width: 40px; height: 40px; font-size: 15px; margin-bottom: 12px;">IS</div>
           <h3 style="font-size: 14px; margin-bottom: 8px;">IconSearch for Figma</h3>
-          <p id="catalogSummary" style="max-width: 240px; margin-bottom: 16px;">Browse and insert 351,639 open source vector icons directly into your Figma designs.</p>
+          <p id="catalogSummary" style="max-width: 240px; margin-bottom: 16px;">Browse and insert 354,523 open source vector icons directly into your Figma designs.</p>
           <div style="text-align: left; font-size: 10.5px; background: var(--bg-secondary); padding: 10px 12px; border-radius: 8px; line-height: 1.7; color: var(--text-secondary);">
             <strong style="color: var(--text);">Features</strong><br>
             • Insert as native Figma vectors<br>
-            <span id="libraryCoverage">• 16 named libraries + 224 Iconify collections</span><br>
+            <span id="libraryCoverage">• 17 named libraries + 227 Iconify collections</span><br>
             • Search by name or keyword<br>
             • Filter by library and style<br>
             • Bookmark favorite icons
@@ -870,6 +871,7 @@
       { id: 'lucide-icons',     name: 'Lucide Icons',        color: '#818cf8' },
       { id: 'heroicons',        name: 'Heroicons',           color: '#38bdf8' },
       { id: 'tabler-icons',     name: 'Tabler Icons',        color: '#34d399' },
+      { id: 'patternfly-icons', name: 'PatternFly Icons',    color: '#06b6d4' },
       { id: 'phosphor-icons',   name: 'Phosphor Icons',      color: '#f472b6' },
       { id: 'remix-icon',       name: 'Remix Icon',          color: '#fb923c' },
       { id: 'feather-icons',    name: 'Feather Icons',       color: '#a78bfa' },
@@ -899,6 +901,7 @@
       { id: 'iconify-la',        name: 'Line Awesome',        count: 1554,   color: '#22d3ee' },
       { id: 'lucide-icons',      name: 'Lucide Icons',        count: 1959,   color: '#818cf8' },
       { id: 'tabler-icons',      name: 'Tabler Icons',        count: 6146,   color: '#34d399' },
+      { id: 'patternfly-icons',  name: 'PatternFly Icons',    count: 2884,   color: '#06b6d4' },
       { id: 'remix-icon',        name: 'Remix Icon',          count: 3229,   color: '#fb923c' },
       { id: 'phosphor-icons',    name: 'Phosphor Icons',      count: 1533,   color: '#f472b6' },
       { id: 'feather-icons',     name: 'Feather Icons',       count: 287,    color: '#a78bfa' },
@@ -924,10 +927,10 @@
     const STARTUP_ICON_LIMIT = 16;
     const SEARCH_RESULT_LIMIT = 480;
     const LIBRARY_BROWSE_LIMIT = 360;
-    const SEARCHABLE_ICON_COUNT = 351639;
-    const ICONIFY_ICON_COUNT = 326602;
-    const NAMED_LIBRARY_COUNT = 16;
-    const ICONIFY_COLLECTION_COUNT = 224;
+    const SEARCHABLE_ICON_COUNT = 354523;
+    const ICONIFY_ICON_COUNT = 332012;
+    const NAMED_LIBRARY_COUNT = 17;
+    const ICONIFY_COLLECTION_COUNT = 227;
     const ICONIFY_PREFIXES = {
       'lucide-icons': 'lucide',
       'heroicons': 'heroicons',

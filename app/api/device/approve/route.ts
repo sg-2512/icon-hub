@@ -1,4 +1,4 @@
-import { hashOpaqueToken, parseExtensionProduct } from '@/lib/device-auth'
+import { getErrorText, hashOpaqueToken, parseExtensionProduct } from '@/lib/device-auth'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createSupabaseAdminClient } from '@/lib/supabase-admin'
 
@@ -43,14 +43,25 @@ export async function POST(request: Request) {
 
   try {
     const codeHash = hashOpaqueToken(code)
-    const { data: device } = await admin
+    const { data: device, error: deviceError } = await admin
       .from('device_codes')
-      .select('product')
+      .select('product,approved_by,consumed_at,expires_at')
       .eq('code_hash', codeHash)
       .maybeSingle()
 
+    if (deviceError) throw deviceError
+
     if (!device || device.product !== product) {
       return Response.json({ error: 'This sign-in link is invalid.' }, { status: 400 })
+    }
+    if (new Date(device.expires_at).getTime() <= Date.now()) {
+      return Response.json({ error: 'This sign-in link expired. Start sign-in again from the app.' }, { status: 410 })
+    }
+    if (device.consumed_at) {
+      return Response.json({ error: 'This sign-in link was already used. Start sign-in again from the app.' }, { status: 410 })
+    }
+    if (device.approved_by && device.approved_by !== userId) {
+      return Response.json({ error: 'This sign-in link was approved by another account.' }, { status: 409 })
     }
 
     const { data, error } = await admin.rpc('approve_device_code', {
@@ -70,12 +81,15 @@ export async function POST(request: Request) {
       expiresAt: entitlement.entitlement_expires_at,
     })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Approval failed.'
+    console.error('Could not approve device:', error)
+    const message = getErrorText(error)
     const status = message.includes('expired') ? 410 : 400
     const safeMessage =
-      message.includes('expired_device_code') ? 'This sign-in link expired.' :
-      message.includes('consumed_device_code') ? 'This sign-in link was already used.' :
+      message.includes('expired_device_code') ? 'This sign-in link expired. Start sign-in again from the app.' :
+      message.includes('consumed_device_code') ? 'This sign-in link was already used. Start sign-in again from the app.' :
       message.includes('device_code_already_approved') ? 'This sign-in link was approved by another account.' :
+      message.includes('approve_device_code') || message.includes('claim_product_entitlement') || message.includes('schema cache')
+        ? 'Device approval is not fully configured. Run the latest Supabase migrations and try again.' :
       'Could not approve this device.'
     return Response.json({ error: safeMessage }, { status })
   }

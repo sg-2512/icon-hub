@@ -15,6 +15,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${uc.name} — Best Free Icon Libraries (2026)`,
     description: uc.description,
+    alternates: {
+      canonical: `https://iconsearch.info/use-cases/${slug}`,
+    },
+    openGraph: {
+      title: `${uc.name} — Best Free Icon Libraries`,
+      description: uc.description,
+      url: `https://iconsearch.info/use-cases/${slug}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${uc.name} — Best Free Icon Libraries`,
+      description: uc.description,
+      creator: '@IconSearchinfo',
+    },
   }
 }
 

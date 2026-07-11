@@ -3,7 +3,7 @@ import { join } from 'path'
 import { gunzipSync } from 'zlib'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { icons } from '../../../../lib/icons'
+import { getCleanSvgUrl } from '../../../../lib/icon-preview'
 
 export const dynamicParams = true
 
@@ -25,22 +25,7 @@ export async function generateStaticParams() {
   return POPULAR_TAGS.map(tag => ({ tag: `${tag}-icons` }))
 }
 
-// Helper to clean and format SVG preview URLs
-function getCleanSvgUrl(url: string, library: string): string {
-  if (!url) return ''
-  if (library === 'tabler-icons' && url.includes('@tabler/icons/icons/')) {
-    return url.replace('@tabler/icons/icons/', '@tabler/icons@2.47.0/icons/')
-  }
-  if (library === 'phosphor-icons' && url.includes('@phosphor-icons/core/assets/')) {
-    return url.replace('@phosphor-icons/core/assets/', '@phosphor-icons/core@2.1.1/assets/')
-  }
-  if (library === 'lucide-icons' && url.includes('lucide-static/icons/')) {
-    return url.replace('lucide-static/icons/', 'lucide-static@0.415.0/icons/')
-  }
-  return url
-}
-
-// In-memory cache for loading the 351,639 icons
+// In-memory cache for loading the 354,523 icons
 let cachedIcons: any[] | null = null
 
 function loadIconsDatabase(): any[] {
@@ -85,6 +70,21 @@ export async function generateMetadata({ params }: { params: Promise<{ tag: stri
   return {
     title: `100+ Free ${capitalized} SVG Icons — Customizer & React Code (2026)`,
     description: `Browse and export the best free, MIT licensed ${cleanTag} icons. Adjust colors, stroke-width, and sizes dynamically. Instant download SVG sprites, JSX, Vue and clean Tailwind codes.`,
+    alternates: {
+      canonical: `https://iconsearch.info/icons/collection/${tag}`,
+    },
+    openGraph: {
+      title: `100+ Free ${capitalized} SVG Icons — Customizer & React Code`,
+      description: `Browse, customize, and export the best free ${cleanTag} SVG icons.`,
+      url: `https://iconsearch.info/icons/collection/${tag}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `100+ Free ${capitalized} SVG Icons`,
+      description: `Customize and download free ${cleanTag} icons.`,
+      creator: '@IconSearchinfo',
+    },
   }
 }
 

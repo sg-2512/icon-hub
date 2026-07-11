@@ -12,7 +12,8 @@ const SEARCH_API_URL = `${API_BASE}/api/extension/icon-search`
 const AUTH_API_URL = `${API_BASE}/api`
 const ICONSEARCH_ORIGIN = new URL(API_BASE).origin
 const ICONIFY_ORIGIN = 'https://api.iconify.design'
-const TRUSTED_SVG_ORIGINS = new Set([ICONSEARCH_ORIGIN, ICONIFY_ORIGIN])
+const JSDELIVR_ORIGIN = 'https://cdn.jsdelivr.net'
+const TRUSTED_SVG_ORIGINS = new Set([ICONSEARCH_ORIGIN, ICONIFY_ORIGIN, JSDELIVR_ORIGIN])
 const PRODUCT = 'framer'
 const SESSION_KEY = 'iconsearchFramerSession'
 const RECENT_KEY = 'iconsearchFramerRecent'
@@ -23,7 +24,7 @@ const AUTO_REFILL_DELAY_MS = 45
 const PAGE_CACHE_LIMIT = 12
 const DRAG_CACHE_LIMIT = 80
 const DRAG_PREWARM_COUNT = 28
-const SEARCHABLE_ICON_COUNT = 351_639
+const SEARCHABLE_ICON_COUNT = 354_523
 const DEFAULT_ICON_SIZE = 96
 const DEFAULT_ICON_COLOR = '#111827'
 const ICON_SIZE_OPTIONS = [48, 64, 96, 128, 192, 256] as const
@@ -93,6 +94,7 @@ const namedLibraries = [
   ['lucide-icons', 'Lucide Icons'],
   ['heroicons', 'Heroicons'],
   ['tabler-icons', 'Tabler Icons'],
+  ['patternfly-icons', 'PatternFly Icons'],
   ['phosphor-icons', 'Phosphor Icons'],
   ['remix-icon', 'Remix Icon'],
   ['feather-icons', 'Feather Icons'],
@@ -655,14 +657,14 @@ export function App() {
 
         <section className="unlock-card">
           <div className="eyebrow">Live icon search</div>
-          <h1>Search 351,639 SVG icons inside Framer.</h1>
+          <h1>Search 354,523 SVG icons inside Framer.</h1>
           <p>
             Sign in securely in your browser. Framer stores only a revocable IconSearch app token.
           </p>
           <button type="button" onClick={() => void beginSignIn()} disabled={authLoading} className="primary-button">
             {authLoading ? 'Waiting for approval...' : 'Sign in with IconSearch'}
           </button>
-          <div className="trust-line">16 named libraries + 224 Iconify collections. Online-only results.</div>
+          <div className="trust-line">17 named libraries + 227 Iconify collections. Online-only results.</div>
         </section>
 
         {status && <p className="status-line">{status}</p>}
@@ -801,7 +803,7 @@ export function App() {
         </div>
       </header>
 
-      <section className="results-panel" ref={scrollingRef} onScroll={handleScroll} aria-busy={loading}>
+      <section className="results-panel" ref={scrollingRef} onScroll={handleScroll}>
         {displayIcons.length === 0 && !loading ? (
           <div className="empty-state">
             <strong>{getEmptyTitle({ error, query, showHome, showPinnedOnly })}</strong>
@@ -826,9 +828,9 @@ export function App() {
         )}
 
         {loading && (
-          <div className="loading-grid" aria-label="Loading icons">
+          <div className="loading-grid" role="status" aria-live="polite" aria-label="Loading icons">
             {Array.from({ length: 8 }).map((_, index) => (
-              <span key={index} />
+              <span key={index} aria-hidden="true" />
             ))}
           </div>
         )}
@@ -963,11 +965,15 @@ function normalizeIcon(value: ApiIcon): IconResult | null {
 }
 
 function normalizeSvgUrl(url: string, library: string, name: string) {
+  const dashedName = name.replace(/_/g, '-')
+  if (library === 'patternfly-icons') {
+    return normalizeTrustedSvgUrl(`${ICONSEARCH_ORIGIN}/api/icon-preview/patternfly-icons/${dashedName}?v=named-library-preview-v3`)
+  }
+
   const trustedUrl = normalizeTrustedSvgUrl(url)
   if (trustedUrl) return trustedUrl
   if (url.startsWith('//') || /^https?:\/\//i.test(url)) return ''
 
-  const dashedName = name.replace(/_/g, '-')
   const prefixes: Record<string, string> = {
     'lucide-icons': 'lucide',
     heroicons: 'heroicons',

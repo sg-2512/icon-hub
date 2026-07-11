@@ -71,11 +71,12 @@ const SESSION_TOKEN_KEY = 'iconsearch.sessionToken';
 const ACCESS_CACHE_KEY = 'iconsearch.accessCache';
 const RECENT_KEY = 'iconsearch.recentIcons';
 const MAX_RECENT_ICONS = 12;
-const SEARCHABLE_ICON_COUNT = 351_639;
+const SEARCHABLE_ICON_COUNT = 354_523;
 const NAMED_LIBRARIES = [
   'lucide-icons',
   'heroicons',
   'tabler-icons',
+  'patternfly-icons',
   'phosphor-icons',
   'remix-icon',
   'feather-icons',
@@ -1316,6 +1317,8 @@ function getPreviewUrls(icon: Record<string, unknown>): string[] {
   } else if (library === 'tabler-icons') {
     add(`https://cdn.jsdelivr.net/npm/@tabler/icons@2.47.0/icons/${dashedName}.svg`);
     add(`https://api.iconify.design/tabler/${dashedName}.svg`);
+  } else if (library === 'patternfly-icons') {
+    add(`https://iconsearch.info/api/icon-preview/patternfly-icons/${dashedName}?v=named-library-preview-v3`);
   } else if (library === 'phosphor-icons') {
     add(`https://unpkg.com/@phosphor-icons/core@latest/assets/regular/${dashedName}.svg`);
     add(`https://api.iconify.design/ph/${dashedName}.svg`);

@@ -1,5 +1,6 @@
 import {
   EXTENSION_SESSION_TTL_MS,
+  getErrorText,
   hashOpaqueToken,
   publicJson,
   publicOptions,
@@ -70,10 +71,13 @@ export async function POST(request: Request) {
       },
     })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Authorization failed.'
+    console.error('Could not finish device sign-in:', error)
+    const message = getErrorText(error)
     const safeMessage =
-      message.includes('expired_device_code') ? 'The sign-in link expired.' :
-      message.includes('consumed_device_code') ? 'The sign-in link was already used.' :
+      message.includes('expired_device_code') ? 'The sign-in link expired. Please try again.' :
+      message.includes('consumed_device_code') ? 'The sign-in link was already used. Please try again.' :
+      message.includes('consume_device_code') || message.includes('schema cache')
+        ? 'Device sign-in is not fully configured. Run the latest Supabase migrations and try again.' :
       'Could not finish sign-in.'
     return publicJson({ error: safeMessage }, { status: 400 })
   }

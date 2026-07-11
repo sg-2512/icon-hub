@@ -37,6 +37,7 @@ const csp = manifest.content_security_policy?.extension_pages || ''
 if (/script-src[^;]*unsafe-inline/i.test(csp)) fail('extension CSP must not allow inline scripts')
 if (/script-src[^;]*unsafe-eval/i.test(csp)) fail('extension CSP must not allow eval')
 if (!/connect-src[^;]*https:\/\/iconsearch\.info/i.test(csp)) fail('CSP connect-src must allow iconsearch.info')
+if (!/img-src[^;]*https:\/\/iconsearch\.info/i.test(csp)) fail('CSP img-src must allow iconsearch.info')
 if (!/img-src[^;]*blob:/i.test(csp) || !/img-src[^;]*data:/i.test(csp)) fail('CSP img-src must allow blob: and data:')
 
 for (const script of ['popup.js', manifest.background?.service_worker].filter(Boolean)) {

@@ -49,6 +49,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${icon.name} — License, Installation & React Guide (2026)`,
     description: `${icon.name} is ${icon.license} licensed. Free for commercial use. Complete installation guide for React and Next.js, ${icon.iconCount} icons, TypeScript support. Official source confirmed.`,
+    alternates: {
+      canonical: `https://iconsearch.info/icons/${slug}`,
+    },
+    openGraph: {
+      title: `${icon.name} — License, Installation & React Guide`,
+      description: `${icon.name} is ${icon.license} licensed. Free for commercial use. Complete installation guide for React and Next.js, ${icon.iconCount} icons, TypeScript support.`,
+      url: `https://iconsearch.info/icons/${slug}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${icon.name} — License, Installation & React Guide`,
+      description: `${icon.name} is ${icon.license} licensed. Free for commercial use.`,
+      creator: '@IconSearchinfo',
+    },
   }
 }
 

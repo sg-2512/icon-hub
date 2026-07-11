@@ -1,10 +1,10 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
-import { ICONIFY_COLLECTION_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
 
 export const metadata = {
   title: 'Free SVG Icons for Web Projects (2026) — Open Source Collections',
-  description: `Browse 16 named SVG icon libraries for web projects, search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons across ${ICONIFY_COLLECTION_COUNT} Iconify collections, or compare libraries like Lucide, Heroicons, and Tabler.`,
+  description: `Browse ${NAMED_LIBRARY_COUNT} named SVG icon libraries for web projects, search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons across ${ICONIFY_COLLECTION_COUNT} Iconify collections, or compare libraries like Lucide, Heroicons, and Tabler.`,
 }
 
 export default function FreeSvgIconsPage() {

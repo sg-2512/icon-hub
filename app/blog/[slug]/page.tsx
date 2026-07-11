@@ -15,6 +15,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: post.title,
     description: post.description,
+    alternates: {
+      canonical: `https://iconsearch.info/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `https://iconsearch.info/blog/${slug}`,
+      type: 'article',
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      creator: '@IconSearchinfo',
+    },
   }
 }
 
@@ -296,6 +312,44 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px', overflow: 'hidden' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": post.title,
+          "description": post.description,
+          "datePublished": post.date,
+          "author": {
+            "@type": "Person",
+            "name": post.author
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "IconSearch",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://iconsearch.info/iconsearch-logo-128.png"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://iconsearch.info/blog/${slug}`
+          }
+        })}}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://iconsearch.info" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://iconsearch.info/blog" },
+            { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://iconsearch.info/blog/${slug}` },
+          ]
+        })}}
+      />
 
       <Link href="/blog" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace' }}>
         ← back to blog

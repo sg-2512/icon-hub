@@ -110,7 +110,7 @@ export default function ConnectClient({ product, code, authError }: ConnectClien
 
           {!validRequest ? (
             <StatusCard tone="error" title="This connection link is invalid">
-              Start sign-in again from the IconSearch extension or plugin. Device links expire after 10 minutes.
+              Start sign-in again from the IconSearch extension or plugin. Device links expire after 30 minutes.
             </StatusCard>
           ) : approval ? (
             <StatusCard tone="success" title="Connection approved">

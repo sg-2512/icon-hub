@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto'
 
-export const DEVICE_CODE_TTL_MS = 10 * 60 * 1000
+export const DEVICE_CODE_TTL_MS = 30 * 60 * 1000
 export const EXTENSION_SESSION_TTL_MS = 90 * 24 * 60 * 60 * 1000
 export const DEVICE_POLL_INTERVAL_SECONDS = 3
 
@@ -59,4 +59,21 @@ export function publicJson(body: unknown, init: ResponseInit = {}) {
 
 export function publicOptions() {
   return new Response(null, { status: 204, headers: publicApiHeaders })
+}
+
+export function getErrorText(error: unknown) {
+  if (error instanceof Error) return error.message
+
+  if (error && typeof error === 'object') {
+    const values = ['message', 'details', 'hint', 'code']
+      .map((key) => {
+        const value = (error as Record<string, unknown>)[key]
+        return typeof value === 'string' ? value : ''
+      })
+      .filter(Boolean)
+
+    if (values.length > 0) return values.join(' ')
+  }
+
+  return ''
 }

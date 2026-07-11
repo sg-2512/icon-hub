@@ -4,7 +4,7 @@ import AppShell from './components/AppShell'
 import { JetBrains_Mono, Inter } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from "@vercel/analytics/next"
-import { SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
+import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -20,8 +20,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://iconsearch.info'),
-  title: 'IconSearch — Find & Compare 16 Free SVG Icon Libraries (2026)',
-  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from 16 named libraries and 224 Iconify collections. Compare 16 React icon libraries by size, stars, and license.`,
+  title: `IconSearch — Find & Compare ${NAMED_LIBRARY_COUNT} Free SVG Icon Libraries (2026)`,
+  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections. Compare ${NAMED_LIBRARY_COUNT} React icon libraries by size, stars, and license.`,
+  twitter: {
+    card: 'summary_large_image',
+    site: '@IconSearchinfo',
+    creator: '@IconSearchinfo',
+  },
 }
 
 export const viewport = {
@@ -54,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "@type": "Organization",
                 "name": "IconSearch",
                 "url": "https://iconsearch.info",
-                "logo": "https://iconsearch.info/favicon.svg"
+                "logo": "https://iconsearch.info/iconsearch-logo-128.png"
               }
             ])
           }}

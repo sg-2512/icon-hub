@@ -22,6 +22,21 @@ export async function generateMetadata({ params }: { params: Promise<{ pair: str
   return {
     title: `${libA.name} vs ${libB.name} — Detailed Comparison for React (2026)`,
     description: `Comprehensive comparison of ${libA.name} (${libA.iconCount.toLocaleString('en-US')} icons) and ${libB.name} (${libB.iconCount.toLocaleString('en-US')} icons). We compare licenses, bundle sizes, tree-shaking, TypeScript support, and React import syntax to help you decide.`,
+    alternates: {
+      canonical: `https://iconsearch.info/compare/${pair}`,
+    },
+    openGraph: {
+      title: `${libA.name} vs ${libB.name} — Detailed Comparison for React`,
+      description: `Comprehensive comparison of ${libA.name} and ${libB.name}. We compare licenses, bundle sizes, tree-shaking, and syntax.`,
+      url: `https://iconsearch.info/compare/${pair}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${libA.name} vs ${libB.name} Comparison`,
+      description: `Compare licenses, bundle sizes, tree-shaking, and React usage for ${libA.name} and ${libB.name}.`,
+      creator: '@IconSearchinfo',
+    },
   }
 }
 

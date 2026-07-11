@@ -81,6 +81,26 @@ export const icons: IconLibrary[] = [
     usageExample: "import { IconHome } from '@tabler/icons-react'\n\nexport default function App() {\n  return <IconHome size={24} />\n}"
   },
   {
+    name: "PatternFly Icons",
+    slug: "patternfly-icons",
+    description: "Red Hat's PatternFly icon system with 2,800+ MIT-licensed React icons for enterprise consoles, admin dashboards, developer tools, and product UIs.",
+    website: "https://www.patternfly.org/",
+    github: "https://github.com/patternfly/patternfly-react",
+    npm: "@patternfly/react-icons",
+    stars: 2400,
+    iconCount: 2884,
+    license: "MIT",
+    frameworks: ["react", "nextjs"],
+    style: ["solid", "outline", "brand"],
+    figmaPlugin: false,
+    typescript: true,
+    treeshakable: true,
+    pros: ["Large enterprise-focused set", "Native React components", "TypeScript support", "Tree-shakable package"],
+    cons: ["PatternFly visual language is more utilitarian than consumer-facing", "React-focused package only"],
+    installCommand: "npm install @patternfly/react-icons",
+    usageExample: "import { ServerIcon } from '@patternfly/react-icons'\n\nexport default function App() {\n  return <ServerIcon />\n}"
+  },
+  {
     name: "Phosphor Icons",
     slug: "phosphor-icons",
     description: "Flexible icon family with 6 weights including thin, light, regular, bold, fill and duotone. Over 1500 icons available.",

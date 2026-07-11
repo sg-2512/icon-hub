@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { IconLibrary } from '../../lib/icons'
-import { SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
 
 // Hardcoded sample SVGs for the Customizer Sandbox (Lucide/Heroicons standard outlines)
 const sandboxIcons = [
@@ -492,7 +492,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
             marginBottom: '32px',
             lineHeight: '1.6'
           }}>
-            Instant search across <span style={{ color: 'var(--text)', fontWeight: 600 }}>{SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons</span> from 16 named libraries and 224 Iconify collections. Zero packages required to customize and export.
+            Instant search across <span style={{ color: 'var(--text)', fontWeight: 600 }}>{SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons</span> from {NAMED_LIBRARY_COUNT} named libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections. Zero packages required to customize and export.
           </p>
 
           {/* Core Search Form */}

@@ -14,6 +14,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${cat.name} — Best Free SVG Icon Libraries (2026)`,
     description: cat.description,
+    alternates: {
+      canonical: `https://iconsearch.info/icons/category/${slug}`,
+    },
+    openGraph: {
+      title: `${cat.name} — Best Free SVG Icon Libraries`,
+      description: cat.description,
+      url: `https://iconsearch.info/icons/category/${slug}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${cat.name} — Best Free SVG Icon Libraries`,
+      description: cat.description,
+      creator: '@IconSearchinfo',
+    },
   }
 }
 

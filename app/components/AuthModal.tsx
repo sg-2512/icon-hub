@@ -11,6 +11,14 @@ interface AuthModalProps {
   redirectTo?: string
 }
 
+function getDisplayAuthError(message: string) {
+  if (message.toLowerCase().includes('database error saving new user')) {
+    return 'Account creation is temporarily unavailable. Please try again shortly.'
+  }
+
+  return message
+}
+
 export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
@@ -62,7 +70,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
         })
 
         if (error) {
-          setErrorMsg(error.message)
+          setErrorMsg(getDisplayAuthError(error.message))
         } else if (data?.user && !data.session) {
           // Typically email verification is enabled by default in Supabase
           setInfoMsg('Registration successful! Please check your email inbox to confirm your account.')
@@ -78,7 +86,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
         })
 
         if (error) {
-          setErrorMsg(error.message)
+          setErrorMsg(getDisplayAuthError(error.message))
         } else if (data?.user) {
           onAuthSuccess(data.user)
           onClose()

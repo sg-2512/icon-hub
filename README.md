@@ -2,7 +2,7 @@
 
 **Live site:** [https://iconsearch.info](https://iconsearch.info)
 
-IconSearch is a Next.js application for discovering, comparing, and exporting free SVG icon libraries. It combines a large programmatic SEO surface (library guides, comparisons, blog, use cases) with a production icon search engine backed by **349,000+** indexed icons, workspace carts, style presets, ZIP export, and optional Supabase cloud sync for signed-in users.
+IconSearch is a Next.js application for discovering, comparing, and exporting free SVG icon libraries. It combines a large programmatic SEO surface (library guides, comparisons, blog, use cases) with a production icon search engine backed by **354,000+** indexed icons, workspace carts, style presets, ZIP export, and optional Supabase cloud sync for signed-in users.
 
 ---
 
@@ -31,8 +31,8 @@ IconSearch is a Next.js application for discovering, comparing, and exporting fr
 ## What this project does
 
 ### Content & SEO layer
-- **16 icon library landing pages** (`/icons/lucide-icons`, `/icons/heroicons`, …)
-- **120 head-to-head comparison pages** (`/compare/lucide-icons-vs-heroicons`, …)
+- **17 icon library landing pages** (`/icons/lucide-icons`, `/icons/heroicons`, …)
+- **136 head-to-head comparison pages** (`/compare/lucide-icons-vs-heroicons`, …)
 - **20 technical blog posts** in `content/blog/`
 - **10 category pages** and **13 use-case guides**
 - Framework-specific landing pages (`/react-icons`, `/nextjs-icons`, `/vue-icons`, …)
@@ -171,10 +171,14 @@ Without valid Supabase keys, the app runs in **local-only mode**: search, cart, 
 
 ### 2. Run database schema
 
-First run `supabase/migrations/202606250001_extension_launch.sql` in
-Supabase SQL Editor. It creates product counters, atomic first-500 Founder
+Run every file in `supabase/migrations/` in filename order in the Supabase SQL
+Editor. The first migration creates product counters, atomic first-500 Founder
 claims, short-lived device codes, hashed extension sessions, usage tables,
 audit events, and row-level-security policies.
+
+If email/password signup shows `Database error saving new user`, apply the
+latest migrations again. That error usually means Supabase Auth reached the
+`auth.users` insert but the `public.handle_new_user()` profile trigger failed.
 
 The cloud workspace tables are shown below:
 
@@ -277,8 +281,8 @@ The search API reads **`data/canonical-icon-search.json.gz`** — a deduplicated
 
 | Metric | Value |
 |--------|-------|
-| Total icons | 351,639 |
-| Legal-safe icons | 255,007 |
+| Total icons | 354,523 |
+| Legal-safe icons | 257,891 |
 | Compressed index size | ~8.6 MB |
 
 ### Pipeline overview
@@ -393,8 +397,8 @@ Export formats in ZIP: `svg/`, `png/`, `react/`, `vue/`, `tailwind-html/`, `spri
 | `/` | Homepage with search, library comparison, stats |
 | `/icon-search` | Main icon search engine |
 | `/free-svg-icons` | Browse all libraries |
-| `/icons/[slug]` | Individual library guide (16 libraries) |
-| `/compare` and `/compare/[pair]` | Library comparisons (120 pairs) |
+| `/icons/[slug]` | Individual library guide (17 libraries) |
+| `/compare` and `/compare/[pair]` | Library comparisons (136 pairs) |
 | `/icons/category` and `/icons/category/[slug]` | Icon categories |
 | `/icons/collection/[tag]` | Tag-based icon collections |
 | `/use-cases` and `/use-cases/[slug]` | Use-case guides |
