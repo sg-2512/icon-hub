@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { generateZipPackage } from '../../lib/exporter'
 import { trackExport } from '../../lib/analytics'
+import { getBestIconPreviewUrl } from '../../lib/icon-preview'
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -544,7 +545,11 @@ export default function CartDrawer() {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={item.icon?.svgUrl}
+                    src={getBestIconPreviewUrl({
+                      name: item.icon?.name || '',
+                      library: item.icon?.library || '',
+                      svgUrl: item.icon?.svgUrl || '',
+                    })}
                     alt={item.icon?.name}
                     width={24}
                     height={24}

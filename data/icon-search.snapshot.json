@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-23T06:09:08.877Z",
+  "generatedAt": "2026-07-10T14:25:14.762Z",
   "source": "canonical-merge-pipeline",
-  "totalIcons": 351639,
-  "commercialSafeIcons": 255007,
+  "totalIcons": 354523,
+  "commercialSafeIcons": 257891,
   "licenseCounts": {
     "ISC": 5265,
-    "MIT": 138551,
+    "MIT": 141435,
     "Apache 2.0": 3229,
     "MPL-2.0": 576,
     "OFL-1.1": 7175,

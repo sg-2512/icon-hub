@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, useCallback, memo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { generateZipPackage } from '../../lib/exporter'
+import { ICON_PREVIEW_CACHE_VERSION, getBestIconPreviewUrl, getCleanSvgUrl, getIconPreviewCandidates } from '../../lib/icon-preview'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase'
 import { trackSearch, trackAddToCart, trackCartImport, trackExport } from '@/lib/analytics'
 import AuthModal from '../components/AuthModal'
@@ -11,6 +12,7 @@ import {
   formatIconifyCollectionName,
   getNamedLibraryName,
   namedLibraries,
+  NAMED_LIBRARY_COUNT,
   SEARCHABLE_ICON_COUNT,
 } from '../../data/library-catalog'
 
@@ -42,6 +44,7 @@ const LIBRARY_COLORS: Record<string, string> = {
   'lucide-icons': '#7c6af7',
   'heroicons': '#06b6d4',
   'tabler-icons': '#10b981',
+  'patternfly-icons': '#06b6d4',
   'phosphor-icons': '#f59e0b',
   'radix-icons': '#ec4899',
   'bootstrap-icons': '#7952b3',
@@ -80,6 +83,25 @@ type ApiResponse = {
     iconifySets?: string[]
     legalSafeCount: number
     legalOnlyApplied: boolean
+  }
+}
+
+async function readJsonResponse<T>(response: Response, label: string): Promise<T> {
+  const text = await response.text()
+
+  if (!response.ok) {
+    const detail = text.trim().slice(0, 180)
+    throw new Error(`${label} returned ${response.status}${detail ? `: ${detail}` : ''}`)
+  }
+
+  if (!text.trim()) {
+    throw new Error(`${label} returned an empty response`)
+  }
+
+  try {
+    return JSON.parse(text) as T
+  } catch {
+    throw new Error(`${label} returned invalid JSON`)
   }
 }
 
@@ -139,89 +161,6 @@ function readSearchState(params: SearchParamReader | null) {
   }
 }
 
-function getCleanSvgUrl(url: string, library: string): string {
-  if (!url) return ''
-  if (library === 'tabler-icons' && url.includes('@tabler/icons/icons/')) return url.replace('@tabler/icons/icons/', '@tabler/icons@2.47.0/icons/')
-  if (library === 'phosphor-icons' && url.includes('@phosphor-icons/core/assets/')) return url.replace('@phosphor-icons/core/assets/', '@phosphor-icons/core@2.1.1/assets/')
-  if (library === 'lucide-icons' && url.includes('lucide-static/icons/')) return url.replace('lucide-static/icons/', 'lucide-static@0.415.0/icons/')
-  return url
-}
-
-function getPreviewCandidates(icon: Icon): string[] {
-  const cleaned = getCleanSvgUrl(icon.svgUrl, icon.library)
-  const candidates = new Set<string>()
-  const add = (value?: string) => {
-    if (value) candidates.add(value)
-  }
-
-  add(cleaned)
-  add(icon.svgUrl)
-
-  const exactName = icon.name
-  const dashedName = icon.name.replace(/_/g, '-')
-  const underscoredName = icon.name.replace(/-/g, '_')
-
-  if (icon.library === 'lucide-icons') {
-    add(`https://unpkg.com/lucide-static@latest/icons/${exactName}.svg`)
-    add(`https://unpkg.com/lucide-static@latest/icons/${dashedName}.svg`)
-    add(`https://api.iconify.design/lucide/${exactName}.svg`)
-    add(`https://api.iconify.design/lucide/${dashedName}.svg`)
-  } else if (icon.library === 'tabler-icons') {
-    add(`https://cdn.jsdelivr.net/npm/@tabler/icons@2.47.0/icons/${exactName}.svg`)
-    add(`https://cdn.jsdelivr.net/npm/@tabler/icons@2.47.0/icons/${dashedName}.svg`)
-    add(`https://api.iconify.design/tabler/${exactName}.svg`)
-  } else if (icon.library === 'phosphor-icons') {
-    add(`https://unpkg.com/@phosphor-icons/core@latest/assets/regular/${exactName}.svg`)
-    add(`https://api.iconify.design/ph/${exactName}.svg`)
-  } else if (icon.library === 'heroicons') {
-    add(`https://api.iconify.design/heroicons/${exactName}.svg`)
-    add(`https://api.iconify.design/heroicons-outline/${exactName}.svg`)
-    add(`https://api.iconify.design/heroicons-solid/${exactName}.svg`)
-  } else if (icon.library === 'bootstrap-icons') {
-    add(`https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/icons/${exactName}.svg`)
-    add(`https://api.iconify.design/bi/${exactName}.svg`)
-  } else if (icon.library === 'feather-icons') {
-    add(`https://unpkg.com/feather-icons@latest/dist/icons/${exactName}.svg`)
-    add(`https://api.iconify.design/feather/${exactName}.svg`)
-  } else if (icon.library === 'remix-icon') {
-    add(`https://api.iconify.design/ri/${exactName}.svg`)
-  } else if (icon.library === 'iconoir') {
-    add(`https://api.iconify.design/iconoir/${exactName}.svg`)
-    add(`https://cdn.jsdelivr.net/npm/iconoir@latest/icons/regular/${exactName}.svg`)
-  } else if (icon.library === 'ionicons') {
-    add(`https://api.iconify.design/ion/${exactName}.svg`)
-    add(`https://api.iconify.design/ion/${dashedName}.svg`)
-    add(`https://api.iconify.design/ion/${underscoredName}.svg`)
-  } else if (icon.library === 'octicons') {
-    add(`https://api.iconify.design/octicon/${exactName}.svg`)
-    add(`https://api.iconify.design/octicon/${dashedName}.svg`)
-    add(`https://api.iconify.design/octicon/${underscoredName}.svg`)
-  } else if (icon.library === 'ant-design-icons') {
-    add(`https://api.iconify.design/ant-design/${exactName}.svg`)
-    add(`https://api.iconify.design/ant-design/${dashedName}.svg`)
-    add(`https://api.iconify.design/ant-design/${exactName}-filled.svg`)
-    add(`https://api.iconify.design/ant-design/${exactName}-outlined.svg`)
-    add(`https://api.iconify.design/ant-design/${exactName}-twotone.svg`)
-    add(`https://api.iconify.design/ant-design/${exactName}-fill.svg`)
-    add(`https://api.iconify.design/ant-design/${exactName}-outline.svg`)
-  } else if (icon.library.startsWith('iconify-')) {
-    const prefix = icon.library.replace(/^iconify-/, '')
-    add(`https://api.iconify.design/${prefix}/${exactName}.svg`)
-    add(`https://api.iconify.design/${prefix}/${dashedName}.svg`)
-    add(`https://api.iconify.design/${prefix}/${underscoredName}.svg`)
-  } else {
-    const normalizedPrefix = icon.library
-      .toLowerCase()
-      .replace(/-icons?$/, '')
-      .replace(/_/g, '-')
-    add(`https://api.iconify.design/${normalizedPrefix}/${exactName}.svg`)
-    add(`https://api.iconify.design/${normalizedPrefix}/${dashedName}.svg`)
-    add(`https://api.iconify.design/${normalizedPrefix}/${underscoredName}.svg`)
-  }
-
-  return Array.from(candidates)
-}
-
 function getSlugForLibrary(library: string): string {
   if (library === 'lucide-icons') return 'lucide-icons'
   if (library === 'heroicons') return 'heroicons'
@@ -245,7 +184,6 @@ function getSlugForLibrary(library: string): string {
 }
 
 const workingUrlCache = new Map<string, string>()
-const failedIconCache = new Set<string>()
 
 const IconCard = memo(({
   icon,
@@ -257,20 +195,22 @@ const IconCard = memo(({
   const [fallbackIndex, setFallbackIndex] = useState(0)
   const [failed, setFailed] = useState(false)
 
-  const candidates = useMemo(() => getPreviewCandidates(icon), [icon])
+  const candidates = useMemo(() => getIconPreviewCandidates(icon), [icon])
+  const previewCacheKey = `${ICON_PREVIEW_CACHE_VERSION}:${icon.id}`
+  const candidateSignature = candidates.join('|')
 
   const src = useMemo(() => {
-    if (workingUrlCache.has(icon.id)) {
-      return workingUrlCache.get(icon.id)!
+    if (workingUrlCache.has(previewCacheKey)) {
+      return workingUrlCache.get(previewCacheKey)!
     }
     return candidates[fallbackIndex] || getCleanSvgUrl(icon.svgUrl, icon.library)
-  }, [icon.id, candidates, fallbackIndex])
+  }, [previewCacheKey, candidates, fallbackIndex, icon.svgUrl, icon.library])
 
   const librarySlug = useMemo(() => getSlugForLibrary(icon.library), [icon.library])
 
   const onError = useCallback(() => {
-    if (workingUrlCache.has(icon.id)) {
-      workingUrlCache.delete(icon.id)
+    if (workingUrlCache.has(previewCacheKey)) {
+      workingUrlCache.delete(previewCacheKey)
       setFallbackIndex(0)
       return
     }
@@ -279,28 +219,20 @@ const IconCard = memo(({
       setFallbackIndex((prev) => prev + 1)
     } else {
       setFailed(true)
-      failedIconCache.add(icon.id)
     }
-  }, [fallbackIndex, candidates.length, icon.id])
+  }, [fallbackIndex, candidates.length, previewCacheKey])
 
   // Reset local state if icon changes
   useEffect(() => {
-    if (workingUrlCache.has(icon.id)) {
-      setFallbackIndex(0)
-      setFailed(false)
-    } else if (failedIconCache.has(icon.id)) {
-      setFailed(true)
-    } else {
-      setFallbackIndex(0)
-      setFailed(false)
-    }
-  }, [icon.id])
+    setFallbackIndex(0)
+    setFailed(false)
+  }, [icon.id, icon.svgUrl, candidateSignature])
 
   const handleLoad = useCallback(() => {
     if (!failed && src) {
-      workingUrlCache.set(icon.id, src)
+      workingUrlCache.set(previewCacheKey, src)
     }
-  }, [icon.id, src, failed])
+  }, [previewCacheKey, src, failed])
 
   return (
     <Link
@@ -773,7 +705,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     const controller = new AbortController()
 
     fetch('/api/icon-search?limit=1&legalOnly=0', { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error(`Catalog returned ${response.status}`)))
+      .then((response) => readJsonResponse<ApiResponse>(response, 'Catalog'))
       .then((data) => {
         const libraries = Array.isArray(data?.facets?.libraries)
           ? data.facets.libraries.filter((library: unknown): library is string => typeof library === 'string' && !library.startsWith('iconify-'))
@@ -811,7 +743,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
           sort: sortBy,
         })
         const res = await fetch(`/api/icons?${params.toString()}`, { signal: controller.signal })
-        const data = await res.json()
+        const data = await readJsonResponse<ApiResponse>(res, 'API search')
         const icons: Icon[] = Array.isArray(data?.icons) ? data.icons : []
         setResults({ ...data, icons })
 
@@ -937,7 +869,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
           const ids = parsedItems.map(p => p.id).join(',')
           setLoading(true)
           fetch(`/api/icons?ids=${ids}&limit=100`)
-            .then(res => res.json())
+            .then(res => readJsonResponse<ApiResponse>(res, 'Cart restore'))
             .then(data => {
               const fetchedIcons = data.icons || []
               const cartItems: CartItem[] = parsedItems.map(p => {
@@ -1098,7 +1030,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     setCustomStroke(1.5)
     setCustomColor('#818cf8')
     const controller = new AbortController()
-    fetch(getCleanSvgUrl(selectedIcon.svgUrl, selectedIcon.library), { signal: controller.signal })
+    fetch(getBestIconPreviewUrl(selectedIcon), { signal: controller.signal })
       .then((res) => res.text())
       .then((text) => setSvgContent(text))
       .catch(() => setSvgContent(''))
@@ -1444,7 +1376,7 @@ import { Icon } from '@iconify/vue'
           className="icon-search-select"
         >
           <option value="all">All libraries</option>
-          <optgroup label="Named libraries (16)">
+          <optgroup label={`Named libraries (${NAMED_LIBRARY_COUNT})`}>
             {libraryOptions.filter((lib) => lib !== 'all' && lib !== 'iconify').map((lib) => (
               <option key={lib} value={lib}>
                 {getNamedLibraryName(lib)}
@@ -1656,7 +1588,7 @@ import { Icon } from '@iconify/vue'
               {customizedSvg ? (
                 <div dangerouslySetInnerHTML={{ __html: customizedSvg }} />
               ) : (
-                <img src={getCleanSvgUrl(selectedIcon.svgUrl, selectedIcon.library)} alt={selectedIcon.name} width={customSize} height={customSize} style={{ filter: `drop-shadow(0 0 8px ${customColor}33) invert(1)` }} />
+                <img src={getBestIconPreviewUrl(selectedIcon)} alt={selectedIcon.name} width={customSize} height={customSize} style={{ filter: `drop-shadow(0 0 8px ${customColor}33) invert(1)` }} />
               )}
             </div>
             <pre style={{ background: 'var(--code-bg)', border: '1px solid var(--border)', borderRadius: '10px', padding: '14px', color: 'var(--green)', fontSize: '11px', overflowX: 'auto' }}>

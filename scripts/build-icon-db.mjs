@@ -6,6 +6,7 @@ import { dirname } from 'path'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')   // scripts/ → project root
 const output = []
+const PATTERNFLY_REACT_ICONS_VERSION = '6.6.0'
 
 function toTags(name) {
   return name.toLowerCase().replace(/[-_]/g, ' ').split(' ').filter(Boolean)
@@ -728,6 +729,50 @@ try {
   }
 } catch (e) {
   console.log('Devicons error:', e.message)
+}
+
+// --- 14. PATTERNFLY ICONS -------------------------------------------------
+console.log('Processing PatternFly Icons...')
+try {
+  const patternflyStaticDir = findDir(['node_modules/@patternfly/react-icons/dist/static'])
+  const patternflyExportsPath = join(root, 'node_modules/@patternfly/react-icons/dist/esm/icons/index.d.ts')
+
+  if (patternflyStaticDir && existsSync(patternflyExportsPath)) {
+    const exportsContent = readFileSync(patternflyExportsPath, 'utf-8')
+    const exportMap = new Map()
+    for (const match of exportsContent.matchAll(/export \{ ([A-Za-z0-9]+Icon), [^}]+ \} from '\.\/([^']+)\.js'/g)) {
+      const [, componentName, moduleName] = match
+      exportMap.set(moduleName.replace(/-icon$/, ''), componentName)
+    }
+
+    const files = readdirSync(patternflyStaticDir).filter(f => f.endsWith('.svg'))
+    let patternflyCount = 0
+    for (const file of files) {
+      const name = file.replace(/\.svg$/, '')
+      const componentName = exportMap.get(name)
+      if (!componentName) continue
+
+      output.push({
+        id: `patternfly-${name}`,
+        name,
+        displayName: componentName,
+        library: 'patternfly-icons',
+        libraryName: 'PatternFly Icons',
+        npmPackage: '@patternfly/react-icons',
+        license: 'MIT',
+        tags: [...toTags(name), 'patternfly', 'red', 'hat', 'enterprise', 'admin', 'console'],
+        reactImport: `import { ${componentName} } from '@patternfly/react-icons'`,
+        reactUsage: `<${componentName} />`,
+        svgUrl: `https://cdn.jsdelivr.net/npm/@patternfly/react-icons@${PATTERNFLY_REACT_ICONS_VERSION}/dist/static/${name}.svg`,
+      })
+      patternflyCount++
+    }
+    console.log(`✓ PatternFly Icons: ${patternflyCount} icons`)
+  } else {
+    console.log('  PatternFly Icons not found')
+  }
+} catch (e) {
+  console.log('PatternFly Icons error:', e.message)
 }
 
 // ─── WRITE OUTPUT ─────────────────────────────────────────────

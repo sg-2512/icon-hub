@@ -5,15 +5,16 @@ export type NamedLibrary = {
   color: string
 }
 
-export const SEARCHABLE_ICON_COUNT = 351_639
-export const LEGAL_SAFE_ICON_COUNT = 255_007
-export const ICONIFY_ICON_COUNT = 326_602
-export const ICONIFY_COLLECTION_COUNT = 224
+export const SEARCHABLE_ICON_COUNT = 354_523
+export const LEGAL_SAFE_ICON_COUNT = 257_891
+export const ICONIFY_ICON_COUNT = 332_012
+export const ICONIFY_COLLECTION_COUNT = 227
 
 export const namedLibraries: NamedLibrary[] = [
   { id: 'lucide-icons', name: 'Lucide Icons', slug: 'lucide-icons', color: '#818cf8' },
   { id: 'heroicons', name: 'Heroicons', slug: 'heroicons', color: '#38bdf8' },
   { id: 'tabler-icons', name: 'Tabler Icons', slug: 'tabler-icons', color: '#34d399' },
+  { id: 'patternfly-icons', name: 'PatternFly Icons', slug: 'patternfly-icons', color: '#06b6d4' },
   { id: 'phosphor-icons', name: 'Phosphor Icons', slug: 'phosphor-icons', color: '#f472b6' },
   { id: 'remix-icon', name: 'Remix Icon', slug: 'remix-icon', color: '#fb923c' },
   { id: 'feather-icons', name: 'Feather Icons', slug: 'feather-icons', color: '#a78bfa' },

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { loadIcons } from '../../../api/icon-search/route'
 import IconDetailClient from './IconDetailClient'
 import { namedLibraries } from '../../../../data/library-catalog'
+import { getCleanSvgUrl } from '../../../../lib/icon-preview'
 
 export const dynamic = 'force-dynamic'
 
@@ -44,14 +45,6 @@ function getDbLibrariesForSlug(slug: string): string[] {
     default:
       return [slug, `iconify-${slug}`]
   }
-}
-
-function getCleanSvgUrl(url: string, library: string): string {
-  if (!url) return ''
-  if (library === 'tabler-icons' && url.includes('@tabler/icons/icons/')) return url.replace('@tabler/icons/icons/', '@tabler/icons@2.47.0/icons/')
-  if (library === 'phosphor-icons' && url.includes('@phosphor-icons/core/assets/')) return url.replace('@phosphor-icons/core/assets/', '@phosphor-icons/core@2.1.1/assets/')
-  if (library === 'lucide-icons' && url.includes('lucide-static/icons/')) return url.replace('lucide-static/icons/', 'lucide-static@0.415.0/icons/')
-  return url
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string, iconName: string }> }) {

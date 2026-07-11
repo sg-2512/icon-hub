@@ -1,4 +1,5 @@
 import JSZip from 'jszip'
+import { getCleanSvgUrl } from './icon-preview'
 
 export type Icon = {
   id: string
@@ -40,14 +41,6 @@ export type ExportConfig = {
   presetSize: number
   presetStroke: number
   presetColor: string
-}
-
-export function getCleanSvgUrl(url: string, library: string): string {
-  if (!url) return ''
-  if (library === 'tabler-icons' && url.includes('@tabler/icons/icons/')) return url.replace('@tabler/icons/icons/', '@tabler/icons@2.47.0/icons/')
-  if (library === 'phosphor-icons' && url.includes('@phosphor-icons/core/assets/')) return url.replace('@phosphor-icons/core/assets/', '@phosphor-icons/core@2.1.1/assets/')
-  if (library === 'lucide-icons' && url.includes('lucide-static/icons/')) return url.replace('lucide-static/icons/', 'lucide-static@0.415.0/icons/')
-  return url
 }
 
 export function customizeSvg(
