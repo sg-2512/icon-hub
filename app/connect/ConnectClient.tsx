@@ -23,6 +23,15 @@ const productNames: Record<string, string> = {
   figma: 'Figma plugin',
   chrome: 'Chrome extension',
   framer: 'Framer plugin',
+  raycast: 'Raycast extension',
+}
+
+const productShortNames: Record<string, string> = {
+  vscode: 'VS Code',
+  figma: 'Figma',
+  chrome: 'Chrome',
+  framer: 'Framer',
+  raycast: 'Raycast',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {
@@ -171,7 +180,7 @@ export default function ConnectClient({ product, code, authError }: ConnectClien
 
         <div className="connect-side-panel">
           <div className="connect-product-pill">
-            <span>{product === 'figma' ? 'Figma' : product === 'vscode' ? 'VS Code' : product === 'chrome' ? 'Chrome' : product === 'framer' ? 'Framer' : 'App'}</span>
+            <span>{productShortNames[product] || 'App'}</span>
             <strong>Free launch</strong>
           </div>
           <div className="connect-step-list">

@@ -90,7 +90,7 @@ You are solely responsible for any content you submit and must ensure it does no
           },
           {
             title: '10. Accounts, Extensions, and Founder Access',
-            content: `IconSearch may provide accounts that connect the website, VS Code extension, and Figma plugin. You are responsible for maintaining the security of your account and connected devices and for promptly signing out or contacting us if you suspect unauthorized access.
+            content: `IconSearch may provide accounts that connect the website, extensions, and plugins. You are responsible for maintaining the security of your account and connected devices and for promptly signing out or contacting us if you suspect unauthorized access.
 
 The first 500 verified users of each eligible product may receive lifetime Founder access for that product. Founder eligibility is based on successful account verification and an atomic product claim, not download or installation counts. Founder access is personal, non-transferable, limited to one entitlement per user per product, and may be revoked for fraud, automated claiming, abuse, or material violation of these Terms. "Lifetime" means for as long as IconSearch continues to operate and support the applicable product; it does not guarantee perpetual availability of any specific feature.
 

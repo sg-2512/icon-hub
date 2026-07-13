@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
   const product = parseExtensionProduct(body.product)
   if (!product) {
-    return publicJson({ error: 'Product must be vscode, figma, chrome, or framer.' }, { status: 400 })
+    return publicJson({ error: 'Product must be vscode, figma, chrome, framer, or raycast.' }, { status: 400 })
   }
 
   try {

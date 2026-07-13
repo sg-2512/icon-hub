@@ -3,7 +3,7 @@ import ConnectClient from './ConnectClient'
 
 export const metadata: Metadata = {
   title: 'Connect IconSearch',
-  description: 'Securely connect your IconSearch account to the VS Code extension or Figma plugin.',
+  description: 'Securely connect your IconSearch account to IconSearch extensions and plugins.',
   robots: { index: false, follow: false },
 }
 

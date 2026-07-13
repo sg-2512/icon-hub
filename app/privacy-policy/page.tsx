@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
           },
           {
             title: '2. Information We Collect',
-            content: 'We collect the minimum information needed to operate IconSearch. This may include your email address and authentication identifiers when you create an account; product entitlements such as free or Founder access; revocable session records used to connect the VS Code extension or Figma plugin; cloud-saved icon packs and presets you choose to sync; anonymous or pseudonymous usage data through Google Analytics; and information you voluntarily provide when contacting us.'
+            content: 'We collect the minimum information needed to operate IconSearch. This may include your email address and authentication identifiers when you create an account; product entitlements such as free or Founder access; revocable session records used to connect IconSearch extensions and plugins; cloud-saved icon packs and presets you choose to sync; anonymous or pseudonymous usage data through Google Analytics; and information you voluntarily provide when contacting us.'
           },
           {
             title: '3. Google Analytics',
@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
           },
           {
             title: '8. Data Storage and Security',
-            content: 'Account, entitlement, device authorization, and optional cloud-sync data is stored with Supabase. Extension session tokens are generated as high-entropy opaque values; the server stores only cryptographic hashes, while VS Code stores the token in SecretStorage and Figma stores it in clientStorage. Device approval links expire after a short period and connected sessions can be revoked. The website and APIs are served over HTTPS. No system can guarantee absolute security, but we use access controls and row-level security to reduce risk.'
+            content: 'Account, entitlement, device authorization, and optional cloud-sync data is stored with Supabase. Extension session tokens are generated as high-entropy opaque values; the server stores only cryptographic hashes, while connected extensions and plugins store only the revocable session token needed to use the authenticated API. Device approval links expire after a short period and connected sessions can be revoked. The website and APIs are served over HTTPS. No system can guarantee absolute security, but we use access controls and row-level security to reduce risk.'
           },
           {
             title: '9. California Privacy Rights (CCPA)',

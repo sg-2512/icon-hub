@@ -4,10 +4,12 @@ export const DEVICE_CODE_TTL_MS = 30 * 60 * 1000
 export const EXTENSION_SESSION_TTL_MS = 90 * 24 * 60 * 60 * 1000
 export const DEVICE_POLL_INTERVAL_SECONDS = 3
 
-export type ExtensionProduct = 'vscode' | 'figma' | 'chrome' | 'framer'
+export type ExtensionProduct = 'vscode' | 'figma' | 'chrome' | 'framer' | 'raycast'
 
 export function parseExtensionProduct(value: unknown): ExtensionProduct | null {
-  return value === 'vscode' || value === 'figma' || value === 'chrome' || value === 'framer' ? value : null
+  return value === 'vscode' || value === 'figma' || value === 'chrome' || value === 'framer' || value === 'raycast'
+    ? value
+    : null
 }
 
 export function randomToken(bytes = 32) {

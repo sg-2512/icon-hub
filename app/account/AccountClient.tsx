@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase'
 
 type Entitlement = {
   id: string
-  product: 'vscode' | 'figma' | 'chrome' | 'framer'
+  product: 'vscode' | 'figma' | 'chrome' | 'framer' | 'raycast'
   tier: 'free' | 'founder'
   status: 'active' | 'revoked'
   founder_number: number | null
@@ -18,6 +18,7 @@ const products = [
   { id: 'figma', label: 'Figma plugin' },
   { id: 'chrome', label: 'Chrome extension' },
   { id: 'framer', label: 'Framer plugin' },
+  { id: 'raycast', label: 'Raycast extension' },
 ] as const
 
 export default function AccountClient() {
@@ -73,7 +74,7 @@ export default function AccountClient() {
         <div style={cardStyle}>
           <h2 style={{ marginTop: 0 }}>Sign in to view your products</h2>
           <p style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
-            One account connects the website, VS Code extension, Figma plugin, Chrome extension, and Framer plugin.
+            One account connects the website, VS Code extension, Figma plugin, Chrome extension, Framer plugin, and Raycast extension.
           </p>
           <button type="button" onClick={() => setShowAuth(true)} style={buttonStyle}>
             Sign in or sign up
