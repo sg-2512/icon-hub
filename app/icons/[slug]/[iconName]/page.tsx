@@ -9,6 +9,52 @@ export const dynamic = 'force-dynamic'
 
 const namedLibrarySlugs = new Set(namedLibraries.map((library) => library.slug))
 
+type IconAttribution = {
+  creatorName: string
+  creatorType?: 'Organization' | 'Person'
+  creditText?: string
+  copyrightNotice?: string
+}
+
+const attributionByLibrary: Record<string, IconAttribution> = {
+  'lucide-icons': { creatorName: 'Lucide Contributors', creditText: 'Lucide Icons' },
+  'heroicons': { creatorName: 'Tailwind Labs', creditText: 'Heroicons' },
+  'tabler-icons': { creatorName: 'Tabler Icons contributors', creditText: 'Tabler Icons' },
+  'patternfly-icons': { creatorName: 'Red Hat', creditText: 'PatternFly Icons' },
+  'phosphor-icons': { creatorName: 'Phosphor Icons contributors', creditText: 'Phosphor Icons' },
+  'remix-icon': { creatorName: 'Remix Design', creditText: 'Remix Icon' },
+  'feather-icons': { creatorName: 'Feather Icons contributors', creditText: 'Feather Icons' },
+  'bootstrap-icons': { creatorName: 'The Bootstrap Authors', creditText: 'Bootstrap Icons' },
+  'radix-icons': { creatorName: 'WorkOS', creditText: 'Radix Icons' },
+  iconoir: { creatorName: 'Iconoir contributors', creditText: 'Iconoir' },
+  ionicons: { creatorName: 'Ionic', creditText: 'Ionicons' },
+  octicons: { creatorName: 'GitHub', creditText: 'Octicons' },
+  'ant-design-icons': { creatorName: 'Ant Design', creditText: 'Ant Design Icons' },
+  devicons: { creatorName: 'Devicon contributors', creditText: 'Devicons' },
+  teenyicons: { creatorName: 'Teenyicons', creditText: 'Teenyicons' },
+  'circum-icons': { creatorName: 'Circum Icons', creditText: 'Circum Icons' },
+  'elusive-icons': { creatorName: 'Elusive Icons', creditText: 'Elusive Icons' },
+}
+
+function getIconAttribution(icon: { library: string, libraryName?: string }): Required<IconAttribution> {
+  const fallbackName = icon.libraryName || icon.library
+  const attribution = attributionByLibrary[icon.library] || {
+    creatorName: fallbackName,
+    creditText: fallbackName,
+  }
+
+  return {
+    creatorName: attribution.creatorName,
+    creatorType: attribution.creatorType || 'Organization',
+    creditText: attribution.creditText || attribution.creatorName,
+    copyrightNotice: attribution.copyrightNotice || attribution.creatorName,
+  }
+}
+
+function stringifyJsonLd(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c')
+}
+
 function getLibraryHref(slug: string): string {
   if (namedLibrarySlugs.has(slug)) return `/icons/${slug}`
   if (slug.startsWith('iconify-')) {
@@ -138,6 +184,7 @@ export default async function IconDetailPage({ params }: { params: Promise<{ slu
 
   const displayName = icon.displayName || icon.name
   const libraryHref = getLibraryHref(slug)
+  const imageAttribution = getIconAttribution(icon)
 
   // JSON-LD Structured Data
   const jsonLdBreadcrumb = {
@@ -158,19 +205,25 @@ export default async function IconDetailPage({ params }: { params: Promise<{ slu
     "description": `Free vector SVG icon ${displayName} from ${icon.libraryName} collection. MIT/open-source licensed.`,
     "contentUrl": icon.svgUrl,
     "thumbnailUrl": icon.svgUrl,
-    "license": "https://iconsearch.info/licenses",
-    "acquireLicensePage": "https://iconsearch.info/licenses"
+    "license": icon.licenseUrl || "https://iconsearch.info/licenses",
+    "acquireLicensePage": "https://iconsearch.info/licenses",
+    "creditText": imageAttribution.creditText,
+    "creator": {
+      "@type": imageAttribution.creatorType,
+      "name": imageAttribution.creatorName
+    },
+    "copyrightNotice": imageAttribution.copyrightNotice
   }
 
   return (
     <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px' }}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        dangerouslySetInnerHTML={{ __html: stringifyJsonLd(jsonLdBreadcrumb) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdImage) }}
+        dangerouslySetInnerHTML={{ __html: stringifyJsonLd(jsonLdImage) }}
       />
 
       {/* Breadcrumb & Back to Search container */}
