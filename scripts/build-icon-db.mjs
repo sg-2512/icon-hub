@@ -1,7 +1,9 @@
 import { writeFileSync, readdirSync, readFileSync, existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
-import { fileURLToPath } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 import { dirname } from 'path'
+import React from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')   // scripts/ → project root
@@ -14,6 +16,28 @@ function toTags(name) {
 
 function iconifySvgUrl(prefix, name) {
   return `https://api.iconify.design/${prefix}/${name.replace(/_/g, '-')}.svg`
+}
+
+function pascalToKebab(name) {
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Za-z])([0-9])/g, '$1-$2')
+    .replace(/([0-9])([A-Za-z])/g, '$1-$2')
+    .replace(/--+/g, '-')
+    .toLowerCase()
+}
+
+function normalizeStaticSvg(svg) {
+  if (!/^<svg\b/i.test(svg)) return svg
+
+  let normalized = svg
+  if (!/\sxmlns=/.test(normalized)) {
+    normalized = normalized.replace(/^<svg\b/i, '<svg xmlns="http://www.w3.org/2000/svg"')
+  }
+
+  return normalized
+    .replace(/\swidth="1em"/i, ' width="24"')
+    .replace(/\sheight="1em"/i, ' height="24"')
 }
 
 function findDir(candidates) {
@@ -505,7 +529,7 @@ try {
         const data = await res.json()
         let tCount = 0
         if (data && data.icons) {
-          for (const [name, icon] of Object.entries(data.icons)) {
+          for (const [name] of Object.entries(data.icons)) {
             const componentName = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
             output.push({
               id: `teenyicons-${name}`,
@@ -571,7 +595,7 @@ try {
         const data = await res.json()
         let cCount = 0
         if (data && data.icons) {
-          for (const [name, icon] of Object.entries(data.icons)) {
+          for (const [name] of Object.entries(data.icons)) {
             const componentName = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
             output.push({
               id: `circum-${name}`,
@@ -638,7 +662,7 @@ try {
         const data = await res.json()
         let eCount = 0
         if (data && data.icons) {
-          for (const [name, icon] of Object.entries(data.icons)) {
+          for (const [name] of Object.entries(data.icons)) {
             const componentName = name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('')
             output.push({
               id: `elusive-${name}`,
@@ -776,6 +800,58 @@ try {
 }
 
 // ─── WRITE OUTPUT ─────────────────────────────────────────────
+// --- 15. UNTITLED UI ICONS -----------------------------------------------
+console.log('Processing Untitled UI Icons...')
+try {
+  const untitledDir = findDir(['node_modules/@untitledui/icons/dist'])
+
+  if (untitledDir) {
+    const publicUntitledDir = join(root, 'public/untitled-ui-icons')
+    mkdirSync(publicUntitledDir, { recursive: true })
+
+    const files = readdirSync(untitledDir)
+      .filter(f => f.endsWith('.mjs') && f !== 'index.mjs')
+      .sort()
+
+    let untitledCount = 0
+    for (const file of files) {
+      const componentName = file.replace(/\.mjs$/, '')
+      const name = pascalToKebab(componentName)
+      const moduleUrl = pathToFileURL(join(untitledDir, file)).href
+      const mod = await import(moduleUrl)
+      const Component = mod[componentName] || mod.default
+      if (typeof Component !== 'function') continue
+
+      const svg = normalizeStaticSvg(renderToStaticMarkup(
+        React.createElement(Component, { size: 24, color: 'currentColor' })
+      ))
+      if (!/^<svg\b/i.test(svg)) continue
+
+      writeFileSync(join(publicUntitledDir, `${name}.svg`), svg)
+
+      output.push({
+        id: `untitled-ui-${name}`,
+        name,
+        displayName: componentName,
+        library: 'untitled-ui-icons',
+        libraryName: 'Untitled UI Icons',
+        npmPackage: '@untitledui/icons',
+        license: 'MIT',
+        tags: [...toTags(name), 'untitled', 'ui', 'design', 'system', 'saas', 'dashboard', 'product', 'interface'],
+        reactImport: `import { ${componentName} } from '@untitledui/icons'`,
+        reactUsage: `<${componentName} size={24} color="currentColor" />`,
+        svgUrl: `https://iconsearch.info/untitled-ui-icons/${name}.svg`,
+      })
+      untitledCount++
+    }
+    console.log(`✓ Untitled UI Icons: ${untitledCount} icons`)
+  } else {
+    console.log('  Untitled UI Icons not found')
+  }
+} catch (e) {
+  console.log('Untitled UI Icons error:', e.message)
+}
+
 const outputPath = join(root, 'data/icon-search.json')
 const publicPath = join(root, 'public/icon-search.json')
 mkdirSync(join(root, 'data'), { recursive: true })

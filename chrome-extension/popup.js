@@ -15,7 +15,7 @@ const DRAG_CACHE_LIMIT = 80
 const DEFAULT_OUTPUT_SIZE = 256
 const DRAG_PREWARM_COUNT = 18
 const DRAG_PREWARM_STAGGER_MS = 65
-const SEARCHABLE_ICON_COUNT = 354523
+const SEARCHABLE_ICON_COUNT = 355702
 const PRIVACY_URL = `${API_BASE}/privacy-policy`
 const LICENSES_URL = `${API_BASE}/licenses`
 const SUPPORT_URL = `${API_BASE}/contact`
@@ -53,6 +53,7 @@ const namedLibraries = [
   ['heroicons', 'Heroicons'],
   ['tabler-icons', 'Tabler Icons'],
   ['patternfly-icons', 'PatternFly Icons'],
+  ['untitled-ui-icons', 'Untitled UI Icons'],
   ['phosphor-icons', 'Phosphor Icons'],
   ['remix-icon', 'Remix Icon'],
   ['feather-icons', 'Feather Icons'],
@@ -1512,12 +1513,17 @@ function normalizeSvgUrl(url, library, name) {
     return `${API_BASE}/api/icon-preview/patternfly-icons/${dashedName}?v=named-library-preview-v3`
   }
 
+  if (library === 'untitled-ui-icons') {
+    return `${API_BASE}/api/icon-preview/untitled-ui-icons/${dashedName}?v=named-library-preview-v4`
+  }
+
   if (url && /^https?:\/\//.test(url)) return url
 
   const prefixes = {
     'lucide-icons': 'lucide',
     'heroicons': 'heroicons',
     'tabler-icons': 'tabler',
+    'untitled-ui-icons': 'untitled-ui-icons',
     'phosphor-icons': 'ph',
     'remix-icon': 'ri',
     'feather-icons': 'feather',
@@ -1546,6 +1552,7 @@ function toIconifyName(library, name) {
     'lucide-icons': 'lucide',
     'heroicons': 'heroicons',
     'tabler-icons': 'tabler',
+    'untitled-ui-icons': 'untitled-ui-icons',
     'phosphor-icons': 'ph',
     'remix-icon': 'ri',
     'feather-icons': 'feather',

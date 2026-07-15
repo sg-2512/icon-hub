@@ -5,8 +5,8 @@ export type NamedLibrary = {
   color: string
 }
 
-export const SEARCHABLE_ICON_COUNT = 354_523
-export const LEGAL_SAFE_ICON_COUNT = 257_891
+export const SEARCHABLE_ICON_COUNT = 355_702
+export const LEGAL_SAFE_ICON_COUNT = 259_070
 export const ICONIFY_ICON_COUNT = 332_012
 export const ICONIFY_COLLECTION_COUNT = 227
 
@@ -15,6 +15,7 @@ export const namedLibraries: NamedLibrary[] = [
   { id: 'heroicons', name: 'Heroicons', slug: 'heroicons', color: '#38bdf8' },
   { id: 'tabler-icons', name: 'Tabler Icons', slug: 'tabler-icons', color: '#34d399' },
   { id: 'patternfly-icons', name: 'PatternFly Icons', slug: 'patternfly-icons', color: '#06b6d4' },
+  { id: 'untitled-ui-icons', name: 'Untitled UI Icons', slug: 'untitled-ui-icons', color: '#7dd3fc' },
   { id: 'phosphor-icons', name: 'Phosphor Icons', slug: 'phosphor-icons', color: '#f472b6' },
   { id: 'remix-icon', name: 'Remix Icon', slug: 'remix-icon', color: '#fb923c' },
   { id: 'feather-icons', name: 'Feather Icons', slug: 'feather-icons', color: '#a78bfa' },

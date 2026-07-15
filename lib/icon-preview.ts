@@ -4,13 +4,15 @@ export type PreviewIcon = {
   svgUrl: string
 }
 
-export const ICON_PREVIEW_CACHE_VERSION = 'named-library-preview-v3'
+export const ICON_PREVIEW_CACHE_VERSION = 'named-library-preview-v4'
 
 const PATTERNFLY_STATIC_BASE = 'https://cdn.jsdelivr.net/npm/@patternfly/react-icons@6.6.0/dist/static'
+const UNTITLED_UI_STATIC_BASE = '/untitled-ui-icons'
 
 const LOCAL_PREVIEW_LIBRARY_IDS = new Set([
   'patternfly-icons',
   'bootstrap-icons',
+  'untitled-ui-icons',
 ])
 
 const NAMED_LIBRARY_PREVIEW_PATTERNS: Record<string, string[]> = {
@@ -25,6 +27,11 @@ const NAMED_LIBRARY_PREVIEW_PATTERNS: Record<string, string[]> = {
   'patternfly-icons': [
     '/api/icon-preview/patternfly-icons/{name}',
     `${PATTERNFLY_STATIC_BASE}/{name}.svg`,
+  ],
+  'untitled-ui-icons': [
+    '/api/icon-preview/untitled-ui-icons/{name}',
+    `${UNTITLED_UI_STATIC_BASE}/{name}.svg`,
+    'https://iconsearch.info/untitled-ui-icons/{name}.svg',
   ],
   'phosphor-icons': [
     'https://unpkg.com/@phosphor-icons/core@latest/assets/regular/{name}.svg',
@@ -88,6 +95,10 @@ function patternFlySvgUrl(name: string): string {
   return `${PATTERNFLY_STATIC_BASE}/${name.replace(/_/g, '-')}.svg`
 }
 
+function untitledUiSvgUrl(name: string): string {
+  return `${UNTITLED_UI_STATIC_BASE}/${name.replace(/_/g, '-')}.svg`
+}
+
 export function getLocalIconPreviewUrl(library: string, name: string): string {
   const normalizedName = name.replace(/\.svg$/i, '').replace(/_/g, '-')
   if (!LOCAL_PREVIEW_LIBRARY_IDS.has(library) || !normalizedName) return ''
@@ -103,6 +114,10 @@ export function getCleanSvgUrl(url: string, library: string): string {
   if (library === 'patternfly-icons') {
     const fileName = url.match(/\/([^/?#]+\.svg)(?:[?#].*)?$/)?.[1]
     return fileName ? patternFlySvgUrl(fileName.replace(/\.svg$/, '')) : url
+  }
+  if (library === 'untitled-ui-icons') {
+    const fileName = url.match(/\/([^/?#]+\.svg)(?:[?#].*)?$/)?.[1]
+    return fileName ? untitledUiSvgUrl(fileName.replace(/\.svg$/, '')) : url
   }
   if (library === 'tabler-icons' && url.includes('@tabler/icons/icons/')) {
     return url.replace('@tabler/icons/icons/', '@tabler/icons@2.47.0/icons/')

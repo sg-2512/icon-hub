@@ -101,6 +101,26 @@ export const icons: IconLibrary[] = [
     usageExample: "import { ServerIcon } from '@patternfly/react-icons'\n\nexport default function App() {\n  return <ServerIcon />\n}"
   },
   {
+    name: "Untitled UI Icons",
+    slug: "untitled-ui-icons",
+    description: "Official MIT-licensed React icons from Untitled UI, with 1,179 crisp outline icons for SaaS products, dashboards, and modern product interfaces.",
+    website: "https://www.untitledui.com/icons",
+    github: "https://www.npmjs.com/package/@untitledui/icons",
+    npm: "@untitledui/icons",
+    stars: 0,
+    iconCount: 1179,
+    license: "MIT",
+    frameworks: ["react", "nextjs"],
+    style: ["outline"],
+    figmaPlugin: false,
+    typescript: true,
+    treeshakable: true,
+    pros: ["Polished SaaS/product UI style", "Official React components", "TypeScript support", "Tree-shakable ESM package"],
+    cons: ["React-focused package", "Outline style only", "No public GitHub star signal"],
+    installCommand: "npm install @untitledui/icons",
+    usageExample: "import { Home01 } from '@untitledui/icons'\n\nexport default function App() {\n  return <Home01 size={24} color='currentColor' />\n}"
+  },
+  {
     name: "Phosphor Icons",
     slug: "phosphor-icons",
     description: "Flexible icon family with 6 weights including thin, light, regular, bold, fill and duotone. Over 1500 icons available.",

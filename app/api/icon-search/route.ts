@@ -28,6 +28,7 @@ const LIBRARY_POPULARITY: Record<string, number> = {
   'ant-design-icons': 8.5,
   'tabler-icons': 8,
   'patternfly-icons': 7.5,
+  'untitled-ui-icons': 7.25,
   'phosphor-icons': 7,
   'remix-icon': 6,
   'bootstrap-icons': 5,

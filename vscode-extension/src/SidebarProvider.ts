@@ -71,12 +71,13 @@ const SESSION_TOKEN_KEY = 'iconsearch.sessionToken';
 const ACCESS_CACHE_KEY = 'iconsearch.accessCache';
 const RECENT_KEY = 'iconsearch.recentIcons';
 const MAX_RECENT_ICONS = 12;
-const SEARCHABLE_ICON_COUNT = 354_523;
+const SEARCHABLE_ICON_COUNT = 355_702;
 const NAMED_LIBRARIES = [
   'lucide-icons',
   'heroicons',
   'tabler-icons',
   'patternfly-icons',
+  'untitled-ui-icons',
   'phosphor-icons',
   'remix-icon',
   'feather-icons',
@@ -740,6 +741,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
               'lucide-icons': 'Lucide Icons',
               'heroicons': 'Heroicons',
               'tabler-icons': 'Tabler Icons',
+              'untitled-ui-icons': 'Untitled UI Icons',
               'phosphor-icons': 'Phosphor Icons',
               'remix-icon': 'Remix Icon',
               'feather-icons': 'Feather Icons',
@@ -1319,6 +1321,9 @@ function getPreviewUrls(icon: Record<string, unknown>): string[] {
     add(`https://api.iconify.design/tabler/${dashedName}.svg`);
   } else if (library === 'patternfly-icons') {
     add(`https://iconsearch.info/api/icon-preview/patternfly-icons/${dashedName}?v=named-library-preview-v3`);
+  } else if (library === 'untitled-ui-icons') {
+    add(`https://iconsearch.info/api/icon-preview/untitled-ui-icons/${dashedName}?v=named-library-preview-v4`);
+    add(`https://iconsearch.info/untitled-ui-icons/${dashedName}.svg`);
   } else if (library === 'phosphor-icons') {
     add(`https://unpkg.com/@phosphor-icons/core@latest/assets/regular/${dashedName}.svg`);
     add(`https://api.iconify.design/ph/${dashedName}.svg`);

@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { existsSync, readFileSync } from 'fs'
+import { join } from 'path'
 import { loadIcons } from '../../../api/icon-search/route'
 import IconDetailClient from './IconDetailClient'
 import { namedLibraries } from '../../../../data/library-catalog'
@@ -21,6 +23,7 @@ const attributionByLibrary: Record<string, IconAttribution> = {
   'heroicons': { creatorName: 'Tailwind Labs', creditText: 'Heroicons' },
   'tabler-icons': { creatorName: 'Tabler Icons contributors', creditText: 'Tabler Icons' },
   'patternfly-icons': { creatorName: 'Red Hat', creditText: 'PatternFly Icons' },
+  'untitled-ui-icons': { creatorName: 'Untitled UI', creditText: 'Untitled UI Icons' },
   'phosphor-icons': { creatorName: 'Phosphor Icons contributors', creditText: 'Phosphor Icons' },
   'remix-icon': { creatorName: 'Remix Design', creditText: 'Remix Icon' },
   'feather-icons': { creatorName: 'Feather Icons contributors', creditText: 'Feather Icons' },
@@ -65,11 +68,23 @@ function getLibraryHref(slug: string): string {
   return '/icon-search'
 }
 
+function getLocalPublicSvg(cleanUrl: string): string {
+  if (!cleanUrl.startsWith('/')) return ''
+
+  const cleanPath = cleanUrl.split(/[?#]/)[0]?.replace(/^\/+/, '')
+  if (!cleanPath || cleanPath.includes('..')) return ''
+
+  const publicRoot = join(process.cwd(), 'public')
+  const candidate = join(publicRoot, cleanPath)
+  return existsSync(candidate) ? readFileSync(candidate, 'utf8') : ''
+}
+
 function getDbLibrariesForSlug(slug: string): string[] {
   switch (slug) {
     case 'lucide-icons': return ['lucide-icons']
     case 'heroicons': return ['heroicons']
     case 'tabler-icons': return ['tabler-icons']
+    case 'untitled-ui-icons': return ['untitled-ui-icons']
     case 'phosphor-icons': return ['phosphor-icons']
     case 'remix-icon': return ['remix-icon']
     case 'feather-icons': return ['feather-icons']
@@ -156,9 +171,14 @@ export default async function IconDetailPage({ params }: { params: Promise<{ slu
   let rawSvg = ''
   try {
     const cleanUrl = getCleanSvgUrl(icon.svgUrl, icon.library)
-    const res = await fetch(cleanUrl, { next: { revalidate: 86400 } })
-    if (res.ok) {
-      rawSvg = await res.text()
+    const localSvg = getLocalPublicSvg(cleanUrl)
+    if (localSvg) {
+      rawSvg = localSvg
+    } else {
+      const res = await fetch(cleanUrl, { next: { revalidate: 86400 } })
+      if (res.ok) {
+        rawSvg = await res.text()
+      }
     }
   } catch (e) {
     console.error('Failed to fetch SVG for icon:', icon.id, e)

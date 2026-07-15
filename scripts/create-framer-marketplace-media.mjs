@@ -31,12 +31,12 @@ function coverSvg() {
 
     ${logo(132, 126, 86)}
     ${text(242, 158, 'IconSearch for Framer', 62, '#f8fafc', 900, 48)}
-    ${text(246, 240, 'Search 354,523 free SVG icons, customize them, and insert clean SVGs onto your Framer canvas.', 29, '#a7b4cc', 650, 72)}
+    ${text(246, 240, 'Search 355,702 free SVG icons, customize them, and insert clean SVGs onto your Framer canvas.', 29, '#a7b4cc', 650, 72)}
 
     ${pluginPanel(930, 260, 480, 710)}
     ${canvasPanel(150, 384, 670, 430)}
 
-    ${featurePill(150, 980, '354,523 icons', 'Search the live IconSearch catalog', '#22d3ee')}
+    ${featurePill(150, 980, '355,702 icons', 'Search the live IconSearch catalog', '#22d3ee')}
     ${featurePill(500, 980, 'Customize', 'Pick size, color, or original colors', '#8b5cf6')}
     ${featurePill(850, 980, 'Drag & insert', 'Drop production-ready SVGs', '#60a5fa')}
   `)

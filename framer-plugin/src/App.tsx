@@ -24,7 +24,7 @@ const AUTO_REFILL_DELAY_MS = 45
 const PAGE_CACHE_LIMIT = 12
 const DRAG_CACHE_LIMIT = 80
 const DRAG_PREWARM_COUNT = 28
-const SEARCHABLE_ICON_COUNT = 354_523
+const SEARCHABLE_ICON_COUNT = 355_702
 const DEFAULT_ICON_SIZE = 96
 const DEFAULT_ICON_COLOR = '#111827'
 const ICON_SIZE_OPTIONS = [48, 64, 96, 128, 192, 256] as const
@@ -95,6 +95,7 @@ const namedLibraries = [
   ['heroicons', 'Heroicons'],
   ['tabler-icons', 'Tabler Icons'],
   ['patternfly-icons', 'PatternFly Icons'],
+  ['untitled-ui-icons', 'Untitled UI Icons'],
   ['phosphor-icons', 'Phosphor Icons'],
   ['remix-icon', 'Remix Icon'],
   ['feather-icons', 'Feather Icons'],
@@ -657,14 +658,14 @@ export function App() {
 
         <section className="unlock-card">
           <div className="eyebrow">Live icon search</div>
-          <h1>Search 354,523 SVG icons inside Framer.</h1>
+          <h1>Search 355,702 SVG icons inside Framer.</h1>
           <p>
             Sign in securely in your browser. Framer stores only a revocable IconSearch app token.
           </p>
           <button type="button" onClick={() => void beginSignIn()} disabled={authLoading} className="primary-button">
             {authLoading ? 'Waiting for approval...' : 'Sign in with IconSearch'}
           </button>
-          <div className="trust-line">17 named libraries + 227 Iconify collections. Online-only results.</div>
+          <div className="trust-line">18 named libraries + 227 Iconify collections. Online-only results.</div>
         </section>
 
         {status && <p className="status-line">{status}</p>}
@@ -969,6 +970,9 @@ function normalizeSvgUrl(url: string, library: string, name: string) {
   if (library === 'patternfly-icons') {
     return normalizeTrustedSvgUrl(`${ICONSEARCH_ORIGIN}/api/icon-preview/patternfly-icons/${dashedName}?v=named-library-preview-v3`)
   }
+  if (library === 'untitled-ui-icons') {
+    return normalizeTrustedSvgUrl(`${ICONSEARCH_ORIGIN}/api/icon-preview/untitled-ui-icons/${dashedName}?v=named-library-preview-v4`)
+  }
 
   const trustedUrl = normalizeTrustedSvgUrl(url)
   if (trustedUrl) return trustedUrl
@@ -978,6 +982,7 @@ function normalizeSvgUrl(url: string, library: string, name: string) {
     'lucide-icons': 'lucide',
     heroicons: 'heroicons',
     'tabler-icons': 'tabler',
+    'untitled-ui-icons': 'untitled-ui-icons',
     'phosphor-icons': 'ph',
     'remix-icon': 'ri',
     'feather-icons': 'feather',
@@ -1027,6 +1032,7 @@ function toIconifyName(library: string, name: string) {
     'lucide-icons': 'lucide',
     heroicons: 'heroicons',
     'tabler-icons': 'tabler',
+    'untitled-ui-icons': 'untitled-ui-icons',
     'phosphor-icons': 'ph',
     'remix-icon': 'ri',
     'feather-icons': 'feather',

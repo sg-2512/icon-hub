@@ -41,6 +41,12 @@ function findPreviewFile(library: string, name: string) {
     return candidate && existsSync(candidate) ? candidate : ''
   }
 
+  if (library === 'untitled-ui-icons') {
+    const root = path.join(process.cwd(), 'public', 'untitled-ui-icons')
+    const candidate = resolveWithin(root, `${name}.svg`)
+    return candidate && existsSync(candidate) ? candidate : ''
+  }
+
   return ''
 }
 

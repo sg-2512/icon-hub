@@ -15,6 +15,7 @@ import { deviconsData } from '../../../data/libraries/devicons'
 import { teenyiconsData } from '../../../data/libraries/teenyicons'
 import { circumIconsData } from '../../../data/libraries/circum-icons'
 import { elusiveIconsData } from '../../../data/libraries/elusive-icons'
+import { untitledUiIconsData } from '../../../data/libraries/untitled-ui-icons'
 
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -36,6 +37,19 @@ const libraryData: Record<string, any> = {
   'teenyicons': teenyiconsData,
   'circum-icons': circumIconsData,
   'elusive-icons': elusiveIconsData,
+  'untitled-ui-icons': untitledUiIconsData,
+}
+
+function formatCompactCount(value: number): string {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`
+  if (value >= 1_000) return `${Math.round(value / 1_000)}K`
+  return value.toLocaleString()
+}
+
+function getPrimarySourceLabel(url: string): string {
+  if (url.includes('npmjs.com')) return 'NPM package'
+  if (url.includes('github.com')) return 'GitHub'
+  return 'Source'
 }
 
 export async function generateStaticParams() {
@@ -220,7 +234,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
             textDecoration: 'none',
             fontSize: '13px',
             fontFamily: 'JetBrains Mono, monospace',
-          }}>GitHub →</a>
+          }}>{getPrimarySourceLabel(data.links.github)} →</a>
           <a href={data.links.website} target="_blank" style={{
             background: 'var(--accent)',
             color: 'white',
@@ -242,7 +256,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           {[
             { label: 'Icons', value: data.stats.iconCount.toLocaleString() },
             { label: 'GitHub Stars', value: data.stats.stars.toLocaleString() },
-            { label: 'Weekly Downloads', value: (data.stats.weeklyDownloads / 1000000).toFixed(1) + 'M' },
+            { label: 'Weekly Downloads', value: formatCompactCount(data.stats.weeklyDownloads) },
             { label: 'License', value: data.stats.license },
             { label: 'Bundle Size', value: data.stats.bundleSize },
             { label: 'Since', value: data.stats.firstRelease },

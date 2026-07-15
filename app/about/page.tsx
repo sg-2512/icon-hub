@@ -36,10 +36,10 @@ export default function AboutPage() {
             What is IconSearch?
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8, marginBottom: '12px' }}>
-            IconSearch is an independent comparison and search platform covering the 16 most widely used free SVG icon libraries in the web development ecosystem. We help React, Next.js, Vue, and Svelte developers find the right icon library through real benchmark data, <Link href="/compare" style={{ color: 'var(--accent)', textDecoration: 'none' }}>side-by-side comparisons</Link>, and honest recommendations — all in one place.
+            IconSearch is an independent comparison and search platform covering {NAMED_LIBRARY_COUNT} named free SVG icon libraries in the web development ecosystem. We help React, Next.js, Vue, and Svelte developers find the right icon library through real benchmark data, <Link href="/compare" style={{ color: 'var(--accent)', textDecoration: 'none' }}>side-by-side comparisons</Link>, and honest recommendations — all in one place.
           </p>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8 }}>
-            The site covers every major open-source icon library: Lucide Icons, Heroicons, Tabler Icons, Phosphor Icons, Remix Icon, Feather Icons, Bootstrap Icons, Radix Icons, Font Awesome, React Icons, Material Icons, Iconify, Simple Icons, Iconoir, IonIcons, and Octicons.
+            The site covers major open-source icon libraries such as Lucide Icons, Heroicons, Tabler Icons, PatternFly Icons, Untitled UI Icons, Phosphor Icons, Remix Icon, Feather Icons, Bootstrap Icons, Radix Icons, Iconoir, IonIcons, Octicons, Ant Design Icons, Devicons, and hundreds of Iconify collections.
           </p>
         </div>
 
@@ -107,9 +107,9 @@ export default function AboutPage() {
                 desc: 'Select any two libraries and get a live side-by-side breakdown of GitHub stars, icon count, bundle size, license, and framework support.',
               },
               {
-                title: '120 Side-by-Side Comparisons',
+                title: `${COMPARISON_COUNT} Side-by-Side Comparisons`,
                 link: '/compare',
-                desc: 'Every pair combination of the 16 libraries — with real Next.js 15 bundle size benchmarks, feature matrices, and install commands.',
+                desc: `Every pair combination of the ${NAMED_LIBRARY_COUNT} named libraries — with real Next.js 15 bundle size benchmarks, feature matrices, and install commands.`,
               },
               {
                 title: 'Best For You Quiz',

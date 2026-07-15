@@ -45,6 +45,7 @@ const LIBRARY_COLORS: Record<string, string> = {
   'heroicons': '#06b6d4',
   'tabler-icons': '#10b981',
   'patternfly-icons': '#06b6d4',
+  'untitled-ui-icons': '#7dd3fc',
   'phosphor-icons': '#f59e0b',
   'radix-icons': '#ec4899',
   'bootstrap-icons': '#7952b3',
@@ -165,6 +166,7 @@ function getSlugForLibrary(library: string): string {
   if (library === 'lucide-icons') return 'lucide-icons'
   if (library === 'heroicons') return 'heroicons'
   if (library === 'tabler-icons') return 'tabler-icons'
+  if (library === 'untitled-ui-icons') return 'untitled-ui-icons'
   if (library === 'phosphor-icons') return 'phosphor-icons'
   if (library === 'remix-icon') return 'remix-icon'
   if (library === 'feather-icons') return 'feather-icons'
