@@ -1044,6 +1044,18 @@
       });
     }
 
+    function addPatternFlyPreviewUrls(urls, seen, name) {
+      if (!name) return;
+
+      const exactName = String(name).replace(/\.svg$/i, '');
+      const dashedName = exactName.replace(/_/g, '-');
+      const underscoredName = exactName.replace(/-/g, '_');
+      [dashedName, exactName, underscoredName].forEach(iconName => {
+        addUniqueUrl(urls, seen, `${ICONSEARCH_ORIGIN}/api/icon-preview/patternfly-icons/${encodeURIComponent(iconName)}?v=${NAMED_LIBRARY_PREVIEW_VERSION}`);
+        addUniqueUrl(urls, seen, `https://cdn.jsdelivr.net/npm/@patternfly/react-icons@6.6.0/dist/static/${encodeURIComponent(iconName)}.svg`);
+      });
+    }
+
     function addUntitledUiPreviewUrls(urls, seen, name) {
       if (!name) return;
 
@@ -1065,6 +1077,10 @@
 
       if (ICONIFY_PREVIEW_FIRST_LIBRARIES.has(library)) {
         addIconifyPreviewUrls(urls, seen, library, name);
+      }
+
+      if (library === 'patternfly-icons') {
+        addPatternFlyPreviewUrls(urls, seen, name);
       }
 
       if (library === 'untitled-ui-icons') {
