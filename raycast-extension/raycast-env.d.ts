@@ -30,3 +30,4 @@ declare namespace Arguments {
   /** Arguments passed to the `search-icons` command */
   export type SearchIcons = {}
 }
+
