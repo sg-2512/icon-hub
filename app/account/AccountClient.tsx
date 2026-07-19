@@ -7,7 +7,17 @@ import { createClient } from '@/lib/supabase'
 
 type Entitlement = {
   id: string
-  product: 'vscode' | 'figma' | 'chrome' | 'framer' | 'raycast'
+  product:
+    | 'vscode'
+    | 'figma'
+    | 'chrome'
+    | 'framer'
+    | 'raycast'
+    | 'mcp'
+    | 'jetbrains'
+    | 'storybook'
+    | 'canva'
+    | 'tailwind'
   tier: 'free' | 'founder'
   status: 'active' | 'revoked'
   founder_number: number | null
@@ -19,6 +29,11 @@ const products = [
   { id: 'chrome', label: 'Chrome extension' },
   { id: 'framer', label: 'Framer plugin' },
   { id: 'raycast', label: 'Raycast extension' },
+  { id: 'mcp', label: 'MCP server' },
+  { id: 'jetbrains', label: 'JetBrains plugin' },
+  { id: 'storybook', label: 'Storybook addon' },
+  { id: 'canva', label: 'Canva app' },
+  { id: 'tailwind', label: 'Tailwind plugin' },
 ] as const
 
 export default function AccountClient() {
@@ -74,9 +89,9 @@ export default function AccountClient() {
         <div style={cardStyle}>
           <h2 style={{ marginTop: 0 }}>Sign in to view your products</h2>
           <p style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
-            One account connects the website, VS Code extension, Figma plugin, Chrome extension, Framer plugin, and Raycast extension.
+            One account connects the website, VS Code extension, Figma plugin, Chrome extension, Framer plugin, Raycast extension, MCP server, JetBrains plugin, Storybook addon, Canva app, and Tailwind plugin.
           </p>
-          <button type="button" onClick={() => setShowAuth(true)} style={buttonStyle}>
+          <button suppressHydrationWarning type="button" onClick={() => setShowAuth(true)} style={buttonStyle}>
             Sign in or sign up
           </button>
         </div>
@@ -87,7 +102,7 @@ export default function AccountClient() {
               <div style={{ color: 'var(--text-muted)', fontSize: '12px' }}>SIGNED IN AS</div>
               <strong>{user.email}</strong>
             </div>
-            <button type="button" onClick={signOut} style={secondaryButtonStyle}>Sign out</button>
+            <button suppressHydrationWarning type="button" onClick={signOut} style={secondaryButtonStyle}>Sign out</button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginTop: '18px' }}>

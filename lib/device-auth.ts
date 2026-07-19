@@ -4,10 +4,29 @@ export const DEVICE_CODE_TTL_MS = 30 * 60 * 1000
 export const EXTENSION_SESSION_TTL_MS = 90 * 24 * 60 * 60 * 1000
 export const DEVICE_POLL_INTERVAL_SECONDS = 3
 
-export type ExtensionProduct = 'vscode' | 'figma' | 'chrome' | 'framer' | 'raycast'
+export type ExtensionProduct =
+  | 'vscode'
+  | 'figma'
+  | 'chrome'
+  | 'framer'
+  | 'raycast'
+  | 'mcp'
+  | 'jetbrains'
+  | 'storybook'
+  | 'canva'
+  | 'tailwind'
 
 export function parseExtensionProduct(value: unknown): ExtensionProduct | null {
-  return value === 'vscode' || value === 'figma' || value === 'chrome' || value === 'framer' || value === 'raycast'
+  return value === 'vscode' ||
+    value === 'figma' ||
+    value === 'chrome' ||
+    value === 'framer' ||
+    value === 'raycast' ||
+    value === 'mcp' ||
+    value === 'jetbrains' ||
+    value === 'storybook' ||
+    value === 'canva' ||
+    value === 'tailwind'
     ? value
     : null
 }

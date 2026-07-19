@@ -24,6 +24,11 @@ const productNames: Record<string, string> = {
   chrome: 'Chrome extension',
   framer: 'Framer plugin',
   raycast: 'Raycast extension',
+  mcp: 'MCP server',
+  jetbrains: 'JetBrains plugin',
+  storybook: 'Storybook addon',
+  canva: 'Canva app',
+  tailwind: 'Tailwind plugin',
 }
 
 const productShortNames: Record<string, string> = {
@@ -32,6 +37,11 @@ const productShortNames: Record<string, string> = {
   chrome: 'Chrome',
   framer: 'Framer',
   raycast: 'Raycast',
+  mcp: 'MCP',
+  jetbrains: 'JetBrains',
+  storybook: 'Storybook',
+  canva: 'Canva',
+  tailwind: 'Tailwind',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {
@@ -150,7 +160,7 @@ export default function ConnectClient({ product, code, authError }: ConnectClien
                     <span>Signed in as</span>
                     <strong>{user.email}</strong>
                   </div>
-                  <button
+                  <button suppressHydrationWarning
                     type="button"
                     onClick={approve}
                     disabled={approving}
@@ -161,7 +171,7 @@ export default function ConnectClient({ product, code, authError }: ConnectClien
                 </div>
               ) : (
                 <div className="connect-action-stack">
-                  <button type="button" onClick={() => setShowAuth(true)} className="connect-primary-button">
+                  <button suppressHydrationWarning type="button" onClick={() => setShowAuth(true)} className="connect-primary-button">
                     Sign in or create a free account
                   </button>
                   <p className="connect-founder-note">
