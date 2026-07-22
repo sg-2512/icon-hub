@@ -15,7 +15,9 @@ const SVG_HEADERS = {
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
 }
 
-const CACHE_DIR = path.join(process.cwd(), '.cache', 'svgs')
+const CACHE_DIR = process.env.VERCEL
+  ? path.join('/tmp', '.cache', 'svgs')
+  : path.join(process.cwd(), '.cache', 'svgs')
 
 function isSafeSegment(value: string) {
   return /^[a-z0-9][a-z0-9._-]*$/i.test(value)
@@ -87,7 +89,6 @@ function getUpstreamCandidateUrls(library: string, name: string): string[] {
 
   const add = (url: string) => candidates.add(url)
 
-
   if (library.startsWith('iconify-')) {
     const prefix = library.replace(/^iconify-/, '')
     for (const v of variants) {
@@ -114,7 +115,6 @@ function getUpstreamCandidateUrls(library: string, name: string): string[] {
       add(`https://api.iconify.design/radix/${v}.svg`)
     }
   } else if (library === 'devicons') {
-
     for (const v of variants) {
       add(`https://api.iconify.design/devicon/${v}.svg`)
       add(`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${v}/${v}-original.svg`)
@@ -177,8 +177,6 @@ function getUpstreamCandidateUrls(library: string, name: string): string[] {
   return Array.from(candidates)
 }
 
-
-
 async function fetchAndCacheUpstream(library: string, name: string): Promise<string> {
   const candidates = getUpstreamCandidateUrls(library, name)
   for (const url of candidates) {
@@ -192,13 +190,16 @@ async function fetchAndCacheUpstream(library: string, name: string): Promise<str
       const cleanSvg = sanitizeSvg(text)
       if (!cleanSvg) continue
 
-      // Cache locally on server disk
-      const libDir = path.join(CACHE_DIR, library)
-      if (!existsSync(libDir)) {
-        mkdirSync(libDir, { recursive: true })
+      try {
+        const libDir = path.join(CACHE_DIR, library)
+        if (!existsSync(libDir)) {
+          mkdirSync(libDir, { recursive: true })
+        }
+        const cachePath = path.join(libDir, `${name}.svg`)
+        writeFileSync(cachePath, cleanSvg, 'utf8')
+      } catch {
+        // Disk write failed (e.g. read-only serverless filesystem), safely ignore
       }
-      const cachePath = path.join(libDir, `${name}.svg`)
-      writeFileSync(cachePath, cleanSvg, 'utf8')
 
       return cleanSvg
     } catch {
@@ -208,6 +209,7 @@ async function fetchAndCacheUpstream(library: string, name: string): Promise<str
 
   return ''
 }
+
 
 export function OPTIONS() {
   return publicOptions()
