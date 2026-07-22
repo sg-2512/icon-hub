@@ -628,7 +628,7 @@ export default function BestForYouPage() {
           {/* Options */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '32px' }}>
             {questions[currentQ].options.map(option => (
-              <button
+              <button suppressHydrationWarning
                 key={option.value}
                 onClick={() => handleSelect(option.value)}
                 style={{
@@ -682,7 +682,7 @@ export default function BestForYouPage() {
           {/* Navigation */}
           <div style={{ display: 'flex', gap: '12px' }}>
             {currentQ > 0 && (
-              <button
+              <button suppressHydrationWarning
                 onClick={handleBack}
                 style={{
                   background: 'var(--bg-card)',
@@ -698,7 +698,7 @@ export default function BestForYouPage() {
                 ← Back
               </button>
             )}
-            <button
+            <button suppressHydrationWarning
               onClick={handleNext}
               disabled={!selected}
               style={{
@@ -956,7 +956,7 @@ export default function BestForYouPage() {
 
           {/* Actions */}
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button
+            <button suppressHydrationWarning
               onClick={handleRestart}
               style={{
                 background: 'var(--bg-card)',

@@ -1,0 +1,99 @@
+<main class="app-shell">
+  <header class="app-header">
+    <div class="brand-row">
+      <span class="brand-mark" aria-hidden="true">IS</span>
+      <div>
+        <span class="kicker">IconSearch</span>
+        <h1>Insert SVG icons</h1>
+      </div>
+    </div>
+    <span id="runtimeBadge" class="runtime-badge">Preview</span>
+  </header>
+
+  <section class="search-panel" aria-label="Search and filter icons">
+    <label class="search-field">
+      <span class="sr-only">Search icons</span>
+      <input id="searchInput" type="search" placeholder="Search home, arrow, cart..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+
+    <div class="filter-grid">
+      <label>
+        <span>Library</span>
+        <select id="librarySelect"></select>
+      </label>
+      <label>
+        <span>Style</span>
+        <select id="styleSelect"></select>
+      </label>
+    </div>
+
+    <div class="filter-footer">
+      <label class="toggle-row">
+        <input id="legalOnlyInput" type="checkbox" checked />
+        <span class="toggle-track" aria-hidden="true"><span></span></span>
+        <span>Commercial-safe</span>
+      </label>
+      <span id="resultCount">Searching...</span>
+    </div>
+  </section>
+
+  <section class="selection-panel" aria-live="polite">
+    <div class="preview-stage">
+      <span id="selectedPreview" class="icon-shape selected-shape" aria-hidden="true"></span>
+    </div>
+    <div class="selection-copy">
+      <strong id="selectedName">Loading icons...</strong>
+      <span id="selectedDetails">Preparing the live catalog</span>
+      <span id="selectionContext" class="selection-context">Select an element in Webflow</span>
+    </div>
+
+    <div class="style-controls">
+      <label class="range-field">
+        <span>Size <strong id="sizeValue">64px</strong></span>
+        <input id="sizeInput" type="range" min="16" max="256" step="4" value="64" />
+      </label>
+
+      <div class="color-control">
+        <label>
+          <span>Color</span>
+          <input id="colorInput" type="color" value="#111827" />
+        </label>
+        <div class="swatch-row" aria-label="Color presets">
+          <button type="button" class="swatch is-active" data-color="#111827" aria-label="Use ink"></button>
+          <button type="button" class="swatch" data-color="#146ef5" aria-label="Use Webflow blue"></button>
+          <button type="button" class="swatch" data-color="#0f766e" aria-label="Use teal"></button>
+          <button type="button" class="swatch" data-color="#be185d" aria-label="Use pink"></button>
+          <button type="button" class="swatch" data-color="#ffffff" aria-label="Use white"></button>
+        </div>
+      </div>
+
+      <label class="placement-field">
+        <span>Placement</span>
+        <select id="placementSelect">
+          <option value="after">After selection</option>
+          <option value="inside">Inside selection</option>
+          <option value="before">Before selection</option>
+        </select>
+      </label>
+    </div>
+
+    <button id="insertButton" class="primary-button" type="button" disabled>
+      Insert selected icon
+    </button>
+    <p class="insert-hint">Double-click any result to insert it with these settings.</p>
+  </section>
+
+  <section class="results-section" aria-label="Icon results">
+    <div class="results-heading">
+      <strong>Results</strong>
+      <span>Click to preview</span>
+    </div>
+    <div id="resultsGrid" class="results-grid" aria-busy="true"></div>
+  </section>
+
+  <footer id="statusBar" class="status-bar">Connecting to Webflow Designer...</footer>
+</main>
+
+<link rel="stylesheet" href="./styles.css" />
+<script src="./index.js"></script>

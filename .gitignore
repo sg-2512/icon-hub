@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules/
+/node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,6 +16,8 @@
 
 # local scratch/debug scripts
 /scratch/
+/.cache/
+
 
 # next.js
 /.next/
@@ -33,6 +36,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 .next-dev.*.log
+.codex-*.log
+*.stdout.log
+*.stderr.log
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -53,5 +59,28 @@ next-env.d.ts
 /framer-plugin/node_modules
 /framer-plugin/dist
 /framer-plugin/plugin.zip
+/raycast-extension/node_modules
+/raycast-extension/dist
+/raycast-extension/raycast-dev.log
+/raycast-extension/raycast-dev.err.log
+/mcp-server/node_modules
+/mcp-server/dist
+/jetbrains-plugin/.gradle
+/jetbrains-plugin/build
+/storybook-addon/node_modules
+/storybook-addon/dist
+/canva-app/node_modules
+/canva-app/dist
+/webflow-extension/node_modules
+/webflow-extension/.webflow
+/webflow-extension/bundle.zip
+/powerpoint-addin/node_modules
+/powerpoint-addin/dist
+/google-slides-addon/node_modules
+/google-slides-addon/dist
+/google-slides-addon/.clasp.json
+/sketch-plugin/node_modules
+/sketch-plugin/dist
+/.office-addin-debugging
 /dist/
 /public/downloads/iconsearch-chrome-extension.zip

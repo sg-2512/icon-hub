@@ -8,7 +8,7 @@ $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 $PluginDir = Resolve-Path (Join-Path $RepoRoot "framer-plugin")
 
 if (-not $OutputPath) {
-  $OutputPath = Join-Path $PluginDir "IconSearch.zip"
+  $OutputPath = Join-Path $PluginDir "IconSearch-review.zip"
 }
 
 $TempDir = Join-Path $PluginDir ".review-package"

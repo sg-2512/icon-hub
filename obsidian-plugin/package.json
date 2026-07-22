@@ -1,0 +1,12 @@
+{
+  "name": "iconsearch-obsidian-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Obsidian plugin for searching IconSearch and inserting styled SVG icons into notes.",
+  "author": "iconsearch",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "check": "node scripts/check-plugin.mjs"
+  }
+}

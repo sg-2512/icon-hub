@@ -43,6 +43,20 @@ export type ExportConfig = {
   presetColor: string
 }
 
+type ExportMetadata = {
+  id: string
+  name: string
+  library: string
+  libraryName: string
+  license: string
+  legalSafe: boolean
+  exportedConfig: {
+    size: number
+    stroke: number
+    color: string
+  }
+}
+
 export function customizeSvg(
   rawSvg: string,
   size: number,
@@ -178,15 +192,7 @@ export default function Icon${componentName}({ size = 24, ...props }: IconProps)
 `
 }
 
-export function generateVueComponent(
-  name: string,
-  svgContent: string
-): string {
-  const componentName = name
-    .split(/[-_]+/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('')
-
+export function generateVueComponent(svgContent: string): string {
   let vueSvg = svgContent
     .replace(/width="[^"]*"/, ':width="size"')
     .replace(/height="[^"]*"/, ':height="size"')
@@ -245,7 +251,7 @@ export async function generateZipPackage(
   // 2. Initialize JSZip
   if (onProgress) onProgress('Compiling workspace files...')
   const zip = new JSZip()
-  const metadataList: any[] = []
+  const metadataList: ExportMetadata[] = []
 
   const svgFolder = formats.svg ? zip.folder('svg') : null
   const pngFolder = formats.png ? zip.folder('png') : null
@@ -279,7 +285,7 @@ export async function generateZipPackage(
 
     // C. Vue Format
     if (vueFolder) {
-      vueFolder.file(`Icon${componentName}.vue`, generateVueComponent(item.icon.name, customizedSvg))
+      vueFolder.file(`Icon${componentName}.vue`, generateVueComponent(customizedSvg))
     }
 
     // D. HTML/Tailwind Format

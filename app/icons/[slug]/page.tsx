@@ -20,7 +20,48 @@ import { untitledUiIconsData } from '../../../data/libraries/untitled-ui-icons'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-const libraryData: Record<string, any> = {
+type LibraryDetailData = {
+  name: string
+  slug?: string
+  tagline: string
+  description: {
+    intro?: string
+    history?: string
+    detail?: string
+    focus?: string
+    technical?: string
+    verdict?: string
+    [key: string]: string | undefined
+  }
+  stats: {
+    iconCount: number
+    stars: number
+    weeklyDownloads: number
+    license: string
+    firstRelease: string
+    bundleSize: string
+  }
+  installation: Record<string, {
+    package?: string
+    command?: string
+    yarn?: string
+    pnpm?: string
+    note?: string
+  }>
+  codeExamples: Record<string, string>
+  pros: { title: string; detail: string }[]
+  cons: { title: string; detail: string }[]
+  whoShouldUse: string[]
+  whoShouldNot: string[]
+  faqs: { q: string; a: string }[]
+  links: {
+    github: string
+    website: string
+    [key: string]: string | undefined
+  }
+}
+
+const libraryData = {
   'lucide-icons': lucideIconsData,
   'heroicons': heroiconsData,
   'tabler-icons': tablerIconsData,
@@ -38,7 +79,7 @@ const libraryData: Record<string, any> = {
   'circum-icons': circumIconsData,
   'elusive-icons': elusiveIconsData,
   'untitled-ui-icons': untitledUiIconsData,
-}
+} as Record<string, LibraryDetailData>
 
 function formatCompactCount(value: number): string {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`
@@ -158,7 +199,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          "mainEntity": (data.faqs as any[]).map((faq: any) => ({
+          "mainEntity": data.faqs.map((faq) => ({
             "@type": "Question",
             "name": faq.q,
             "acceptedAnswer": { "@type": "Answer", "text": faq.a }
@@ -274,7 +315,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
           OVERVIEW
         </h2>
-        {[data.description.intro, data.description.history, data.description.detail, data.description.focus, data.description.technical, data.description.verdict].filter(Boolean).map((para, i) => (
+        {[data.description.intro, data.description.history, data.description.detail, data.description.focus, data.description.technical, data.description.verdict].filter((para): para is string => Boolean(para)).map((para, i) => (
           <p key={i} style={{ color: para === data.description.verdict ? 'var(--text)' : 'var(--text-muted)', fontSize: '16px', lineHeight: 1.8, marginBottom: '16px', background: para === data.description.verdict ? 'var(--accent-dim)' : 'transparent', border: para === data.description.verdict ? '1px solid var(--accent)' : 'none', borderRadius: para === data.description.verdict ? '8px' : '0', padding: para === data.description.verdict ? '16px' : '0' }}>
             {para === data.description.verdict && <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', display: 'block', marginBottom: '8px' }}>// VERDICT</span>}
             <span dangerouslySetInnerHTML={{ __html: para as string }} />
@@ -382,12 +423,10 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
               color: 'var(--green)',
               overflowX: 'auto',
             }}>
-              {typeof install === 'object' && install !== null && 'command' in install
-                ? (install as any).command
-                : ''}
+              {install.command ?? ''}
 
-              {typeof install === 'object' && install !== null && 'note' in install && (install as any).note
-                ? `\n\n// Note: ${(install as any).note}`
+              {install.note
+                ? `\n\n// Note: ${install.note}`
                 : ''}
             </pre>
           </div>
@@ -430,7 +469,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           <div>
             <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>PROS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {(data.pros as any[]).map((pro) => (
+              {data.pros.map((pro) => (
                 <div key={pro.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px' }}>
                   <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--green)' }}>✓ {pro.title}</div>
                   <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{pro.detail}</div>
@@ -441,7 +480,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           <div>
             <div style={{ fontSize: '12px', color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>CONS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {(data.cons as any[]).map((con) => (
+              {data.cons.map((con) => (
                 <div key={con.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px' }}>
                   <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--red)' }}>✗ {con.title}</div>
                   <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{con.detail}</div>
@@ -460,7 +499,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
           <div>
             <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>USE IF YOU...</div>
-            {(data.whoShouldUse as any[]).map((item, i) => (
+            {data.whoShouldUse.map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                 <span style={{ color: 'var(--green)', flexShrink: 0 }}>→</span>
                 <span style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</span>
@@ -469,7 +508,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           </div>
           <div>
             <div style={{ fontSize: '12px', color: 'var(--red)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>AVOID IF YOU...</div>
-            {(data.whoShouldNot as any[]).map((item, i) => (
+            {data.whoShouldNot.map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                 <span style={{ color: 'var(--red)', flexShrink: 0 }}>✗</span>
                 <span style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item}</span>
@@ -485,7 +524,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
           FREQUENTLY ASKED QUESTIONS
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {(data.faqs as any[]).map((faq, i) => (
+          {data.faqs.map((faq, i) => (
             <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '20px' }}>
               <div style={{ fontWeight: 700, fontSize: '15px', marginBottom: '10px', color: 'var(--text)' }}>
                 <span style={{ color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', marginRight: '8px' }}>Q.</span>

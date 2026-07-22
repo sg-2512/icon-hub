@@ -1,0 +1,10 @@
+{
+  "id": "iconsearch",
+  "name": "IconSearch",
+  "version": "0.1.0",
+  "minAppVersion": "1.0.0",
+  "description": "Search IconSearch, style SVG icons, and insert them into your notes.",
+  "author": "iconsearch",
+  "authorUrl": "https://iconsearch.info",
+  "isDesktopOnly": false
+}

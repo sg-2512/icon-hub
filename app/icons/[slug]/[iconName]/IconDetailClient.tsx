@@ -2,6 +2,11 @@
 
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
+import type { User } from '@supabase/supabase-js'
+import AuthModal from '@/app/components/AuthModal'
+import { createClient } from '@/lib/supabase'
+
+
 
 type Icon = {
   id: string
@@ -26,6 +31,23 @@ type Props = {
   librarySlug: string
 }
 
+type SnippetTab = 'svg' | 'react' | 'jsx' | 'base64'
+
+type DetailCartItem = {
+  key: string
+  icon: Icon
+  size: number
+  stroke: number
+  color: string
+}
+
+type DetailPack = {
+  id: string
+  name: string
+  items: DetailCartItem[]
+  createdAt: string
+}
+
 const COMMON_COLORS = [
   '#ffffff', '#000000', '#4b5563', '#ef4444', '#f97316', '#f59e0b',
   '#eab308', '#84cc16', '#22c55e', '#10b981', '#06b6d4', '#3b82f6',
@@ -44,22 +66,40 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
   const [color, setColor] = useState('#818cf8')
   const [strokeWidth, setStrokeWidth] = useState(1.5)
   const [stripFill, setStripFill] = useState(false)
-  const [activeTab, setActiveTab] = useState<'svg' | 'react' | 'jsx' | 'base64'>('svg')
+  const [activeTab, setActiveTab] = useState<SnippetTab>('svg')
   const [copied, setCopied] = useState(false)
   const [addedToCart, setAddedToCart] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+
+  useEffect(() => {
+    void (async () => {
+      const supabase = await createClient()
+      if (!supabase) return
+      const { data } = await supabase.auth.getUser()
+      setUser(data.user)
+
+      const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user || null)
+      })
+      return () => subscription.subscription.unsubscribe()
+    })()
+  }, [])
+
 
   const handleAddToCart = () => {
     try {
       const activeId = localStorage.getItem('icon-hub-workspace-active-pack') || 'default'
       const rawPacks = localStorage.getItem('icon-hub-workspace-packs')
-      let packsList: any[] = [
+      let packsList: DetailPack[] = [
         { id: 'default', name: 'Dashboard Pack', items: [], createdAt: new Date().toISOString() }
       ]
 
       if (rawPacks) {
         try {
-          packsList = JSON.parse(rawPacks)
-        } catch(e) {}
+          const parsedPacks = JSON.parse(rawPacks) as unknown
+          packsList = Array.isArray(parsedPacks) ? parsedPacks as DetailPack[] : packsList
+        } catch {}
       }
 
       const newItem = {
@@ -84,7 +124,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
       window.dispatchEvent(new Event('cart-updated'))
       setAddedToCart(true)
       setTimeout(() => setAddedToCart(false), 2000)
-    } catch(e) {
+    } catch (e) {
       console.error('Failed to add to cart', e)
     }
   }
@@ -186,7 +226,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
     try {
       const b64 = btoa(unescape(encodeURIComponent(modifiedSvg)))
       return `data:image/svg+xml;base64,${b64}`
-    } catch (e) {
+    } catch {
       return ''
     }
   }, [modifiedSvg])
@@ -208,6 +248,10 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
   }
 
   const handleDownloadSvg = () => {
+    if (!user) {
+      setIsAuthModalOpen(true)
+      return
+    }
     const blob = new Blob([modifiedSvg], { type: 'image/svg+xml;charset=utf-8' })
     const blobURL = URL.createObjectURL(blob)
     const downloadLink = document.createElement('a')
@@ -220,8 +264,13 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
   }
 
   const handleDownloadPng = () => {
+    if (!user) {
+      setIsAuthModalOpen(true)
+      return
+    }
     const svgEl = document.querySelector('.icon-detail-preview svg')
     if (!svgEl) return
+
 
     const svgString = new XMLSerializer().serializeToString(svgEl)
     const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
@@ -368,7 +417,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
             </label>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {[24, 48, 64, 128, 256, 512].map(s => (
-                <button
+                <button suppressHydrationWarning
                   key={s}
                   onClick={() => setSize(s)}
                   style={{
@@ -411,7 +460,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
                 <label>STROKE WEIGHT</label>
                 <span style={{ color: 'var(--accent)' }}>{strokeWidth}px</span>
               </div>
-              <input
+              <input suppressHydrationWarning
                 type="range"
                 min="0.5"
                 max="3"
@@ -446,7 +495,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
                 cursor: 'pointer',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
               }}>
-                <input
+                <input suppressHydrationWarning
                   type="color"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
@@ -462,7 +511,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
                   }}
                 />
               </div>
-              <input
+              <input suppressHydrationWarning
                 type="text"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
@@ -487,7 +536,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)', gap: '6px' }}>
               {COMMON_COLORS.map(c => (
-                <button
+                <button suppressHydrationWarning
                   key={c}
                   onClick={() => setColor(c)}
                   style={{
@@ -524,7 +573,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
             marginTop: '4px',
             userSelect: 'none'
           }}>
-            <input
+            <input suppressHydrationWarning
               type="checkbox"
               checked={stripFill}
               onChange={(e) => setStripFill(e.target.checked)}
@@ -540,7 +589,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
 
           {/* Download triggers */}
           <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
-            <button
+            <button suppressHydrationWarning
               onClick={handleDownloadSvg}
               style={{
                 flexGrow: 1,
@@ -571,7 +620,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download SVG
             </button>
-            <button
+            <button suppressHydrationWarning
               onClick={handleDownloadPng}
               style={{
                 flexGrow: 1,
@@ -606,7 +655,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           </div>
 
           {/* Add to Cart CTA */}
-          <button
+          <button suppressHydrationWarning
             onClick={handleAddToCart}
             style={{
               background: addedToCart ? 'var(--green)' : 'var(--accent-accessible, #6366f1)',
@@ -668,15 +717,15 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           flexWrap: 'wrap'
         }}>
           <div style={{ display: 'flex' }}>
-            {[
+            {([
               { id: 'svg', label: 'RAW SVG' },
               { id: 'react', label: 'REACT IMPORT' },
               { id: 'jsx', label: 'STANDALONE JSX' },
               { id: 'base64', label: 'BASE64 DATA' },
-            ].map(t => (
-              <button
+            ] satisfies { id: SnippetTab; label: string }[]).map(t => (
+              <button suppressHydrationWarning
                 key={t.id}
-                onClick={() => setActiveTab(t.id as any)}
+                onClick={() => setActiveTab(t.id)}
                 style={{
                   background: activeTab === t.id ? 'rgba(255, 255, 255, 0.02)' : 'transparent',
                   border: 'none',
@@ -702,7 +751,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
               </button>
             ))}
           </div>
-          <button
+          <button suppressHydrationWarning
             onClick={handleCopyCode}
             style={{
               background: copied ? 'rgba(52, 211, 153, 0.1)' : 'var(--accent-dim)',
@@ -941,7 +990,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
               BUTTON UI ACTIONS
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <button style={{
+              <button suppressHydrationWarning style={{
                 background: color,
                 color: '#ffffff',
                 border: 'none',
@@ -959,7 +1008,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
                 <span style={{ display: 'inline-flex', filter: 'brightness(10)' }} dangerouslySetInnerHTML={{ __html: modifiedSvg.replace(/width="[^"]*"/, 'width="14"').replace(/height="[^"]*"/, 'height="14"') }} />
                 <span>Primary CTA</span>
               </button>
-              <button style={{
+              <button suppressHydrationWarning style={{
                 background: 'rgba(255, 255, 255, 0.02)',
                 color: 'var(--text)',
                 border: '1px solid var(--border)',
@@ -1200,6 +1249,15 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
         </div>
       </section>
 
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={(authUser) => {
+          setUser(authUser)
+          setIsAuthModalOpen(false)
+        }}
+      />
     </div>
   )
 }
+

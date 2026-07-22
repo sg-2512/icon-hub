@@ -167,7 +167,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
         `}} />
 
         {/* Close Button */}
-        <button 
+        <button suppressHydrationWarning 
           onClick={onClose}
           aria-label="Close sign in dialog"
           style={{
@@ -273,7 +273,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
             }}>
               Email Address
             </label>
-            <input 
+            <input suppressHydrationWarning 
               type="email"
               required
               value={email}
@@ -313,7 +313,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
             }}>
               Password
             </label>
-            <input 
+            <input suppressHydrationWarning 
               type="password"
               required
               minLength={8}
@@ -342,7 +342,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
             />
           </div>
 
-          <button
+          <button suppressHydrationWarning
             type="submit"
             disabled={loading}
             style={{
@@ -391,7 +391,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
         {/* Social Buttons */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
           {/* GitHub */}
-          <button
+          <button suppressHydrationWarning
             onClick={() => handleOAuth('github')}
             style={{
               display: 'flex',
@@ -424,7 +424,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
           </button>
 
           {/* Google */}
-          <button
+          <button suppressHydrationWarning
             onClick={() => handleOAuth('google')}
             style={{
               display: 'flex',
@@ -467,7 +467,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
           color: 'var(--text-muted, #94a3b8)',
         }}>
           {isSignUp ? 'Already have an account?' : 'New to Icon Hub?'}
-          <button
+          <button suppressHydrationWarning
             onClick={() => {
               setIsSignUp(!isSignUp)
               setErrorMsg('')

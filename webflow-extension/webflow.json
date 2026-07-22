@@ -1,0 +1,11 @@
+{
+  "name": "IconSearch",
+  "apiVersion": "2",
+  "size": "comfortable",
+  "publicDir": "public",
+  "telemetry": {
+    "global": {
+      "allowTelemetry": false
+    }
+  }
+}

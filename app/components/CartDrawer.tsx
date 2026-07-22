@@ -1,10 +1,12 @@
-'use client'
-
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
+import type { User } from '@supabase/supabase-js'
+import AuthModal from './AuthModal'
+import { createClient } from '../../lib/supabase'
 import { generateZipPackage } from '../../lib/exporter'
 import { trackExport } from '../../lib/analytics'
 import { getBestIconPreviewUrl } from '../../lib/icon-preview'
+
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -147,7 +149,7 @@ export default function CartDrawer() {
 
   useEffect(() => {
     injectKeyframes()
-    refresh()
+    const initialRefresh = window.setTimeout(refresh, 0)
 
     const onCartUpdated = () => refresh()
     const onStorage = (e: StorageEvent) => {
@@ -157,6 +159,7 @@ export default function CartDrawer() {
     window.addEventListener(EVENT_NAME, onCartUpdated)
     window.addEventListener('storage', onStorage)
     return () => {
+      window.clearTimeout(initialRefresh)
       window.removeEventListener(EVENT_NAME, onCartUpdated)
       window.removeEventListener('storage', onStorage)
     }
@@ -196,15 +199,43 @@ export default function CartDrawer() {
     writePacks(updated)
   }
 
+
   const switchPack = (id: string) => {
     setActiveId(id)
     writeActiveId(id)
   }
 
+
+  const [user, setUser] = useState<User | null>(null)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+
+
+  useEffect(() => {
+    void (async () => {
+      const supabase = await createClient()
+      if (!supabase) return
+      const { data } = await supabase.auth.getUser()
+      setUser(data.user)
+
+      const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user || null)
+      })
+      return () => subscription.subscription.unsubscribe()
+    })()
+  }, [])
+
   /* --- zip archive generation ------------------------------------- */
   const handleStartExport = async () => {
     if (items.length === 0) return
+
+    if (!user) {
+      setIsExportModalOpen(false)
+      setIsAuthModalOpen(true)
+      return
+    }
+
     setIsExporting(true)
+
     setExportStatus('Reading icons...')
     try {
       // We map the icons list format to what exporter expects
@@ -377,7 +408,7 @@ export default function CartDrawer() {
               {totalCount} item{totalCount !== 1 ? 's' : ''}
             </span>
           </div>
-          <button
+          <button suppressHydrationWarning
             aria-label="Close cart"
             onClick={() => setOpen(false)}
             style={{
@@ -417,7 +448,7 @@ export default function CartDrawer() {
             >
               ACTIVE PACK
             </label>
-            <select
+            <select suppressHydrationWarning
               id="cart-active-pack"
               value={activeId}
               onChange={(e) => switchPack(e.target.value)}
@@ -543,7 +574,6 @@ export default function CartDrawer() {
                     flexShrink: 0,
                   }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={getBestIconPreviewUrl({
                       name: item.icon?.name || '',
@@ -601,7 +631,7 @@ export default function CartDrawer() {
                 </div>
 
                 {/* Remove */}
-                <button
+                <button suppressHydrationWarning
                   aria-label={`Remove ${item.icon?.name}`}
                   onClick={() => removeItem(item.key)}
                   style={{
@@ -647,7 +677,7 @@ export default function CartDrawer() {
             }}
           >
             <div style={{ display: 'flex', gap: 12 }}>
-              <button
+              <button suppressHydrationWarning
                 onClick={() => setIsExportModalOpen(true)}
                 style={{
                   flex: 1,
@@ -673,7 +703,7 @@ export default function CartDrawer() {
               >
                 Export Package
               </button>
-              <button
+              <button suppressHydrationWarning
                 onClick={clearAll}
                 style={{
                   padding: '10px 20px',
@@ -764,7 +794,7 @@ export default function CartDrawer() {
               <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span>📦</span> Export Workspace Package
               </h3>
-              <button
+              <button suppressHydrationWarning
                 onClick={() => setIsExportModalOpen(false)}
                 disabled={isExporting}
                 style={{
@@ -784,7 +814,7 @@ export default function CartDrawer() {
               <label style={{ fontSize: '10px', color: '#888', display: 'block', marginBottom: '6px', letterSpacing: '1px' }}>
                 // PACKAGE FILE NAME
               </label>
-              <input
+              <input suppressHydrationWarning
                 type="text"
                 placeholder="icon-hub-package"
                 value={exportPackageName}
@@ -811,7 +841,7 @@ export default function CartDrawer() {
                   <p style={{ fontSize: '11px', color: '#888', margin: '2px 0 0 0' }}>Force all icons in package to use a uniform preset</p>
                 </div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input
+                  <input suppressHydrationWarning
                     type="checkbox"
                     checked={exportUsePreset}
                     onChange={(e) => setExportUsePreset(e.target.checked)}
@@ -828,7 +858,7 @@ export default function CartDrawer() {
                       <span style={{ fontSize: '11px', color: '#888' }}>Preset Size</span>
                       <span style={{ fontSize: '11px', color: 'var(--accent, #818cf8)' }}>{exportPresetSize}px</span>
                     </div>
-                    <input
+                    <input suppressHydrationWarning
                       type="range"
                       min={16}
                       max={96}
@@ -845,7 +875,7 @@ export default function CartDrawer() {
                       <span style={{ fontSize: '11px', color: '#888' }}>Preset Stroke</span>
                       <span style={{ fontSize: '11px', color: 'var(--accent, #818cf8)' }}>{exportPresetStroke.toFixed(1)}px</span>
                     </div>
-                    <input
+                    <input suppressHydrationWarning
                       type="range"
                       min={0.5}
                       max={3}
@@ -860,7 +890,7 @@ export default function CartDrawer() {
                   </div>
                   <div style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
                     <span style={{ fontSize: '11px', color: '#888' }}>Preset Color:</span>
-                    <input
+                    <input suppressHydrationWarning
                       type="color"
                       value={exportPresetColor}
                       onChange={(e) => setExportPresetColor(e.target.value)}
@@ -902,7 +932,7 @@ export default function CartDrawer() {
                       fontSize: '12px'
                     }}
                   >
-                    <input
+                    <input suppressHydrationWarning
                       type="checkbox"
                       checked={exportFormats[f.id as keyof typeof exportFormats]}
                       onChange={(e) => setExportFormats(prev => ({ ...prev, [f.id]: e.target.checked }))}
@@ -925,7 +955,7 @@ export default function CartDrawer() {
                     @{exportPngScale}x
                   </span>
                 </div>
-                <input
+                <input suppressHydrationWarning
                   type="range"
                   min={1}
                   max={4}
@@ -965,7 +995,7 @@ export default function CartDrawer() {
             )}
 
             <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-              <button
+              <button suppressHydrationWarning
                 onClick={handleStartExport}
                 disabled={isExporting || Object.values(exportFormats).every(v => !v)}
                 style={{
@@ -982,7 +1012,7 @@ export default function CartDrawer() {
               >
                 {isExporting ? 'Packaging Workspace...' : 'Download ZIP Archive'}
               </button>
-              <button
+              <button suppressHydrationWarning
                 onClick={() => setIsExportModalOpen(false)}
                 disabled={isExporting}
                 style={{
@@ -1001,9 +1031,19 @@ export default function CartDrawer() {
           </div>
         </>
       )}
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={(authUser) => {
+          setUser(authUser)
+          setIsAuthModalOpen(false)
+        }}
+      />
     </>
   )
 }
+
 
 /* ------------------------------------------------------------------ */
 /*  Shared badge micro-style                                           */

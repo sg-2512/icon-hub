@@ -25,17 +25,32 @@ export async function generateStaticParams() {
   return POPULAR_TAGS.map(tag => ({ tag: `${tag}-icons` }))
 }
 
-// In-memory cache for loading the 354,523 icons
-let cachedIcons: any[] | null = null
+type CollectionIcon = {
+  id: string
+  name: string
+  displayName: string
+  library: string
+  libraryName: string
+  npmPackage?: string
+  license: string
+  tags?: string[]
+  reactImport?: string
+  reactUsage?: string
+  svgUrl: string
+  legalSafe?: boolean
+}
 
-function loadIconsDatabase(): any[] {
+// In-memory cache for loading the 354,523 icons
+let cachedIcons: CollectionIcon[] | null = null
+
+function loadIconsDatabase(): CollectionIcon[] {
   if (cachedIcons) return cachedIcons
   const canonicalPathGz = join(process.cwd(), 'data/canonical-icon-search.json.gz')
   if (existsSync(canonicalPathGz)) {
     try {
       const compressedData = readFileSync(canonicalPathGz)
       const decompressedData = gunzipSync(compressedData).toString('utf-8')
-      const list = JSON.parse(decompressedData)
+      const list = JSON.parse(decompressedData) as unknown
       cachedIcons = Array.isArray(list) ? list : []
       return cachedIcons
     } catch (e) {
@@ -46,7 +61,7 @@ function loadIconsDatabase(): any[] {
 }
 
 // Filter icons by matching tag with 100 limit for speed
-function getMatchingIconsForTag(tag: string): any[] {
+function getMatchingIconsForTag(tag: string): CollectionIcon[] {
   const allIcons = loadIconsDatabase()
   const cleanTag = tag.toLowerCase().trim()
   
@@ -214,7 +229,6 @@ export default async function CollectionPage({ params }: { params: Promise<{ tag
                 borderRadius: '8px',
                 border: '1px solid var(--border)',
               }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
                   src={getCleanSvgUrl(icon.svgUrl, icon.library)} 
                   alt={icon.displayName} 

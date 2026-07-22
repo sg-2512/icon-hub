@@ -19,6 +19,7 @@ The plugin also retrieves SVG markup from trusted HTTPS SVG origins only:
 | Origin | Data sent | Purpose |
 | --- | --- | --- |
 | `https://api.iconify.design` | SVG file path from an Iconify collection/name, no bearer token | Retrieves public Iconify SVG assets |
+| `https://cdn.jsdelivr.net` | SVG file path for supported public icon packages, no bearer token | Retrieves public SVG assets when a named library uses its package CDN |
 | `https://iconsearch.info` | SVG URL returned by the IconSearch API, no Framer project data | Retrieves IconSearch-hosted SVG assets |
 
 Any SVG URL outside these trusted HTTPS origins is rejected before preview, drag, or insert.

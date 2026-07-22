@@ -1,0 +1,31 @@
+{
+  "name": "iconsearch-sketch-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Search, style, and insert editable SVG icons in Sketch.",
+  "author": "IconSearch",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "build": "node scripts/build.mjs",
+    "check": "npm run build && node scripts/check-plugin.mjs",
+    "verify": "npm run typecheck && npm test && npm run check",
+    "dev-server": "vite --host 0.0.0.0 --port 3009"
+  },
+  "dependencies": {
+    "sketch-module-web-view": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "esbuild": "^0.28.1",
+    "jsdom": "^29.1.1",
+    "jszip": "^3.10.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
+  }
+}

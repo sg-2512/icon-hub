@@ -3,16 +3,17 @@ import Link from 'next/link'
 import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
 
 const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
+const framerMarketplaceUrl = 'https://www.framer.com/community/marketplace/plugins/iconsearch-svg-icons/'
 
 export const metadata: Metadata = {
-  title: `IconSearch Framer Plugin - Launching Soon`,
-  description: `The IconSearch Framer plugin is launching soon with ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+  title: 'IconSearch Framer Plugin - Free SVG Icons for Framer',
+  description: `Install the free IconSearch Framer plugin to search, customize, and insert ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
   alternates: {
     canonical: '/framer-plugin',
   },
   openGraph: {
-    title: 'IconSearch Framer Plugin - Launching Soon',
-    description: `A Framer Community plugin for searching, previewing, and inserting ${formattedIconCount} open source SVG icons directly inside Framer.`,
+    title: 'IconSearch Framer Plugin - Now Live',
+    description: `Install the free Framer Community plugin to search, customize, and insert ${formattedIconCount} open source SVG icons directly inside Framer.`,
     url: '/framer-plugin',
     type: 'website',
   },
@@ -22,7 +23,6 @@ const stats = [
   { value: formattedIconCount, label: 'online icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
   { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
-  { value: '0', label: 'offline icon bundles' },
 ]
 
 const features = [
@@ -45,7 +45,7 @@ const features = [
 ]
 
 const workflow = [
-  'Open the IconSearch plugin in Framer',
+  'Install IconSearch free from the Framer Marketplace',
   'Connect your free IconSearch account',
   'Search home, arrow, chart, calendar, or any icon',
   'Click an icon to insert a clean SVG on the canvas',
@@ -58,7 +58,7 @@ export default function FramerPluginPage() {
     <main className="framer-page">
       <section className="hero-section">
         <div className="hero-copy">
-          <div className="eyebrow">{'// FRAMER PLUGIN - LAUNCHING SOON'}</div>
+          <div className="eyebrow">{'// NOW LIVE IN THE FRAMER MARKETPLACE'}</div>
           <h1>Search and insert SVG icons inside Framer.</h1>
           <p>
             A compact icon command center for Framer designers: search the live IconSearch catalog,
@@ -66,14 +66,16 @@ export default function FramerPluginPage() {
           </p>
 
           <div className="hero-actions" aria-label="Primary actions">
-            <span className="primary-action pending">Launching soon</span>
+            <a className="primary-action" href={framerMarketplaceUrl} target="_blank" rel="noreferrer">
+              Open Framer Plugin
+            </a>
             <Link className="secondary-action" href="/icon-search">
               Try Web Search
             </Link>
           </div>
 
           <div className="trust-row" aria-label="Framer plugin highlights">
-            <span>Free access</span>
+            <span>Free on Framer Marketplace</span>
             <span>Secure sign in</span>
             <span>Online SVG vectors</span>
           </div>
@@ -170,16 +172,16 @@ export default function FramerPluginPage() {
       <section className="launch-card">
         <div>
           <span className="eyebrow">{'// STATUS'}</span>
-          <h2>Prepared for Framer Community launch.</h2>
+          <h2>Live on the Framer Marketplace.</h2>
           <p>
-            The plugin is wired into the same secure account system as the VS Code, Figma,
-            and Chrome integrations. Once the Framer listing is approved, this page can switch
-            from review status to the official install link.
+            IconSearch is available free from the official Framer Marketplace. Install it to
+            search the live catalog, customize size and color, then click or drag editable SVG
+            icons directly onto the canvas.
           </p>
         </div>
-        <Link className="secondary-action compact" href="/account">
-          Manage account
-        </Link>
+        <a className="secondary-action compact" href={framerMarketplaceUrl} target="_blank" rel="noreferrer">
+          View Framer listing
+        </a>
       </section>
 
       <style>{`
@@ -288,17 +290,13 @@ export default function FramerPluginPage() {
           box-shadow: 0 18px 42px rgba(59, 130, 246, 0.28);
         }
 
-        .primary-action.pending {
-          cursor: default;
-        }
-
         .secondary-action {
           border: 1px solid rgba(148, 163, 184, 0.22);
           background: rgba(9, 9, 11, 0.42);
           color: var(--text);
         }
 
-        .primary-action:not(.pending):hover,
+        .primary-action:hover,
         .secondary-action:hover {
           transform: translateY(-1px);
           border-color: rgba(255, 255, 255, 0.42);
@@ -530,7 +528,7 @@ export default function FramerPluginPage() {
 
         .stats-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 14px;
           margin: 24px 0 72px;
         }

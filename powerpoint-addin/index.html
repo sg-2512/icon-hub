@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://appsforoffice.microsoft.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://iconsearch.info https:; font-src 'self'; object-src 'none'; base-uri 'none';"
+    />
+    <title>IconSearch for PowerPoint</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="/assets/iconsearch-logo-128.png" width="28" height="28" alt="" />
+          <div><strong>IconSearch</strong><span>PowerPoint</span></div>
+        </div>
+        <span class="runtime-badge" id="runtimeBadge">Starting</span>
+      </header>
+
+      <main>
+        <section class="search-tools" aria-label="Icon search">
+          <label class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" autocomplete="off" spellcheck="false" aria-label="Search icons" placeholder="Search icons" />
+            <kbd>/</kbd>
+          </label>
+          <div class="filter-grid">
+            <label><span>Library</span><select id="librarySelect" aria-label="Library"></select></label>
+            <label><span>Style</span><select id="styleSelect" aria-label="Style"></select></label>
+          </div>
+          <label class="legal-toggle">
+            <input id="legalOnlyInput" type="checkbox" checked />
+            <span aria-hidden="true"></span>
+            Commercial-safe only
+          </label>
+        </section>
+
+        <section class="selected-panel" aria-label="Selected icon">
+          <div class="selected-summary">
+            <img class="selected-preview" id="selectedPreview" alt="" aria-hidden="true" />
+            <div><small>Selected</small><strong id="selectedName">Loading icons</strong><span id="selectedDetails">Live catalog</span></div>
+          </div>
+          <div class="control-row">
+            <label class="range-control">
+              <span>Size</span>
+              <input id="sizeInput" type="range" min="24" max="240" step="4" value="72" />
+              <output id="sizeValue">72 pt</output>
+            </label>
+          </div>
+          <div class="color-position-row">
+            <label class="color-control"><span>Color</span><input id="colorInput" type="color" value="#d24726" /><input id="colorTextInput" type="text" value="#D24726" maxlength="7" aria-label="Hex color" /></label>
+            <label class="position-control"><span>Position</span><select id="positionSelect"><option value="default">Automatic</option><option value="top-left">Top left</option><option value="content">Content area</option></select></label>
+          </div>
+          <div class="swatches" aria-label="Quick colors">
+            <button class="swatch swatch-original" type="button" data-color="" aria-label="Use original icon colors">Original</button>
+            <button class="swatch" type="button" data-color="#111827" style="--swatch:#111827" aria-label="Use charcoal"></button>
+            <button class="swatch" type="button" data-color="#D24726" style="--swatch:#D24726" aria-label="Use PowerPoint orange"></button>
+            <button class="swatch" type="button" data-color="#2563EB" style="--swatch:#2563EB" aria-label="Use blue"></button>
+            <button class="swatch" type="button" data-color="#059669" style="--swatch:#059669" aria-label="Use green"></button>
+            <button class="swatch" type="button" data-color="#7C3AED" style="--swatch:#7C3AED" aria-label="Use violet"></button>
+          </div>
+
+          <button class="insert-button" id="insertButton" type="button" disabled>
+            <span aria-hidden="true">＋</span> Insert into slide
+          </button>
+        </section>
+
+        <section class="results-section" aria-label="Search results" id="resultsSection">
+          <div class="results-heading"><strong>Results</strong><span id="resultCount">Searching...</span></div>
+          <div class="loading-line" id="loadingLine" aria-hidden="true"></div>
+          <div class="results-grid" id="resultsGrid" aria-live="polite" aria-busy="true"></div>
+        </section>
+      </main>
+
+
+
+      <footer id="statusBar" role="status">Connecting to the icon catalog...</footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

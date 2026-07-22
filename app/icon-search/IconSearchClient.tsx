@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback, memo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import type { Subscription, User } from '@supabase/supabase-js'
 import { generateZipPackage } from '../../lib/exporter'
 import { ICON_PREVIEW_CACHE_VERSION, getBestIconPreviewUrl, getCleanSvgUrl, getIconPreviewCandidates } from '../../lib/icon-preview'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase'
@@ -37,6 +38,36 @@ type CartItem = {
   icon: Icon
   size: number
   stroke: number
+  color: string
+}
+
+type WorkspacePack = {
+  id: string
+  name: string
+  items: CartItem[]
+  createdAt: string
+}
+
+type StylePreset = {
+  id: string
+  name: string
+  size: number
+  stroke: number
+  color: string
+}
+
+type CloudPackRow = {
+  id: string
+  name: string
+  items: CartItem[] | null
+  created_at: string
+}
+
+type CloudPresetRow = {
+  id: string
+  name: string
+  size: number
+  stroke: number | string
   color: string
 }
 
@@ -116,6 +147,10 @@ function formatNumber(num: number): string {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error)
+}
+
 function readSearchState(params: SearchParamReader | null) {
   const query = (params?.get('q') || '').trim()
   const rawLib = params?.get('lib') || 'all'
@@ -166,6 +201,7 @@ function getSlugForLibrary(library: string): string {
   if (library === 'lucide-icons') return 'lucide-icons'
   if (library === 'heroicons') return 'heroicons'
   if (library === 'tabler-icons') return 'tabler-icons'
+  if (library === 'patternfly-icons') return 'patternfly-icons'
   if (library === 'untitled-ui-icons') return 'untitled-ui-icons'
   if (library === 'phosphor-icons') return 'phosphor-icons'
   if (library === 'remix-icon') return 'remix-icon'
@@ -226,6 +262,8 @@ const IconCard = memo(({
 
   // Reset local state if icon changes
   useEffect(() => {
+    // This component intentionally resets its local fallback state when the rendered icon identity changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFallbackIndex(0)
     setFailed(false)
   }, [icon.id, icon.svgUrl, candidateSignature])
@@ -332,9 +370,6 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   const [customColor, setCustomColor] = useState('#818cf8')
   const [cart, setCart] = useState<CartItem[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [exportNotice, setExportNotice] = useState('')
-  const [workspaceOpen, setWorkspaceOpen] = useState(false)
   const searchRef = useRef<HTMLInputElement>(null)
   const lastSearchParamStringRef = useRef(searchParams?.toString() || '')
   const lastQueryRef = useRef(query)
@@ -359,7 +394,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   const [isExporting, setIsExporting] = useState(false)
 
   // Workspace Upgrades (Phase 3)
-  const [packs, setPacks] = useState<any[]>([
+  const [packs, setPacks] = useState<WorkspacePack[]>([
     { id: 'default', name: 'Dashboard Pack', items: [], createdAt: new Date().toISOString() }
   ])
   const [activePackId, setActivePackId] = useState('default')
@@ -369,7 +404,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   const [createPackName, setCreatePackName] = useState('')
 
   // Style Presets Upgrades (Phase 3)
-  const [presets, setPresets] = useState<any[]>([
+  const [presets, setPresets] = useState<StylePreset[]>([
     { id: 'default', name: 'Lucide Outline Default', size: 32, stroke: 1.5, color: '#818cf8' },
     { id: 'dense', name: 'Dense UI Outline (16px)', size: 16, stroke: 1.0, color: '#3b82f6' },
     { id: 'bold', name: 'Bold High-Contrast (48px)', size: 48, stroke: 2.2, color: '#ec4899' },
@@ -379,11 +414,11 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   const [createPresetName, setCreatePresetName] = useState('')
 
   // Phase 5: Auth, Cloud Sync & Plan Gating
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [cloudSyncStatus, setCloudSyncStatus] = useState('')
   // Cloud sync helper: push packs to Supabase
-  const syncPacksToCloud = useCallback(async (packsData: any[]) => {
+  const syncPacksToCloud = useCallback(async (packsData: WorkspacePack[]) => {
     if (!user || !isSupabaseConfigured()) return
     const supabase = await createClient()
     if (!supabase) return
@@ -404,14 +439,14 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
           alert('Pack sync error: ' + error.message)
         }
       }
-    } catch (e: any) {
+    } catch (e) {
       console.warn('Cloud sync failed (packs):', e)
-      alert('Cloud sync failed: ' + e.message)
+      alert('Cloud sync failed: ' + getErrorMessage(e))
     }
   }, [user])
 
   // Cloud sync helper: push presets to Supabase
-  const syncPresetsToCloud = useCallback(async (presetsData: any[]) => {
+  const syncPresetsToCloud = useCallback(async (presetsData: StylePreset[]) => {
     if (!user || !isSupabaseConfigured()) return
     const supabase = await createClient()
     if (!supabase) return
@@ -451,7 +486,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         .order('created_at', { ascending: true })
 
       if (cloudPacks && cloudPacks.length > 0) {
-        const merged = cloudPacks.map((p: any) => ({
+        const merged = (cloudPacks as CloudPackRow[]).map((p) => ({
           id: p.id,
           name: p.name,
           items: p.items || [],
@@ -471,7 +506,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         .order('created_at', { ascending: true })
 
       if (cloudPresets && cloudPresets.length > 0) {
-        const mapped = cloudPresets.map((p: any) => ({
+        const mapped = (cloudPresets as CloudPresetRow[]).map((p) => ({
           id: p.id,
           name: p.name,
           size: p.size,
@@ -492,7 +527,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
 
   // Auth session listener
   useEffect(() => {
-    let subscription: any = null
+    let subscription: Subscription | null = null
 
     async function initAuth() {
       const supabase = await createClient()
@@ -534,7 +569,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     setCloudSyncStatus('')
   }
 
-  function handleAuthSuccess(authUser: any) {
+  function handleAuthSuccess(authUser: User) {
     setUser(authUser)
     fetchCloudData(authUser.id)
   }
@@ -542,7 +577,14 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   async function handleStartExport() {
     if (cart.length === 0) return
 
+    if (!user) {
+      setIsExportModalOpen(false)
+      setIsAuthModalOpen(true)
+      return
+    }
+
     setIsExporting(true)
+
     try {
       await generateZipPackage({
         packageName: exportPackageName,
@@ -574,14 +616,6 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   }
 
   // Packs & Workspace helper handlers (Phase 3)
-  function handleSwitchPack(packId: string) {
-    setActivePackId(packId)
-    const pack = packs.find(p => p.id === packId)
-    if (pack) {
-      setCart(pack.items)
-    }
-  }
-
   function handleCreatePack() {
     const name = createPackName.trim() || `Pack #${packs.length + 1}`
     const id = `pack-${Date.now()}`
@@ -599,21 +633,6 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     if (!name) return
     setPacks(prev => prev.map(p => p.id === activePackId ? { ...p, name } : p))
     setIsRenamePackOpen(false)
-  }
-
-  function handleDeleteActivePack() {
-    if (packs.length <= 1) return
-    const remaining = packs.filter(p => p.id !== activePackId)
-    setPacks(remaining)
-    const nextActive = remaining[0]
-    setActivePackId(nextActive.id)
-    setCart(nextActive.items)
-  }
-
-  function handleClearActivePack() {
-    setCart([])
-    setExportNotice('Cleared all icons in current pack.')
-    setTimeout(() => setExportNotice(''), 1800)
   }
 
   // Presets helper handlers (Phase 3)
@@ -640,8 +659,6 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         color: preset.color,
       }))
     )
-    setExportNotice('Applied preset styling to all cart icons!')
-    setTimeout(() => setExportNotice(''), 2200)
   }
 
   function handleQueryChange(value: string) {
@@ -831,7 +848,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
       const rawActiveId = localStorage.getItem('icon-hub-workspace-active-pack')
       const rawPresets = localStorage.getItem('icon-hub-style-presets')
 
-      let initialPacks = [
+      let initialPacks: WorkspacePack[] = [
         { id: 'default', name: 'Dashboard Pack', items: [], createdAt: new Date().toISOString() }
       ]
       let activeId = 'default'
@@ -839,11 +856,13 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
       if (rawPacks) {
         const parsed = JSON.parse(rawPacks)
         if (Array.isArray(parsed) && parsed.length > 0) {
-          initialPacks = parsed
+          initialPacks = parsed as WorkspacePack[]
           activeId = rawActiveId || parsed[0].id
         }
       }
 
+      // Workspace state is hydrated from browser storage after mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPacks(initialPacks)
       setActivePackId(activeId)
 
@@ -875,7 +894,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
             .then(data => {
               const fetchedIcons = data.icons || []
               const cartItems: CartItem[] = parsedItems.map(p => {
-                const matchedIcon = fetchedIcons.find((i: any) => i.id === p.id)
+                const matchedIcon = fetchedIcons.find((i) => i.id === p.id)
                 if (!matchedIcon) return null
                 return {
                   key: `${p.id}-${Date.now()}-${Math.random()}`,
@@ -908,7 +927,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         }
       } else {
         // No URL params, load active pack's items
-        const activePack = initialPacks.find((p: any) => p.id === activeId)
+        const activePack = initialPacks.find((p) => p.id === activeId)
         if (activePack) setCart(activePack.items)
         setIsLoaded(true)
       }
@@ -945,7 +964,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         const rawPacks = localStorage.getItem('icon-hub-workspace-packs')
         const rawActiveId = localStorage.getItem('icon-hub-workspace-active-pack')
 
-        let currentPacks = [
+        let currentPacks: WorkspacePack[] = [
           { id: 'default', name: 'Dashboard Pack', items: [], createdAt: new Date().toISOString() }
         ]
         let activeId = 'default'
@@ -953,7 +972,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         if (rawPacks) {
           const parsed = JSON.parse(rawPacks)
           if (Array.isArray(parsed) && parsed.length > 0) {
-            currentPacks = parsed
+            currentPacks = parsed as WorkspacePack[]
             activeId = rawActiveId || parsed[0].id
           }
         }
@@ -961,7 +980,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         setPacks(currentPacks)
         setActivePackId(activeId)
 
-        const activePack = currentPacks.find((p: any) => p.id === activeId)
+        const activePack = currentPacks.find((p) => p.id === activeId)
         if (activePack) {
           setCart(activePack.items)
         }
@@ -1013,6 +1032,8 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
 
   // Keep packs array in sync whenever active pack's cart items are altered
   useEffect(() => {
+    // The active workspace pack mirrors the cart state for persistence and cross-page sync.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPacks((prev) => {
       let changed = false
       const next = prev.map((pack) => {
@@ -1028,6 +1049,8 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
 
   useEffect(() => {
     if (!selectedIcon) return
+    // Style controls reset whenever the selected icon changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCustomSize(32)
     setCustomStroke(1.5)
     setCustomColor('#818cf8')
@@ -1086,156 +1109,6 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     })
   }
 
-  function removeFromCart(key: string) {
-    setCart((prev) => prev.filter((item) => item.key !== key))
-  }
-
-  function buildCartJson() {
-    return cart.map((item) => ({
-      icon: `${item.icon.library}:${item.icon.name}`,
-      license: item.icon.license,
-      legalSafe: Boolean(item.icon.legalSafe),
-      size: item.size,
-      stroke: item.stroke,
-      color: item.color,
-      import: item.icon.reactImport,
-      usage: item.icon.reactUsage,
-    }))
-  }
-
-  function buildReactExport() {
-    const legalSafeItems = cart.filter((item) => item.icon.legalSafe)
-    const imports = Array.from(new Set(legalSafeItems.map((item) => item.icon.reactImport))).join('\n')
-    const components = legalSafeItems
-      .map((item, idx) => {
-        const base = item.icon.reactUsage
-        const withSize = base.replace(/size=\{?\d+\}?/, `size={${item.size}}`)
-        const withStroke = withSize.includes('strokeWidth=')
-          ? withSize.replace(/strokeWidth=\{?[\d.]+\}?/, `strokeWidth={${item.stroke}}`)
-          : withSize.replace('/>', ` strokeWidth={${item.stroke}} />`)
-        const withColor = withStroke.includes('color=')
-          ? withStroke.replace(/color=["'][^"']*["']/, `color="${item.color}"`)
-          : withStroke.replace('/>', ` color="${item.color}" />`)
-        return `        <div key="${item.key}-${idx}" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>${withColor}<span>${item.icon.name}</span></div>`
-      })
-      .join('\n')
-
-    return `${imports}
-
-export default function IconCartExport() {
-  return (
-    <div style={{ display: 'grid', gap: 12 }}>
-${components}
-    </div>
-  )
-}
-`
-  }
-
-  function buildVueExport() {
-    const legalSafeItems = cart.filter((item) => item.icon.legalSafe)
-    const lines = legalSafeItems.map(
-      (item) =>
-        `  <Icon icon="${item.icon.library}:${item.icon.name}" :width="${item.size}" :height="${item.size}" style="color: ${item.color}" />`
-    )
-    return `<template>
-  <div class="icon-cart-export">
-${lines.join('\n')}
-  </div>
-</template>
-
-<script setup>
-import { Icon } from '@iconify/vue'
-</script>
-`
-  }
-
-  function buildTailwindExport() {
-    return cart
-      .filter((item) => item.icon.legalSafe)
-      .map(
-        (item) =>
-          `<img src="${item.icon.svgUrl}" alt="${item.icon.name}" class="inline-block" style="width:${item.size}px;height:${item.size}px;color:${item.color};" />`
-      )
-      .join('\n')
-  }
-
-  function buildCsvExport() {
-    const rows = [
-      ['icon', 'library', 'license', 'legal_safe', 'size', 'stroke', 'color', 'svg_url'],
-      ...cart.map((item) => [
-        item.icon.name,
-        item.icon.library,
-        item.icon.license,
-        String(Boolean(item.icon.legalSafe)),
-        String(item.size),
-        String(item.stroke),
-        item.color,
-        item.icon.svgUrl,
-      ]),
-    ]
-    return rows.map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(',')).join('\n')
-  }
-
-  function downloadText(filename: string, content: string, mimeType = 'text/plain;charset=utf-8') {
-    const blob = new Blob([content], { type: mimeType })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = filename
-    document.body.appendChild(link)
-    link.click()
-    link.remove()
-    URL.revokeObjectURL(url)
-  }
-
-  async function copyCartExport() {
-    if (cart.length === 0) return
-    const payload = buildCartJson()
-    await navigator.clipboard.writeText(JSON.stringify(payload, null, 2))
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1800)
-
-    trackExport({
-      format: 'clipboard_json',
-      iconCount: cart.length,
-      libraries: [...new Set(cart.map(item => item.icon.library))].join(','),
-      iconNames: cart.map(item => item.icon.name).join(','),
-    })
-  }
-
-  function exportCart(format: 'json' | 'react' | 'vue' | 'tailwind' | 'csv') {
-    if (cart.length === 0) return
-
-    if (format === 'json') {
-      downloadText('icon-cart.json', JSON.stringify(buildCartJson(), null, 2), 'application/json;charset=utf-8')
-      setExportNotice('Downloaded JSON export')
-    } else if (format === 'react') {
-      downloadText('icon-cart-export.tsx', buildReactExport(), 'text/typescript;charset=utf-8')
-      setExportNotice('Downloaded React export')
-    } else if (format === 'vue') {
-      downloadText('icon-cart-export.vue', buildVueExport(), 'text/plain;charset=utf-8')
-      setExportNotice('Downloaded Vue export')
-    } else if (format === 'tailwind') {
-      downloadText('icon-cart-tailwind.html', buildTailwindExport(), 'text/html;charset=utf-8')
-      setExportNotice('Downloaded Tailwind/HTML export')
-    } else if (format === 'csv') {
-      downloadText('icon-cart.csv', buildCsvExport(), 'text/csv;charset=utf-8')
-      setExportNotice('Downloaded CSV export')
-    }
-    setTimeout(() => setExportNotice(''), 2200)
-
-    // Track code-format export (fire-and-forget)
-    const libSet = [...new Set(cart.map(i => i.icon.library))].join(',')
-    const names = cart.map(i => i.icon.name).join(',')
-    trackExport({
-      format,
-      iconCount: cart.length,
-      libraries: libSet,
-      iconNames: names,
-    })
-  }
-
   return (
     <main style={{ maxWidth: '1500px', margin: '0 auto', padding: '40px 48px', position: 'relative', minHeight: '100vh' }}>
       <div className="glow-grid-overlay" />
@@ -1276,7 +1149,7 @@ import { Icon } from '@iconify/vue'
 
                 {/* Profile Button */}
                 <div style={{ position: 'relative' }}>
-                  <button
+                  <button suppressHydrationWarning
                     onClick={handleSignOut}
                     style={{
                       background: 'rgba(255, 255, 255, 0.05)',
@@ -1319,7 +1192,7 @@ import { Icon } from '@iconify/vue'
                 </div>
               </div>
             ) : (
-              <button
+              <button suppressHydrationWarning
                 onClick={() => setIsAuthModalOpen(true)}
                 style={{
                   background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
@@ -1357,7 +1230,7 @@ import { Icon } from '@iconify/vue'
       <section style={{ position: 'relative', zIndex: 2, marginBottom: '18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(24,24,27,0.78)', border: '1px solid var(--border)', borderRadius: '14px', padding: '10px 14px' }}>
           <span style={{ fontSize: '18px', color: 'var(--text-muted)' }}>🔎</span>
-          <input
+          <input suppressHydrationWarning
             ref={searchRef}
             type="text"
             placeholder="Try: home, settings, arrow-right, cloud..."
@@ -1370,7 +1243,7 @@ import { Icon } from '@iconify/vue'
       </section>
 
       <section className="icon-search-filter-bar" style={{ position: 'relative', zIndex: 2, marginBottom: '20px', background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px', display: 'grid', gridTemplateColumns: 'repeat(6, minmax(0, 1fr))', gap: '10px' }}>
-        <select
+        <select suppressHydrationWarning
           aria-label="Filter by library"
           title="Filter by library"
           value={selectedLibraryValue}
@@ -1394,10 +1267,10 @@ import { Icon } from '@iconify/vue'
             ))}
           </optgroup>
         </select>
-        <select aria-label="Filter by category" title="Filter by category" value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)} className="icon-search-select">
+        <select suppressHydrationWarning aria-label="Filter by category" title="Filter by category" value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)} className="icon-search-select">
           {CATEGORIES.map((cat) => <option key={cat.id} value={cat.id}>{cat.icon} {cat.name}</option>)}
         </select>
-        <select aria-label="Filter by icon style" title="Filter by icon style" value={selectedStyle} onChange={(e) => handleStyleChange(e.target.value)} className="icon-search-select">
+        <select suppressHydrationWarning aria-label="Filter by icon style" title="Filter by icon style" value={selectedStyle} onChange={(e) => handleStyleChange(e.target.value)} className="icon-search-select">
           <option value="all">All styles</option>
           <option value="stroke">Outline/Stroke</option>
           <option value="solid">Solid/Filled</option>
@@ -1405,13 +1278,13 @@ import { Icon } from '@iconify/vue'
           <option value="twotone">Two-Tone</option>
           <option value="sharp">Sharp</option>
         </select>
-        <select aria-label="Sort search results" title="Sort search results" value={sortBy} onChange={(e) => handleSortChange(e.target.value as SortOption)} className="icon-search-select">
+        <select suppressHydrationWarning aria-label="Sort search results" title="Sort search results" value={sortBy} onChange={(e) => handleSortChange(e.target.value as SortOption)} className="icon-search-select">
           <option value="alphabetical">Sort: A → Z</option>
           <option value="relevance">Sort: Relevance</option>
           <option value="popular">Sort: Popular</option>
         </select>
         <label className="icon-search-legal-toggle" title="Show only legally safer icon licenses">
-          <input type="checkbox" checked={legalOnly} onChange={(e) => handleLegalOnlyChange(e.target.checked)} />
+          <input suppressHydrationWarning type="checkbox" checked={legalOnly} onChange={(e) => handleLegalOnlyChange(e.target.checked)} />
           Legal-safe only
         </label>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '13px', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-card)' }}>
@@ -1435,13 +1308,13 @@ import { Icon } from '@iconify/vue'
 
         {results.totalPages > 1 && (
           <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-            <button disabled={results.page <= 1} onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} className="icon-search-btn">
+            <button suppressHydrationWarning disabled={results.page <= 1} onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} className="icon-search-btn">
               Previous
             </button>
             <span style={{ color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', fontSize: '12px' }}>
               Page {results.page} / {results.totalPages}
             </span>
-            <button disabled={results.page >= results.totalPages} onClick={() => setCurrentPage((p) => Math.min(results.totalPages, p + 1))} className="icon-search-btn">
+            <button suppressHydrationWarning disabled={results.page >= results.totalPages} onClick={() => setCurrentPage((p) => Math.min(results.totalPages, p + 1))} className="icon-search-btn">
               Next
             </button>
           </div>
@@ -1452,7 +1325,7 @@ import { Icon } from '@iconify/vue'
         <>
           <div onClick={() => setSelectedIcon(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 99 }} />
           <aside className="icon-search-detail-panel" style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: '420px', background: 'var(--bg-secondary)', borderLeft: '1px solid var(--border)', zIndex: 100, padding: '20px', overflowY: 'auto' }}>
-            <button onClick={() => setSelectedIcon(null)} className="icon-search-btn icon-search-btn-small icon-search-close-btn">✕</button>
+            <button suppressHydrationWarning onClick={() => setSelectedIcon(null)} className="icon-search-btn icon-search-btn-small icon-search-close-btn">✕</button>
             <h3 style={{ fontSize: '22px', marginBottom: '8px' }}>{selectedIcon.displayName || selectedIcon.name}</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '8px' }}>{selectedIcon.libraryName}</p>
             <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '8px' }}>
@@ -1504,7 +1377,7 @@ import { Icon } from '@iconify/vue'
                   <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Size</label>
                   <span style={{ fontSize: '11px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace' }}>{customSize}px</span>
                 </div>
-                <input
+                <input suppressHydrationWarning
                   className="icon-search-slider"
                   type="range"
                   aria-label="Customizer icon size"
@@ -1520,7 +1393,7 @@ import { Icon } from '@iconify/vue'
                   <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Stroke</label>
                   <span style={{ fontSize: '11px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace' }}>{customStroke.toFixed(1)}px</span>
                 </div>
-                <input
+                <input suppressHydrationWarning
                   className="icon-search-slider"
                   type="range"
                   aria-label="Customizer stroke width"
@@ -1535,7 +1408,7 @@ import { Icon } from '@iconify/vue'
             </div>
             <div style={{ marginBottom: '12px', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px' }}>
               <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginRight: '8px' }}>Color</label>
-              <input
+              <input suppressHydrationWarning
                 type="color"
                 aria-label="Customizer color picker"
                 title="Customizer color picker"
@@ -1549,7 +1422,7 @@ import { Icon } from '@iconify/vue'
             <div style={{ marginBottom: '12px', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px', background: 'var(--bg-secondary)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Style Preset</label>
-                <button 
+                <button suppressHydrationWarning 
                   onClick={() => {
                     setCreatePresetName('')
                     setIsCreatePresetOpen(true)
@@ -1562,7 +1435,7 @@ import { Icon } from '@iconify/vue'
                 </button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <select 
+                <select suppressHydrationWarning 
                   aria-label="Style preset select picker"
                   value={selectedPresetId} 
                   onChange={(e) => applyStylePreset(e.target.value)} 
@@ -1575,7 +1448,7 @@ import { Icon } from '@iconify/vue'
                   ))}
                 </select>
                 {selectedPresetId !== 'none' && cart.length > 0 && (
-                  <button 
+                  <button suppressHydrationWarning 
                     onClick={() => applyPresetToAllCart(selectedPresetId)}
                     className="icon-search-btn icon-search-btn-small"
                     style={{ width: '100%', fontSize: '9px', padding: '4px', background: 'var(--accent-dim)', color: 'var(--accent)', borderColor: 'var(--border)' }}
@@ -1598,7 +1471,7 @@ import { Icon } from '@iconify/vue'
 
 {selectedIcon.reactUsage}
             </pre>
-            <button onClick={addToCart} className="icon-search-btn" style={{ marginTop: '12px', width: '100%', background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>
+            <button suppressHydrationWarning onClick={addToCart} className="icon-search-btn" style={{ marginTop: '12px', width: '100%', background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>
               Add to Cart
             </button>
           </aside>
@@ -1617,7 +1490,7 @@ import { Icon } from '@iconify/vue'
             borderRadius: '12px', padding: '18px', zIndex: 301, display: 'flex', flexDirection: 'column', gap: '12px'
           }}>
             <h4 style={{ fontSize: '15px', fontWeight: 800 }}>Create New Icon Pack</h4>
-            <input 
+            <input suppressHydrationWarning 
               type="text" 
               placeholder="e.g. Dashboard Icons" 
               value={createPackName} 
@@ -1625,8 +1498,8 @@ import { Icon } from '@iconify/vue'
               style={{ width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '6px', padding: '6px 10px', color: 'var(--text)', fontSize: '13px', outline: 'none' }}
             />
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-              <button onClick={handleCreatePack} className="icon-search-btn icon-search-btn-small" style={{ background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>Create</button>
-              <button onClick={() => setIsCreatePackOpen(false)} className="icon-search-btn icon-search-btn-small">Cancel</button>
+              <button suppressHydrationWarning onClick={handleCreatePack} className="icon-search-btn icon-search-btn-small" style={{ background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>Create</button>
+              <button suppressHydrationWarning onClick={() => setIsCreatePackOpen(false)} className="icon-search-btn icon-search-btn-small">Cancel</button>
             </div>
           </div>
         </>
@@ -1641,7 +1514,7 @@ import { Icon } from '@iconify/vue'
             borderRadius: '12px', padding: '18px', zIndex: 301, display: 'flex', flexDirection: 'column', gap: '12px'
           }}>
             <h4 style={{ fontSize: '15px', fontWeight: 800 }}>Rename Icon Pack</h4>
-            <input 
+            <input suppressHydrationWarning 
               type="text" 
               value={renamePackName} 
               onChange={(e) => setRenamePackName(e.target.value)}
@@ -1650,8 +1523,8 @@ import { Icon } from '@iconify/vue'
               style={{ width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '6px', padding: '6px 10px', color: 'var(--text)', fontSize: '13px', outline: 'none' }}
             />
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-              <button onClick={handleRenamePack} className="icon-search-btn icon-search-btn-small" style={{ background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>Rename</button>
-              <button onClick={() => setIsRenamePackOpen(false)} className="icon-search-btn icon-search-btn-small">Cancel</button>
+              <button suppressHydrationWarning onClick={handleRenamePack} className="icon-search-btn icon-search-btn-small" style={{ background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>Rename</button>
+              <button suppressHydrationWarning onClick={() => setIsRenamePackOpen(false)} className="icon-search-btn icon-search-btn-small">Cancel</button>
             </div>
           </div>
         </>
@@ -1669,7 +1542,7 @@ import { Icon } from '@iconify/vue'
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
               Size: {customSize}px | Stroke: {customStroke.toFixed(1)}px | Color: {customColor}
             </div>
-            <input 
+            <input suppressHydrationWarning 
               type="text" 
               placeholder="e.g. SaaS Brand Primary" 
               value={createPresetName} 
@@ -1677,7 +1550,7 @@ import { Icon } from '@iconify/vue'
               style={{ width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '6px', padding: '6px 10px', color: 'var(--text)', fontSize: '13px', outline: 'none' }}
             />
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-              <button 
+              <button suppressHydrationWarning 
                 onClick={() => {
                   const name = createPresetName.trim() || `Preset #${presets.length + 1}`
                   const id = `preset-${Date.now()}`
@@ -1691,7 +1564,7 @@ import { Icon } from '@iconify/vue'
               >
                 Save
               </button>
-              <button onClick={() => setIsCreatePresetOpen(false)} className="icon-search-btn icon-search-btn-small">Cancel</button>
+              <button suppressHydrationWarning onClick={() => setIsCreatePresetOpen(false)} className="icon-search-btn icon-search-btn-small">Cancel</button>
             </div>
           </div>
         </>
@@ -1733,7 +1606,7 @@ import { Icon } from '@iconify/vue'
               <h3 style={{ fontSize: '20px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span>📦</span> Export Workspace Package
               </h3>
-              <button 
+              <button suppressHydrationWarning 
                 onClick={() => setIsExportModalOpen(false)} 
                 disabled={isExporting}
                 className="icon-search-btn icon-search-btn-small icon-search-close-btn"
@@ -1746,7 +1619,7 @@ import { Icon } from '@iconify/vue'
               <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '6px', fontFamily: 'JetBrains Mono, monospace' }}>
                 // PACKAGE FILE NAME
               </label>
-              <input 
+              <input suppressHydrationWarning 
                 type="text" 
                 placeholder="icon-hub-package" 
                 value={exportPackageName}
@@ -1772,7 +1645,7 @@ import { Icon } from '@iconify/vue'
                   <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Force all icons in package to use a uniform preset</p>
                 </div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input 
+                  <input suppressHydrationWarning 
                     type="checkbox" 
                     checked={exportUsePreset} 
                     onChange={(e) => setExportUsePreset(e.target.checked)}
@@ -1789,7 +1662,7 @@ import { Icon } from '@iconify/vue'
                       <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Preset Size</span>
                       <span style={{ fontSize: '11px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace' }}>{exportPresetSize}px</span>
                     </div>
-                    <input 
+                    <input suppressHydrationWarning 
                       type="range" 
                       aria-label="Preset size range selector"
                       min={16} 
@@ -1805,7 +1678,7 @@ import { Icon } from '@iconify/vue'
                       <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Preset Stroke</span>
                       <span style={{ fontSize: '11px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace' }}>{exportPresetStroke.toFixed(1)}px</span>
                     </div>
-                    <input 
+                    <input suppressHydrationWarning 
                       type="range" 
                       aria-label="Preset stroke range selector"
                       min={0.5} 
@@ -1819,7 +1692,7 @@ import { Icon } from '@iconify/vue'
                   </div>
                   <div style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
                     <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Preset Color:</span>
-                    <input 
+                    <input suppressHydrationWarning 
                       type="color" 
                       aria-label="Preset color selection picker"
                       value={exportPresetColor} 
@@ -1859,7 +1732,7 @@ import { Icon } from '@iconify/vue'
                       fontSize: '12px'
                     }}
                   >
-                    <input 
+                    <input suppressHydrationWarning 
                       type="checkbox" 
                       checked={exportFormats[f.id as keyof typeof exportFormats]} 
                       onChange={(e) => setExportFormats(prev => ({ ...prev, [f.id]: e.target.checked }))}
@@ -1882,7 +1755,7 @@ import { Icon } from '@iconify/vue'
                     @{exportPngScale}x
                   </span>
                 </div>
-                <input 
+                <input suppressHydrationWarning 
                   type="range" 
                   aria-label="PNG scale multiplier selector"
                   min={1} 
@@ -1921,7 +1794,7 @@ import { Icon } from '@iconify/vue'
             )}
 
             <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-              <button 
+              <button suppressHydrationWarning 
                 onClick={handleStartExport}
                 disabled={isExporting || Object.values(exportFormats).every(v => !v)}
                 className="icon-search-btn"
@@ -1936,7 +1809,7 @@ import { Icon } from '@iconify/vue'
               >
                 {isExporting ? 'Packaging Workspace...' : 'Download ZIP Archive'}
               </button>
-              <button 
+              <button suppressHydrationWarning 
                 onClick={() => setIsExportModalOpen(false)}
                 disabled={isExporting}
                 className="icon-search-btn"

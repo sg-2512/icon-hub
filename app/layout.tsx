@@ -36,7 +36,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${jetbrainsMono.variable} ${inter.variable}`}>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${jetbrainsMono.variable} ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -64,6 +64,46 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ])
           }}
         />
+        <Script id="strip-extension-hydration-attrs" strategy="beforeInteractive">
+          {`
+            (function () {
+              var attrs = ['fdprocessedid'];
+              function clean(root) {
+                if (!root || !root.querySelectorAll) return;
+                attrs.forEach(function (attr) {
+                  if (root.nodeType === 1 && root.hasAttribute && root.hasAttribute(attr)) {
+                    root.removeAttribute(attr);
+                  }
+                  root.querySelectorAll('[' + attr + ']').forEach(function (el) {
+                    el.removeAttribute(attr);
+                  });
+                });
+              }
+              clean(document);
+              if (typeof MutationObserver === 'undefined') return;
+              var observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                  if (mutation.type === 'attributes' && attrs.indexOf(mutation.attributeName) !== -1) {
+                    mutation.target.removeAttribute(mutation.attributeName);
+                  }
+                  mutation.addedNodes.forEach(clean);
+                });
+              });
+              observer.observe(document.documentElement, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                attributeFilter: attrs
+              });
+              window.addEventListener('load', function () {
+                window.setTimeout(function () {
+                  observer.disconnect();
+                  clean(document);
+                }, 1000);
+              });
+            })();
+          `}
+        </Script>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=G-T75PM4NWBD`}
           strategy="afterInteractive"

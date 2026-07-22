@@ -378,11 +378,6 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
     initialLibraries.find(l => l.slug === libBKey) || initialLibraries[1]
   , [libBKey, initialLibraries])
 
-  // Get max values for bars
-  const maxStars = 100000
-  const maxIcons = 55000
-  const maxWeight = 2000
-
   // ── 3. Mini Recommendation Quiz States ──────────────────────────────────────
   const [quizStep, setQuizStep] = useState(1)
   const [quizAnswers, setQuizAnswers] = useState({
@@ -498,7 +493,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
           {/* Core Search Form */}
           <form onSubmit={handleSearchSubmit} style={{ maxWidth: '640px', marginBottom: '36px' }}>
             <div style={{ position: 'relative' }} className="search-input-focus">
-              <input
+              <input suppressHydrationWarning
                 type="text"
                 placeholder={`Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons — try 'settings', 'bell', 'arrow'...`}
                 value={searchQuery}
@@ -519,7 +514,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                   boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.5)'
                 }}
               />
-              <button
+              <button suppressHydrationWarning
                 type="submit"
                 style={{
                   position: 'absolute',
@@ -545,7 +540,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
             {/* Quick search tags */}
             <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
               {['camera', 'home', 'settings', 'arrow', 'user', 'bell', 'heart', 'cloud'].map(term => (
-                <button
+                <button suppressHydrationWarning
                   key={term}
                   type="button"
                   onClick={() => router.push(`/icon-search?q=${term}`)}
@@ -786,7 +781,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
               {/* Selector Icons */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '6px', marginBottom: '24px' }}>
                 {sandboxIcons.map((icon, idx) => (
-                  <button
+                  <button suppressHydrationWarning
                     key={icon.slug}
                     aria-label={`Select ${icon.name} icon`}
                     onClick={() => setSelectedIconIdx(idx)}
@@ -825,7 +820,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     <span style={{ color: 'var(--text-muted)' }}>Icon Size</span>
                     <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{iconSize}px</span>
                   </div>
-                  <input
+                  <input suppressHydrationWarning
                     aria-label="Icon Size"
                     type="range"
                     min="16"
@@ -841,7 +836,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     <span style={{ color: 'var(--text-muted)' }}>Stroke Weight</span>
                     <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{strokeWidth}px</span>
                   </div>
-                  <input
+                  <input suppressHydrationWarning
                     aria-label="Stroke Weight"
                     type="range"
                     min="1"
@@ -872,7 +867,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                 </h3>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   {PRESET_COLORS.map(c => (
-                    <button
+                    <button suppressHydrationWarning
                       key={c.name}
                       onClick={() => setIconColor(c.hex)}
                       style={{
@@ -911,7 +906,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     gap: '8px',
                     position: 'relative'
                   }}>
-                    <input
+                    <input suppressHydrationWarning
                       type="color"
                       value={iconColor}
                       onChange={e => setIconColor(e.target.value)}
@@ -936,20 +931,20 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
               {/* Code output blocks */}
               <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', borderBottom: '1px solid var(--border)', paddingBottom: '12px', marginBottom: '14px' }}>
-                  {[
+                  {([
                     { id: 'react', label: 'React/Next.js' },
                     { id: 'vue', label: 'Vue 3' },
                     { id: 'svelte', label: 'Svelte' },
                     { id: 'tailwind', label: 'Tailwind' },
                     { id: 'svg', label: 'Raw SVG' }
-                  ].map(fw => (
-                    <button
+                  ] as const).map(fw => (
+                    <button suppressHydrationWarning
                       key={fw.id}
-                      onClick={() => setSelectedFramework(fw.id as any)}
+                      onClick={() => setSelectedFramework(fw.id)}
                       style={{
-                        background: selectedFramework === fw.id ? 'var(--accent)' : 'transparent',
+                        background: selectedFramework === fw.id ? 'var(--accent-accessible)' : 'transparent',
                         border: '1px solid',
-                        borderColor: selectedFramework === fw.id ? 'var(--accent)' : 'var(--border)',
+                        borderColor: selectedFramework === fw.id ? 'var(--accent-accessible)' : 'var(--border)',
                         color: selectedFramework === fw.id ? '#fff' : 'var(--text-muted)',
                         padding: '6px 12px',
                         borderRadius: '6px',
@@ -997,10 +992,10 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
 
               {/* Action buttons */}
               <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-                <button
+                <button suppressHydrationWarning
                   onClick={handleCopy}
                   style={{
-                    background: copied ? 'var(--green)' : 'var(--accent-accessible)',
+                    background: copied ? '#047857' : 'var(--accent-accessible)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -1064,7 +1059,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                 <label style={{ display: 'block', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-muted)', marginBottom: '8px' }}>
                   LIBRARY A
                 </label>
-                <select
+                <select suppressHydrationWarning
                   aria-label="Compare Library A"
                   value={libAKey}
                   onChange={e => setLibAKey(e.target.value)}
@@ -1094,7 +1089,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                 <label style={{ display: 'block', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-muted)', marginBottom: '8px' }}>
                   LIBRARY B
                 </label>
-                <select
+                <select suppressHydrationWarning
                   aria-label="Compare Library B"
                   value={libBKey}
                   onChange={e => setLibBKey(e.target.value)}
@@ -1329,7 +1324,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     { key: 'svelte', label: 'Svelte', sub: 'For ultra-lightweight compiled apps' },
                     { key: 'vanilla', label: 'Vanilla JS / HTML / Angular', sub: 'Using raw SVGs or web components' }
                   ].map(option => (
-                    <button
+                    <button suppressHydrationWarning
                       key={option.key}
                       onClick={() => {
                         setQuizAnswers(prev => ({ ...prev, framework: option.key }))
@@ -1368,7 +1363,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     { key: 'multiweight', label: 'Flexible weights (Light, Thin, Duotone)', sub: 'Custom weight flexibility (e.g. Phosphor)' },
                     { key: 'brands', label: 'Technology Brand Logos Only', sub: 'Stripe, GitHub, Figma, Vercel (e.g. Simple Icons)' }
                   ].map(option => (
-                    <button
+                    <button suppressHydrationWarning
                       key={option.key}
                       onClick={() => {
                         setQuizAnswers(prev => ({ ...prev, style: option.key }))
@@ -1391,7 +1386,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     </button>
                   ))}
                 </div>
-                <button 
+                <button suppressHydrationWarning 
                   onClick={() => setQuizStep(1)} 
                   style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', cursor: 'pointer', marginTop: '16px' }}
                 >
@@ -1413,7 +1408,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     { key: 'count', label: 'Massive Variety of Icons', sub: 'Never run out of icons, thousands of options' },
                     { key: 'dashboard', label: 'Compact dense dashboard elements', sub: 'Specialized 15x15 grids or sleek micro layouts' }
                   ].map(option => (
-                    <button
+                    <button suppressHydrationWarning
                       key={option.key}
                       onClick={() => {
                         setQuizAnswers(prev => ({ ...prev, priority: option.key }))
@@ -1436,7 +1431,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                     </button>
                   ))}
                 </div>
-                <button 
+                <button suppressHydrationWarning 
                   onClick={() => setQuizStep(2)} 
                   style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', cursor: 'pointer', marginTop: '16px' }}
                 >
@@ -1508,7 +1503,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                   fontSize: '12px'
                 }}>
                   <span style={{ color: 'var(--text-muted)' }}>$ {quizRecommendation.lib.installCommand}</span>
-                  <button
+                  <button suppressHydrationWarning
                     onClick={() => {
                       navigator.clipboard.writeText(quizRecommendation.lib.installCommand)
                       alert('Command copied!')
@@ -1532,7 +1527,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
                   }}>
                     View Integration Guide →
                   </Link>
-                  <button
+                  <button suppressHydrationWarning
                     onClick={() => {
                       setQuizAnswers({ framework: '', style: '', priority: '' })
                       setQuizStep(1)

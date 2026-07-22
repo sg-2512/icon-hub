@@ -4,7 +4,8 @@ export type PreviewIcon = {
   svgUrl: string
 }
 
-export const ICON_PREVIEW_CACHE_VERSION = 'named-library-preview-v4'
+export const ICON_PREVIEW_CACHE_VERSION = 'named-library-preview-v5'
+
 
 const PATTERNFLY_STATIC_BASE = 'https://cdn.jsdelivr.net/npm/@patternfly/react-icons@6.6.0/dist/static'
 const UNTITLED_UI_STATIC_BASE = '/untitled-ui-icons'
@@ -137,35 +138,14 @@ export function getIconPreviewCandidates(icon: PreviewIcon): string[] {
   const variants = nameVariants(icon.name)
 
   for (const variant of variants) {
-    addUnique(urls, seen, getLocalIconPreviewUrl(icon.library, variant))
-  }
-  addUnique(urls, seen, getCleanSvgUrl(icon.svgUrl, icon.library))
-  addUnique(urls, seen, icon.svgUrl)
-
-  const patterns = NAMED_LIBRARY_PREVIEW_PATTERNS[icon.library]
-  if (patterns) {
-    for (const pattern of patterns) {
-      for (const variant of variants) {
-        addUnique(urls, seen, applyPattern(pattern, variant))
-      }
-    }
-    return urls
+    const internalUrl = `/api/svg/${encodeURIComponent(icon.library)}/${encodeURIComponent(variant)}`
+    addUnique(urls, seen, internalUrl)
   }
 
-  if (icon.library.startsWith('iconify-')) {
-    const prefix = icon.library.replace(/^iconify-/, '')
-    for (const variant of variants) {
-      addUnique(urls, seen, `https://api.iconify.design/${prefix}/${variant}.svg`)
-    }
-    return urls
+  if (icon.svgUrl) {
+    addUnique(urls, seen, icon.svgUrl)
   }
 
-  const normalizedPrefix = icon.library
-    .toLowerCase()
-    .replace(/-icons?$/, '')
-    .replace(/_/g, '-')
-  for (const variant of variants) {
-    addUnique(urls, seen, `https://api.iconify.design/${normalizedPrefix}/${variant}.svg`)
-  }
   return urls
 }
+

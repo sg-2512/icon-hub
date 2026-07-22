@@ -252,14 +252,25 @@ function insertIconNode({ svg, name, size, color, x, y, notify = true, scrollInt
 }
 
 async function fetchSvgMarkup(url) {
-  const normalizedUrl = String(url || '').trim();
+  let normalizedUrl = String(url || '').trim();
   if (!normalizedUrl) throw new Error('No SVG source URL was provided.');
+  if (normalizedUrl.startsWith('/')) {
+    normalizedUrl = `https://iconsearch.info${normalizedUrl}`;
+  }
   if (svgMarkupCache.has(normalizedUrl)) return svgMarkupCache.get(normalizedUrl);
 
-  const request = fetch(normalizedUrl, {
-    headers: { accept: 'image/svg+xml,text/plain,*/*' }
-  })
+  const token = await figma.clientStorage.getAsync(SESSION_TOKEN_KEY);
+  const headers = {
+    accept: 'image/svg+xml,text/plain,*/*',
+    'x-iconsearch-product': PRODUCT,
+  };
+  if (token) {
+    headers.authorization = `Bearer ${token}`;
+  }
+
+  const request = fetch(normalizedUrl, { headers })
     .then(async response => {
+      if (response.status === 401) throw new Error('Sign in to IconSearch to insert icons.');
       if (!response.ok) throw new Error('Failed to fetch SVG.');
       const text = await response.text();
       if (!text.includes('<svg')) throw new Error('The source did not return SVG markup.');
@@ -273,6 +284,8 @@ async function fetchSvgMarkup(url) {
   svgMarkupCache.set(normalizedUrl, request);
   trimMap(svgMarkupCache, SVG_CACHE_LIMIT);
   return request;
+}
+
 }
 
 async function insertIconFromUrl(metadata, x, y) {

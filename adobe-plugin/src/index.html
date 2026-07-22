@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IconSearch</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div class="brand-mark" aria-hidden="true">IS</div>
+        <div class="brand-copy">
+          <p>IconSearch</p>
+          <h1>Search icons</h1>
+        </div>
+      </header>
+
+      <section class="preview-panel" aria-live="polite">
+        <div class="preview-stage">
+          <span id="selectedPreview" class="preview-shape" aria-hidden="true"></span>
+        </div>
+        <div class="selected-meta">
+          <strong id="selectedName">Loading icons...</strong>
+          <span id="selectedDetails">Commercial-safe icons for Adobe Express</span>
+        </div>
+        <button id="insertButton" class="primary-button" type="button" disabled>Insert selected</button>
+      </section>
+
+      <section class="controls-panel" aria-label="Icon search controls">
+        <label class="field is-wide">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="home, arrow, cart..." autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span>Library</span>
+          <select id="librarySelect"></select>
+        </label>
+
+        <label class="field">
+          <span>Style</span>
+          <select id="styleSelect"></select>
+        </label>
+
+        <label class="field">
+          <span>Size</span>
+          <input id="sizeInput" type="range" min="24" max="256" step="4" value="96" />
+        </label>
+
+        <label class="field">
+          <span>Color</span>
+          <input id="colorInput" type="color" value="#111827" />
+        </label>
+
+        <label class="check-row">
+          <input id="legalOnlyInput" type="checkbox" checked />
+          <span>Commercial-safe only</span>
+        </label>
+      </section>
+
+      <div class="preset-row" aria-label="Color presets">
+        <button type="button" class="swatch is-active" data-color="#111827" aria-label="Use ink"></button>
+        <button type="button" class="swatch" data-color="#2563eb" aria-label="Use blue"></button>
+        <button type="button" class="swatch" data-color="#0f766e" aria-label="Use teal"></button>
+        <button type="button" class="swatch" data-color="#7c3aed" aria-label="Use violet"></button>
+        <button type="button" class="swatch" data-color="#db2777" aria-label="Use pink"></button>
+        <button type="button" class="swatch" data-color="#ea580c" aria-label="Use orange"></button>
+      </div>
+
+      <div class="toolbar-row">
+        <span id="resultCount">Searching...</span>
+        <span id="sizeValue">96px</span>
+      </div>
+
+      <section id="resultsGrid" class="results-grid" aria-label="Icon results" aria-busy="true"></section>
+
+      <footer id="statusBar" class="status-bar">Connecting to Adobe Express...</footer>
+    </main>
+
+    <script type="module" src="index.js"></script>
+  </body>
+</html>

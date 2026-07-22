@@ -1,0 +1,63 @@
+{
+  "name": "@iconsearch/tailwind",
+  "version": "0.1.0",
+  "description": "Use IconSearch icons as Tailwind CSS utilities.",
+  "license": "MIT",
+  "author": "iconsearch",
+  "homepage": "https://iconsearch.info",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sg-2512/iconsearch.git",
+    "directory": "tailwind-plugin"
+  },
+  "bugs": {
+    "url": "https://iconsearch.info/contact"
+  },
+  "keywords": [
+    "tailwindcss",
+    "tailwind",
+    "icons",
+    "svg",
+    "iconsearch",
+    "iconify"
+  ],
+  "main": "index.cjs",
+  "types": "index.d.ts",
+  "bin": {
+    "iconsearch-tailwind": "cli.cjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    }
+  },
+  "files": [
+    "index.cjs",
+    "index.d.ts",
+    "auth.cjs",
+    "cli.cjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/auth.test.cjs && node test/helpers.test.cjs && node test/tailwind-v3.test.cjs && node test/tailwind-v4.test.cjs",
+    "pack:dry": "npm pack --dry-run --json",
+    "prepublishOnly": "npm test"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.3.0",
+    "tailwindcss-v3": "npm:tailwindcss@3.4.19"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

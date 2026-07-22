@@ -1,0 +1,27 @@
+<idea-plugin>
+  <id>info.iconsearch.jetbrains</id>
+  <name>IconSearch</name>
+  <vendor email="iconsearchinfo@gmail.com" url="https://iconsearch.info">IconSearch</vendor>
+
+  <description><![CDATA[
+    Search IconSearch from JetBrains IDEs and copy or insert production-ready icon snippets.
+  ]]></description>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow id="IconSearch"
+                anchor="right"
+                icon="/icons/iconsearch.svg"
+                factoryClass="info.iconsearch.jetbrains.IconSearchToolWindowFactory" />
+  </extensions>
+
+  <actions>
+    <action id="IconSearch.OpenToolWindow"
+            class="info.iconsearch.jetbrains.OpenIconSearchAction"
+            text="IconSearch: Search Icons"
+            description="Open IconSearch icon search">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+  </actions>
+</idea-plugin>

@@ -1,0 +1,23 @@
+{
+  "icon_row": {
+    "name": "Icon row",
+    "settings": {
+      "heading": {
+        "label": "Heading"
+      },
+      "icon_ids": {
+        "label": "Icon IDs"
+      },
+      "icon_size": {
+        "label": "Icon size"
+      },
+      "icon_color": {
+        "label": "Icon color"
+      },
+      "icon_gap": {
+        "label": "Icon spacing"
+      }
+    }
+  }
+}
+

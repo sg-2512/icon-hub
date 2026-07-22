@@ -8,6 +8,8 @@ export const metadata = {
 }
 
 export default function FreeSvgIconsPage() {
+  const curatedIconCount = icons.reduce((sum, icon) => sum + icon.iconCount, 0)
+
   return (
     <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px' }}>
 
@@ -21,7 +23,7 @@ export default function FreeSvgIconsPage() {
           <span style={{ color: 'var(--accent)' }}>for Web Projects</span>
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '18px', maxWidth: '560px', marginBottom: '24px' }}>
-          {icons.reduce((sum, i) => sum + i.iconCount, 0).toLocaleString('en-US')}+ free SVG icons across {icons.length} open source libraries. All free for commercial use.
+          Search {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} SVG icons across {NAMED_LIBRARY_COUNT} reviewed libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections. The directory below highlights {curatedIconCount.toLocaleString('en-US')}+ icons from the reviewed libraries.
         </p>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           {['MIT License', 'ISC License', 'Apache 2.0', 'TypeScript', 'React', 'Next.js', 'Vue', 'Svelte'].map(tag => (
@@ -44,10 +46,10 @@ export default function FreeSvgIconsPage() {
       <section style={{ marginBottom: '48px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {[
-            { label: 'Total Icons', value: icons.reduce((sum, i) => sum + i.iconCount, 0).toLocaleString('en-US') + '+' },
-            { label: 'Libraries', value: icons.length.toString() },
-            { label: 'All Free', value: '100%' },
-            { label: 'Commercial Use', value: '✓ Yes' },
+            { label: 'Searchable Index', value: SEARCHABLE_ICON_COUNT.toLocaleString('en-US') },
+            { label: 'Reviewed Libraries', value: NAMED_LIBRARY_COUNT.toString() },
+            { label: 'Iconify Collections', value: ICONIFY_COLLECTION_COUNT.toString() },
+            { label: 'Curated Library Icons', value: curatedIconCount.toLocaleString('en-US') + '+' },
           ].map(stat => (
             <div key={stat.label} style={{ background: 'var(--bg-card)', padding: '20px', textAlign: 'center' }}>
               <div style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent)', marginBottom: '4px' }}>{stat.value}</div>
@@ -60,7 +62,7 @@ export default function FreeSvgIconsPage() {
       {/* All Libraries */}
       <section style={{ marginBottom: '48px' }}>
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
-          ALL FREE ICON LIBRARIES
+          REVIEWED OPEN-SOURCE ICON LIBRARIES
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {icons.map(icon => (

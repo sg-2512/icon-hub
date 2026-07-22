@@ -5,10 +5,13 @@ export type NamedLibrary = {
   color: string
 }
 
-export const SEARCHABLE_ICON_COUNT = 355_702
-export const LEGAL_SAFE_ICON_COUNT = 259_070
+import snapshot from './icon-search.snapshot.json'
+
+export const SEARCHABLE_ICON_COUNT = snapshot.totalIcons || 355_702
+export const LEGAL_SAFE_ICON_COUNT = snapshot.commercialSafeIcons || 259_070
 export const ICONIFY_ICON_COUNT = 332_012
 export const ICONIFY_COLLECTION_COUNT = 227
+
 
 export const namedLibraries: NamedLibrary[] = [
   { id: 'lucide-icons', name: 'Lucide Icons', slug: 'lucide-icons', color: '#818cf8' },

@@ -1,0 +1,25 @@
+{
+  "name": "IconSearch",
+  "description": "Search, style, and insert editable open-source SVG icons in Sketch.",
+  "author": "IconSearch",
+  "authorEmail": "support@iconsearch.info",
+  "homepage": "https://iconsearch.info/sketch-plugin",
+  "version": "0.1.0",
+  "identifier": "info.iconsearch.sketch.plugin",
+  "icon": "icon.png",
+  "disableCocoaScriptPreprocessor": true,
+  "scope": "document",
+  "commands": [
+    {
+      "name": "Open IconSearch",
+      "identifier": "iconsearch.open",
+      "shortcut": "ctrl shift i",
+      "script": "command.js",
+      "handler": "onRun"
+    }
+  ],
+  "menu": {
+    "title": "IconSearch",
+    "items": ["iconsearch.open"]
+  }
+}

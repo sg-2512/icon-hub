@@ -1,0 +1,32 @@
+{
+  "name": "iconsearch-webflow-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Webflow Designer Extension for searching and inserting styled IconSearch SVG icons.",
+  "author": "iconsearch",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "npm run typecheck && node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "serve": "webflow extension serve",
+    "dev": "npm run build && concurrently --kill-others-on-fail \"npm:watch\" \"npm:serve\"",
+    "bundle": "npm run build && webflow extension bundle",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check": "node scripts/check-extension.mjs",
+    "test": "npm run check && npm run build"
+  },
+  "devDependencies": {
+    "@webflow/designer-extension-typings": "^2.2.2",
+    "@webflow/webflow-cli": "^2.2.0",
+    "concurrently": "^9.2.1",
+    "esbuild": "^0.28.1",
+    "typescript": "^7.0.2"
+  },
+  "overrides": {
+    "form-data": "4.0.6",
+    "undici": "7.28.0"
+  }
+}

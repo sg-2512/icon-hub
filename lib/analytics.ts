@@ -45,6 +45,10 @@ export interface CartImportEvent {
   libraries: string
 }
 
+type GtagWindow = Window & {
+  gtag?: (command: 'event', eventName: string, params: Record<string, unknown>) => void
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -52,8 +56,9 @@ export interface CartImportEvent {
 /** Safely call `window.gtag` if GA is loaded. */
 function fireGtagEvent(eventName: string, params: Record<string, unknown>) {
   try {
-    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-      ;(window as any).gtag('event', eventName, params)
+    const gtag = typeof window !== 'undefined' ? (window as GtagWindow).gtag : undefined
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, params)
     }
   } catch {
     // silently swallow — analytics should never break the app

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="title">
+  <title id="title">Webflow</title>
+  <rect width="32" height="32" rx="7" fill="#146EF5"/>
+  <path d="M8 10h4.2l1.8 6.9L17.1 10h3.8l-5.4 12h-3.8L8 10Zm9.6 12 5.7-12H28l-6 12h-4.4Z" fill="#fff"/>
+</svg>

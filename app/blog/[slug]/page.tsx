@@ -2,6 +2,8 @@ import { getAllPosts, getPostBySlug } from '../../../lib/blog'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import FAQSection from './FAQSection'
+import ArticleTools from './ArticleTools'
+import styles from './article.module.css'
 
 export async function generateStaticParams() {
   const posts = getAllPosts()
@@ -46,6 +48,33 @@ function parseMdInline(text: string): React.ReactNode {
     }
     return part
   })
+}
+
+type ArticleHeading = {
+  id: string
+  text: string
+}
+
+function slugifyHeading(heading: string) {
+  return heading
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+}
+
+function getArticleHeadings(content: string): ArticleHeading[] {
+  return content
+    .split('\n')
+    .filter((line) => line.startsWith('## '))
+    .map((line) => line.replace('## ', ''))
+    .filter((heading) => !heading.toLowerCase().includes('faq') && !heading.toLowerCase().includes('frequently asked'))
+    .map((text) => ({ id: slugifyHeading(text), text }))
+}
+
+function getReadingTime(content: string) {
+  const words = content.trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.ceil(words / 220))
 }
 
 function renderContent(content: string) {
@@ -202,7 +231,7 @@ function renderContent(content: string) {
       const isFaq = heading.toLowerCase().includes('faq') || heading.toLowerCase().includes('frequently asked')
       if (isFaq) { i++; break }
       elements.push(
-        <h2 key={i} style={{
+        <h2 key={i} id={slugifyHeading(heading)} style={{
           fontSize: '22px', fontWeight: 700, margin: '48px 0 16px',
           color: 'var(--text)', paddingBottom: '10px',
           borderBottom: '1px solid var(--border)', lineHeight: 1.3,
@@ -309,9 +338,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound()
 
   const faqs = extractFAQs(post.content)
+  const headings = getArticleHeadings(post.content)
+  const readingTime = getReadingTime(post.content)
+  const publishedLabel = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(new Date(post.date))
+  const articleUrl = 'https://iconsearch.info/blog/' + slug
 
   return (
-    <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px', overflow: 'hidden' }}>
+    <main className={styles.page}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -351,62 +388,80 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         })}}
       />
 
-      <Link href="/blog" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace' }}>
+      <Link href="/blog" className={styles.backLink}>
         ← back to blog
       </Link>
 
-      <section style={{ margin: '24px 0 48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', background: 'var(--accent-dim)', border: '1px solid var(--accent)', padding: '3px 10px', borderRadius: '4px' }}>
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+        <div className={styles.metaRow}>
+          <span className={styles.category}>
             {post.category}
           </span>
-          <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>{post.date}</span>
-          <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>· {post.author}</span>
+          <time dateTime={post.date}>{publishedLabel}</time>
+          <span className={styles.metaDot} aria-hidden="true" />
+          <span>{post.author}</span>
         </div>
-        <h1 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, lineHeight: 1.15, marginBottom: '16px' }}>
+        <h1 className={styles.title}>
           {post.title}
         </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '18px', maxWidth: '600px', lineHeight: 1.6, marginBottom: '16px' }}>
+        <p className={styles.description}>
           {post.description}
         </p>
         {post.tags.length > 0 && (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div className={styles.tags}>
             {post.tags.map((tag: string) => (
-              <span key={tag} style={{
-                fontSize: '11px',
-                color: 'var(--accent)',
-                fontFamily: 'JetBrains Mono, monospace',
-                background: 'var(--accent-dim)',
-                border: '1px solid var(--accent)',
-                padding: '3px 10px',
-                borderRadius: '4px',
-              }}>
+              <span key={tag} className={styles.tag}>
                 #{tag}
               </span>
             ))}
           </div>
         )}
-
-        {/* AI Disclosure */}
-        <div style={{
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border)',
-          borderRadius: '6px',
-          padding: '10px 14px',
-          marginTop: '12px',
-          fontSize: '11px',
-          color: 'var(--text-dim)',
-          fontFamily: 'JetBrains Mono, monospace',
-        }}>
-          // This article was researched and edited by the IconSearch team.
-          Content may be AI-assisted and is reviewed for accuracy.
+        <div className={styles.heroFooter}>
+          <div className={styles.stats} aria-label="Article details">
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{readingTime}</span>
+              <span className={styles.statLabel}>MIN READ</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{headings.length}</span>
+              <span className={styles.statLabel}>SECTIONS</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{post.tags.length}</span>
+              <span className={styles.statLabel}>TOPICS</span>
+            </div>
+          </div>
+          <ArticleTools title={post.title} url={articleUrl} />
         </div>
-
+        </div>
+        <div className={styles.heroArtwork} aria-hidden="true">
+          <span className={styles.signal} />
+          <span className={styles.signal} />
+          <span className={styles.signal} />
+          <span className={styles.signal} />
+        </div>
       </section>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 280px', gap: '48px', alignItems: 'flex-start' }}>
+      <section className={styles.mobileToc} aria-label="Article table of contents">
+        <details>
+          <summary>
+            <span>ON THIS PAGE</span>
+            <span>{headings.length} sections</span>
+          </summary>
+          <nav>
+            {headings.map((heading) => (
+              <a key={heading.id} href={'#' + heading.id} className={styles.tocLink}>
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+        </details>
+      </section>
 
-        <article style={{ minWidth: 0, overflow: 'hidden' }}>
+      <div className={styles.contentLayout}>
+
+        <article className={styles.article}>
           {renderContent(post.content)}
 
           {faqs.length > 0 && (
@@ -421,33 +476,42 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <FAQSection faqs={faqs} />
             </div>
           )}
+
         </article>
 
-        <aside style={{ position: 'sticky', top: '80px' }}>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', marginBottom: '16px' }}>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '12px' }}>EXPLORE ICONS</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <aside className={styles.sidebar}>
+          <nav className={styles.tocCard} aria-label="Article table of contents">
+            <p className={styles.tocHeading}>ON THIS PAGE</p>
+            {headings.map((heading) => (
+              <a key={heading.id} href={'#' + heading.id} className={styles.tocLink}>
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+          <div className={styles.resourceCard}>
+            <div className={styles.resourceEyebrow}>EXPLORE ICONS</div>
+            <div className={styles.resourceLinks}>
               {[
                 { label: 'Lucide Icons Guide', href: '/icons/lucide-icons' },
                 { label: 'Heroicons Guide', href: '/icons/heroicons' },
                 { label: 'Tabler Icons Guide', href: '/icons/tabler-icons' },
                 { label: 'Compare Libraries', href: '/compare' },
               ].map(link => (
-                <Link key={link.href} href={link.href} style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace', display: 'flex', justifyContent: 'space-between' }}>
+                <Link key={link.href} href={link.href} className={styles.resourceLink}>
                   {link.label} <span style={{ color: 'var(--accent)' }}>→</span>
                 </Link>
               ))}
             </div>
           </div>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px' }}>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '12px' }}>POPULAR COMPARISONS</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className={styles.resourceCard}>
+            <div className={styles.resourceEyebrow}>POPULAR COMPARISONS</div>
+            <div className={styles.resourceLinks}>
               {[
                 { label: 'Lucide vs Heroicons', href: '/compare/lucide-icons-vs-heroicons' },
                 { label: 'Lucide vs Tabler', href: '/compare/lucide-icons-vs-tabler-icons' },
                 { label: 'Heroicons vs Tabler', href: '/compare/heroicons-vs-tabler-icons' },
               ].map(link => (
-                <Link key={link.href} href={link.href} style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace', display: 'flex', justifyContent: 'space-between' }}>
+                <Link key={link.href} href={link.href} className={styles.resourceLink}>
                   {link.label} <span style={{ color: 'var(--accent)' }}>→</span>
                 </Link>
               ))}
@@ -457,11 +521,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       </div>
 
-      <div style={{ marginTop: '64px', paddingTop: '32px', borderTop: '1px solid var(--border)' }}>
-        <Link href="/blog" style={{ color: 'var(--accent)', textDecoration: 'none', fontFamily: 'JetBrains Mono, monospace', fontSize: '13px' }}>
+      <footer className={styles.footer}>
+        <Link href="/blog" className={styles.footerLink}>
           ← back to all posts
         </Link>
-      </div>
+        <span className={styles.footerMeta}>IconSearch editorial · {publishedLabel}</span>
+      </footer>
 
     </main>
   )

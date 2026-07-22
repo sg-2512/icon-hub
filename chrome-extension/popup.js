@@ -992,12 +992,19 @@ async function downloadIcon(icon) {
 }
 
 async function fetchSvg(icon) {
-  const response = await fetch(icon.svgUrl, { headers: { accept: 'image/svg+xml,text/plain,*/*' } })
-  if (!response.ok) throw new Error(`SVG source returned ${response.status}`)
+  const url = icon.svgUrl.startsWith('/') ? `${API_BASE}${icon.svgUrl}` : icon.svgUrl
+  const headers = authHeaders()
+  headers.accept = 'image/svg+xml,text/plain,*/*'
+  const response = await fetch(url, { headers })
+  if (response.status === 401) {
+    throw new Error('Please sign in to download or copy SVG icons.')
+  }
+  if (!response.ok) throw new Error(`IconSearch SVG service returned ${response.status}`)
   const text = await response.text()
   if (!text.includes('<svg')) throw new Error('The source did not return SVG markup.')
   return text.trim()
 }
+
 
 async function writeGraphicToClipboard(svg) {
   const outputSize = getOutputSize()

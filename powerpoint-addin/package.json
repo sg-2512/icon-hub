@@ -1,0 +1,29 @@
+{
+  "name": "iconsearch-powerpoint-addin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Search, style, and insert open-source icons in Microsoft PowerPoint.",
+  "license": "MIT",
+  "scripts": {
+    "dev-server": "vite --host 0.0.0.0 --port 3007",
+    "start": "office-addin-debugging start manifest.xml desktop",
+    "stop": "office-addin-debugging stop manifest.xml",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "npm run typecheck && vite build",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "check": "node scripts/check-addin.mjs",
+    "test": "vitest run && npm run check",
+    "verify": "npm run test && npm run build && npm run validate"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/office-js": "^1.0.599",
+    "jsdom": "^29.1.1",
+    "office-addin-debugging": "^6.1.2",
+    "office-addin-dev-certs": "^2.0.10",
+    "office-addin-manifest": "^2.1.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
+  }
+}

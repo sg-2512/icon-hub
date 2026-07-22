@@ -1302,66 +1302,24 @@ function getPreviewUrls(icon: Record<string, unknown>): string[] {
   const urls = new Set<string>();
   const name = stringFrom(icon.name);
   const library = stringFrom(icon.library);
-  const exactName = name;
   const dashedName = name.replace(/_/g, '-');
-  const underscoredName = name.replace(/-/g, '_');
 
   const add = (url: string) => {
-    const cleaned = cleanSvgUrl(url, library);
-    if (isHttpUrl(cleaned)) urls.add(cleaned);
+    if (isHttpUrl(url)) urls.add(url);
   };
 
-  add(stringFrom(icon.svgUrl));
+  const rawUrl = stringFrom(icon.svgUrl);
+  if (rawUrl) {
+    add(rawUrl.startsWith('/') ? `https://iconsearch.info${rawUrl}` : rawUrl);
+  }
 
-  if (library === 'lucide-icons') {
-    add(`https://unpkg.com/lucide-static@latest/icons/${exactName}.svg`);
-    add(`https://api.iconify.design/lucide/${dashedName}.svg`);
-  } else if (library === 'tabler-icons') {
-    add(`https://cdn.jsdelivr.net/npm/@tabler/icons@2.47.0/icons/${dashedName}.svg`);
-    add(`https://api.iconify.design/tabler/${dashedName}.svg`);
-  } else if (library === 'patternfly-icons') {
-    add(`https://iconsearch.info/api/icon-preview/patternfly-icons/${dashedName}?v=named-library-preview-v3`);
-  } else if (library === 'untitled-ui-icons') {
-    add(`https://iconsearch.info/api/icon-preview/untitled-ui-icons/${dashedName}?v=named-library-preview-v4`);
-    add(`https://iconsearch.info/untitled-ui-icons/${dashedName}.svg`);
-  } else if (library === 'phosphor-icons') {
-    add(`https://unpkg.com/@phosphor-icons/core@latest/assets/regular/${dashedName}.svg`);
-    add(`https://api.iconify.design/ph/${dashedName}.svg`);
-  } else if (library === 'heroicons') {
-    add(`https://api.iconify.design/heroicons/${dashedName}.svg`);
-    add(`https://api.iconify.design/heroicons-outline/${dashedName}.svg`);
-    add(`https://api.iconify.design/heroicons-solid/${dashedName}.svg`);
-  } else if (library === 'bootstrap-icons') {
-    add(`https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/icons/${dashedName}.svg`);
-    add(`https://api.iconify.design/bi/${dashedName}.svg`);
-  } else if (library === 'feather-icons') {
-    add(`https://unpkg.com/feather-icons@latest/dist/icons/${dashedName}.svg`);
-    add(`https://api.iconify.design/feather/${dashedName}.svg`);
-  } else if (library === 'remix-icon') {
-    add(`https://api.iconify.design/ri/${dashedName}.svg`);
-  } else if (library === 'iconoir') {
-    add(`https://api.iconify.design/iconoir/${dashedName}.svg`);
-  } else if (library === 'ionicons') {
-    add(`https://api.iconify.design/ion/${exactName}.svg`);
-    add(`https://api.iconify.design/ion/${dashedName}.svg`);
-    add(`https://api.iconify.design/ion/${underscoredName}.svg`);
-  } else if (library === 'octicons') {
-    add(`https://api.iconify.design/octicon/${exactName}.svg`);
-    add(`https://api.iconify.design/octicon/${dashedName}.svg`);
-    add(`https://api.iconify.design/octicon/${underscoredName}.svg`);
-  } else if (library === 'ant-design-icons') {
-    add(`https://api.iconify.design/ant-design/${dashedName}.svg`);
-    add(`https://api.iconify.design/ant-design/${dashedName}-outlined.svg`);
-    add(`https://api.iconify.design/ant-design/${dashedName}-filled.svg`);
-  } else if (library.startsWith('iconify-')) {
-    const prefix = library.replace(/^iconify-/, '');
-    add(`https://api.iconify.design/${prefix}/${exactName}.svg`);
-    add(`https://api.iconify.design/${prefix}/${dashedName}.svg`);
-    add(`https://api.iconify.design/${prefix}/${underscoredName}.svg`);
+  if (library && dashedName) {
+    add(`https://iconsearch.info/api/svg/${encodeURIComponent(library)}/${encodeURIComponent(dashedName)}`);
   }
 
   return Array.from(urls);
 }
+
 
 function cleanSvgUrl(url: string, library: string): string {
   if (!url) return '';

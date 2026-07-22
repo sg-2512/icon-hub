@@ -84,6 +84,7 @@ function getDbLibrariesForSlug(slug: string): string[] {
     case 'lucide-icons': return ['lucide-icons']
     case 'heroicons': return ['heroicons']
     case 'tabler-icons': return ['tabler-icons']
+    case 'patternfly-icons': return ['patternfly-icons']
     case 'untitled-ui-icons': return ['untitled-ui-icons']
     case 'phosphor-icons': return ['phosphor-icons']
     case 'remix-icon': return ['remix-icon']
@@ -156,6 +157,40 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
+function toAbsoluteUrl(url: string): string {
+  if (!url) return ''
+  if (url.startsWith('/')) {
+    const origin = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, '') || 'http://localhost:3000'
+    return `${origin}${url}`
+  }
+  return url
+}
+
+async function getServerSvgContent(icon: { library: string; name: string; svgUrl: string }): Promise<string> {
+  const cleanUrl = getCleanSvgUrl(icon.svgUrl, icon.library)
+  
+  const localSvg = getLocalPublicSvg(cleanUrl)
+  if (localSvg) return localSvg
+
+  const normalizedName = icon.name.replace(/\.svg$/i, '').replace(/_/g, '-')
+  const cachePath = join(process.cwd(), '.cache', 'svgs', icon.library, `${normalizedName}.svg`)
+  if (existsSync(cachePath)) {
+    return readFileSync(cachePath, 'utf8')
+  }
+
+  try {
+    const targetUrl = toAbsoluteUrl(cleanUrl)
+    const res = await fetch(targetUrl, { next: { revalidate: 86400 } })
+    if (res.ok) {
+      return await res.text()
+    }
+  } catch {
+    // Swallowed
+  }
+
+  return ''
+}
+
 export default async function IconDetailPage({ params }: { params: Promise<{ slug: string, iconName: string }> }) {
   const { slug, iconName } = await params
   const allIcons = loadIcons()
@@ -170,19 +205,11 @@ export default async function IconDetailPage({ params }: { params: Promise<{ slu
   // Fetch raw SVG on server side for inline injection
   let rawSvg = ''
   try {
-    const cleanUrl = getCleanSvgUrl(icon.svgUrl, icon.library)
-    const localSvg = getLocalPublicSvg(cleanUrl)
-    if (localSvg) {
-      rawSvg = localSvg
-    } else {
-      const res = await fetch(cleanUrl, { next: { revalidate: 86400 } })
-      if (res.ok) {
-        rawSvg = await res.text()
-      }
-    }
+    rawSvg = await getServerSvgContent(icon)
   } catch (e) {
     console.error('Failed to fetch SVG for icon:', icon.id, e)
   }
+
 
   // Find related icons: from same library, sharing tags or similar names
   const relatedIcons = allIcons

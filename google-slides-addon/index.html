@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IconSearch for Google Slides</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="/assets/iconsearch-logo-128.png" width="26" height="26" alt="" />
+          <div><strong>IconSearch</strong><span>Google Slides</span></div>
+        </div>
+        <span class="runtime-badge" id="runtimeBadge">Starting</span>
+      </header>
+
+      <main>
+        <section class="search-tools" aria-label="Icon search">
+          <label class="search-field">
+            <input id="searchInput" type="search" autocomplete="off" spellcheck="false" aria-label="Search icons" placeholder="Search icons" />
+            <kbd>/</kbd>
+          </label>
+          <div class="filter-grid">
+            <label><span>Library</span><select id="librarySelect" aria-label="Library"></select></label>
+            <label><span>Style</span><select id="styleSelect" aria-label="Style"></select></label>
+          </div>
+          <label class="legal-toggle">
+            <input id="legalOnlyInput" type="checkbox" checked />
+            <span aria-hidden="true"></span>
+            Commercial-safe only
+          </label>
+        </section>
+
+        <section class="selected-panel" aria-label="Selected icon">
+          <div class="selected-summary">
+            <img class="selected-preview is-pending" id="selectedPreview" alt="" aria-hidden="true" />
+            <div><small>Selected</small><strong id="selectedName">Loading icons</strong><span id="selectedDetails">Live catalog</span></div>
+          </div>
+          <label class="range-control">
+            <span>Size</span>
+            <input id="sizeInput" type="range" min="24" max="240" step="4" value="72" />
+            <output id="sizeValue">72 pt</output>
+          </label>
+          <div class="style-row">
+            <label class="color-control"><span>Color</span><input id="colorInput" type="color" value="#2563eb" /><input id="colorTextInput" type="text" value="#2563EB" maxlength="7" aria-label="Hex color" /></label>
+            <label class="position-control"><span>Position</span><select id="positionSelect"><option value="center">Center</option><option value="top-left">Top left</option><option value="top-right">Top right</option><option value="content">Content area</option></select></label>
+          </div>
+          <div class="swatches" aria-label="Quick colors">
+            <button class="swatch" type="button" data-color="#111827" style="--swatch:#111827" aria-label="Use charcoal"></button>
+            <button class="swatch" type="button" data-color="#2563EB" style="--swatch:#2563EB" aria-label="Use blue"></button>
+            <button class="swatch" type="button" data-color="#F9AB00" style="--swatch:#F9AB00" aria-label="Use Slides yellow"></button>
+            <button class="swatch" type="button" data-color="#059669" style="--swatch:#059669" aria-label="Use green"></button>
+            <button class="swatch" type="button" data-color="#DC2626" style="--swatch:#DC2626" aria-label="Use red"></button>
+          </div>
+          <button class="insert-button" id="insertButton" type="button" disabled><span aria-hidden="true">+</span> Insert into slide</button>
+        </section>
+
+        <section class="results-section" aria-label="Search results">
+          <div class="results-heading"><strong>Results</strong><span id="resultCount">Searching...</span></div>
+          <div class="loading-line" id="loadingLine" aria-hidden="true"></div>
+          <div class="results-grid" id="resultsGrid" aria-live="polite" aria-busy="true"></div>
+        </section>
+      </main>
+
+      <footer id="statusBar" role="status">Connecting to the icon catalog...</footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

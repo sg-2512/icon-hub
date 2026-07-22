@@ -24,46 +24,61 @@ console.log(`Created ${images.length} explanatory Framer Marketplace media image
 function coverSvg() {
   return shell(`
     ${defs()}
-    <rect width="${width}" height="${height}" fill="#070b16"/>
-    <circle cx="1340" cy="170" r="430" fill="url(#blueGlow)" opacity=".44"/>
-    <circle cx="210" cy="1000" r="420" fill="url(#cyanGlow)" opacity=".28"/>
-    <rect x="78" y="70" width="1444" height="1060" rx="76" fill="#0d1220" stroke="#22304a" stroke-width="2"/>
-
-    ${logo(132, 126, 86)}
-    ${text(242, 158, 'IconSearch for Framer', 62, '#f8fafc', 900, 48)}
-    ${text(246, 240, 'Search 355,702 free SVG icons, customize them, and insert clean SVGs onto your Framer canvas.', 29, '#a7b4cc', 650, 72)}
-
-    ${pluginPanel(930, 260, 480, 710)}
-    ${canvasPanel(150, 384, 670, 430)}
-
-    ${featurePill(150, 980, '355,702 icons', 'Search the live IconSearch catalog', '#22d3ee')}
-    ${featurePill(500, 980, 'Customize', 'Pick size, color, or original colors', '#8b5cf6')}
-    ${featurePill(850, 980, 'Drag & insert', 'Drop production-ready SVGs', '#60a5fa')}
+    <rect width="${width}" height="${height}" fill="#f1f3f5"/>
+    ${marketHeader('IconSearch for Framer', 'Find an icon, make it yours, and place an editable SVG without leaving the canvas.', '350,000+ icons')}
+    ${framerWorkspace(64, 226, 1472, 904)}
+    ${siteCanvas(166, 342, 790, 680)}
+    ${productPanel(1022, 286, 450, 790, { query: 'home', color: '#2563eb', size: '96px' })}
+    <path d="M1046 716 C998 716 962 606 894 592" fill="none" stroke="#f06449" stroke-width="7" stroke-linecap="round" stroke-dasharray="12 14"/>
+    <path d="M912 574 L884 590 L910 608" fill="none" stroke="#f06449" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    ${numberBadge(1, 1064, 690, '#f06449')}
+    ${captionChip(612, 736, 274, 'Drop editable SVG', '#fff2ee', '#b93821')}
   `)
 }
 
 function searchSvg() {
   return shell(`
     ${defs()}
-    <rect width="${width}" height="${height}" fill="#f6f8fc"/>
-    <rect x="80" y="74" width="1440" height="1052" rx="70" fill="#ffffff" stroke="#dbe4f0"/>
-    ${logo(130, 128, 72)}
-    ${text(224, 152, 'Find icons fast', 56, '#111827', 900, 42)}
-    ${text(228, 230, 'Search by keyword, then narrow results by library, style, and legal-safe sources.', 28, '#64748b', 700, 72)}
-
-    ${searchBox(148, 342, 625, 'comment')}
-    ${filterBox(148, 436, 292, 'All libraries')}
-    ${filterBox(470, 436, 250, 'All styles')}
-    ${toggleRow(148, 520, 'Legal-safe only')}
-
-    ${libraryStack(840, 330)}
-    ${resultGrid(160, 610)}
-
-    ${callout(945, 790, 'Live online results', 'No bundled database. The plugin searches IconSearch directly so users get the latest icon catalog.', '#2563eb')}
+    <rect width="${width}" height="${height}" fill="#f1f3f5"/>
+    ${marketHeader('Find the right icon in seconds', 'Search the live catalog, then narrow results by library, style, and legal-safe status.', 'Search + filters')}
+    <rect x="64" y="226" width="1472" height="904" rx="34" fill="#ffffff" stroke="#d8dde4"/>
+    ${productPanel(104, 270, 600, 816, { query: 'calendar', color: '#111827', size: '64px', wide: true })}
+    ${explainRow(790, 324, 1, 'Search naturally', 'Use familiar words such as calendar, chart, home, or arrow.', '#2563eb')}
+    ${explainRow(790, 524, 2, 'Narrow the catalog', 'Choose a library and style, then switch on legal-safe results.', '#0a9b72')}
+    ${explainRow(790, 724, 3, 'Compare before inserting', 'Scan icon, library, and visual style together in one result grid.', '#f06449')}
+    ${connector(704, 384, 784, 354, '#2563eb')}
+    ${connector(704, 548, 784, 554, '#0a9b72')}
+    ${connector(704, 818, 784, 754, '#f06449')}
+    <rect x="790" y="942" width="640" height="92" rx="20" fill="#17191d"/>
+    ${text(824, 980, 'Live results. No stale bundled database.', 24, '#ffffff', 850, 44)}
+    ${text(824, 1012, 'The newest IconSearch catalog is always one search away.', 17, '#b8bec8', 650, 58)}
   `)
 }
 
 function customizeSvg() {
+  return shell(`
+    ${defs()}
+    <rect width="${width}" height="${height}" fill="#f1f3f5"/>
+    ${marketHeader('Match the icon to your design', 'Set size and color before insertion, or preserve the artwork\'s original palette.', 'Size + color')}
+    ${framerWorkspace(64, 226, 1472, 904)}
+    ${productPanel(106, 286, 462, 790, { query: 'comment', color: '#2563eb', size: '128px' })}
+    <rect x="642" y="314" width="808" height="686" rx="28" fill="#ffffff" stroke="#d8dde4"/>
+    ${text(690, 370, 'Canvas preview', 18, '#737b87', 800, 24)}
+    ${previewTile(690, 418, 210, 240, '#15171a', 'Original', 74)}
+    ${previewTile(932, 418, 210, 240, '#2563eb', 'Blue · 96px', 96)}
+    ${previewTile(1174, 418, 226, 240, '#f06449', 'Coral · 128px', 128)}
+    <rect x="690" y="716" width="710" height="210" rx="24" fill="#f7f8fa" stroke="#d8dde4"/>
+    ${text(728, 762, 'Inserted as an editable SVG layer', 26, '#17191d', 900, 44)}
+    ${layerRow(728, 794, 'Comment.svg', 'Vector', '#2563eb')}
+    ${text(728, 894, 'Resize, recolor, or animate it later in Framer.', 18, '#68717d', 650, 58)}
+    <path d="M596 564 H626" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+    <path d="M616 552 L630 564 L616 576" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${numberBadge(1, 574, 564, '#2563eb')}
+    ${captionChip(166, 1014, 342, 'Choose size + color', '#eaf1ff', '#1f58c7')}
+  `)
+}
+
+function legacyCustomizeSvg() {
   return shell(`
     ${defs()}
     <rect width="${width}" height="${height}" fill="#0b1020"/>
@@ -83,6 +98,28 @@ function customizeSvg() {
 function workflowSvg() {
   return shell(`
     ${defs()}
+    <rect width="${width}" height="${height}" fill="#f1f3f5"/>
+    ${marketHeader('Search, drag, done', 'Move an icon from results to an editable Framer layer in one direct workflow.', 'Drag + insert')}
+    <rect x="64" y="226" width="1472" height="904" rx="34" fill="#17191d"/>
+    ${workflowStep(108, 282, 1, 'Find', 'Search and filter', '#2563eb')}
+    ${workflowStep(574, 282, 2, 'Place', 'Drag or click', '#f06449')}
+    ${workflowStep(1040, 282, 3, 'Keep moving', 'Edit, pin, reuse', '#0a9b72')}
+    ${miniSearchPanel(108, 412)}
+    ${dropCanvas(574, 412)}
+    ${outputPanel(1040, 412)}
+    <path d="M494 704 H548" fill="none" stroke="#f06449" stroke-width="7" stroke-linecap="round" stroke-dasharray="11 12"/>
+    <path d="M538 688 L558 704 L538 720" fill="none" stroke="#f06449" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M960 704 H1014" fill="none" stroke="#0a9b72" stroke-width="7" stroke-linecap="round"/>
+    <path d="M1004 688 L1024 704 L1004 720" fill="none" stroke="#0a9b72" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="194" y="1000" width="1212" height="78" rx="20" fill="#26292e" stroke="#3a3e45"/>
+    ${pinGlyph(232, 1017, 42, '#f5c84b')}
+    ${text(296, 1046, 'Pinned and recent icons keep the next design pass fast.', 23, '#ffffff', 800, 66)}
+  `)
+}
+
+function legacyWorkflowSvg() {
+  return shell(`
+    ${defs()}
     <rect width="${width}" height="${height}" fill="#f8fafc"/>
     <rect x="80" y="74" width="1440" height="1052" rx="70" fill="#ffffff" stroke="#dbe4f0"/>
     ${logo(130, 128, 72)}
@@ -98,6 +135,221 @@ function workflowSvg() {
     <rect x="252" y="880" width="1096" height="92" rx="46" fill="#eef2ff" stroke="#dbe4f0"/>
     ${text(318, 938, 'Built for repeated Framer design work, not one-off copy/paste.', 30, '#1e293b', 900, 78)}
   `)
+}
+
+function marketHeader(title, subtitle, tag) {
+  return `
+    ${logo(70, 62, 70)}
+    ${text(164, 98, title, 48, '#17191d', 900, 50)}
+    ${text(164, 148, subtitle, 22, '#606975', 650, 92)}
+    <rect x="1302" y="72" width="228" height="48" rx="16" fill="#17191d"/>
+    ${text(1330, 104, tag, 18, '#ffffff', 850, 24)}
+  `
+}
+
+function framerWorkspace(x, y, w, h) {
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="34" fill="#1b1d21"/>
+    <rect x="${x}" y="${y}" width="${w}" height="62" rx="34" fill="#24272c"/>
+    <rect x="${x}" y="${y + 34}" width="${w}" height="28" fill="#24272c"/>
+    <circle cx="${x + 28}" cy="${y + 31}" r="7" fill="#f06449"/>
+    <circle cx="${x + 50}" cy="${y + 31}" r="7" fill="#f5c84b"/>
+    <circle cx="${x + 72}" cy="${y + 31}" r="7" fill="#0a9b72"/>
+    ${text(x + 112, y + 39, 'Framer · IconSearch demo', 16, '#d9dde3', 750, 34)}
+    <rect x="${x + 18}" y="${y + 80}" width="58" height="${h - 98}" rx="18" fill="#24272c"/>
+    ${toolButton(x + 31, y + 103, 'cursor')}
+    ${toolButton(x + 31, y + 163, 'frame')}
+    ${toolButton(x + 31, y + 223, 'text')}
+    <rect x="${x + 92}" y="${y + 80}" width="${w - 110}" height="${h - 98}" rx="22" fill="#e7e9ed"/>
+    <path d="M${x + 112} ${y + 130} H${x + w - 38} M${x + 112} ${y + 200} H${x + w - 38} M${x + 112} ${y + 270} H${x + w - 38}" stroke="#d9dce1" stroke-width="1"/>
+  `
+}
+
+function toolButton(x, y, type) {
+  if (type === 'text') return `<text x="${x + 9}" y="${y + 28}" fill="#d9dde3" font-family="Arial" font-size="26" font-weight="700">T</text>`
+  if (type === 'frame') return `<rect x="${x + 8}" y="${y + 8}" width="24" height="24" rx="4" fill="none" stroke="#d9dde3" stroke-width="2"/>`
+  return `<path d="M${x + 8} ${y + 6} L${x + 31} ${y + 22} L${x + 20} ${y + 24} L${x + 16} ${y + 35} Z" fill="#ffffff"/>`
+}
+
+function siteCanvas(x, y, w, h) {
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="24" fill="#ffffff" filter="url(#softShadow)"/>
+    <rect x="${x + 34}" y="${y + 30}" width="${w - 68}" height="46" rx="12" fill="#f2f4f6"/>
+    ${text(x + 56, y + 60, 'Framer canvas', 16, '#5f6874', 800, 18)}
+    <rect x="${x + w - 214}" y="${y + 47}" width="42" height="6" rx="3" fill="#c6cbd2"/>
+    <rect x="${x + w - 154}" y="${y + 47}" width="42" height="6" rx="3" fill="#c6cbd2"/>
+    <rect x="${x + w - 94}" y="${y + 47}" width="42" height="6" rx="3" fill="#c6cbd2"/>
+    ${text(x + 58, y + 154, 'Plan work.', 52, '#17191d', 900, 22)}
+    ${text(x + 58, y + 214, 'Move together.', 52, '#17191d', 900, 22)}
+    ${text(x + 58, y + 270, 'A calmer workspace for fast-moving teams.', 19, '#69717d', 650, 46)}
+    <rect x="${x + 58}" y="${y + 308}" width="166" height="48" rx="14" fill="#17191d"/>
+    ${text(x + 88, y + 339, 'Start planning', 16, '#ffffff', 800, 20)}
+    <rect x="${x + 448}" y="${y + 122}" width="270" height="250" rx="24" fill="#eaf1ff"/>
+    ${homeIcon(x + 520, y + 180, 126, '#2563eb')}
+    <rect x="${x + 58}" y="${y + 430}" width="660" height="168" rx="20" fill="#f7f8fa" stroke="#e0e3e8"/>
+    ${text(x + 90, y + 478, 'Weekly momentum', 18, '#17191d', 850, 24)}
+    ${chartIcon(x + 92, y + 512, 72, '#0a9b72')}
+    ${calendarIcon(x + 226, y + 512, 72, '#f06449')}
+    ${commentIcon(x + 360, y + 512, 72, '#2563eb')}
+    ${starIcon(x + 494, y + 512, 72, '#f5aa20')}
+  `
+}
+
+function productPanel(x, y, w, h, options = {}) {
+  const query = options.query || 'home'
+  const color = options.color || '#2563eb'
+  const size = options.size || '96px'
+  const cols = 3
+  const gap = 12
+  const padding = 24
+  const cardW = (w - padding * 2 - gap * (cols - 1)) / cols
+  const names = query === 'calendar' ? ['calendar', 'calendar', 'calendar', 'calendar', 'calendar', 'calendar'] : query === 'comment' ? ['comment', 'comment', 'comment', 'comment', 'comment', 'comment'] : ['home', 'arrow', 'chart', 'comment', 'calendar', 'star']
+  const libs = ['Lucide', 'Heroicons', 'Tabler', 'Phosphor', 'Remix', 'Iconify']
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="#ffffff" stroke="#d7dce3" filter="url(#shadow)"/>
+    ${logo(x + 22, y + 20, 42)}
+    ${text(x + 78, y + 47, 'IconSearch', 21, '#17191d', 900, 20)}
+    <rect x="${x + w - 86}" y="${y + 25}" width="62" height="30" rx="10" fill="#eef1f4"/>
+    ${text(x + w - 72, y + 46, 'FREE', 12, '#59616d', 900, 10)}
+    ${searchBox(x + padding, y + 82, w - padding * 2, query)}
+    ${filterBox(x + padding, y + 158, (w - padding * 2 - 10) * .58, 'All libraries')}
+    ${filterBox(x + padding + (w - padding * 2 - 10) * .58 + 10, y + 158, (w - padding * 2 - 10) * .42, 'All styles')}
+    ${miniControlSized(x + padding, y + 238, (w - padding * 2 - 12) / 2, 'Size', size)}
+    ${miniColorControl(x + padding + (w - padding * 2 - 12) / 2 + 12, y + 238, (w - padding * 2 - 12) / 2, color)}
+    ${toggleRow(x + padding, y + 320, 'Legal-safe only')}
+    ${text(x + w - 154, y + 348, 'Pinned 4', 15, '#69717d', 800, 16)}
+    ${names.map((name, index) => {
+      const row = Math.floor(index / cols)
+      const col = index % cols
+      return productResultCard(x + padding + col * (cardW + gap), y + 386 + row * 174, cardW, name, libs[index], index === 0 ? color : '#17191d', index === 0)
+    }).join('')}
+  `
+}
+
+function miniControlSized(x, y, w, title, value) {
+  return `
+    ${text(x, y, title.toUpperCase(), 12, '#747c87', 900, 12)}
+    <rect x="${x}" y="${y + 12}" width="${w}" height="54" rx="14" fill="#f7f8fa" stroke="#d8dde4"/>
+    ${text(x + 16, y + 46, value, 17, '#17191d', 850, 18)}
+  `
+}
+
+function miniColorControl(x, y, w, color) {
+  return `
+    ${text(x, y, 'COLOR', 12, '#747c87', 900, 12)}
+    <rect x="${x}" y="${y + 12}" width="${w}" height="54" rx="14" fill="#f7f8fa" stroke="#d8dde4"/>
+    <circle cx="${x + 24}" cy="${y + 39}" r="12" fill="${color}"/>
+    ${text(x + 44, y + 46, color.toUpperCase(), 15, '#17191d', 850, 12)}
+  `
+}
+
+function productResultCard(x, y, w, icon, lib, color, selected) {
+  const label = icon === 'arrow' ? 'arrow-up' : icon
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="158" rx="18" fill="${selected ? '#eef4ff' : '#ffffff'}" stroke="${selected ? '#2563eb' : '#d8dde4'}" stroke-width="${selected ? 2 : 1}"/>
+    <rect x="${x + 16}" y="${y + 14}" width="${w - 32}" height="78" rx="14" fill="#f5f6f8"/>
+    ${drawIcon(icon, x + w / 2 - 24, y + 30, 48, color)}
+    ${text(x + 14, y + 118, label, 15, '#17191d', 850, 14)}
+    ${text(x + 14, y + 142, lib, 12, '#747c87', 700, 14)}
+  `
+}
+
+function numberBadge(number, x, y, color) {
+  return `<circle cx="${x}" cy="${y}" r="22" fill="${color}" stroke="#ffffff" stroke-width="5"/>${text(x - 6, y + 7, String(number), 19, '#ffffff', 900, 2)}`
+}
+
+function captionChip(x, y, w, label, fill, color) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="52" rx="16" fill="${fill}" stroke="${color}" stroke-opacity=".24"/>${text(x + 22, y + 34, label, 18, color, 850, 26)}`
+}
+
+function explainRow(x, y, number, title, body, color) {
+  return `
+    <circle cx="${x + 28}" cy="${y + 30}" r="26" fill="${color}"/>
+    ${text(x + 21, y + 38, String(number).padStart(2, '0'), 16, '#ffffff', 900, 3)}
+    ${text(x + 76, y + 22, title, 28, '#17191d', 900, 34)}
+    ${text(x + 76, y + 60, body, 18, '#66707c', 650, 56)}
+  `
+}
+
+function connector(x1, y1, x2, y2, color) {
+  return `<path d="M${x1} ${y1} C${x1 + 20} ${y1} ${x2 - 20} ${y2} ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round"/><circle cx="${x1}" cy="${y1}" r="7" fill="${color}"/>`
+}
+
+function previewTile(x, y, w, h, color, label, iconSize) {
+  const s = Math.min(iconSize, 118)
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="22" fill="#f7f8fa" stroke="#d8dde4"/>
+    ${commentIcon(x + w / 2 - s / 2, y + 42, s, color)}
+    ${text(x + 24, y + h - 26, label, 17, '#424a55', 850, 20)}
+  `
+}
+
+function layerRow(x, y, name, type, color) {
+  return `
+    <rect x="${x}" y="${y}" width="634" height="70" rx="16" fill="#ffffff" stroke="#d8dde4"/>
+    <rect x="${x + 18}" y="${y + 17}" width="36" height="36" rx="10" fill="#eaf1ff"/>
+    ${commentIcon(x + 27, y + 26, 18, color)}
+    ${text(x + 72, y + 32, name, 17, '#17191d', 850, 22)}
+    ${text(x + 72, y + 55, type, 13, '#747c87', 700, 12)}
+    ${text(x + 536, y + 42, '128 × 128', 14, '#747c87', 750, 12)}
+  `
+}
+
+function workflowStep(x, y, number, title, body, color) {
+  return `
+    <circle cx="${x + 24}" cy="${y + 24}" r="24" fill="${color}"/>
+    ${text(x + 18, y + 31, String(number), 17, '#ffffff', 900, 2)}
+    ${text(x + 64, y + 18, title, 26, '#ffffff', 900, 20)}
+    ${text(x + 64, y + 48, body, 16, '#aeb4bd', 700, 22)}
+  `
+}
+
+function miniSearchPanel(x, y) {
+  return `
+    <rect x="${x}" y="${y}" width="368" height="512" rx="26" fill="#ffffff"/>
+    ${logo(x + 22, y + 20, 38)}
+    ${text(x + 72, y + 45, 'IconSearch', 19, '#17191d', 900, 20)}
+    ${searchBox(x + 22, y + 78, 324, 'home')}
+    ${filterBox(x + 22, y + 154, 190, 'All libraries')}
+    ${filterBox(x + 222, y + 154, 124, 'Style')}
+    ${productResultCard(x + 22, y + 238, 150, 'home', 'Lucide', '#2563eb', true)}
+    ${productResultCard(x + 194, y + 238, 150, 'home', 'Heroicons', '#17191d', false)}
+    <rect x="${x + 22}" y="${y + 426}" width="324" height="54" rx="16" fill="#eef4ff"/>
+    ${text(x + 82, y + 460, 'Drag this SVG', 18, '#1f58c7', 850, 24)}
+    ${dropGlyph(x + 46, y + 440, 26, '#2563eb')}
+  `
+}
+
+function dropCanvas(x, y) {
+  return `
+    <rect x="${x}" y="${y}" width="368" height="512" rx="26" fill="#eceef2"/>
+    <rect x="${x + 34}" y="${y + 42}" width="300" height="414" rx="22" fill="#ffffff" stroke="#d8dde4"/>
+    ${text(x + 64, y + 88, 'Project overview', 19, '#17191d', 900, 24)}
+    ${text(x + 64, y + 120, 'Everything your team needs.', 15, '#737b87', 650, 32)}
+    <rect x="${x + 64}" y="${y + 160}" width="240" height="190" rx="20" fill="#eaf1ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="8 8"/>
+    ${homeIcon(x + 130, y + 204, 108, '#2563eb')}
+    <rect x="${x + 64}" y="${y + 382}" width="174" height="44" rx="13" fill="#17191d"/>
+    ${text(x + 92, y + 411, 'Editable SVG', 15, '#ffffff', 850, 18)}
+  `
+}
+
+function outputPanel(x, y) {
+  return `
+    <rect x="${x}" y="${y}" width="368" height="512" rx="26" fill="#ffffff"/>
+    ${text(x + 28, y + 48, 'Selected layer', 18, '#737b87', 800, 20)}
+    <rect x="${x + 28}" y="${y + 76}" width="312" height="82" rx="18" fill="#f7f8fa" stroke="#d8dde4"/>
+    ${homeIcon(x + 50, y + 98, 38, '#2563eb')}
+    ${text(x + 108, y + 111, 'Home.svg', 18, '#17191d', 850, 18)}
+    ${text(x + 108, y + 136, 'Vector layer', 13, '#747c87', 700, 16)}
+    ${miniControlSized(x + 28, y + 194, 144, 'Width', '96px')}
+    ${miniControlSized(x + 196, y + 194, 144, 'Height', '96px')}
+    ${miniColorControl(x + 28, y + 286, 312, '#2563eb')}
+    <rect x="${x + 28}" y="${y + 386}" width="142" height="52" rx="15" fill="#fff7dd"/>
+    ${pinGlyph(x + 46, y + 400, 26, '#b77a00')}
+    ${text(x + 84, y + 419, 'Pinned', 16, '#805600', 850, 14)}
+    <rect x="${x + 186}" y="${y + 386}" width="154" height="52" rx="15" fill="#e8f7f2"/>
+    ${text(x + 214, y + 419, 'Recent', 16, '#087454', 850, 14)}
+  `
 }
 
 function pluginPanel(x, y, w, h) {
@@ -150,8 +402,8 @@ function resultGrid(x, y) {
 function libraryStack(x, y) {
   const items = [
     ['Popular libraries', 'Lucide, Heroicons, Tabler, Remix'],
-    ['Iconify collections', '224 icon collections available'],
-    ['Legal-safe filter', 'Only use icons safe for projects'],
+    ['Iconify collections', '220+ icon collections available'],
+    ['Legal-safe filter', 'Focus on icons marked legal-safe'],
   ]
   return `
     <rect x="${x}" y="${y}" width="560" height="390" rx="34" fill="#0f172a"/>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Google Slides add-on">
+  <rect x="4" y="2" width="16" height="20" rx="2.5" fill="#F9AB00"/>
+  <path d="M8 7h8v1.8H8V7Zm0 4h8v6H8v-6Z" fill="#fff"/>
+  <path d="M9.5 12.5h5v3h-5v-3Z" fill="#F9AB00"/>
+</svg>

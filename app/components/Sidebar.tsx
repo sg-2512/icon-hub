@@ -1,16 +1,43 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import type { User } from '@supabase/supabase-js'
+import { BookOpen, GitCompareArrows, Home, KeyRound, List, LogIn, Search, UserCheck } from 'lucide-react'
+import AuthModal from './AuthModal'
+import { createClient } from '@/lib/supabase'
 import { formatIconifyCollectionName, namedLibraries } from '../../data/library-catalog'
 
+
 const navLinks = [
-  { label: 'Home', href: '/', icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
-  { label: 'Search', href: '/icon-search', icon: '' },
-  { label: 'Browse', href: '/free-svg-icons', icon: 'M4 6h16M4 12h16M4 18h16' },
-  { label: 'Compare', href: '/compare', icon: 'M9 12l2 2 4-4m-6 8h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z' },
-  { label: 'Blog', href: '/blog', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+  { label: 'Home', href: '/', Icon: Home, color: '#9aa8ff' },
+  { label: 'Search', href: '/icon-search', Icon: Search, color: '#53c9ff' },
+  { label: 'Browse', href: '/free-svg-icons', Icon: List, color: '#50d3a2' },
+  { label: 'Compare', href: '/compare', Icon: GitCompareArrows, color: '#f4bc72' },
+  { label: 'Blog', href: '/blog', Icon: BookOpen, color: '#f38fbd' },
+]
+
+const integrationLinks = [
+  { label: 'Figma plugin', href: '/figma-plugin', iconSrc: '/integration-logos/figma.svg' },
+  { label: 'Sketch plugin', href: '/sketch-plugin', iconSrc: '/integration-logos/sketch.svg' },
+  { label: 'VS Code extension', href: '/vscode-extension', iconSrc: '/integration-logos/vscode.svg' },
+  { label: 'Chrome extension', href: '/chrome-extension', iconSrc: '/integration-logos/chrome.svg' },
+  { label: 'Framer plugin', href: '/framer-plugin', iconSrc: '/integration-logos/framer.svg' },
+  { label: 'Webflow extension', href: '/webflow-extension', iconSrc: '/integration-logos/webflow.svg' },
+  { label: 'PowerPoint add-in', href: '/powerpoint-addin', iconSrc: '/integration-logos/powerpoint.svg' },
+  { label: 'Google Slides add-on', href: '/google-slides-addon', iconSrc: '/integration-logos/google-slides.svg' },
+  { label: 'Raycast extension', href: '/raycast-extension', iconSrc: '/integration-logos/raycast.svg' },
+  { label: 'Tailwind plugin', href: '/tailwind-plugin', iconSrc: '/integration-logos/tailwind.svg' },
+  { label: 'MCP server', href: '/mcp-server', iconSrc: '/integration-logos/mcp.svg' },
+  { label: 'JetBrains plugin', href: '/jetbrains-plugin', iconSrc: '/integration-logos/jetbrains.svg' },
+  { label: 'Storybook addon', href: '/storybook-addon', iconSrc: '/integration-logos/storybook.svg' },
+  { label: 'Canva app', href: '/canva-app', iconSrc: '/integration-logos/canva.svg' },
+  { label: 'WordPress plugin', href: '/wordpress-plugin', iconSrc: '/integration-logos/wordpress.svg' },
+  { label: 'Shopify extension', href: '/shopify-extension', iconSrc: '/integration-logos/shopify.svg' },
+  { label: 'Adobe Express add-on', href: '/adobe-plugin', iconSrc: '/integration-logos/adobe.svg' },
+  { label: 'Obsidian plugin', href: '/obsidian-plugin', iconSrc: '/integration-logos/obsidian.svg' },
 ]
 
 export default function Sidebar() {
@@ -18,6 +45,22 @@ export default function Sidebar() {
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [iconifySets, setIconifySets] = useState<string[]>([])
+  const [user, setUser] = useState<User | null>(null)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+
+  useEffect(() => {
+    void (async () => {
+      const supabase = await createClient()
+      if (!supabase) return
+      const { data } = await supabase.auth.getUser()
+      setUser(data.user)
+
+      const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user || null)
+      })
+      return () => subscription.subscription.unsubscribe()
+    })()
+  }, [])
 
   useEffect(() => {
     const timer = window.setTimeout(() => setMobileOpen(false), 0)
@@ -45,7 +88,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile hamburger button */}
-      <button
+      <button suppressHydrationWarning
         onClick={() => setMobileOpen(!mobileOpen)}
         className="sidebar-mobile-toggle"
         aria-label="Toggle sidebar"
@@ -64,24 +107,78 @@ export default function Sidebar() {
       )}
 
       <aside className={`app-sidebar ${mobileOpen ? 'open' : ''}`}>
-        {/* Brand */}
-        <div style={{ padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, #818cf8, #6366f1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 'bold', fontSize: '14px', fontFamily: 'JetBrains Mono, monospace' }}>
-            IS
-          </div>
-          <Link href="/" style={{ fontSize: '17px', fontWeight: 800, color: 'var(--text)', textDecoration: 'none', letterSpacing: '-0.5px', fontFamily: 'Inter, sans-serif' }}>
+        {/* Brand Header */}
+        <div style={{ padding: '20px 20px 12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Image src="/iconsearch-logo-128.png" width={32} height={32} alt="" priority />
+          <Link href="/" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)', textDecoration: 'none', letterSpacing: '-0.5px', fontFamily: 'Inter, sans-serif' }}>
             Iconsearch
           </Link>
         </div>
 
+        {/* Top Sign In / Account Action Button */}
+        <div style={{ padding: '0 12px 16px' }}>
+          {user ? (
+            <Link
+              href="/account"
+              style={{
+                width: '100%',
+                padding: '9px 14px',
+                borderRadius: '10px',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid var(--border)',
+                color: 'var(--text)',
+                fontSize: '13px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxSizing: 'border-box',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <UserCheck size={16} /> Account
+            </Link>
+          ) : (
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              style={{
+                width: '100%',
+                padding: '9px 14px',
+                borderRadius: '10px',
+                background: 'var(--accent, #818cf8)',
+                color: '#ffffff',
+                border: 'none',
+                fontSize: '13px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxSizing: 'border-box',
+                boxShadow: '0 4px 14px rgba(129,140,248,0.3)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <LogIn size={16} /> Sign In
+            </button>
+          )}
+        </div>
+
+
+
+
+
         {/* Nav Links */}
         <nav style={{ padding: '0 12px', display: 'flex', flexDirection: 'column', gap: '2px', marginBottom: '20px' }}>
-          {navLinks.map(link => {
-            const isActive = pathname === link.href
+          {navLinks.map(({ label, href, Icon, color }) => {
+            const isActive = pathname === href
             return (
               <Link
-                key={link.href}
-                href={link.href}
+                key={href}
+                href={href}
                 style={{
                   padding: '8px 12px',
                   borderRadius: '8px',
@@ -96,114 +193,62 @@ export default function Sidebar() {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {link.label === 'Search' ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={link.icon} />
-                  </svg>
-                )}
-                {link.label}
+                <Icon
+                  size={18}
+                  strokeWidth={1.9}
+                  aria-hidden="true"
+                  style={{
+                    color,
+                    flexShrink: 0,
+                    filter: `drop-shadow(0 1px 5px ${color}35)`,
+                  }}
+                />
+                {label}
               </Link>
             )
           })}
-          <Link
-            href="/figma-plugin"
-            style={{
-              padding: '8px 12px',
-              borderRadius: '8px',
-              color: pathname === '/figma-plugin' ? 'var(--text)' : 'var(--text-muted)',
-              background: pathname === '/figma-plugin' ? 'var(--accent-dim)' : 'transparent',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              fontWeight: pathname === '/figma-plugin' ? 500 : 400,
-              fontSize: '14px',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/>
-              <path d="M12 2h3.5a3.5 3.5 0 0 1 0 7H12V2z"/>
-              <path d="M12 9h3.5a3.5 3.5 0 1 1-3.5 3.5V9z"/>
-              <path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/>
-              <path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-3.5 3.5z"/>
-            </svg>
-            Figma plugin
-          </Link>
-          <Link
-            href="/vscode-extension"
-            style={{
-              padding: '8px 12px',
-              borderRadius: '8px',
-              color: pathname === '/vscode-extension' ? 'var(--text)' : 'var(--text-muted)',
-              background: pathname === '/vscode-extension' ? 'var(--accent-dim)' : 'transparent',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              fontWeight: pathname === '/vscode-extension' ? 500 : 400,
-              fontSize: '14px',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
-            </svg>
-            VS Code extension
-          </Link>
-          <Link
-            href="/chrome-extension"
-            style={{
-              padding: '8px 12px',
-              borderRadius: '8px',
-              color: pathname === '/chrome-extension' ? 'var(--text)' : 'var(--text-muted)',
-              background: pathname === '/chrome-extension' ? 'var(--accent-dim)' : 'transparent',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              fontWeight: pathname === '/chrome-extension' ? 500 : 400,
-              fontSize: '14px',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <circle cx="12" cy="12" r="10" />
-              <circle cx="12" cy="12" r="4" />
-              <line x1="21.17" y1="8" x2="12" y2="8" />
-              <line x1="3.95" y1="6.06" x2="8.54" y2="14" />
-              <line x1="10.88" y1="21.94" x2="15.46" y2="14" />
-            </svg>
-            Chrome extension
-          </Link>
-          <Link
-            href="/framer-plugin"
-            style={{
-              padding: '8px 12px',
-              borderRadius: '8px',
-              color: pathname === '/framer-plugin' ? 'var(--text)' : 'var(--text-muted)',
-              background: pathname === '/framer-plugin' ? 'var(--accent-dim)' : 'transparent',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              fontWeight: pathname === '/framer-plugin' ? 500 : 400,
-              fontSize: '14px',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <path d="M4 4h16v6H4z" />
-              <path d="M4 10h10v5H4z" />
-              <path d="M4 15h7v5H4z" />
-            </svg>
-            Framer plugin
-          </Link>
+          <div style={{ padding: '14px 8px 7px' }}>
+            <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.3px' }}>
+              Integrations
+            </span>
+          </div>
+          {integrationLinks.map(({ label, href, iconSrc }) => {
+            const isActive = pathname === href
+            return (
+              <Link
+                key={href}
+                href={href}
+                style={{
+                  minHeight: '34px',
+                  padding: '7px 12px',
+                  borderRadius: '7px',
+                  color: isActive ? 'var(--text)' : 'var(--text-muted)',
+                  background: isActive ? 'var(--accent-dim)' : 'transparent',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  fontWeight: isActive ? 600 : 400,
+                  fontSize: '13px',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {/* Local SVG brand assets render directly to preserve their native colors. */}
+                <img
+                  src={iconSrc}
+                  width={18}
+                  height={18}
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    flexShrink: 0,
+                    objectFit: 'contain',
+                  }}
+                />
+                <span style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{label}</span>
+              </Link>
+            )
+          })}
         </nav>
 
         {/* Divider */}
@@ -250,6 +295,7 @@ export default function Sidebar() {
             </label>
             <select
               id="sidebar-iconify-collection"
+              suppressHydrationWarning
               aria-label="Browse Iconify collections"
               defaultValue=""
               onChange={(event) => {
@@ -293,18 +339,29 @@ export default function Sidebar() {
         <div style={{ padding: '16px 20px', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
             {[
-              { label: 'Account', href: '/account' },
               { label: 'About', href: '/about' },
               { label: 'Privacy', href: '/privacy-policy' },
               { label: 'Contact', href: '/contact' },
             ].map(link => (
-              <Link key={link.href} href={link.href} style={{ fontSize: '11px', color: 'var(--text-dim)', textDecoration: 'none' }}>
+              <Link key={link.href} href={link.href} style={{ fontSize: '11px', color: 'var(--text-muted)', textDecoration: 'none' }}>
                 {link.label}
               </Link>
             ))}
           </div>
         </div>
+
+
       </aside>
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={(authUser) => {
+          setUser(authUser)
+          setIsAuthModalOpen(false)
+        }}
+      />
     </>
   )
 }
+

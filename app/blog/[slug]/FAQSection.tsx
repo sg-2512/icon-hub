@@ -14,7 +14,7 @@ function FAQItem({ q, a }: FAQ) {
       overflow: 'hidden',
       marginBottom: '8px',
     }}>
-      <button
+      <button suppressHydrationWarning
         onClick={() => setOpen(!open)}
         style={{
           width: '100%',

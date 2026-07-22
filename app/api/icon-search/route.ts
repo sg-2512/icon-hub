@@ -9,10 +9,10 @@ import {
   SEARCHABLE_ICON_COUNT,
 } from '../../../data/library-catalog'
 
-let cachedIcons: any[] | null = null
-let cachedPopular: any[] | null = null
-let cachedLegal: any[] | null = null
-let cachedLegalPopular: any[] | null = null
+let cachedIcons: SearchIcon[] | null = null
+let cachedPopular: SearchIcon[] | null = null
+let cachedLegal: SearchIcon[] | null = null
+let cachedLegalPopular: SearchIcon[] | null = null
 let cachedLegalSafeCount: number = 0
 
 const API_CORS_HEADERS = {
@@ -60,6 +60,22 @@ type NormalizableIcon = {
   name?: unknown
   previewUrls?: unknown
   svgUrl?: unknown
+}
+
+type SearchIcon = NormalizableIcon & {
+  id: string
+  name: string
+  displayName: string
+  library: string
+  libraryName: string
+  npmPackage: string
+  license: string
+  tags: string[]
+  reactImport: string
+  reactUsage: string
+  svgUrl: string
+  legalSafe?: boolean
+  licenseUrl?: string
 }
 
 let cachedFacets: {
@@ -117,21 +133,13 @@ function addIconifyPreviewUrls(urls: string[], seen: Set<string>, library: strin
 function normalizePreviewUrls(icon: NormalizableIcon) {
   const library = typeof icon.library === 'string' ? icon.library : ''
   const name = typeof icon.name === 'string' ? icon.name : ''
-  if (!ICONIFY_PREVIEW_PRIMARY_LIBRARIES.has(library) || !name) return
+  if (!library || !name) return
 
-  const urls: string[] = []
-  const seen = new Set<string>()
-  addIconifyPreviewUrls(urls, seen, library, name)
-
-  if (Array.isArray(icon.previewUrls)) {
-    icon.previewUrls.forEach((url: unknown) => addUniqueUrl(urls, seen, url))
-  }
-  addUniqueUrl(urls, seen, icon.svgUrl)
-
-  if (urls.length === 0) return
-  icon.svgUrl = urls[0]
-  icon.previewUrls = urls
+  const internalPath = `/api/svg/${encodeURIComponent(library)}/${encodeURIComponent(name.replace(/\.svg$/i, ''))}`
+  icon.svgUrl = internalPath
+  icon.previewUrls = [internalPath]
 }
+
 
 
 export function loadIcons() {
@@ -145,7 +153,7 @@ export function loadIcons() {
       const compressedData = readFileSync(canonicalPathGz)
       const decompressedData = gunzipSync(compressedData).toString('utf-8')
       const list = JSON.parse(decompressedData)
-      const parsedList = Array.isArray(list) ? list : []
+      const parsedList = Array.isArray(list) ? (list as SearchIcon[]) : []
       
       // Helper to convert kebab/snake cases to PascalCase
       const toPascalCase = (str: string) => {
@@ -203,7 +211,7 @@ export function loadIcons() {
       // Pre-compute static facets to optimize query execution latency (Phase 4 Upgrade)
       console.log('Pre-computing static search facets...')
       const allLibs = Array.from(new Set(parsedList.map((icon) => icon.library))).sort()
-      const allLics = Array.from(new Set(parsedList.map((icon) => icon.license))).sort()
+      const allLics = Array.from(new Set(parsedList.map((icon) => icon.license).filter((license): license is string => typeof license === 'string'))).sort()
       const allSets = allLibs
         .filter((name) => name.startsWith('iconify-'))
         .map((name) => name.replace(/^iconify-/, ''))
@@ -211,7 +219,7 @@ export function loadIcons() {
 
       const legalList = parsedList.filter((icon) => Boolean(icon.legalSafe))
       const legalLibs = Array.from(new Set(legalList.map((icon) => icon.library))).sort()
-      const legalLics = Array.from(new Set(legalList.map((icon) => icon.license))).sort()
+      const legalLics = Array.from(new Set(legalList.map((icon) => icon.license).filter((license): license is string => typeof license === 'string'))).sort()
       const legalSets = legalLibs
         .filter((name) => name.startsWith('iconify-'))
         .map((name) => name.replace(/^iconify-/, ''))
@@ -296,7 +304,7 @@ export async function GET(request: Request) {
   // Fast-path: when no filters are active, serve directly from pre-computed cached arrays
   const noFilters = !query && !idsParam && lib === 'all' && style === 'all' && category === 'all' && iconifySet === 'all'
   if (noFilters) {
-    let source: any[]
+    let source: SearchIcon[]
     if (legalOnly && sort === 'popular') {
       source = cachedLegalPopular!
     } else if (legalOnly) {

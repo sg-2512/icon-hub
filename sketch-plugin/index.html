@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IconSearch for Sketch</title>
+    <link rel="stylesheet" href="/src/panel.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="/assets/iconsearch-logo-128.png" width="28" height="28" alt="" />
+          <div><strong>IconSearch</strong><span>Sketch plugin</span></div>
+        </div>
+        <span class="runtime-badge" id="runtimeBadge">Starting</span>
+      </header>
+
+      <main>
+        <section class="search-tools" aria-label="Icon search">
+          <label class="search-field">
+            <input id="searchInput" type="search" autocomplete="off" spellcheck="false" aria-label="Search icons" placeholder="Search icons" />
+            <kbd>/</kbd>
+          </label>
+          <div class="filter-row">
+            <label><span>Library</span><select id="librarySelect" aria-label="Library"></select></label>
+            <label><span>Style</span><select id="styleSelect" aria-label="Style"></select></label>
+            <label class="legal-toggle"><input id="legalOnlyInput" type="checkbox" checked /><span aria-hidden="true"></span><b>Commercial-safe</b></label>
+          </div>
+        </section>
+
+        <nav class="view-tabs" aria-label="Icon views">
+          <button type="button" class="is-active" data-view="browse">Browse</button>
+          <button type="button" data-view="recent">Recent <span id="recentCount">0</span></button>
+        </nav>
+
+        <section class="selected-panel" aria-label="Selected icon">
+          <div class="selected-summary">
+            <img class="selected-preview is-pending" id="selectedPreview" alt="" aria-hidden="true" />
+            <div><small>Selected</small><strong id="selectedName">Loading icons</strong><span id="selectedDetails">Live catalog</span></div>
+          </div>
+          <div class="control-grid">
+            <label class="range-control"><span>Size</span><input id="sizeInput" type="range" min="16" max="512" step="8" value="64" /><output id="sizeValue">64 px</output></label>
+            <label class="position-control"><span>Placement</span><select id="positionSelect"><option value="right">Right of selection</option><option value="overlay">Center on selection</option><option value="page-origin">Page origin</option></select></label>
+            <label class="color-control"><span>Color</span><input id="colorInput" type="color" value="#2563eb" /><input id="colorTextInput" type="text" value="#2563EB" maxlength="7" aria-label="Hex color" /></label>
+          </div>
+          <div class="swatches" aria-label="Quick colors">
+            <button class="swatch" type="button" data-color="#111827" style="--swatch:#111827" aria-label="Use charcoal"></button>
+            <button class="swatch" type="button" data-color="#2563EB" style="--swatch:#2563EB" aria-label="Use blue"></button>
+            <button class="swatch" type="button" data-color="#F4B400" style="--swatch:#F4B400" aria-label="Use Sketch yellow"></button>
+            <button class="swatch" type="button" data-color="#059669" style="--swatch:#059669" aria-label="Use green"></button>
+            <button class="swatch" type="button" data-color="#DC2626" style="--swatch:#DC2626" aria-label="Use red"></button>
+          </div>
+          <button class="insert-button" id="insertButton" type="button" disabled><span aria-hidden="true">+</span> Insert editable SVG</button>
+        </section>
+
+        <section class="results-section" aria-label="Search results">
+          <div class="results-heading"><strong id="resultsTitle">Results</strong><span id="resultCount">Searching...</span></div>
+          <div class="loading-line" id="loadingLine" aria-hidden="true"></div>
+          <div class="results-grid" id="resultsGrid" aria-live="polite" aria-busy="true"></div>
+        </section>
+      </main>
+
+      <footer id="statusBar" role="status">Connecting to the icon catalog...</footer>
+    </div>
+    <script type="module" src="/src/panel.ts"></script>
+  </body>
+</html>

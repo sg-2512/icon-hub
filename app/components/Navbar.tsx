@@ -78,7 +78,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Hamburger Button */}
-      <button
+      <button suppressHydrationWarning
         className="mobile-menu-btn"
         onClick={() => setMenuOpen(!menuOpen)}
         style={{
