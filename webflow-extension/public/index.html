@@ -8,94 +8,115 @@
       </div>
     </div>
     <div class="header-right">
-      <a href="https://iconsearch.info/account" target="_blank" rel="noopener" class="account-link">Sign in / Account</a>
+      <div id="userInfo" class="user-info hidden">
+        <span id="userEmail" class="user-email"></span>
+        <button id="signOutBtn" type="button" class="text-button">Sign out</button>
+      </div>
       <span id="runtimeBadge" class="runtime-badge">Preview</span>
     </div>
   </header>
 
-  <section class="search-panel" aria-label="Search and filter icons">
-    <label class="search-field">
-      <span class="sr-only">Search icons</span>
-      <input id="searchInput" type="search" placeholder="Search home, arrow, cart..." autocomplete="off" />
-      <kbd>/</kbd>
-    </label>
-
-    <div class="filter-grid">
-      <label>
-        <span>Library</span>
-        <select id="librarySelect"></select>
-      </label>
-      <label>
-        <span>Style</span>
-        <select id="styleSelect"></select>
-      </label>
-    </div>
-
-    <div class="filter-footer">
-      <label class="toggle-row">
-        <input id="legalOnlyInput" type="checkbox" checked />
-        <span class="toggle-track" aria-hidden="true"><span></span></span>
-        <span>Commercial-safe</span>
-      </label>
-      <span id="resultCount">Searching...</span>
+  <!-- AUTH REQUIRED SCREEN -->
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-icon" aria-hidden="true">IS</div>
+      <h2>Sign in to IconSearch</h2>
+      <p class="auth-desc">
+        Connect your IconSearch account to search and insert 355,000+ icons in Webflow.
+      </p>
+      <button id="signInBtn" type="button" class="primary-button auth-button">
+        Sign in with IconSearch
+      </button>
+      <p id="authStatus" class="auth-status" aria-live="polite"></p>
     </div>
   </section>
 
-  <!-- RESULTS GRID — placed prominently right after search -->
-  <section class="results-section" aria-label="Icon results">
-    <div class="results-heading">
-      <strong>Results</strong>
-      <span>Click to preview &middot; double-click to insert</span>
-    </div>
-    <div id="resultsGrid" class="results-grid" aria-busy="true"></div>
-  </section>
-
-  <!-- SELECTION + CONTROLS -->
-  <section class="selection-panel" aria-live="polite">
-    <div class="preview-stage">
-      <span id="selectedPreview" class="icon-shape selected-shape" aria-hidden="true"></span>
-    </div>
-    <div class="selection-copy">
-      <strong id="selectedName">Loading icons...</strong>
-      <span id="selectedDetails">Preparing the live catalog</span>
-      <span id="selectionContext" class="selection-context">Select an element in Webflow</span>
-    </div>
-
-    <div class="style-controls">
-      <label class="range-field">
-        <span>Size <strong id="sizeValue">64px</strong></span>
-        <input id="sizeInput" type="range" min="16" max="256" step="4" value="64" />
+  <!-- MAIN APP (Gated behind sign-in) -->
+  <div id="mainApp" class="main-app hidden">
+    <section class="search-panel" aria-label="Search and filter icons">
+      <label class="search-field">
+        <span class="sr-only">Search icons</span>
+        <input id="searchInput" type="search" placeholder="Search home, arrow, cart..." autocomplete="off" />
+        <kbd>/</kbd>
       </label>
 
-      <div class="color-control">
+      <div class="filter-grid">
         <label>
-          <span>Color</span>
-          <input id="colorInput" type="color" value="#111827" />
+          <span>Library</span>
+          <select id="librarySelect"></select>
         </label>
-        <div class="swatch-row" aria-label="Color presets">
-          <button type="button" class="swatch is-active" data-color="#111827" aria-label="Use ink"></button>
-          <button type="button" class="swatch" data-color="#146ef5" aria-label="Use Webflow blue"></button>
-          <button type="button" class="swatch" data-color="#0f766e" aria-label="Use teal"></button>
-          <button type="button" class="swatch" data-color="#be185d" aria-label="Use pink"></button>
-          <button type="button" class="swatch" data-color="#ffffff" aria-label="Use white"></button>
-        </div>
+        <label>
+          <span>Style</span>
+          <select id="styleSelect"></select>
+        </label>
       </div>
 
-      <label class="placement-field">
-        <span>Placement</span>
-        <select id="placementSelect">
-          <option value="inside" selected>Inside selection (default)</option>
-          <option value="after">After selection</option>
-          <option value="before">Before selection</option>
-        </select>
-      </label>
-    </div>
+      <div class="filter-footer">
+        <label class="toggle-row">
+          <input id="legalOnlyInput" type="checkbox" checked />
+          <span class="toggle-track" aria-hidden="true"><span></span></span>
+          <span>Commercial-safe</span>
+        </label>
+        <span id="resultCount">Searching...</span>
+      </div>
+    </section>
 
-    <button id="insertButton" class="primary-button" type="button" disabled>
-      Insert selected icon
-    </button>
-    <p class="insert-hint">Double-click any result to insert it with these settings.</p>
-  </section>
+    <!-- RESULTS GRID -->
+    <section class="results-section" aria-label="Icon results">
+      <div class="results-heading">
+        <strong>Results</strong>
+        <span>Click to preview &middot; double-click to insert</span>
+      </div>
+      <div id="resultsGrid" class="results-grid" aria-busy="true"></div>
+    </section>
+
+    <!-- SELECTION + CONTROLS -->
+    <section class="selection-panel" aria-live="polite">
+      <div class="preview-stage">
+        <span id="selectedPreview" class="icon-shape selected-shape" aria-hidden="true"></span>
+      </div>
+      <div class="selection-copy">
+        <strong id="selectedName">Loading icons...</strong>
+        <span id="selectedDetails">Preparing the live catalog</span>
+        <span id="selectionContext" class="selection-context">Select an element in Webflow</span>
+      </div>
+
+      <div class="style-controls">
+        <label class="range-field">
+          <span>Size <strong id="sizeValue">64px</strong></span>
+          <input id="sizeInput" type="range" min="16" max="256" step="4" value="64" />
+        </label>
+
+        <div class="color-control">
+          <label>
+            <span>Color</span>
+            <input id="colorInput" type="color" value="#111827" />
+          </label>
+          <div class="swatch-row" aria-label="Color presets">
+            <button type="button" class="swatch is-active" data-color="#111827" aria-label="Use ink"></button>
+            <button type="button" class="swatch" data-color="#146ef5" aria-label="Use Webflow blue"></button>
+            <button type="button" class="swatch" data-color="#0f766e" aria-label="Use teal"></button>
+            <button type="button" class="swatch" data-color="#be185d" aria-label="Use pink"></button>
+            <button type="button" class="swatch" data-color="#ffffff" aria-label="Use white"></button>
+          </div>
+        </div>
+
+        <label class="placement-field">
+          <span>Placement</span>
+          <select id="placementSelect">
+            <option value="inside" selected>Inside selection (default)</option>
+            <option value="after">After selection</option>
+            <option value="before">Before selection</option>
+          </select>
+        </label>
+      </div>
+
+      <button id="insertButton" class="primary-button" type="button" disabled>
+        Insert selected icon
+      </button>
+      <p class="insert-hint">Double-click any result to insert it with these settings.</p>
+    </section>
+  </div>
 
   <footer id="statusBar" class="status-bar">Connecting to Webflow Designer...</footer>
 </main>

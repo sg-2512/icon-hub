@@ -106,8 +106,44 @@ function isWebflowAvailable(): boolean {
   return getWebflowApi() !== null;
 }
 
+type Access = {
+  email: string;
+  product: string;
+  tier: string;
+  founderNumber: number | null;
+  expiresAt?: string;
+};
+
+type Session = {
+  token: string;
+  access: Access | null;
+};
+
+const SESSION_KEY = "iconsearch.webflow.session.v2";
+
+function readSession(): Session | null {
+  try {
+    const raw = window.localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.token === "string" && parsed.token.length > 10) {
+      return parsed as Session;
+    }
+  } catch { /* ignore */ }
+  return null;
+}
+
+function writeSession(session: Session | null): void {
+  if (session) {
+    window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } else {
+    window.localStorage.removeItem(SESSION_KEY);
+  }
+}
+
 const state = {
   webflowReady: false,
+  session: null as Session | null,
   icons: [] as IconSearchIcon[],
   selectedId: "",
   loading: false,
@@ -132,6 +168,13 @@ const state = {
 
 const elements = {
   runtimeBadge: requiredElement<HTMLSpanElement>("runtimeBadge"),
+  authScreen: requiredElement<HTMLElement>("authScreen"),
+  mainApp: requiredElement<HTMLElement>("mainApp"),
+  signInBtn: requiredElement<HTMLButtonElement>("signInBtn"),
+  authStatus: requiredElement<HTMLElement>("authStatus"),
+  userInfo: requiredElement<HTMLElement>("userInfo"),
+  userEmail: requiredElement<HTMLSpanElement>("userEmail"),
+  signOutBtn: requiredElement<HTMLButtonElement>("signOutBtn"),
   searchInput: requiredElement<HTMLInputElement>("searchInput"),
   librarySelect: requiredElement<HTMLSelectElement>("librarySelect"),
   styleSelect: requiredElement<HTMLSelectElement>("styleSelect"),
@@ -155,9 +198,32 @@ void boot();
 async function boot(): Promise<void> {
   hydrateControls();
   bindEvents();
-  renderLoading();
+  state.session = readSession();
+  updateAuthUI();
   await initializeWebflow();
-  await searchIcons();
+  if (state.session?.token) {
+    await searchIcons();
+  }
+}
+
+function updateAuthUI(): void {
+  const isSignedIn = Boolean(state.session?.token);
+  if (isSignedIn) {
+    elements.authScreen.classList.add("hidden");
+    elements.mainApp.classList.remove("hidden");
+    elements.userInfo.classList.remove("hidden");
+    const email = state.session?.access?.email || "Account";
+    const tier = state.session?.access?.tier === "founder" && state.session?.access?.founderNumber
+      ? `Founder #${state.session.access.founderNumber}`
+      : "Connected";
+    elements.userEmail.textContent = email;
+    elements.userEmail.title = `${email} (${tier})`;
+  } else {
+    elements.authScreen.classList.remove("hidden");
+    elements.mainApp.classList.add("hidden");
+    elements.userInfo.classList.add("hidden");
+    elements.authStatus.textContent = "";
+  }
 }
 
 async function initializeWebflow(): Promise<void> {
@@ -264,6 +330,9 @@ function fillSelect(
 }
 
 function bindEvents(): void {
+  elements.signInBtn.addEventListener("click", () => void startAuthDevice());
+  elements.signOutBtn.addEventListener("click", () => void signOut());
+
   elements.searchInput.addEventListener("input", () => {
     state.query = elements.searchInput.value.trim();
     scheduleSearch();
@@ -338,12 +407,105 @@ function bindEvents(): void {
   });
 }
 
+async function startAuthDevice(): Promise<void> {
+  elements.signInBtn.disabled = true;
+  elements.signInBtn.textContent = "Starting sign-in...";
+  elements.authStatus.textContent = "Opening sign-in page in browser...";
+
+  try {
+    const startResponse = await fetch(`${API_BASE}/api/device/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", accept: "application/json" },
+      body: JSON.stringify({ product: "webflow", clientName: "Webflow Extension" }),
+    });
+
+    const startPayload = (await startResponse.json()) as {
+      deviceCode?: string;
+      verificationUriComplete?: string;
+      expiresIn?: number;
+      interval?: number;
+      error?: string;
+    };
+    if (!startResponse.ok) throw new Error(startPayload.error || "Could not start sign-in.");
+
+    const deviceCode = startPayload.deviceCode;
+    const verificationUrl = startPayload.verificationUriComplete;
+    if (!deviceCode || !verificationUrl) throw new Error("Incomplete sign-in response.");
+
+    window.open(verificationUrl, "_blank", "noopener,noreferrer");
+    elements.authStatus.textContent = "Approve the browser tab to sign in...";
+
+    const deadline = Date.now() + (Number(startPayload.expiresIn) || 600) * 1000;
+    const interval = Math.max(2, Number(startPayload.interval) || 3) * 1000;
+
+    while (Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, interval));
+      const statusResponse = await fetch(`${API_BASE}/api/device/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", accept: "application/json" },
+        body: JSON.stringify({ deviceCode }),
+      });
+      const statusPayload = (await statusResponse.json()) as {
+        status?: string;
+        token?: string;
+        access?: Access;
+        error?: string;
+      };
+
+      if (statusPayload.status === "pending") continue;
+      if (statusPayload.status !== "authorized" || !statusPayload.token) {
+        throw new Error(statusPayload.error || "The sign-in link expired. Please try again.");
+      }
+
+      state.session = {
+        token: statusPayload.token,
+        access: statusPayload.access || null,
+      };
+      writeSession(state.session);
+      updateAuthUI();
+      setStatus("Connected to IconSearch!", "success");
+      await searchIcons();
+      return;
+    }
+
+    throw new Error("Sign-in link expired. Please click Sign In again.");
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Could not complete sign-in.";
+    elements.authStatus.textContent = msg;
+  } finally {
+    elements.signInBtn.disabled = false;
+    elements.signInBtn.textContent = "Sign in with IconSearch";
+  }
+}
+
+async function signOut(): Promise<void> {
+  const currentToken = state.session?.token;
+  state.session = null;
+  writeSession(null);
+  updateAuthUI();
+  setStatus("Signed out.", "");
+
+  if (currentToken) {
+    try {
+      await fetch(`${API_BASE}/api/device/revoke`, {
+        method: "POST",
+        headers: { authorization: `Bearer ${currentToken}` },
+      });
+    } catch { /* ignore */ }
+  }
+}
+
 function scheduleSearch(): void {
   window.clearTimeout(state.searchTimer);
   state.searchTimer = window.setTimeout(() => void searchIcons(), 180);
 }
 
 async function searchIcons(): Promise<void> {
+  if (!state.session?.token) {
+    updateAuthUI();
+    return;
+  }
+
   state.searchController?.abort();
   const controller = new AbortController();
   state.searchController = controller;
@@ -396,7 +558,7 @@ async function searchIcons(): Promise<void> {
 }
 
 async function loadMoreIcons(): Promise<void> {
-  if (state.loading || state.loadingMore || !state.hasMore) return;
+  if (!state.session?.token || state.loading || state.loadingMore || !state.hasMore) return;
   state.loadingMore = true;
   appendLoadingMoreIndicator();
 
