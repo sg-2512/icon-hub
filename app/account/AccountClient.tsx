@@ -18,6 +18,7 @@ type Entitlement = {
     | 'storybook'
     | 'canva'
     | 'tailwind'
+    | 'webflow'
   tier: 'free' | 'founder'
   status: 'active' | 'revoked'
   founder_number: number | null
@@ -28,6 +29,7 @@ const products = [
   { id: 'figma', label: 'Figma plugin' },
   { id: 'chrome', label: 'Chrome extension' },
   { id: 'framer', label: 'Framer plugin' },
+  { id: 'webflow', label: 'Webflow extension' },
   { id: 'raycast', label: 'Raycast extension' },
   { id: 'mcp', label: 'MCP server' },
   { id: 'jetbrains', label: 'JetBrains plugin' },

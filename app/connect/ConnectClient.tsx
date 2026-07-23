@@ -29,6 +29,7 @@ const productNames: Record<string, string> = {
   storybook: 'Storybook addon',
   canva: 'Canva app',
   tailwind: 'Tailwind plugin',
+  webflow: 'Webflow extension',
 }
 
 const productShortNames: Record<string, string> = {
@@ -42,6 +43,7 @@ const productShortNames: Record<string, string> = {
   storybook: 'Storybook',
   canva: 'Canva',
   tailwind: 'Tailwind',
+  webflow: 'Webflow',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {
