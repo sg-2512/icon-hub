@@ -425,8 +425,9 @@ async function startAuthDevice(): Promise<void> {
       expiresIn?: number;
       interval?: number;
       error?: string;
+      details?: string;
     };
-    if (!startResponse.ok) throw new Error(startPayload.error || "Could not start sign-in.");
+    if (!startResponse.ok) throw new Error(startPayload.details || startPayload.error || "Could not start sign-in.");
 
     const deviceCode = startPayload.deviceCode;
     const verificationUrl = startPayload.verificationUriComplete;
