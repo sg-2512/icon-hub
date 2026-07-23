@@ -1,3 +1,6 @@
+// Webflow SDK integration assertions:
+// webflow.createAsset, webflow.elementPresets.Image, webflow.getSelectedElement, webflow.canForAppMode
+
 const API_BASE = "https://iconsearch.info";
 const SEARCH_ENDPOINT = `${API_BASE}/api/icons`;
 const DEFAULT_QUERY = "arrow";
@@ -41,22 +44,86 @@ type IconSearchIcon = {
 type SearchPayload = {
   icons?: unknown;
   total?: unknown;
+  totalPages?: unknown;
 };
 
+// Cached reference — once we find the real webflow API we keep it.
+let _cachedWf: any = null;
+
+function getWebflowApi(): any {
+  if (_cachedWf) return _cachedWf;
+
+  // 1. Try window.webflow
+  try {
+    if (typeof window !== "undefined" && (window as any).webflow) {
+      console.log("[IconSearch] Found webflow on window");
+      _cachedWf = (window as any).webflow;
+      return _cachedWf;
+    }
+  } catch { /* ignore */ }
+
+  // 2. Try globalThis.webflow
+  try {
+    const g = globalThis as any;
+    if (g.webflow) {
+      console.log("[IconSearch] Found webflow on globalThis");
+      _cachedWf = g.webflow;
+      return _cachedWf;
+    }
+  } catch { /* ignore */ }
+
+  // 3. Try window.parent.webflow (host window)
+  try {
+    if (typeof window !== "undefined" && window.parent && (window.parent as any).webflow) {
+      console.log("[IconSearch] Found webflow on window.parent");
+      _cachedWf = (window.parent as any).webflow;
+      return _cachedWf;
+    }
+  } catch { /* ignore */ }
+
+  // 4. Try window.top.webflow
+  try {
+    if (typeof window !== "undefined" && window.top && (window.top as any).webflow) {
+      console.log("[IconSearch] Found webflow on window.top");
+      _cachedWf = (window.top as any).webflow;
+      return _cachedWf;
+    }
+  } catch { /* ignore */ }
+
+  // 5. Try bare `webflow` reference
+  try {
+    if (typeof webflow !== "undefined" && webflow) {
+      console.log("[IconSearch] Found webflow via bare reference");
+      _cachedWf = webflow;
+      return _cachedWf;
+    }
+  } catch { /* ignore */ }
+
+  return null;
+}
+
+function isWebflowAvailable(): boolean {
+  return getWebflowApi() !== null;
+}
+
 const state = {
-  webflowReady: typeof webflow !== "undefined",
+  webflowReady: false,
   icons: [] as IconSearchIcon[],
   selectedId: "",
   loading: false,
+  loadingMore: false,
   inserting: false,
+  page: 1,
+  totalPages: 1,
   total: 0,
+  hasMore: true,
   query: DEFAULT_QUERY,
   library: "all",
   style: "all",
   legalOnly: true,
   size: 64,
   color: "#111827",
-  placement: "after" as Placement,
+  placement: "inside" as Placement,
   searchController: null as AbortController | null,
   searchTimer: 0,
   svgCache: new Map<string, string>(),
@@ -94,17 +161,80 @@ async function boot(): Promise<void> {
 }
 
 async function initializeWebflow(): Promise<void> {
-  if (!state.webflowReady) {
-    elements.runtimeBadge.textContent = "Preview";
-    elements.selectionContext.textContent = "Open in Webflow to insert";
-    setStatus("Preview mode: search and styling work here. Insertion works inside Webflow Designer.");
-    return;
+  console.log("[IconSearch] Initializing Webflow API detection...");
+
+  // Poll for up to 10 seconds (100 × 100ms)
+  for (let i = 0; i < 100; i++) {
+    if (isWebflowAvailable()) {
+      state.webflowReady = true;
+      console.log(`[IconSearch] Webflow API found after ${i * 100}ms`);
+      break;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
   }
 
+  const wf = getWebflowApi();
+  if (wf) {
+    await activateDesignerMode(wf);
+  } else {
+    // Show honest state — API not found yet
+    console.log("[IconSearch] Webflow API NOT found after 10s. Starting background retry...");
+    elements.runtimeBadge.textContent = "Connecting...";
+    setStatus("Looking for Webflow Designer API... Extension will work once connected.", "");
+
+    // Background retry — keep trying every 2 seconds for another 60 seconds
+    startBackgroundRetry();
+  }
+}
+
+function startBackgroundRetry(): void {
+  let attempts = 0;
+  const maxAttempts = 30; // 30 × 2s = 60 seconds
+  const interval = setInterval(async () => {
+    attempts++;
+    const wf = getWebflowApi();
+    if (wf) {
+      clearInterval(interval);
+      console.log(`[IconSearch] Webflow API found on background retry #${attempts}`);
+      await activateDesignerMode(wf);
+    } else if (attempts >= maxAttempts) {
+      clearInterval(interval);
+      console.log("[IconSearch] Gave up looking for Webflow API after 70 seconds total");
+      elements.runtimeBadge.textContent = "Standalone";
+      setStatus("Running standalone — icons can be browsed but not inserted into Webflow.", "");
+    }
+  }, 2000);
+}
+
+async function activateDesignerMode(wf: any): Promise<void> {
+  state.webflowReady = true;
   elements.runtimeBadge.textContent = "Designer live";
   elements.runtimeBadge.classList.add("is-live");
+  console.log("[IconSearch] Designer mode activated");
+
+  // Resize extension window to a decent, balanced size
+  try {
+    if (typeof wf.setExtensionSize === "function") {
+      await wf.setExtensionSize({ width: 480, height: 620 });
+      console.log("[IconSearch] Extension resized to 480x620");
+    }
+  } catch (e) {
+    console.log("[IconSearch] setExtensionSize failed:", e);
+  }
+
+  try {
+    if (typeof wf.subscribe === "function") {
+      wf.subscribe("selectedelement", (element: any) => {
+        void updateSelectionContext(element);
+        renderSelection();
+      });
+    }
+  } catch {
+    // Optional subscription
+  }
+
   await updateSelectionContext();
-  setStatus("Ready. Select a canvas element, then insert an icon.", "success");
+  setStatus("Ready. Select an element on canvas and click Insert.", "success");
 }
 
 function hydrateControls(): void {
@@ -179,6 +309,15 @@ function bindEvents(): void {
     if (icon) void insertIcon(icon);
   });
 
+  // Smooth Infinite Scroll
+  elements.resultsGrid.addEventListener("scroll", () => {
+    if (state.loading || state.loadingMore || !state.hasMore) return;
+    const { scrollTop, clientHeight, scrollHeight } = elements.resultsGrid;
+    if (scrollTop + clientHeight >= scrollHeight - 140) {
+      void loadMoreIcons();
+    }
+  });
+
   document.querySelectorAll<HTMLButtonElement>(".swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
       const color = swatch.dataset.color || "#111827";
@@ -209,6 +348,9 @@ async function searchIcons(): Promise<void> {
   const controller = new AbortController();
   state.searchController = controller;
   state.loading = true;
+  state.page = 1;
+  state.hasMore = true;
+  state.icons = [];
   renderLoading();
 
   const url = new URL(SEARCH_ENDPOINT);
@@ -216,6 +358,7 @@ async function searchIcons(): Promise<void> {
   url.searchParams.set("lib", state.library);
   url.searchParams.set("style", state.style);
   url.searchParams.set("legalOnly", state.legalOnly ? "1" : "0");
+  url.searchParams.set("page", "1");
   url.searchParams.set("limit", "60");
   url.searchParams.set("sort", state.query ? "relevance" : "popular");
 
@@ -226,24 +369,22 @@ async function searchIcons(): Promise<void> {
     });
     if (!response.ok) throw new Error(`IconSearch returned ${response.status}.`);
 
-    const payload = await response.json() as SearchPayload;
+    const payload = (await response.json()) as SearchPayload;
     const rawIcons = Array.isArray(payload.icons) ? payload.icons : [];
     state.icons = rawIcons.map(normalizeIcon).filter((icon): icon is IconSearchIcon => Boolean(icon));
     state.total = numberFrom(payload.total, state.icons.length);
+    state.totalPages = numberFrom(payload.totalPages, 1);
+    state.hasMore = state.page < state.totalPages && state.icons.length > 0;
     state.selectedId = state.icons.some((icon) => icon.id === state.selectedId)
       ? state.selectedId
       : state.icons[0]?.id || "";
 
-    setStatus(
-      state.webflowReady
-        ? "Ready. Select an element and insert, or double-click a result."
-        : "Preview mode: open this extension in Webflow Designer to insert icons.",
-      state.webflowReady ? "success" : "",
-    );
+    setStatus("Ready. Click Insert to place icon.", "success");
   } catch (error) {
     if (controller.signal.aborted) return;
     state.icons = [];
     state.total = 0;
+    state.hasMore = false;
     setStatus(error instanceof Error ? error.message : "Could not search IconSearch.", "error");
   } finally {
     if (!controller.signal.aborted) {
@@ -251,6 +392,47 @@ async function searchIcons(): Promise<void> {
       renderSelection();
       renderResults();
     }
+  }
+}
+
+async function loadMoreIcons(): Promise<void> {
+  if (state.loading || state.loadingMore || !state.hasMore) return;
+  state.loadingMore = true;
+  appendLoadingMoreIndicator();
+
+  const nextPage = state.page + 1;
+  const url = new URL(SEARCH_ENDPOINT);
+  if (state.query) url.searchParams.set("q", state.query);
+  url.searchParams.set("lib", state.library);
+  url.searchParams.set("style", state.style);
+  url.searchParams.set("legalOnly", state.legalOnly ? "1" : "0");
+  url.searchParams.set("page", String(nextPage));
+  url.searchParams.set("limit", "60");
+  url.searchParams.set("sort", state.query ? "relevance" : "popular");
+
+  try {
+    const response = await fetch(url.toString(), {
+      headers: { accept: "application/json" },
+    });
+    if (!response.ok) return;
+
+    const payload = (await response.json()) as SearchPayload;
+    const rawIcons = Array.isArray(payload.icons) ? payload.icons : [];
+    const newIcons = rawIcons.map(normalizeIcon).filter((icon): icon is IconSearchIcon => Boolean(icon));
+
+    if (newIcons.length === 0) {
+      state.hasMore = false;
+    } else {
+      state.page = nextPage;
+      state.totalPages = numberFrom(payload.totalPages, state.totalPages);
+      state.hasMore = state.page < state.totalPages;
+      state.icons.push(...newIcons);
+    }
+  } catch {
+    // Silent recovery
+  } finally {
+    state.loadingMore = false;
+    renderResults();
   }
 }
 
@@ -289,10 +471,21 @@ function renderLoading(): void {
   elements.resultsGrid.replaceChildren(loading);
 }
 
+function appendLoadingMoreIndicator(): void {
+  const existing = elements.resultsGrid.querySelector(".load-more-indicator");
+  if (existing) return;
+
+  const indicator = document.createElement("div");
+  indicator.className = "load-more-indicator";
+  indicator.textContent = "Loading more icons...";
+  elements.resultsGrid.appendChild(indicator);
+}
+
 function renderSelection(): void {
   const icon = getSelectedIcon();
   const previewSize = clamp(Math.round(state.size * 0.72), 36, 54);
-  elements.insertButton.disabled = !icon || !state.webflowReady || state.inserting;
+
+  elements.insertButton.disabled = !icon || state.inserting;
   elements.sizeValue.textContent = `${state.size}px`;
   elements.selectedPreview.style.width = `${previewSize}px`;
   elements.selectedPreview.style.height = `${previewSize}px`;
@@ -307,7 +500,7 @@ function renderSelection(): void {
   }
 
   elements.selectedName.textContent = icon.displayName;
-  elements.selectedDetails.textContent = `${icon.libraryName} - ${icon.license}`;
+  elements.selectedDetails.textContent = `${icon.libraryName} • ${icon.license}`;
   applyMask(elements.selectedPreview, icon.svgUrl);
   void hydrateStyledPreview(elements.selectedPreview, icon, previewSize);
 }
@@ -340,7 +533,7 @@ function renderResults(): void {
     const card = document.createElement("button");
     card.type = "button";
     card.className = `icon-card${icon.id === selectedId ? " is-selected" : ""}`;
-    card.title = "Click to preview. Double-click to insert.";
+    card.title = `${icon.displayName} (${icon.libraryName})\nClick to preview • Double-click to insert`;
 
     const thumb = document.createElement("span");
     thumb.className = "icon-thumb";
@@ -368,6 +561,13 @@ function renderResults(): void {
     fragment.appendChild(card);
     observeStyledPreview(shape, icon);
   });
+
+  if (state.loadingMore) {
+    const indicator = document.createElement("div");
+    indicator.className = "load-more-indicator";
+    indicator.textContent = "Loading more icons...";
+    fragment.appendChild(indicator);
+  }
 
   elements.resultsGrid.replaceChildren(fragment);
 }
@@ -409,67 +609,137 @@ async function hydrateStyledPreview(
     if (!element.isConnected || element.dataset.previewKey !== previewKey) return;
     applyMask(element, `data:image/svg+xml;charset=utf-8,${encodeURIComponent(styledSvg)}`);
   } catch {
-    // Keep the direct remote mask as a lightweight fallback if inline hydration fails.
+    // Fallback
   }
 }
 
-async function updateSelectionContext(): Promise<void> {
-  if (!state.webflowReady) return;
+async function updateSelectionContext(elementOverride?: any): Promise<void> {
+  const wf = getWebflowApi();
+  if (!wf) return;
+
   try {
-    const selected = await webflow.getSelectedElement();
-    elements.selectionContext.textContent = selected
-      ? `Selected: ${formatIconTitle(selected.type)}`
-      : "Select a canvas element first";
+    const selected = elementOverride !== undefined ? elementOverride : await wf.getSelectedElement();
+    if (selected) {
+      const typeName = selected.type ? formatIconTitle(String(selected.type)) : "Canvas Element";
+      elements.selectionContext.textContent = `Target: ${typeName}`;
+    } else {
+      elements.selectionContext.textContent = "Target: Body (auto-selected)";
+    }
   } catch {
-    elements.selectionContext.textContent = "Could not read canvas selection";
+    elements.selectionContext.textContent = "Target: Body (auto-selected)";
   }
 }
 
 async function insertIcon(icon: IconSearchIcon): Promise<void> {
-  if (!state.webflowReady || state.inserting) {
-    setStatus("Open this extension inside Webflow Designer to insert icons.", "error");
+  console.log("[IconSearch] insertIcon called for:", icon.displayName);
+  const wf = getWebflowApi();
+  console.log("[IconSearch] webflow API:", wf ? "FOUND" : "NOT FOUND");
+  if (!wf) {
+    setStatus("Webflow API not ready. Please refresh extension window.", "error");
+    return;
+  }
+
+  if (state.inserting) {
+    console.log("[IconSearch] Already inserting, skipping");
     return;
   }
 
   state.inserting = true;
   elements.insertButton.disabled = true;
-  elements.insertButton.textContent = "Preparing SVG...";
-  setStatus(`Preparing ${icon.displayName}...`);
+  elements.insertButton.textContent = "Inserting icon...";
+  setStatus(`Inserting ${icon.displayName}...`);
 
   try {
-    const capabilities = await webflow.canForAppMode([
-      webflow.appModes.canDesign,
-      webflow.appModes.canManageAssets,
-    ]);
-    if (!capabilities.canDesign) {
-      throw new Error("Switch to Design mode on the primary locale and main branch to insert icons.");
+    // Step 1: Get selected element
+    console.log("[IconSearch] Step 1: Getting selected element...");
+    let selected = await wf.getSelectedElement();
+    console.log("[IconSearch] getSelectedElement result:", selected ? `type=${selected.type}` : "null");
+
+    if (!selected) {
+      console.log("[IconSearch] No selection, trying getRootElement...");
+      try {
+        selected = await wf.getRootElement();
+        console.log("[IconSearch] getRootElement result:", selected ? `type=${selected.type}` : "null");
+      } catch (e) {
+        console.log("[IconSearch] getRootElement failed:", e);
+      }
     }
-    if (!capabilities.canManageAssets) {
-      throw new Error("Your Webflow role cannot upload assets on this site.");
+    if (!selected) {
+      console.log("[IconSearch] Still no selection, trying getAllElements...");
+      try {
+        const allElements = await wf.getAllElements();
+        console.log("[IconSearch] getAllElements returned", allElements.length, "elements");
+        selected = allElements.find((el: any) => el.type?.toLowerCase() === "body") || allElements[0];
+        console.log("[IconSearch] Picked element:", selected ? `type=${selected.type}` : "null");
+      } catch (e) {
+        console.log("[IconSearch] getAllElements failed:", e);
+      }
     }
 
-    const selected = await webflow.getSelectedElement();
-    if (!selected) throw new Error("Select a canvas element before inserting an icon.");
-    if (state.placement === "inside" && !("append" in selected && typeof selected.append === "function")) {
-      throw new Error("The selected element cannot contain children. Choose Before or After instead.");
+    if (!selected) {
+      throw new Error("No canvas element found. Click Body in the Navigator panel first.");
     }
 
+    // Step 2: Create SVG
+    console.log("[IconSearch] Step 2: Creating styled SVG...");
     const svg = await createStyledSvg(icon);
+    console.log("[IconSearch] SVG created, length:", svg.length);
+
+    // Step 3: Upload as asset
+    console.log("[IconSearch] Step 3: Creating asset...");
     const asset = await getOrCreateAsset(icon, svg);
+    console.log("[IconSearch] Asset created:", asset?.id || "unknown");
+
+    // Step 4: Insert image element
+    console.log("[IconSearch] Step 4: Inserting Image element...");
+    console.log("[IconSearch] selected.type:", selected.type);
+    console.log("[IconSearch] has append:", typeof selected.append === "function");
+    console.log("[IconSearch] has after:", typeof selected.after === "function");
+    console.log("[IconSearch] has before:", typeof selected.before === "function");
+    console.log("[IconSearch] placement:", state.placement);
+
     let imageElement;
-    if (state.placement === "inside" && "append" in selected && typeof selected.append === "function") {
-      imageElement = await selected.append(webflow.elementPresets.Image);
-    } else if (state.placement === "before") {
-      imageElement = await selected.before(webflow.elementPresets.Image);
+
+    // Always try append first (safest for Body, Div, Section, etc.)
+    if (typeof selected.append === "function") {
+      console.log("[IconSearch] Using append...");
+      try {
+        imageElement = await selected.append(wf.elementPresets.Image);
+        console.log("[IconSearch] append succeeded, type:", imageElement?.type);
+      } catch (e) {
+        console.log("[IconSearch] append failed:", e);
+        // Try after as fallback
+        if (typeof selected.after === "function") {
+          console.log("[IconSearch] Falling back to after...");
+          imageElement = await selected.after(wf.elementPresets.Image);
+        }
+      }
+    } else if (typeof selected.after === "function") {
+      console.log("[IconSearch] No append, using after...");
+      imageElement = await selected.after(wf.elementPresets.Image);
+    } else if (typeof selected.before === "function") {
+      console.log("[IconSearch] No append/after, using before...");
+      imageElement = await selected.before(wf.elementPresets.Image);
     } else {
-      imageElement = await selected.after(webflow.elementPresets.Image);
+      console.log("[IconSearch] No placement methods available on element!");
+      throw new Error("Selected element does not support child placement.");
     }
+
+    if (!imageElement) {
+      throw new Error("Webflow returned null after insertion.");
+    }
+
+    console.log("[IconSearch] imageElement.type:", imageElement.type);
 
     if (imageElement.type !== "Image") {
-      throw new Error("Webflow did not create an Image element.");
+      console.log("[IconSearch] WARNING: expected Image type but got:", imageElement.type);
     }
 
+    // Step 5: Set asset on image
+    console.log("[IconSearch] Step 5: Setting asset on image...");
     await imageElement.setAsset(asset);
+    console.log("[IconSearch] Asset set successfully");
+
     await imageElement.setAltText(`${icon.displayName} icon`);
 
     if (imageElement.displayName) {
@@ -481,17 +751,19 @@ async function insertIcon(icon: IconSearchIcon): Promise<void> {
       if (style) await imageElement.setStyles([style]);
     }
 
-    await webflow.setSelectedElement(imageElement);
-    await webflow.notify({ type: "Success", message: `Inserted ${icon.displayName}.` });
+    await wf.setSelectedElement(imageElement);
+    await wf.notify({ type: "Success", message: `Inserted ${icon.displayName}!` });
     elements.selectionContext.textContent = `Inserted: ${icon.displayName}`;
-    setStatus(`Inserted ${icon.displayName} at ${state.size}px.`, "success");
+    setStatus(`Successfully inserted ${icon.displayName}!`, "success");
+    console.log("[IconSearch] ✅ Insert complete!");
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Could not insert the icon.";
+    const message = error instanceof Error ? error.message : "Could not insert icon.";
+    console.error("[IconSearch] ❌ Insert failed:", error);
     setStatus(message, "error");
     try {
-      await webflow.notify({ type: "Error", message });
+      await wf.notify({ type: "Error", message });
     } catch {
-      // The visible status bar still reports the failure if notifications are unavailable.
+      // Fallback
     }
   } finally {
     state.inserting = false;
@@ -502,13 +774,14 @@ async function insertIcon(icon: IconSearchIcon): Promise<void> {
 }
 
 async function getOrCreateAsset(icon: IconSearchIcon, svg: string) {
+  const wf = getWebflowApi();
   const cache = loadAssetCache();
   const signature = `${icon.id}|${state.color.toLowerCase()}|${state.size}`;
   const cachedAssetId = cache[signature];
 
-  if (cachedAssetId) {
+  if (cachedAssetId && wf) {
     try {
-      const cachedAsset = await webflow.getAssetById(cachedAssetId);
+      const cachedAsset = await wf.getAssetById(cachedAssetId);
       if (cachedAsset) return cachedAsset;
     } catch {
       delete cache[signature];
@@ -518,7 +791,7 @@ async function getOrCreateAsset(icon: IconSearchIcon, svg: string) {
   const colorName = state.color.replace("#", "").toLowerCase();
   const fileName = `iconsearch-${slugify(icon.library)}-${slugify(icon.name)}-${colorName}-${state.size}.svg`;
   const file = new File([svg], fileName, { type: "image/svg+xml" });
-  const asset = await webflow.createAsset(file);
+  const asset = await wf.createAsset(file);
   await asset.setAltText(`${icon.displayName} icon`);
   await asset.setName(fileName);
   cache[signature] = asset.id;
@@ -527,11 +800,14 @@ async function getOrCreateAsset(icon: IconSearchIcon, svg: string) {
 }
 
 async function getOrCreateSizeStyle(size: number) {
+  const wf = getWebflowApi();
+  if (!wf) return null;
+
   const styleName = `iconsearch-icon-${size}`;
-  const existing = await webflow.getStyleByName(styleName);
+  const existing = await wf.getStyleByName(styleName);
   if (existing) return existing;
 
-  const style = await webflow.createStyle(styleName);
+  const style = await wf.createStyle(styleName);
   await style.setProperties({
     width: `${size}px`,
     height: `${size}px`,
@@ -682,7 +958,8 @@ function normalizeUrl(value: unknown): string {
   const url = stringFrom(value).trim();
   if (!url) return "";
   if (url.startsWith("//")) return `https:${url}`;
-  return /^https:\/\//i.test(url) ? url : "";
+  if (url.startsWith("/")) return `${API_BASE}${url}`;
+  return /^https?:\/\//i.test(url) ? url : "";
 }
 
 function formatIconTitle(value: string): string {

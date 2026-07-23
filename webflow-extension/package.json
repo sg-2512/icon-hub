@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npm run typecheck && node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
-    "serve": "webflow extension serve",
+    "serve": "node scripts/serve.mjs",
     "dev": "npm run build && concurrently --kill-others-on-fail \"npm:watch\" \"npm:serve\"",
     "bundle": "npm run build && webflow extension bundle",
     "typecheck": "tsc -p tsconfig.json --noEmit",

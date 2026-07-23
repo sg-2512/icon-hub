@@ -38,6 +38,16 @@
     </div>
   </section>
 
+  <!-- RESULTS GRID — placed prominently right after search -->
+  <section class="results-section" aria-label="Icon results">
+    <div class="results-heading">
+      <strong>Results</strong>
+      <span>Click to preview &middot; double-click to insert</span>
+    </div>
+    <div id="resultsGrid" class="results-grid" aria-busy="true"></div>
+  </section>
+
+  <!-- SELECTION + CONTROLS -->
   <section class="selection-panel" aria-live="polite">
     <div class="preview-stage">
       <span id="selectedPreview" class="icon-shape selected-shape" aria-hidden="true"></span>
@@ -71,8 +81,8 @@
       <label class="placement-field">
         <span>Placement</span>
         <select id="placementSelect">
+          <option value="inside" selected>Inside selection (default)</option>
           <option value="after">After selection</option>
-          <option value="inside">Inside selection</option>
           <option value="before">Before selection</option>
         </select>
       </label>
@@ -82,14 +92,6 @@
       Insert selected icon
     </button>
     <p class="insert-hint">Double-click any result to insert it with these settings.</p>
-  </section>
-
-  <section class="results-section" aria-label="Icon results">
-    <div class="results-heading">
-      <strong>Results</strong>
-      <span>Click to preview</span>
-    </div>
-    <div id="resultsGrid" class="results-grid" aria-busy="true"></div>
   </section>
 
   <footer id="statusBar" class="status-bar">Connecting to Webflow Designer...</footer>
