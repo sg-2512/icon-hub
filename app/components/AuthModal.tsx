@@ -70,7 +70,17 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, redirectTo }
         })
 
         if (error) {
-          setErrorMsg(getDisplayAuthError(error.message))
+          if (error.message.toLowerCase().includes('already registered') || error.message.toLowerCase().includes('already been registered')) {
+            const signInRes = await supabase.auth.signInWithPassword({ email, password })
+            if (signInRes.error) {
+              setErrorMsg(getDisplayAuthError(signInRes.error.message))
+            } else if (signInRes.data?.user) {
+              onAuthSuccess(signInRes.data.user)
+              onClose()
+            }
+          } else {
+            setErrorMsg(getDisplayAuthError(error.message))
+          }
         } else if (data?.user && !data.session) {
           // Typically email verification is enabled by default in Supabase
           setInfoMsg('Registration successful! Please check your email inbox to confirm your account.')
