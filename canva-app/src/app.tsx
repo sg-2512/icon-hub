@@ -4,11 +4,12 @@ import { addElementAtPoint } from "@canva/design";
 import type { ImageElementAtPoint } from "@canva/design";
 import { notification, requestOpenExternalUrl } from "@canva/platform";
 import {
-  LIBRARIES,
+  NAMED_LIBRARIES,
   clearPendingDeviceCode,
   clearSession,
   fetchSvgMarkup,
   finishSignIn,
+  formatIconifyTitle,
   readPendingDeviceCode,
   readSession,
   savePendingDeviceCode,
@@ -28,6 +29,7 @@ export function App() {
   const [library, setLibrary] = useState("all");
   const [legalOnly, setLegalOnly] = useState(true);
   const [icons, setIcons] = useState<IconSearchIcon[]>([]);
+  const [iconifySets, setIconifySets] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState("");
   const [busyIconId, setBusyIconId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -77,6 +79,7 @@ export function App() {
       })
         .then((result) => {
           setIcons(result.icons);
+          if (result.iconifySets?.length) setIconifySets(result.iconifySets);
           setSelectedId((current) => (result.icons.some((icon) => icon.id === current) ? current : result.icons[0]?.id || ""));
           setStatus(`${result.total.toLocaleString()} matching icons`);
         })
@@ -209,9 +212,21 @@ export function App() {
             </div>
             <div className="filter-row">
               <select value={library} onChange={(event) => setLibrary(event.target.value)} aria-label="Icon library">
-                {LIBRARIES.map(([id, label]) => (
-                  <option key={id} value={id}>{label}</option>
-                ))}
+                <option value="all">All libraries (355,000+ icons)</option>
+                <optgroup label="Primary Libraries (18)">
+                  {NAMED_LIBRARIES.map(([id, label]) => (
+                    <option key={id} value={id}>{label}</option>
+                  ))}
+                </optgroup>
+                {iconifySets.length > 0 && (
+                  <optgroup label={`Iconify Collections (${iconifySets.length})`}>
+                    {iconifySets.map((setName) => (
+                      <option key={`iconify:${setName}`} value={`iconify:${setName}`}>
+                        Iconify: {formatIconifyTitle(setName)}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
               <label className="check-label">
                 <input type="checkbox" checked={legalOnly} onChange={(event) => setLegalOnly(event.target.checked)} />

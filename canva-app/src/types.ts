@@ -20,4 +20,5 @@ export type IconSearchIcon = {
 export type SearchResult = {
   icons: IconSearchIcon[];
   total: number;
+  iconifySets?: string[];
 };
