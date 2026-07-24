@@ -170,9 +170,12 @@ export function App() {
   return (
     <main className="app-shell">
       <header className="app-header">
-        <div>
-          <div className="kicker">IconSearch</div>
-          <h1>Search icons</h1>
+        <div className="brand-title-row">
+          <div className="brand-badge">IS</div>
+          <div>
+            <div className="kicker">IconSearch</div>
+            <h1>Search icons</h1>
+          </div>
         </div>
         {session ? (
           <button type="button" className="ghost-button" onClick={signOut}>Sign out</button>
@@ -184,7 +187,7 @@ export function App() {
       {!session ? (
         <section className="connect-panel">
           <strong>Connect your IconSearch account</strong>
-          <p>The app stores only a revocable Canva product token in this browser.</p>
+          <p>Search and insert 355,000+ open-source vector SVG icons in Canva.</p>
           <div className="button-row">
             <button type="button" className="primary-button" onClick={connect}>Start sign-in</button>
             <button type="button" className="ghost-button" onClick={() => void completeSignIn(true)} disabled={!pendingCode}>
@@ -195,21 +198,26 @@ export function App() {
       ) : (
         <>
           <section className="filters">
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search home, arrow, logo..."
-              aria-label="Search icons"
-            />
-            <select value={library} onChange={(event) => setLibrary(event.target.value)} aria-label="Icon library">
-              {LIBRARIES.map(([id, label]) => (
-                <option key={id} value={id}>{label}</option>
-              ))}
-            </select>
-            <label className="check-row">
-              <input type="checkbox" checked={legalOnly} onChange={(event) => setLegalOnly(event.target.checked)} />
-              Legal-safe
-            </label>
+            <div className="search-input-wrapper">
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search home, arrow, logo..."
+                aria-label="Search icons"
+              />
+            </div>
+            <div className="filter-row">
+              <select value={library} onChange={(event) => setLibrary(event.target.value)} aria-label="Icon library">
+                {LIBRARIES.map(([id, label]) => (
+                  <option key={id} value={id}>{label}</option>
+                ))}
+              </select>
+              <label className="check-label">
+                <input type="checkbox" checked={legalOnly} onChange={(event) => setLegalOnly(event.target.checked)} />
+                Commercial-safe
+              </label>
+            </div>
           </section>
 
           <section className="preview-panel" aria-live="polite">
@@ -218,13 +226,15 @@ export function App() {
                 <div className="large-preview">
                   <img src={selectedIcon.svgUrl} alt="" />
                 </div>
-                <div>
+                <div className="preview-details">
                   <strong>{selectedIcon.displayName}</strong>
-                  <span>{selectedIcon.libraryName} · {selectedIcon.license || "license unknown"}</span>
+                  <span>{selectedIcon.libraryName} · {selectedIcon.license || "Open-source"}</span>
                 </div>
-                <button type="button" className="primary-button wide" onClick={() => void insertIcon(selectedIcon)} disabled={Boolean(busyIconId)}>
-                  {busyIconId === selectedIcon.id ? "Inserting..." : "Insert selected"}
-                </button>
+                <div className="preview-action">
+                  <button type="button" className="primary-button wide" onClick={() => void insertIcon(selectedIcon)} disabled={Boolean(busyIconId)}>
+                    {busyIconId === selectedIcon.id ? "Inserting..." : "Insert selected icon"}
+                  </button>
+                </div>
               </>
             ) : (
               <span className="muted">Search and select an icon to insert.</span>

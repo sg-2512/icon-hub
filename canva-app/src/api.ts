@@ -164,12 +164,16 @@ function normalizeIcon(value: unknown): IconSearchIcon | undefined {
   const item = value as Record<string, unknown>;
   const name = stringFrom(item.name);
   const library = stringFrom(item.library);
-  const svgUrl = stringFrom(item.svgUrl);
-  if (!name || !library || !svgUrl) return undefined;
+  const rawSvgUrl = stringFrom(item.svgUrl);
+  if (!name || !library || !rawSvgUrl) return undefined;
+
+  const absoluteSvgUrl = rawSvgUrl.startsWith("/") ? `${API_BASE}${rawSvgUrl}` : rawSvgUrl;
 
   const previewUrls = Array.isArray(item.previewUrls)
-    ? item.previewUrls.filter((url): url is string => typeof url === "string" && /^https?:\/\//.test(url))
-    : [svgUrl];
+    ? item.previewUrls
+        .map((url) => (typeof url === "string" && url.startsWith("/") ? `${API_BASE}${url}` : url))
+        .filter((url): url is string => typeof url === "string" && /^https?:\/\//.test(url))
+    : [absoluteSvgUrl];
 
   return {
     id: stringFrom(item.id) || `${library}-${name}`,
@@ -179,7 +183,7 @@ function normalizeIcon(value: unknown): IconSearchIcon | undefined {
     libraryName: stringFrom(item.libraryName) || formatIconTitle(library),
     license: stringFrom(item.license) || undefined,
     legalSafe: item.legalSafe === true,
-    svgUrl: previewUrls[0] || svgUrl,
+    svgUrl: previewUrls[0] || absoluteSvgUrl,
     previewUrls,
     tags: Array.isArray(item.tags) ? item.tags.filter((tag): tag is string => typeof tag === "string") : [],
   };
