@@ -1,0 +1,58 @@
+{
+  "app_name": {
+    "message": "IconSearch",
+    "description": "Name of the app"
+  },
+  "header_title": {
+    "message": "Search icons",
+    "description": "Main title heading in app header bar"
+  },
+  "connect_heading": {
+    "message": "Connect your IconSearch account",
+    "description": "Heading text displayed on the account authorization panel"
+  },
+  "connect_description": {
+    "message": "Search and insert 355,000+ open-source vector SVG icons in Canva.",
+    "description": "Subtext explaining app capabilities before sign in"
+  },
+  "btn_start_signin": {
+    "message": "Start sign-in",
+    "description": "Button to initiate browser-based account sign in"
+  },
+  "btn_complete": {
+    "message": "Complete",
+    "description": "Button to complete and check sign in status"
+  },
+  "btn_connect": {
+    "message": "Connect",
+    "description": "Header button to start account connection"
+  },
+  "btn_sign_out": {
+    "message": "Sign out",
+    "description": "Header button to disconnect account session"
+  },
+  "search_placeholder": {
+    "message": "Search home, arrow, logo...",
+    "description": "Placeholder text inside icon search input"
+  },
+  "label_all_libraries": {
+    "message": "All libraries (355,000+ icons)",
+    "description": "Default select option searching across all icon collections"
+  },
+  "label_commercial_safe": {
+    "message": "Commercial-safe",
+    "description": "Checkbox label filtering for open-source commercial safe licenses"
+  },
+  "btn_insert_selected": {
+    "message": "Insert selected icon",
+    "description": "Button to add selected vector SVG icon onto Canva design canvas"
+  },
+  "status_inserting": {
+    "message": "Inserting...",
+    "description": "Button loading state text during canvas upload"
+  },
+  "empty_search": {
+    "message": "No icons found.",
+    "description": "Text shown when search query yields zero results"
+  }
+}
