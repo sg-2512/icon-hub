@@ -73,38 +73,7 @@ export default function ReactIconsPage() {
         </div>
       </section>
 
-      {/* Comparisons */}
-      <section style={{ marginBottom: '48px' }}>
-        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
-          POPULAR REACT ICON COMPARISONS
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
-          {[
-            ['lucide-icons', 'heroicons'],
-            ['lucide-icons', 'tabler-icons'],
-            ['heroicons', 'phosphor-icons'],
-            ['tabler-icons', 'remix-icon'],
-          ].map(([a, b]) => (
-            <Link key={`${a}-${b}`} href={`/compare/${a}-vs-${b}`} className="link-hover" style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              padding: '14px 18px',
-              textDecoration: 'none',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontFamily: 'JetBrains Mono, monospace',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              transition: 'all 0.2s',
-            }}>
-              <span>{a.replace(/-/g, ' ')} vs {b.replace(/-/g, ' ')}</span>
-              <span style={{ color: 'var(--accent)' }}>→</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+
 
     </main>
   )

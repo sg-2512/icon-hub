@@ -614,31 +614,6 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
             >
               Explore {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Icons →
             </Link>
-            <Link href="/compare" style={{
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-              color: 'var(--text)',
-              padding: '16px 32px',
-              borderRadius: '12px',
-              textDecoration: 'none',
-              fontSize: '15px',
-              fontFamily: 'JetBrains Mono, monospace',
-              transition: 'all 0.3s ease'
-            }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
-                e.currentTarget.style.transform = 'none';
-              }}
-            >
-              Compare Libraries
-            </Link>
           </div>
         </section>
 
@@ -1245,32 +1220,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
               </div>
             </div>
 
-            {/* Compare full pair button */}
-            <div style={{ textAlign: 'center', marginTop: '24px' }}>
-              <Link href={`/compare/${libraryA.slug}-vs-${libraryB.slug}`} style={{
-                background: 'rgba(129, 140, 248, 0.1)',
-                border: '1px solid var(--accent)',
-                color: 'var(--text)',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontSize: '13px',
-                fontFamily: 'JetBrains Mono, monospace',
-                display: 'inline-block',
-                transition: 'all 0.2s'
-              }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'var(--accent)'
-                  e.currentTarget.style.color = 'white'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(129, 140, 248, 0.1)'
-                  e.currentTarget.style.color = 'var(--text)'
-                }}
-              >
-                Go to Full Side-by-Side Comparison →
-              </Link>
-            </div>
+
           </div>
         </section>
 
@@ -1627,59 +1577,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
         </section>
 
         {/* ── SECTION 7: POPULAR COMPARISONS ────────────────────────────────── */}
-        <section style={{ padding: '0 0 80px' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, fontFamily: 'var(--font-inter), sans-serif', letterSpacing: '-0.02em', marginBottom: '8px', textAlign: 'center' }}>
-            Popular Comparison Pairs
-          </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '40px', fontFamily: 'JetBrains Mono, monospace', textAlign: 'center' }}>
-            // Direct side-by-side technical breakdowns to help you decide
-          </p>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '12px',
-          }}>
-            {[
-              ['lucide-icons', 'heroicons'],
-              ['lucide-icons', 'tabler-icons'],
-              ['heroicons', 'tabler-icons'],
-              ['phosphor-icons', 'lucide-icons'],
-              ['feather-icons', 'lucide-icons'],
-              ['remix-icon', 'lucide-icons'],
-            ].map(([a, b]) => (
-              <Link 
-                key={`${a}-${b}`} 
-                href={`/compare/${a}-vs-${b}`} 
-                style={{
-                  background: 'rgba(24, 24, 27, 0.3)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '10px',
-                  padding: '16px 20px',
-                  textDecoration: 'none',
-                  color: 'var(--text-muted)',
-                  fontSize: '13px',
-                  fontFamily: 'JetBrains Mono, monospace',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  transition: 'all 0.15s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'var(--accent)'
-                  e.currentTarget.style.color = 'var(--text)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--border)'
-                  e.currentTarget.style.color = 'var(--text-muted)'
-                }}
-              >
-                <span>{a.replace(/-/g, ' ')} vs {b.replace(/-/g, ' ')}</span>
-                <span style={{ color: 'var(--accent)' }}>→</span>
-              </Link>
-            ))}
-          </div>
-        </section>
 
         {/* ── SECTION 8: RECENTLY ADDED ─────────────────────────────────────── */}
         <section style={{ padding: '0 0 80px' }}>

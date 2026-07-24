@@ -209,53 +209,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
-      {/* Comparisons */}
-      <section style={{ marginBottom: '48px' }}>
-        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>
-          COMPARE TOP PICKS
-        </h2>
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          {recommended.length >= 2 && (
-            <Link href={`/compare/${recommended[0].slug}-vs-${recommended[1].slug}`} className="link-hover" style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              padding: '10px 16px',
-              textDecoration: 'none',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontFamily: 'JetBrains Mono, monospace',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'all 0.2s',
-            }}>
-              {recommended[0].name} vs {recommended[1].name}
-              <span style={{ color: 'var(--accent)' }}>→</span>
-            </Link>
-          )}
-          {recommended.length >= 3 && (
-            <Link href={`/compare/${recommended[0].slug}-vs-${recommended[2].slug}`} className="link-hover" style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              padding: '10px 16px',
-              textDecoration: 'none',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontFamily: 'JetBrains Mono, monospace',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'all 0.2s',
-            }}>
-              {recommended[0].name} vs {recommended[2].name}
-              <span style={{ color: 'var(--accent)' }}>→</span>
-            </Link>
-          )}
-        </div>
-      </section>
-
       {/* All Categories */}
       <section>
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>
@@ -299,7 +252,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             <h3 style={{ fontSize: '12px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>Directory & Guides</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Link href="/best-for-you" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Interactive Recommendation Quiz</Link>
-              <Link href="/compare" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Compare Icon Libraries</Link>
               <Link href="/directory" style={{ color: 'var(--accent)', textDecoration: 'none', fontSize: '14px', marginTop: '4px' }}>View Full Site Directory →</Link>
             </div>
           </div>

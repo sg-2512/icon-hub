@@ -2,7 +2,6 @@ import { MetadataRoute } from 'next'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { icons } from '../lib/icons'
-import { getAllPosts } from '../lib/blog'
 import { categories } from '../data/categories'
 import { useCases } from '../data/usecases'
 
@@ -45,8 +44,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/icon-search`,      lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/best-for-you`,     lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/licenses`,         lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/compare`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${base}/blog`,             lastModified: now, changeFrequency: 'daily',   priority: 0.8 },
     { url: `${base}/stats`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/directory`,        lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/figma-plugin`,     lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
@@ -67,26 +64,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  // ─── Comparison pages ─────────────────────────────────────────────────────
-  const comparisonPages: MetadataRoute.Sitemap = []
-  for (let i = 0; i < icons.length; i++) {
-    for (let j = i + 1; j < icons.length; j++) {
-      comparisonPages.push({
-        url: `${base}/compare/${icons[i].slug}-vs-${icons[j].slug}`,
-        lastModified: now,
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      })
-    }
-  }
 
-  // ─── Blog posts ───────────────────────────────────────────────────────────
-  const blogPages: MetadataRoute.Sitemap = getAllPosts().map(post => ({
-    url: `${base}/blog/${post.slug}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
 
   // ─── Category pages ───────────────────────────────────────────────────────
   const categoryPages: MetadataRoute.Sitemap = [
@@ -158,8 +136,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticPages,
     ...libraryPages,
-    ...comparisonPages,
-    ...blogPages,
     ...categoryPages,
     ...useCasePages,
     ...collectionPages,

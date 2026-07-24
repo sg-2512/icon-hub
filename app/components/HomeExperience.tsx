@@ -63,27 +63,21 @@ const productPaths: ProductPath[] = [
     action: 'Search icons',
   },
   {
-    href: '/compare',
-    icon: GitCompareArrows,
-    step: '02',
-    title: 'Compare the details',
-    description: 'See style, license, framework support, icon count, and project signals side by side.',
-    action: 'Compare libraries',
-  },
-  {
     href: '/best-for-you',
     icon: Sparkles,
-    step: '03',
+    step: '02',
     title: 'Choose with context',
     description: 'Get a focused recommendation when your framework, visual style, or use case leads the decision.',
     action: 'Find a match',
   },
-]
-
-const popularComparisons = [
-  { label: 'Lucide Icons vs Heroicons', href: '/compare/lucide-icons-vs-heroicons' },
-  { label: 'Lucide Icons vs Tabler Icons', href: '/compare/lucide-icons-vs-tabler-icons' },
-  { label: 'Heroicons vs Phosphor Icons', href: '/compare/heroicons-vs-phosphor-icons' },
+  {
+    href: '/free-svg-icons',
+    icon: Layers3,
+    step: '03',
+    title: 'Explore all libraries',
+    description: 'Browse the complete catalog of open-source icon sets with live preview and customizer.',
+    action: 'Browse catalog',
+  },
 ]
 
 const libraryMarks: Record<string, { Icon: LucideIcon; tone: string }> = {
@@ -141,9 +135,6 @@ export default function HomeExperience({ initialLibraries, recentItems }: HomeEx
           <div className={styles.heroActions}>
             <Link href="/free-svg-icons" className={styles.primaryAction}>
               Browse libraries <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-            <Link href="/compare" className={styles.secondaryAction}>
-              Compare libraries
             </Link>
           </div>
 
@@ -257,20 +248,7 @@ export default function HomeExperience({ initialLibraries, recentItems }: HomeEx
         </div>
       </section>
 
-      <section className={styles.resourcesSection} aria-label="Comparisons and recent resources">
-        <article className={styles.resourcePanel}>
-          <p className={styles.kicker}>POPULAR COMPARISONS</p>
-          <h2>See the trade-offs side by side.</h2>
-          <div className={styles.resourceList}>
-            {popularComparisons.map((comparison) => (
-              <Link key={comparison.href} href={comparison.href}>
-                <span>{comparison.label}</span>
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-            ))}
-          </div>
-          <Link href="/compare" className={styles.resourceFooter}>Compare any two libraries <ArrowRight size={15} aria-hidden="true" /></Link>
-        </article>
+      <section className={styles.resourcesSection} aria-label="Recent resources">
 
         <article className={styles.resourcePanel}>
           <p className={styles.kicker}>FROM THE GUIDE</p>
@@ -284,7 +262,7 @@ export default function HomeExperience({ initialLibraries, recentItems }: HomeEx
               </Link>
             ))}
           </div>
-          <Link href="/blog" className={styles.resourceFooter}>Read the blog <ArrowRight size={15} aria-hidden="true" /></Link>
+          <Link href="/directory" className={styles.resourceFooter}>Browse all guides & resources <ArrowRight size={15} aria-hidden="true" /></Link>
         </article>
       </section>
 

@@ -44,7 +44,6 @@ export const internalLinkGroups: InternalLinkGroup[] = [
     title: 'RESOURCES',
     links: [
       { label: 'Browse', href: '/free-svg-icons' },
-      { label: 'Compare', href: '/compare' },
       { label: 'Site Directory', href: '/directory' },
       { label: 'Best For You', href: '/best-for-you' },
       { label: 'VS Code Extension', href: '/vscode-extension' },
@@ -55,7 +54,6 @@ export const internalLinkGroups: InternalLinkGroup[] = [
       { label: 'License Guide', href: '/licenses' },
       { label: 'Use Cases', href: '/use-cases' },
       { label: 'Stats', href: '/stats' },
-      { label: 'Blog', href: '/blog' },
       { label: 'TypeScript Icons', href: '/typescript-icons' },
     ],
   },

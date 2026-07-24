@@ -28,7 +28,7 @@ export default function StatsPage() {
           <span style={{ color: 'var(--accent)' }}>Stats & Rankings</span>
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '18px', maxWidth: '560px' }}>
-          Data-driven <Link href="/compare" style={{ color: 'var(--accent)', textDecoration: 'none' }}>comparison</Link> of all major <Link href="/free-svg-icons" style={{ color: 'var(--accent)', textDecoration: 'none' }}>open source icon libraries</Link>. Updated for 2026.
+          Data-driven overview of all major <Link href="/free-svg-icons" style={{ color: 'var(--accent)', textDecoration: 'none' }}>open source icon libraries</Link>. Updated for 2026.
         </p>
       </section>
 

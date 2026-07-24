@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
           Privacy Policy
         </h1>
         <p style={{ color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', fontSize: '13px' }}>
-          Last updated: June 25, 2026
+          Last updated: July 24, 2026
         </p>
       </section>
 
@@ -23,64 +23,62 @@ export default function PrivacyPolicyPage() {
         {[
           {
             title: '1. Introduction',
-            content: 'Welcome to IconSearch ("we", "our", or "us"). IconSearch is an independent developer resource that helps frontend developers compare and discover free open-source SVG icon libraries. This Privacy Policy explains how we collect, use, and protect information when you visit iconsearch.info. By using this website, you agree to the practices described in this policy.'
+            content: 'Welcome to IconSearch ("we", "our", or "us"). IconSearch is an open-source icon discovery engine and developer productivity platform. This Privacy Policy explains how we collect, use, store, and protect information when you visit iconsearch.info or connect using any of our 18 developer extensions and plugins. By using the Platform, you agree to the practices described in this policy.'
           },
           {
             title: '2. Information We Collect',
-            content: 'We collect the minimum information needed to operate IconSearch. This may include your email address and authentication identifiers when you create an account; product entitlements such as free or Founder access; revocable session records used to connect IconSearch extensions and plugins; cloud-saved icon packs and presets you choose to sync; anonymous or pseudonymous usage data through Google Analytics; and information you voluntarily provide when contacting us.'
+            content: 'We adhere to strict data minimization principles. The types of data we collect include:\n\n• Account Data: When you sign up or log in via Supabase Authentication (Email/Password or Google OAuth), we store your email address, unique user ID, avatar URL, and authentication timestamps.\n\n• Entitlement & Founder Access Claims: When you claim Founder access or product entitlements, we store your user ID, product key (e.g. vscode-extension, figma-plugin), claim status, and timestamp.\n\n• Device Authorization Data (RFC 8628): When you approve an extension or plugin connection, we generate an 8-character user code and store ONLY a cryptographic SHA-256 hash of the session token combined with a server-side pepper (DEVICE_TOKEN_PEPPER). We never store raw session tokens on our servers.\n\n• Cloud Sync Data: If you choose to save custom icon packs or style presets to your account, we store your custom pack names, icon lists, and styling parameters (size, stroke weight, color) in our Supabase database.\n\n• Rate Limiting & Security Logs: To prevent abuse, API flooding, and automated scraping, we temporarily retain client IP addresses in sliding-window memory caches (120 requests/min rate limit).\n\n• Usage Analytics: We use Google Analytics 4 to collect aggregated, anonymized metrics (pageviews, session durations, broad geographical country/city data) to optimize platform performance. All IP addresses are anonymized.'
           },
           {
-            title: '3. Google Analytics',
-            content: 'We use Google Analytics 4 to understand how visitors use our site. Google Analytics uses cookies to collect anonymous, aggregated information such as page popularity, session counts, and general location data (city/country level). This data cannot be used to identify you personally. All IP addresses are anonymized before storage. You can opt out of Google Analytics tracking entirely by installing the official Google Analytics Opt-out Browser Add-on, available at tools.google.com/dlpage/gaoptout.'
+            title: '3. Authentication & Security Architecture',
+            content: 'Authentication is managed securely through Supabase Auth. Device Authorization for IDE extensions, browser extensions, and design tools follows the RFC 8628 protocol. Session tokens issued to extensions can be individually revoked by users at any time via /api/device/revoke or by signing out. Database access is protected with strict Row Level Security (RLS) policies ensuring users can only access and modify their own packs, presets, and entitlements.'
           },
           {
-            title: '4. Google AdSense',
-            content: 'We use Google AdSense to display advertisements on our site. Google AdSense may use cookies and similar tracking technologies to serve ads based on your prior visits to our website or other websites across the internet. These are contextual and interest-based ads managed entirely by Google. We do not have access to the personal data Google collects for advertising purposes. You can opt out of personalized advertising at any time by visiting Google\'s Ads Settings at adssettings.google.com, or by opting out through the Network Advertising Initiative at optout.networkadvertising.org.'
+            title: '4. Cookies & Local Browser Storage',
+            content: 'We use first-party HTTP cookies and LocalStorage to:\n\n• Maintain your active Supabase user session.\n• Persist local UI settings (such as dark mode preferences, active customizer settings, and local cart items).\n\nThird-party cookies may be set by Google Analytics for traffic analysis and Google AdSense for displaying contextual advertisements. You can disable third-party cookies in your browser settings or opt out of Google Analytics via tools.google.com/dlpage/gaoptout.'
           },
           {
-            title: '5. Cookies',
-            content: 'Our site uses first-party cookies for Supabase authentication sessions and may store UI preferences locally in your browser. Google Analytics and Google AdSense may set third-party cookies as described above. Disabling first-party authentication cookies will prevent account sign-in, cloud sync, and browser approval of extension or plugin connections.'
+            title: '5. Google AdSense & Advertising',
+            content: 'IconSearch displays contextual advertisements through Google AdSense to support server costs. AdSense may use cookies to serve relevant ads based on non-personally identifiable browsing patterns. You can manage personalized ad preferences through Google Ads Settings (adssettings.google.com) or opt out through optout.networkadvertising.org.'
           },
           {
-            title: '6. How We Use Data',
-            content: 'We use account and entitlement data to authenticate users, allocate limited Founder access, connect approved devices, synchronize features you request, prevent abuse, provide support, and operate the service. Analytics data helps us understand feature usage and technical issues. We do not sell or rent personal information.'
+            title: '6. How We Use Your Data',
+            content: 'We process personal information strictly for legitimate operational purposes:\n\n• Authenticating your identity and managing account sessions.\n• Allocating and verifying lifetime Founder Access entitlements across our 18 product integrations.\n• Authorizing connected extensions, plugins, and MCP servers.\n• Synchronizing cloud-saved icon packs and customizer presets upon request.\n• Protecting our infrastructure from IP abuse and high-frequency scraping.\n\nWe do NOT sell, rent, trade, or monetize your personal data to third parties.'
           },
           {
-            title: '7. Third-Party Links',
-            content: 'IconSearch contains links to external websites including GitHub repositories, npm package pages, official library documentation, and Figma community pages. We are not responsible for the content, privacy practices, or data collection of any external site. We recommend reviewing the privacy policy of any external site before providing personal information. The presence of a link on IconSearch does not constitute an endorsement of the linked site.'
+            title: '7. Third-Party Links & Open Source Assets',
+            content: 'IconSearch links to third-party resources including GitHub repositories, npm registries, Figma community assets, and documentation. We are not responsible for the privacy practices or content of external sites. Indexed SVG icons remain governed by their respective open-source licenses (MIT, Apache 2.0, ISC, CC0, etc.).'
           },
           {
-            title: '8. Data Storage and Security',
-            content: 'Account, entitlement, device authorization, and optional cloud-sync data is stored with Supabase. Extension session tokens are generated as high-entropy opaque values; the server stores only cryptographic hashes, while connected extensions and plugins store only the revocable session token needed to use the authenticated API. Device approval links expire after a short period and connected sessions can be revoked. The website and APIs are served over HTTPS. No system can guarantee absolute security, but we use access controls and row-level security to reduce risk.'
+            title: '8. Data Retention and Deletion Rights',
+            content: 'We retain account and cloud sync data for as long as your account remains active. You have the right to request full export or permanent deletion of your account, cloud icon packs, presets, and device authorizations. To request account deletion, email us at iconsearchinfo@gmail.com. All associated database records will be permanently purged within 7 business days.'
           },
           {
-            title: '9. California Privacy Rights (CCPA)',
-            content: 'If you are a California resident, you have the right to know what personal information is collected about you, the right to request deletion of personal information, and the right to opt out of the sale of personal information. IconSearch does not sell personal information. As described in this policy, we collect only anonymous analytics data through Google Analytics. California residents may contact us at iconsearchinfo@gmail.com for any privacy-related requests.'
+            title: '9. Regional Rights (CCPA & GDPR)',
+            content: '• California Residents (CCPA): You have the right to request disclosure of personal data collected, request deletion, and opt out of any data sales (IconSearch does not sell personal data).\n\n• EEA / UK Residents (GDPR): You have the right to access, rectify, port, or erase your personal data, and to restrict or object to processing based on legitimate interests. You may lodge a complaint with your local Data Protection Authority.'
           },
           {
-            title: '10. GDPR and EEA Residents',
-            content: 'If you are located in the European Economic Area (EEA), we process account and product-access data to provide the service you request and process limited analytics under our legitimate interest in improving IconSearch. You may request access, correction, deletion, or portability of personal data and may object to or restrict certain processing. You may also lodge a complaint with your local supervisory authority. Contact iconsearchinfo@gmail.com for requests.'
+            title: '10. Children\'s Privacy',
+            content: 'IconSearch is a professional technical platform intended for developers and designers. We do not knowingly collect or solicit personal information from children under 13. If we discover personal data from a child under 13, we will delete it immediately.'
           },
           {
-            title: '11. Children\'s Privacy',
-            content: 'IconSearch is a technical resource intended for web developers and is not directed at children under the age of 13. We do not knowingly collect any personal information from children under 13. If you believe a child has provided personal information through contact with us, please email iconsearchinfo@gmail.com immediately and we will take steps to remove any such information.'
+            title: '11. Policy Updates',
+            content: 'We may update this Privacy Policy periodically to reflect infrastructure or legal updates. Material updates will be indicated by revising the "Last updated" date at the top of this page.'
           },
           {
-            title: '12. Changes to This Policy',
-            content: 'We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal obligations. When we make material changes, we will update the "Last updated" date at the top of this page. We encourage you to review this policy periodically. Your continued use of IconSearch after any updates constitutes your acceptance of the revised policy.'
-          },
-          {
-            title: '13. Contact Us',
-            content: 'If you have any questions, concerns, or requests regarding this Privacy Policy or your privacy rights, please contact us at: iconsearchinfo@gmail.com. We aim to respond to all privacy-related enquiries within 48 business hours.'
+            title: '12. Contact Us',
+            content: 'For privacy inquiries, data deletion requests, or security reports:\n\n📧 Email: iconsearchinfo@gmail.com\n🌐 Contact Form: https://iconsearch.info/contact\n📍 Operating from: United States'
           },
         ].map(section => (
           <div key={section.title}>
             <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '12px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
               {section.title}
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8 }}>
-              {section.content}
-            </p>
+            {section.content.split('\n\n').map((para, i) => (
+              <p key={i} style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8, marginBottom: '12px' }}>
+                {para}
+              </p>
+            ))}
           </div>
         ))}
       </article>

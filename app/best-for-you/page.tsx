@@ -838,23 +838,7 @@ export default function BestForYouPage() {
               >
                 {namedLibrarySlugs.has(result.primary.slug) ? 'Full Guide →' : 'Explore Icons →'}
               </Link>
-              {result.secondary && canCompareResults(result.primary.slug, result.secondary.slug) && (
-                <Link
-                  href={`/compare/${result.primary.slug}-vs-${result.secondary.slug}`}
-                  style={{
-                    background: 'transparent',
-                    color: 'var(--text-muted)',
-                    border: '1px solid var(--border)',
-                    padding: '10px 20px',
-                    borderRadius: '8px',
-                    textDecoration: 'none',
-                    fontSize: '13px',
-                    fontFamily: 'JetBrains Mono, monospace',
-                  }}
-                >
-                  Compare with runner-up →
-                </Link>
-              )}
+
             </div>
           </div>
 
@@ -971,21 +955,6 @@ export default function BestForYouPage() {
             >
               ← Start Over
             </button>
-            <Link
-              href="/compare"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                color: 'var(--text-muted)',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '13px',
-              }}
-            >
-              Browse all comparisons →
-            </Link>
             <Link
               href="/stats"
               style={{

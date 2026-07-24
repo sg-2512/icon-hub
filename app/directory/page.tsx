@@ -45,11 +45,9 @@ export default function DirectoryPage() {
             <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Homepage</Link>
             <Link href="/icon-search" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Search All Icons ({SEARCHABLE_ICON_COUNT.toLocaleString('en-US')})</Link>
             <Link href="/free-svg-icons" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Browse All Libraries</Link>
-            <Link href="/compare" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Compare Libraries</Link>
             <Link href="/best-for-you" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Interactive Quiz: Best For You</Link>
             <Link href="/stats" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Global Statistics</Link>
             <Link href="/licenses" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Open Source License Guide</Link>
-            <Link href="/blog" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Blog & Articles</Link>
           </div>
         </section>
 
@@ -99,20 +97,7 @@ export default function DirectoryPage() {
           </div>
         </section>
 
-        {/* Popular Comparisons */}
-        <section>
-          <h2 style={{ fontSize: '14px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '1px', marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
-            POPULAR COMPARISONS
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <Link href="/compare/lucide-icons-vs-heroicons" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Lucide vs Heroicons</Link>
-            <Link href="/compare/lucide-icons-vs-tabler-icons" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Lucide vs Tabler Icons</Link>
-            <Link href="/compare/heroicons-vs-tabler-icons" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Heroicons vs Tabler</Link>
-            <Link href="/compare/lucide-icons-vs-phosphor-icons" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Lucide vs Phosphor</Link>
-            <Link href="/compare/lucide-icons-vs-radix-icons" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Lucide vs Radix Icons</Link>
-            <Link href="/compare" style={{ color: 'var(--accent)', textDecoration: 'none', fontSize: '13px', fontFamily: 'JetBrains Mono, monospace', marginTop: '8px' }}>View all {pairs.length} comparisons →</Link>
-          </div>
-        </section>
+
 
         {/* Legal & About */}
         <section>

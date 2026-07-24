@@ -9,12 +9,10 @@ export default function Navbar() {
   const links = [
     { label: 'Home', href: '/' },
     { label: 'Browse', href: '/free-svg-icons' },
-    { label: 'Compare', href: '/compare' },
     { label: 'Best For You', href: '/best-for-you' },
     { label: 'Categories', href: '/icons/category' },
     { label: 'Use Cases', href: '/use-cases' },
     { label: 'Stats', href: '/stats' },
-    { label: 'Blog', href: '/blog' },
     { label: 'Icon Search', href: '/icon-search' },
   ]
 

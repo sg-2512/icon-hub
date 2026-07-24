@@ -154,23 +154,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <pre style={{ background: 'var(--code-bg)', border: '1px solid var(--border)', borderRadius: '8px', padding: '16px', fontFamily: 'JetBrains Mono, monospace', fontSize: '14px', color: 'var(--green)', marginBottom: '40px' }}>
           {icon.installCommand}
         </pre>
-        <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '16px' }}>Compare with others</h2>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          {icons.filter(i => i.slug !== slug).map(i => (
-            <Link key={i.slug} href={`/compare/${slug}-vs-${i.slug}`} style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '6px',
-              padding: '8px 14px',
-              textDecoration: 'none',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontFamily: 'JetBrains Mono, monospace',
-            }}>
-              vs {i.name} →
-            </Link>
-          ))}
-        </div>
+
       </main>
     )
   }
@@ -323,43 +307,6 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         ))}
       </section>
 
-      {/* Dynamic Lucide v1.x Migration Banner */}
-      {slug === 'lucide-icons' && (
-        <section style={{ marginBottom: '48px' }}>
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)',
-            border: '1px solid var(--accent)',
-            borderRadius: '12px',
-            padding: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-          }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text)' }}>
-              ⚠️ Upgrading to Lucide React v1.0.0+?
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-              The Lucide React 1.0 release introduced major breaking changes and renamed several key icons (for example, <code>BarChart2</code> is now <code>ChartBar</code>, <code>PlusCircle</code> is <code>BadgePlus</code> or <code>CirclePlus</code>, and <code>Instagram</code> or <code>Linkedin</code> exports might be missing/modified).
-            </p>
-            <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-              Avoid Next.js compilation issues by reading our comprehensive step-by-step upgrade guide.
-            </p>
-            <div>
-              <Link href="/blog/lucide-react-1-migration-guide" style={{
-                color: 'var(--accent)',
-                fontSize: '14px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px'
-              }}>
-                Read the Lucide-React v1.0 Migration & Renamed Icons Guide →
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* License Overview */}
       <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
@@ -539,32 +486,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
-      {/* Comparisons */}
-      <section style={{ marginBottom: '48px' }}>
-        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
-          COMPARE WITH ALTERNATIVES
-        </h2>
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          {icons.filter(i => i.slug !== slug).map(i => (
-            <Link key={i.slug} href={`/compare/${slug}-vs-${i.slug}`} style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              padding: '10px 16px',
-              textDecoration: 'none',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontFamily: 'JetBrains Mono, monospace',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}>
-              {data.name} vs {i.name}
-              <span style={{ color: 'var(--accent)' }}>→</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+
       {/* Internal Interlinking Module */}
       <section style={{ marginBottom: '48px', paddingTop: '48px', borderTop: '1px solid var(--border)' }}>
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>

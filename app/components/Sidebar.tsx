@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
-import { BookOpen, GitCompareArrows, Home, KeyRound, List, LogIn, Search, UserCheck } from 'lucide-react'
+import { Home, KeyRound, List, LogIn, Search, UserCheck } from 'lucide-react'
 import AuthModal from './AuthModal'
 import { createClient } from '@/lib/supabase'
 import { formatIconifyCollectionName, namedLibraries } from '../../data/library-catalog'
@@ -15,8 +15,6 @@ const navLinks = [
   { label: 'Home', href: '/', Icon: Home, color: '#9aa8ff' },
   { label: 'Search', href: '/icon-search', Icon: Search, color: '#53c9ff' },
   { label: 'Browse', href: '/free-svg-icons', Icon: List, color: '#50d3a2' },
-  { label: 'Compare', href: '/compare', Icon: GitCompareArrows, color: '#f4bc72' },
-  { label: 'Blog', href: '/blog', Icon: BookOpen, color: '#f38fbd' },
 ]
 
 const integrationLinks = [

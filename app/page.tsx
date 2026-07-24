@@ -1,5 +1,4 @@
 import { staticPages } from '../data/static-pages'
-import { getAllPosts } from '../lib/blog'
 import { icons } from '../lib/icons'
 import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
 import HomeExperience from './components/HomeExperience'
@@ -26,13 +25,7 @@ export const metadata = {
 }
 
 export default function HomePage() {
-  const blogItems = getAllPosts().map((post) => ({
-    label: post.title,
-    href: `/blog/${post.slug}`,
-    date: post.date,
-  }))
-
-  const allRecentItems = [...blogItems, ...staticPages]
+  const allRecentItems = [...staticPages]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5)
 
