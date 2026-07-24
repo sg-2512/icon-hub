@@ -30,6 +30,7 @@ const productNames: Record<string, string> = {
   canva: 'Canva app',
   tailwind: 'Tailwind plugin',
   webflow: 'Webflow extension',
+  adobe: 'Adobe Express plugin',
 }
 
 const productShortNames: Record<string, string> = {
@@ -44,6 +45,7 @@ const productShortNames: Record<string, string> = {
   canva: 'Canva',
   tailwind: 'Tailwind',
   webflow: 'Webflow',
+  adobe: 'Adobe Express',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {

@@ -1,18 +1,36 @@
 const API_BASE = "https://iconsearch.info";
-const SEARCH_ENDPOINT = `${API_BASE}/api/icons`;
+const PRODUCT = "adobe";
+const SESSION_KEY = "iconsearch:adobe:session";
+const PENDING_KEY = "iconsearch:adobe:pending-device-code";
 const SDK_URL = "https://express.adobe.com/static/add-on-sdk/sdk.js";
 const DEFAULT_QUERY = "arrow";
-const LIBRARIES = [
-  ["all", "All libraries"],
-  ["lucide-icons", "Lucide"],
+
+const NAMED_LIBRARIES = [
+  ["lucide-icons", "Lucide Icons"],
   ["heroicons", "Heroicons"],
-  ["tabler-icons", "Tabler"],
-  ["phosphor-icons", "Phosphor"],
-  ["remix-icon", "Remix"],
-  ["bootstrap-icons", "Bootstrap"],
+  ["tabler-icons", "Tabler Icons"],
+  ["patternfly-icons", "PatternFly Icons"],
+  ["untitled-ui-icons", "Untitled UI Icons"],
+  ["phosphor-icons", "Phosphor Icons"],
+  ["remix-icon", "Remix Icon"],
+  ["feather-icons", "Feather Icons"],
+  ["bootstrap-icons", "Bootstrap Icons"],
+  ["radix-icons", "Radix Icons"],
   ["iconoir", "Iconoir"],
-  ["iconify", "Iconify collections"],
+  ["ionicons", "Ionicons"],
+  ["octicons", "Octicons"],
+  ["ant-design-icons", "Ant Design Icons"],
+  ["devicons", "Devicons"],
+  ["teenyicons", "Teenyicons"],
+  ["circum-icons", "Circum Icons"],
+  ["elusive-icons", "Elusive Icons"],
 ];
+
+const LIBRARIES = [
+  ["all", "All libraries (355,000+ icons)"],
+  ...NAMED_LIBRARIES,
+];
+
 const STYLES = [
   ["all", "All styles"],
   ["stroke", "Outline"],
@@ -25,7 +43,11 @@ const STYLES = [
 const state = {
   sdk: null,
   sdkReady: false,
+  session: readSession(),
+  pendingCode: readPendingCode(),
+  pollTimer: null,
   icons: [],
+  iconifySets: [],
   selectedId: "",
   loading: false,
   total: 0,
@@ -41,6 +63,12 @@ const state = {
 };
 
 const elements = {
+  authHeaderBtn: document.getElementById("authHeaderBtn"),
+  authScreen: document.getElementById("authScreen"),
+  authStatusText: document.getElementById("authStatusText"),
+  startAuthBtn: document.getElementById("startAuthBtn"),
+  mainApp: document.getElementById("mainApp"),
+
   searchInput: document.getElementById("searchInput"),
   librarySelect: document.getElementById("librarySelect"),
   styleSelect: document.getElementById("styleSelect"),
@@ -62,9 +90,12 @@ boot();
 async function boot() {
   hydrateControls();
   bindEvents();
-  renderLoading();
+  updateAuthUI();
   await initializeAdobeSdk();
-  await searchIcons();
+
+  if (state.session?.token) {
+    await searchIcons();
+  }
 }
 
 async function initializeAdobeSdk() {
@@ -75,7 +106,7 @@ async function initializeAdobeSdk() {
     state.sdk = sdkModule.default;
     await state.sdk.ready;
     state.sdkReady = true;
-    setStatus("Ready. Click Insert or drag any icon into your Adobe Express canvas.", "success");
+    setStatus("Ready. Search icons and insert or drag into your Adobe Express canvas.", "success");
 
     if (state.sdk.app && typeof state.sdk.app.on === "function") {
       state.sdk.app.on("dragend", (eventData) => {
@@ -88,473 +119,524 @@ async function initializeAdobeSdk() {
     state.sdk = null;
     state.sdkReady = false;
     setStatus(
-      "Preview mode: open this add-on in Adobe Express to enable click insertion and drag-to-document.",
-      "error",
+      "Standalone mode: Open inside Adobe Express to enable 1-click canvas insertion.",
+      "info",
     );
-    console.warn("Adobe Express SDK is not available in this context.", error);
   }
 }
 
 function hydrateControls() {
   elements.searchInput.value = state.query;
   elements.sizeValue.textContent = `${state.size}px`;
+  elements.colorInput.value = state.color;
+  elements.legalOnlyInput.checked = state.legalOnly;
 
-  fillSelect(elements.librarySelect, LIBRARIES, state.library);
-  fillSelect(elements.styleSelect, STYLES, state.style);
+  renderLibrarySelect();
+  renderStyleSelect();
 }
 
-function fillSelect(select, options, selected) {
-  select.innerHTML = "";
-  options.forEach(([value, label]) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = label;
-    option.selected = value === selected;
-    select.appendChild(option);
+function renderLibrarySelect() {
+  elements.librarySelect.innerHTML = "";
+
+  const allOpt = document.createElement("option");
+  allOpt.value = "all";
+  allOpt.textContent = "All libraries (355,000+ icons)";
+  elements.librarySelect.appendChild(allOpt);
+
+  const namedGroup = document.createElement("optgroup");
+  namedGroup.label = "Primary Libraries (18)";
+  NAMED_LIBRARIES.forEach(([id, name]) => {
+    const opt = document.createElement("option");
+    opt.value = id;
+    opt.textContent = name;
+    namedGroup.appendChild(opt);
   });
+  elements.librarySelect.appendChild(namedGroup);
+
+  if (state.iconifySets.length > 0) {
+    const iconifyGroup = document.createElement("optgroup");
+    iconifyGroup.label = `Iconify Collections (${state.iconifySets.length})`;
+    state.iconifySets.forEach((setName) => {
+      const opt = document.createElement("option");
+      opt.value = `iconify:${setName}`;
+      opt.textContent = `Iconify: ${formatIconifyTitle(setName)}`;
+      iconifyGroup.appendChild(opt);
+    });
+    elements.librarySelect.appendChild(iconifyGroup);
+  }
+
+  elements.librarySelect.value = state.library;
+}
+
+function renderStyleSelect() {
+  elements.styleSelect.innerHTML = "";
+  STYLES.forEach(([id, name]) => {
+    const opt = document.createElement("option");
+    opt.value = id;
+    opt.textContent = name;
+    elements.styleSelect.appendChild(opt);
+  });
+  elements.styleSelect.value = state.style;
 }
 
 function bindEvents() {
-  elements.searchInput.addEventListener("input", () => {
-    state.query = elements.searchInput.value.trim();
+  elements.authHeaderBtn.addEventListener("click", () => {
+    if (state.session) signOut();
+    else startAuthDevice();
+  });
+
+  elements.startAuthBtn.addEventListener("click", startAuthDevice);
+
+  elements.searchInput.addEventListener("input", (e) => {
+    state.query = e.target.value;
     scheduleSearch();
   });
 
-  elements.librarySelect.addEventListener("change", () => {
-    state.library = elements.librarySelect.value;
-    scheduleSearch();
+  elements.librarySelect.addEventListener("change", (e) => {
+    state.library = e.target.value;
+    searchIcons();
   });
 
-  elements.styleSelect.addEventListener("change", () => {
-    state.style = elements.styleSelect.value;
-    scheduleSearch();
+  elements.styleSelect.addEventListener("change", (e) => {
+    state.style = e.target.value;
+    searchIcons();
   });
 
-  elements.legalOnlyInput.addEventListener("change", () => {
-    state.legalOnly = elements.legalOnlyInput.checked;
-    scheduleSearch();
+  elements.legalOnlyInput.addEventListener("change", (e) => {
+    state.legalOnly = e.target.checked;
+    searchIcons();
   });
 
-  elements.sizeInput.addEventListener("input", () => {
-    state.size = clamp(Number(elements.sizeInput.value) || 96, 24, 256);
+  elements.sizeInput.addEventListener("input", (e) => {
+    state.size = Number.parseInt(e.target.value, 10) || 96;
     elements.sizeValue.textContent = `${state.size}px`;
-    renderSelection();
-    renderResults();
+    updateSelectedPreview();
   });
 
-  elements.colorInput.addEventListener("input", () => {
-    state.color = isSafeHex(elements.colorInput.value) ? elements.colorInput.value : "#111827";
-    updateSwatches();
-    renderSelection();
-    renderResults();
-  });
-
-  elements.insertButton.addEventListener("click", () => {
-    const icon = getSelectedIcon();
-    if (icon) {
-      void insertIcon(icon);
-    }
+  elements.colorInput.addEventListener("input", (e) => {
+    state.color = e.target.value;
+    syncColorSwatches();
+    updateSelectedPreview();
   });
 
   document.querySelectorAll(".swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
-      const color = swatch.getAttribute("data-color") || "#111827";
+      const color = swatch.dataset.color;
+      if (!color) return;
       state.color = color;
       elements.colorInput.value = color;
-      updateSwatches();
-      renderSelection();
-      renderResults();
+      syncColorSwatches();
+      updateSelectedPreview();
     });
+  });
+
+  elements.insertButton.addEventListener("click", () => {
+    const icon = getSelectedIcon();
+    if (icon) insertIcon(icon);
+  });
+}
+
+function syncColorSwatches() {
+  document.querySelectorAll(".swatch").forEach((swatch) => {
+    swatch.classList.toggle("is-active", swatch.dataset.color === state.color);
   });
 }
 
 function scheduleSearch() {
-  window.clearTimeout(state.searchTimer);
-  state.searchTimer = window.setTimeout(() => {
-    void searchIcons();
-  }, 180);
+  clearTimeout(state.searchTimer);
+  state.searchTimer = setTimeout(() => searchIcons(), 200);
 }
 
-async function searchIcons() {
-  if (state.searchController) state.searchController.abort();
-  state.searchController = new AbortController();
-  state.loading = true;
-  renderLoading();
-
-  const url = new URL(SEARCH_ENDPOINT);
-  if (state.query) url.searchParams.set("q", state.query);
-  url.searchParams.set("lib", state.library);
-  url.searchParams.set("style", state.style);
-  url.searchParams.set("legalOnly", state.legalOnly ? "1" : "0");
-  url.searchParams.set("limit", "48");
-  url.searchParams.set("sort", state.query ? "relevance" : "popular");
-
-  try {
-    const response = await fetch(url.toString(), {
-      headers: { accept: "application/json" },
-      signal: state.searchController.signal,
-    });
-    if (!response.ok) throw new Error(`IconSearch returned ${response.status}.`);
-    const payload = await response.json();
-    state.icons = Array.isArray(payload.icons) ? payload.icons.map(normalizeIcon).filter(Boolean) : [];
-    state.total = numberFrom(payload.total, state.icons.length);
-    state.selectedId = state.icons.some((icon) => icon.id === state.selectedId)
-      ? state.selectedId
-      : state.icons[0]?.id || "";
-    setStatus(
-      state.sdkReady
-        ? "Ready. Click Insert or drag any icon into your Adobe Express canvas."
-        : "Preview mode: search works here, insertion works inside Adobe Express.",
-      state.sdkReady ? "success" : "",
-    );
-  } catch (error) {
-    if (state.searchController.signal.aborted) return;
-    state.icons = [];
-    state.total = 0;
-    setStatus(error instanceof Error ? error.message : "Icon search failed.", "error");
-  } finally {
-    if (!state.searchController.signal.aborted) {
-      state.loading = false;
-      renderSelection();
-      renderResults();
-    }
+function updateAuthUI() {
+  if (state.session?.token) {
+    elements.authScreen.classList.add("hidden");
+    elements.mainApp.classList.remove("hidden");
+    elements.authHeaderBtn.textContent = "Sign out";
+  } else {
+    elements.authScreen.classList.remove("hidden");
+    elements.mainApp.classList.add("hidden");
+    elements.authHeaderBtn.textContent = "Sign in";
   }
 }
 
-function normalizeIcon(value) {
-  if (!value || typeof value !== "object") return null;
-  const name = stringFrom(value.name);
-  const library = stringFrom(value.library);
-  const svgUrl = normalizeUrl(value.svgUrl);
-  if (!name || !library || !svgUrl) return null;
+async function startAuthDevice() {
+  setStatus("Starting IconSearch sign-in...");
+  elements.authStatusText.textContent = "Opening sign-in window...";
 
-  const previewUrls = Array.isArray(value.previewUrls)
-    ? value.previewUrls.map(normalizeUrl).filter(Boolean)
-    : [];
+  try {
+    const res = await fetch(`${API_BASE}/api/device/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", accept: "application/json" },
+      body: JSON.stringify({ product: PRODUCT, clientName: "Adobe Express" }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Could not start sign-in.");
+
+    savePendingCode(data.deviceCode);
+    state.pendingCode = data.deviceCode;
+
+    if (data.verificationUriComplete) {
+      window.open(data.verificationUriComplete, "_blank");
+    }
+
+    elements.authStatusText.textContent = "Approve in your browser tab, then return here.";
+    startPollTimer();
+  } catch (err) {
+    elements.authStatusText.textContent = err.message || "Failed to start sign-in.";
+    setStatus(err.message, "error");
+  }
+}
+
+function startPollTimer() {
+  clearInterval(state.pollTimer);
+  state.pollTimer = setInterval(async () => {
+    if (!state.pendingCode) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/device/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", accept: "application/json" },
+        body: JSON.stringify({ deviceCode: state.pendingCode }),
+      });
+      const data = await res.json();
+      if (res.ok && data.status === "authorized" && data.token) {
+        clearInterval(state.pollTimer);
+        clearPendingCode();
+        state.pendingCode = "";
+        const sess = { token: data.token, savedAt: new Date().toISOString() };
+        saveSession(sess);
+        state.session = sess;
+        updateAuthUI();
+        setStatus("IconSearch connected.", "success");
+        await searchIcons();
+      }
+    } catch {
+      // Ignore transient polling errors
+    }
+  }, 3000);
+}
+
+function signOut() {
+  clearSession();
+  state.session = null;
+  state.pendingCode = "";
+  clearInterval(state.pollTimer);
+  updateAuthUI();
+  setStatus("Signed out.", "info");
+}
+
+async function searchIcons() {
+  if (!state.session?.token) return;
+
+  if (state.searchController) state.searchController.abort();
+  state.searchController = new AbortController();
+
+  state.loading = true;
+  renderLoading();
+  setStatus("Searching IconSearch catalog...");
+
+  const url = new URL(`${API_BASE}/api/extension/icon-search`);
+  if (state.query.trim()) url.searchParams.set("q", state.query.trim());
+  url.searchParams.set("limit", "48");
+  url.searchParams.set("page", "1");
+  url.searchParams.set("sort", state.query.trim() ? "relevance" : "popular");
+  url.searchParams.set("legalOnly", state.legalOnly ? "1" : "0");
+  if (state.style !== "all") url.searchParams.set("style", state.style);
+
+  applyLibraryParams(url, state.library);
+
+  try {
+    const res = await fetch(url.toString(), {
+      headers: {
+        accept: "application/json",
+        authorization: `Bearer ${state.session.token}`,
+        "x-iconsearch-product": PRODUCT,
+      },
+      signal: state.searchController.signal,
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Search failed.");
+
+    state.icons = (Array.isArray(data.icons) ? data.icons : [])
+      .map(normalizeIcon)
+      .filter(Boolean);
+    state.total = typeof data.total === "number" ? data.total : state.icons.length;
+
+    if (data.facets && Array.isArray(data.facets.iconifySets) && data.facets.iconifySets.length > 0) {
+      state.iconifySets = data.facets.iconifySets;
+      renderLibrarySelect();
+    }
+
+    if (!state.icons.some((i) => i.id === state.selectedId)) {
+      state.selectedId = state.icons[0]?.id || "";
+    }
+
+    renderResults();
+    updateSelectedPreview();
+    setStatus(`${state.total.toLocaleString()} matching icons found`, "success");
+  } catch (err) {
+    if (err.name === "AbortError") return;
+    state.icons = [];
+    state.total = 0;
+    renderResults();
+    setStatus(err.message || "Search failed.", "error");
+  } finally {
+    state.loading = false;
+  }
+}
+
+function applyLibraryParams(url, value) {
+  if (value === "all") return;
+  if (value === "iconify") {
+    url.searchParams.set("lib", "iconify");
+    return;
+  }
+  if (value.startsWith("iconify:")) {
+    url.searchParams.set("lib", "iconify");
+    url.searchParams.set("iconifySet", value.slice("iconify:".length));
+    return;
+  }
+  url.searchParams.set("lib", value);
+}
+
+function normalizeIcon(item) {
+  if (!item || typeof item !== "object") return null;
+  const name = item.name || "";
+  const library = item.library || "";
+  const rawSvgUrl = item.svgUrl || "";
+  if (!name || !library || !rawSvgUrl) return null;
+
+  const absoluteSvgUrl = rawSvgUrl.startsWith("/") ? `${API_BASE}${rawSvgUrl}` : rawSvgUrl;
+
+  const previewUrls = Array.isArray(item.previewUrls)
+    ? item.previewUrls
+        .map((url) => (typeof url === "string" && url.startsWith("/") ? `${API_BASE}${url}` : url))
+        .filter((url) => typeof url === "string" && /^https?:\/\//.test(url))
+    : [absoluteSvgUrl];
 
   return {
-    id: stringFrom(value.id) || `${library}-${name}`,
+    id: item.id || `${library}-${name}`,
     name,
-    displayName: formatIconTitle(stringFrom(value.displayName) || name),
+    displayName: formatIconTitle(item.displayName || name),
     library,
-    libraryName: stringFrom(value.libraryName) || formatIconTitle(library),
-    license: stringFrom(value.license) || "license unknown",
-    legalSafe: value.legalSafe === true,
-    svgUrl: previewUrls[0] || svgUrl,
-    previewUrls: previewUrls.length ? previewUrls : [svgUrl],
+    libraryName: item.libraryName || formatIconTitle(library),
+    license: item.license || "Open-source",
+    svgUrl: previewUrls[0] || absoluteSvgUrl,
+    previewUrls,
   };
 }
 
-function renderLoading() {
-  elements.resultsGrid.setAttribute("aria-busy", "true");
-  elements.resultCount.textContent = "Searching...";
-  elements.resultsGrid.innerHTML = '<div class="loading-state">Loading high-quality SVG icons from IconSearch...</div>';
+function getSelectedIcon() {
+  return state.icons.find((i) => i.id === state.selectedId) || state.icons[0];
 }
 
-function renderSelection() {
+function updateSelectedPreview() {
   const icon = getSelectedIcon();
-  const size = clamp(state.size, 24, 256);
-  const previewSize = clamp(Math.round(size * 0.66), 40, 76);
-
-  elements.insertButton.disabled = !icon || !state.sdkReady;
-  elements.sizeValue.textContent = `${size}px`;
-  elements.selectedPreview.style.width = `${previewSize}px`;
-  elements.selectedPreview.style.height = `${previewSize}px`;
-  elements.selectedPreview.style.backgroundColor = state.color;
-
   if (!icon) {
     elements.selectedName.textContent = "No icon selected";
-    elements.selectedDetails.textContent = "Try a broader search term.";
-    elements.selectedPreview.style.webkitMask = "";
-    elements.selectedPreview.style.mask = "";
+    elements.selectedDetails.textContent = "Search and select an icon";
+    elements.selectedPreview.innerHTML = "";
+    elements.insertButton.disabled = true;
     return;
   }
 
   elements.selectedName.textContent = icon.displayName;
-  elements.selectedDetails.textContent = `${icon.libraryName} - ${icon.license}`;
-  applyMask(elements.selectedPreview, icon);
+  elements.selectedDetails.textContent = `${icon.libraryName} · ${icon.license}`;
+  elements.insertButton.disabled = false;
+
+  fetchSvg(icon)
+    .then((svg) => {
+      const styled = styleSvg(svg, state.color, state.size);
+      elements.selectedPreview.innerHTML = styled;
+    })
+    .catch(() => {
+      elements.selectedPreview.innerHTML = `<img src="${icon.svgUrl}" alt="" />`;
+    });
+}
+
+function renderLoading() {
+  elements.resultCount.textContent = "Searching...";
+  elements.resultsGrid.setAttribute("aria-busy", "true");
 }
 
 function renderResults() {
-  elements.resultsGrid.setAttribute("aria-busy", state.loading ? "true" : "false");
-  elements.resultCount.textContent = state.loading
-    ? "Searching..."
-    : `${state.total.toLocaleString()} icons`;
-
-  if (state.loading) {
-    renderLoading();
-    return;
-  }
-
+  elements.resultsGrid.setAttribute("aria-busy", "false");
+  elements.resultCount.textContent = `${state.total.toLocaleString()} icons`;
   elements.resultsGrid.innerHTML = "";
 
-  if (!state.icons.length) {
-    elements.resultsGrid.innerHTML = '<div class="empty-state">No icons found. Try a broader search or switch libraries.</div>';
+  if (state.icons.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty-msg";
+    empty.textContent = "No icons found.";
+    elements.resultsGrid.appendChild(empty);
     return;
   }
-
-  const selectedId = getSelectedIcon()?.id || "";
-  const fragment = document.createDocumentFragment();
 
   state.icons.forEach((icon) => {
     const card = document.createElement("button");
     card.type = "button";
-    card.className = `icon-card${icon.id === selectedId ? " is-selected" : ""}`;
-    card.title = state.sdkReady ? "Click to select. Drag into Adobe Express." : "Click to preview. Drag works in Adobe Express.";
+    card.className = icon.id === state.selectedId ? "icon-card is-active" : "icon-card";
 
-    const thumb = document.createElement("span");
-    thumb.className = "icon-thumb";
+    const previewSpan = document.createElement("span");
+    previewSpan.className = "icon-thumb";
 
-    const shape = document.createElement("span");
-    shape.className = "icon-shape";
-    shape.style.backgroundColor = state.color;
-    applyMask(shape, icon);
-    thumb.appendChild(shape);
+    const img = document.createElement("img");
+    img.src = icon.svgUrl;
+    img.alt = "";
+    img.loading = "lazy";
+    previewSpan.appendChild(img);
 
-    const title = document.createElement("span");
-    title.className = "icon-title";
-    title.textContent = icon.displayName;
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "icon-name";
+    nameSpan.textContent = icon.displayName;
 
-    const subtitle = document.createElement("span");
-    subtitle.className = "icon-subtitle";
-    subtitle.textContent = icon.libraryName;
+    const libSpan = document.createElement("span");
+    libSpan.className = "icon-lib";
+    libSpan.textContent = icon.libraryName;
 
-    const dragHint = document.createElement("span");
-    dragHint.className = "drag-hint";
-    dragHint.textContent = state.sdkReady ? "Drag to canvas" : "Adobe required";
+    card.appendChild(previewSpan);
+    card.appendChild(nameSpan);
+    card.appendChild(libSpan);
 
-    card.append(thumb, title, subtitle, dragHint);
     card.addEventListener("click", () => {
       state.selectedId = icon.id;
-      renderSelection();
       renderResults();
-    });
-    card.addEventListener("dblclick", () => {
-      void insertIcon(icon);
+      updateSelectedPreview();
     });
 
-    enableAdobeDrag(card, icon);
-    fragment.appendChild(card);
+    card.addEventListener("dblclick", () => insertIcon(icon));
+
+    // Support Drag and Drop to Adobe Express Document if SDK enables it
+    if (state.sdkReady && state.sdk?.app?.enableDragToDocument) {
+      try {
+        state.sdk.app.enableDragToDocument(card, {
+          preview: (element) => new URL(icon.svgUrl),
+          addData: async () => {
+            const svgText = await fetchSvg(icon);
+            const styledSvg = styleSvg(svgText, state.color, state.size);
+            const blob = new Blob([styledSvg], { type: "image/svg+xml" });
+            return {
+              data: [
+                {
+                  blob,
+                  type: "image/svg+xml",
+                  title: `${icon.displayName} icon`,
+                },
+              ],
+            };
+          },
+        });
+      } catch {
+        // Drag-and-drop fallback
+      }
+    }
+
+    elements.resultsGrid.appendChild(card);
   });
-
-  elements.resultsGrid.appendChild(fragment);
-}
-
-function enableAdobeDrag(card, icon) {
-  if (!state.sdkReady || !state.sdk?.app || typeof state.sdk.app.enableDragToDocument !== "function") {
-    return;
-  }
-
-  try {
-    state.sdk.app.enableDragToDocument(card, {
-      previewCallback: () => new URL(icon.svgUrl),
-      completionCallback: async () => [
-        {
-          blob: await createStyledSvgBlob(icon),
-          attributes: {
-            title: `${icon.displayName} icon`,
-            author: "IconSearch",
-          },
-          importAddOnData: {
-            nodeAddOnData: {
-              source: "iconsearch",
-              iconId: icon.id,
-              library: icon.library,
-              size: String(state.size),
-              color: state.color,
-            },
-            mediaAddOnData: {
-              source: "iconsearch",
-              iconId: icon.id,
-            },
-          },
-        },
-      ],
-    });
-    card.classList.add("is-drag-enabled");
-  } catch (error) {
-    console.warn("Could not enable drag for icon.", icon.id, error);
-  }
 }
 
 async function insertIcon(icon) {
-  if (!state.sdkReady || !state.sdk?.app?.document) {
-    setStatus("Open this add-on inside Adobe Express to insert icons.", "error");
-    return;
-  }
-
-  elements.insertButton.disabled = true;
-  elements.insertButton.textContent = "Inserting...";
   setStatus(`Preparing ${icon.displayName}...`);
+  elements.insertButton.disabled = true;
 
   try {
-    const blob = await createStyledSvgBlob(icon);
-    await state.sdk.app.document.addImage(
-      blob,
-      {
-        title: `${icon.displayName} icon`,
-        author: "IconSearch",
-      },
-      {
-        nodeAddOnData: {
-          source: "iconsearch",
-          iconId: icon.id,
-          library: icon.library,
-          size: String(state.size),
-          color: state.color,
-        },
-        mediaAddOnData: {
-          source: "iconsearch",
-          iconId: icon.id,
-        },
-      },
-    );
-    setStatus(`Inserted ${icon.displayName}.`, "success");
-  } catch (error) {
-    setStatus(error instanceof Error ? error.message : "Could not insert icon.", "error");
+    const rawSvg = await fetchSvg(icon);
+    const styledSvg = styleSvg(rawSvg, state.color, state.size);
+    const blob = new Blob([styledSvg], { type: "image/svg+xml" });
+
+    if (state.sdkReady && state.sdk?.app?.document?.addImage) {
+      await state.sdk.app.document.addImage(blob, { title: `${icon.displayName} icon` });
+      setStatus(`Inserted ${icon.displayName} into document.`, "success");
+    } else {
+      // Fallback download if opened outside Adobe Express iframe
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${icon.name}.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus(`Downloaded ${icon.displayName}.svg`, "success");
+    }
+  } catch (err) {
+    setStatus(err.message || "Failed to insert icon.", "error");
   } finally {
-    elements.insertButton.textContent = "Insert selected";
-    renderSelection();
+    elements.insertButton.disabled = false;
   }
 }
 
-async function createStyledSvgBlob(icon) {
-  const svg = await fetchSvgMarkup(icon);
-  const styledSvg = styleSvg(svg, {
-    size: clamp(state.size, 24, 256),
-    color: isSafeHex(state.color) ? state.color : "#111827",
-    title: icon.displayName,
-  });
-  return new Blob([styledSvg], { type: "image/svg+xml" });
-}
-
-async function fetchSvgMarkup(icon) {
+async function fetchSvg(icon) {
   if (state.svgCache.has(icon.id)) return state.svgCache.get(icon.id);
+  const res = await fetch(icon.svgUrl);
+  if (!res.ok) throw new Error("Could not fetch SVG markup.");
+  const text = await res.text();
+  state.svgCache.set(icon.id, text);
+  return text;
+}
 
-  let lastError = "";
-  for (const url of icon.previewUrls) {
-    try {
-      const response = await fetch(url, { headers: { accept: "image/svg+xml,text/plain,*/*" } });
-      if (!response.ok) {
-        lastError = `SVG request returned ${response.status}`;
-        continue;
-      }
-
-      const text = (await response.text()).trim();
-      if (/<svg[\s>]/i.test(text)) {
-        const cleanSvg = sanitizeSvg(text);
-        state.svgCache.set(icon.id, cleanSvg);
-        return cleanSvg;
-      }
-      lastError = "Response was not SVG markup";
-    } catch (error) {
-      lastError = error instanceof Error ? error.message : "SVG request failed";
-    }
+function styleSvg(svgText, color, size) {
+  let svg = svgText.trim();
+  if (color) {
+    svg = svg.replace(/stroke="((?!none)[^"]*)"/gi, `stroke="${color}"`);
+    svg = svg.replace(/fill="((?!none)[^"]*)"/gi, `fill="${color}"`);
   }
-
-  throw new Error(`Could not fetch SVG for ${icon.displayName}. ${lastError}`);
-}
-
-function sanitizeSvg(svg) {
-  return svg
-    .replace(/<\?[\s\S]*?\?>/g, "")
-    .replace(/<!doctype[\s\S]*?>/gi, "")
-    .replace(/<script\b[\s\S]*?<\/script\s*>/gi, "")
-    .replace(/<foreignObject\b[\s\S]*?<\/foreignObject\s*>/gi, "")
-    .replace(/<a\b[\s\S]*?<\/a\s*>/gi, "")
-    .replace(/\s(on[a-z]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, "")
-    .replace(/\s(?:href|xlink:href)\s*=\s*(["'])\s*javascript:[\s\S]*?\1/gi, "")
-    .trim();
-}
-
-function styleSvg(svg, options) {
-  const color = options.color;
-  let next = svg;
-
-  if (!/currentColor/i.test(next)) {
-    next = next
-      .replace(/\sfill=(["'])(?!none|transparent|url\()[^"']*\1/gi, ` fill="${color}"`)
-      .replace(/\sstroke=(["'])(?!none|transparent|url\()[^"']*\1/gi, ` stroke="${color}"`);
+  if (size) {
+    svg = svg.replace(/\s(width|height)="[^"]*"/gi, "");
+    svg = svg.replace(/^<svg\b/i, `<svg width="${size}" height="${size}"`);
   }
-
-  const hasPaint = /\s(?:fill|stroke)=/i.test(next);
-  next = next.replace(/<svg\b([^>]*)>/i, (match, attrs) => {
-    let cleanAttrs = attrs
-      .replace(/\swidth=(["'])[\s\S]*?\1/i, "")
-      .replace(/\sheight=(["'])[\s\S]*?\1/i, "")
-      .replace(/\scolor=(["'])[\s\S]*?\1/i, "")
-      .trim();
-    if (!/\sxmlns=/.test(` ${cleanAttrs}`)) {
-      cleanAttrs += ' xmlns="http://www.w3.org/2000/svg"';
-    }
-    if (!hasPaint) {
-      cleanAttrs += ` fill="${color}"`;
-    }
-    return `<svg ${cleanAttrs} width="${options.size}" height="${options.size}" color="${color}" role="img" aria-label="${escapeAttr(options.title)}">`;
-  });
-
-  return next;
+  return svg;
 }
 
-function applyMask(element, icon) {
-  const url = icon.svgUrl.replace(/"/g, "%22");
-  element.style.webkitMask = `url("${url}") no-repeat center / contain`;
-  element.style.mask = `url("${url}") no-repeat center / contain`;
-}
-
-function getSelectedIcon() {
-  return state.icons.find((icon) => icon.id === state.selectedId) || state.icons[0] || null;
-}
-
-function updateSwatches() {
-  document.querySelectorAll(".swatch").forEach((swatch) => {
-    swatch.classList.toggle("is-active", swatch.getAttribute("data-color") === state.color);
-  });
-}
-
-function setStatus(message, tone = "") {
-  elements.statusBar.textContent = message;
-  elements.statusBar.classList.toggle("is-error", tone === "error");
-  elements.statusBar.classList.toggle("is-success", tone === "success");
-}
-
-function normalizeUrl(value) {
-  const url = stringFrom(value).trim();
-  if (!url) return "";
-  if (url.startsWith("//")) return `https:${url}`;
-  return /^https:\/\//i.test(url) ? url : "";
-}
-
-function formatIconTitle(value) {
-  return value
+function formatIconTitle(val) {
+  return val
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
     .split(/[-_\s]+/)
     .filter(Boolean)
-    .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+    .map((p) => `${p.charAt(0).toUpperCase()}${p.slice(1)}`)
     .join(" ");
 }
 
-function escapeAttr(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+const acronymParts = new Set(["ai", "bi", "fa", "gis", "ic", "mdi", "svg", "ui", "carbon", "uil", "uis"]);
+function formatIconifyTitle(id) {
+  return id
+    .replace(/^iconify-/, "")
+    .split("-")
+    .map((p) => (acronymParts.has(p) ? p.toUpperCase() : `${p.charAt(0).toUpperCase()}${p.slice(1)}`))
+    .join(" ");
 }
 
-function stringFrom(value) {
-  return typeof value === "string" ? value : "";
+function setStatus(text, type = "info") {
+  elements.statusBar.textContent = text;
+  elements.statusBar.className = `status-bar is-${type}`;
 }
 
-function numberFrom(value, fallback) {
-  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+function readSession() {
+  try {
+    const val = localStorage.getItem(SESSION_KEY);
+    return val ? JSON.parse(val) : null;
+  } catch {
+    return null;
+  }
 }
 
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
+function saveSession(sess) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(sess));
 }
 
-function isSafeHex(value) {
-  return /^#[0-9a-f]{3,8}$/i.test(String(value || ""));
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(PENDING_KEY);
+}
+
+function readPendingCode() {
+  return localStorage.getItem(PENDING_KEY) || "";
+}
+
+function savePendingCode(code) {
+  localStorage.setItem(PENDING_KEY, code);
+}
+
+function clearPendingCode() {
+  localStorage.removeItem(PENDING_KEY);
 }

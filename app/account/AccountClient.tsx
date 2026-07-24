@@ -19,6 +19,7 @@ type Entitlement = {
     | 'canva'
     | 'tailwind'
     | 'webflow'
+    | 'adobe'
   tier: 'free' | 'founder'
   status: 'active' | 'revoked'
   founder_number: number | null
@@ -30,6 +31,7 @@ const products = [
   { id: 'chrome', label: 'Chrome extension' },
   { id: 'framer', label: 'Framer plugin' },
   { id: 'webflow', label: 'Webflow extension' },
+  { id: 'adobe', label: 'Adobe Express plugin' },
   { id: 'raycast', label: 'Raycast extension' },
   { id: 'mcp', label: 'MCP server' },
   { id: 'jetbrains', label: 'JetBrains plugin' },
