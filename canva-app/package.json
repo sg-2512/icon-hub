@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@canva/asset": "^2.3.0",
-    "@canva/design": "^2.9.0",
+    "@canva/design": "^2.10.1",
     "@canva/intents": "^2.6.0",
     "@canva/platform": "^2.2.2",
     "react": "^19.2.3",
