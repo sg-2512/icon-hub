@@ -1,12 +1,10 @@
 {
-  "name": "iconsearch-adobe-plugin",
+  "name": "iconsearch-adobe-express",
   "version": "0.1.0",
   "private": true,
-  "description": "Adobe Express add-on for searching IconSearch and inserting styled SVG icons.",
-  "author": "iconsearch",
-  "license": "MIT",
+  "description": "IconSearch Add-on for Adobe Express",
   "scripts": {
-    "check": "node scripts/check-addon.mjs",
-    "start": "npx @adobe/ccweb-add-on-scripts start --src src"
+    "start": "powershell -Command \"$env:PATH = 'C:\\Program Files\\Git\\usr\\bin;' + $env:PATH; npx @adobe/ccweb-add-on-scripts start --hostname localhost\"",
+    "check": "node --check src/index.js"
   }
 }

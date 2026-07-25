@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       .eq('request_fingerprint', fingerprint)
       .gte('created_at', since)
 
-    if ((count || 0) >= 10) {
+    if ((count || 0) >= 100) {
       return publicJson({ error: 'Too many sign-in attempts. Try again shortly.' }, { status: 429 })
     }
 

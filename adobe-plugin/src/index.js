@@ -259,38 +259,9 @@ function updateAuthUI() {
   }
 }
 
-function openExternalUrl(url) {
-  if (window.addOnUISdk?.app?.openExternalURL) {
-    try {
-      window.addOnUISdk.app.openExternalURL(url);
-      return true;
-    } catch (e) {
-      console.warn("window.addOnUISdk openExternalURL error:", e);
-    }
-  }
-
-  if (state.sdk?.app?.openExternalURL) {
-    try {
-      state.sdk.app.openExternalURL(url);
-      return true;
-    } catch (e) {
-      console.warn("state.sdk openExternalURL error:", e);
-    }
-  }
-
-  try {
-    const w = window.open(url, "_blank", "noopener,noreferrer");
-    if (w) return true;
-  } catch (e) {
-    console.warn("window.open blocked:", e);
-  }
-
-  return false;
-}
-
 async function startAuthDevice() {
   setStatus("Starting IconSearch sign-in...");
-  elements.authStatusText.textContent = "Requesting sign-in URL...";
+  elements.authStatusText.textContent = "Requesting sign-in link...";
 
   try {
     const res = await fetch(`${API_BASE}/api/device/start`, {
@@ -305,31 +276,15 @@ async function startAuthDevice() {
     savePendingCode(data.deviceCode);
     state.pendingCode = data.deviceCode;
 
-    const uri = data.verificationUriComplete || `${API_BASE}/connect?user_code=${data.userCode}`;
+    const uri = data.verificationUriComplete || `${API_BASE}/connect?product=${PRODUCT}&code=${data.deviceCode}`;
 
-    // Create click button inside authStatusText
-    elements.authStatusText.innerHTML = "";
-    
-    const infoText = document.createElement("p");
-    infoText.style.margin = "0 0 8px 0";
-    infoText.style.fontSize = "12px";
-    infoText.style.color = "#64748b";
-    infoText.textContent = "Approve in your browser tab, then return here.";
-    elements.authStatusText.appendChild(infoText);
-
-    const openBtn = document.createElement("button");
-    openBtn.type = "button";
-    openBtn.className = "primary-button wide";
-    openBtn.style.background = "#2563eb";
-    openBtn.style.color = "#ffffff";
-    openBtn.textContent = "Open Sign-In Page";
-    openBtn.onclick = () => {
-      openExternalUrl(uri);
-    };
-    elements.authStatusText.appendChild(openBtn);
-
-    // Try auto-opening immediately as well
-    openExternalUrl(uri);
+    elements.authStatusText.innerHTML = `
+      <div style="margin-top:14px;padding:14px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;text-align:center;">
+        <p style="margin:0 0 6px 0;font-size:11px;color:#64748b;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">Connect IconSearch</p>
+        <p style="margin:0 0 12px 0;font-size:12px;color:#334155;line-height:1.4;">Click below to authorize this Adobe Express Add-on in your browser tab:</p>
+        <a href="${uri}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 18px;background:#2563eb;color:#ffffff;font-weight:700;border-radius:8px;text-decoration:none;font-size:13px;box-shadow:0 2px 6px rgba(37,99,235,0.25);">Open iconsearch.info/connect ↗</a>
+      </div>
+    `;
 
     startPollTimer();
   } catch (err) {
@@ -541,8 +496,7 @@ function renderResults() {
     nameSpan.className = "icon-name";
     nameSpan.textContent = icon.displayName;
 
-    const libSpan = document.createElement("span");
-    libSpan.className = "icon-lib";
+    const libSpan = document.className = "icon-lib";
     libSpan.textContent = icon.libraryName;
 
     card.appendChild(previewSpan);
