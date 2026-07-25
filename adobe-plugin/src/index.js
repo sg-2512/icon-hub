@@ -259,9 +259,29 @@ function updateAuthUI() {
   }
 }
 
+function openExternalUrl(url) {
+  if (state.sdkReady && state.sdk?.app?.openExternalURL) {
+    try {
+      state.sdk.app.openExternalURL(url);
+      return true;
+    } catch (e) {
+      console.warn("openExternalURL error:", e);
+    }
+  }
+
+  try {
+    const w = window.open(url, "_blank");
+    if (w) return true;
+  } catch (e) {
+    console.warn("window.open blocked:", e);
+  }
+
+  return false;
+}
+
 async function startAuthDevice() {
   setStatus("Starting IconSearch sign-in...");
-  elements.authStatusText.textContent = "Opening sign-in window...";
+  elements.authStatusText.innerHTML = "Opening sign-in window...";
 
   try {
     const res = await fetch(`${API_BASE}/api/device/start`, {
@@ -276,11 +296,15 @@ async function startAuthDevice() {
     savePendingCode(data.deviceCode);
     state.pendingCode = data.deviceCode;
 
-    if (data.verificationUriComplete) {
-      window.open(data.verificationUriComplete, "_blank");
+    const uri = data.verificationUriComplete || `${API_BASE}/connect?user_code=${data.userCode}`;
+    const opened = openExternalUrl(uri);
+
+    if (opened) {
+      elements.authStatusText.innerHTML = `Approve in your browser tab, then return here.<br/><a href="${uri}" target="_blank" style="color:#2563eb;font-weight:700;margin-top:6px;display:inline-block;">Click here if tab didn't open</a>`;
+    } else {
+      elements.authStatusText.innerHTML = `<a href="${uri}" target="_blank" style="color:#2563eb;font-weight:700;font-size:13px;display:inline-block;padding:8px 12px;background:#eff6ff;border-radius:6px;text-decoration:none;">Click to Open Sign-In Page</a>`;
     }
 
-    elements.authStatusText.textContent = "Approve in your browser tab, then return here.";
     startPollTimer();
   } catch (err) {
     elements.authStatusText.textContent = err.message || "Failed to start sign-in.";
@@ -549,7 +573,6 @@ async function insertIcon(icon) {
       await state.sdk.app.document.addImage(blob, { title: `${icon.displayName} icon` });
       setStatus(`Inserted ${icon.displayName} into document.`, "success");
     } else {
-      // Fallback download if opened outside Adobe Express iframe
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
