@@ -521,7 +521,7 @@ function iconsearch_rest_icons( WP_REST_Request $request ) {
 		'style'     => sanitize_key( (string) $request->get_param( 'style' ) ) ?: 'all',
 		'legalOnly' => '0' === (string) $request->get_param( 'legalOnly' ) ? '0' : '1',
 		'page'      => max( 1, absint( $request->get_param( 'page' ) ) ),
-		'limit'     => min( 60, max( 1, $limit ?: 40 ) ),
+		'limit'     => min( 120, max( 1, $limit ?: 120 ) ),
 		'sort'      => $sort,
 	);
 

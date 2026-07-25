@@ -13,43 +13,19 @@
 Run this from the repository root:
 
 ```powershell
-$source = Resolve-Path ".\wordpress-plugin"
-$staging = Join-Path $source ".release"
-$packageRoot = Join-Path $staging "iconsearch"
-$dist = Join-Path $source "dist"
-$zip = Join-Path $dist "IconSearch.zip"
-
-if (Test-Path $staging) {
-    Remove-Item -LiteralPath $staging -Recurse -Force
-}
-
-New-Item -ItemType Directory -Path (Join-Path $packageRoot "assets") -Force | Out-Null
-New-Item -ItemType Directory -Path $dist -Force | Out-Null
-
-Copy-Item -LiteralPath (Join-Path $source "iconsearch.php") -Destination $packageRoot
-Copy-Item -LiteralPath (Join-Path $source "readme.txt") -Destination $packageRoot
-Copy-Item -LiteralPath (Join-Path $source "uninstall.php") -Destination $packageRoot
-Copy-Item -LiteralPath (Join-Path $source "assets\editor.js") -Destination (Join-Path $packageRoot "assets")
-Copy-Item -LiteralPath (Join-Path $source "assets\editor.css") -Destination (Join-Path $packageRoot "assets")
-
-if (Test-Path $zip) {
-    Remove-Item -LiteralPath $zip -Force
-}
-
-Compress-Archive -Path $packageRoot -DestinationPath $zip -CompressionLevel Optimal
-Remove-Item -LiteralPath $staging -Recurse -Force
+.\wordpress-plugin\scripts\build-release.ps1
 ```
 
 The result is:
 
 ```text
-wordpress-plugin/dist/IconSearch.zip
+wordpress-plugin/dist/iconsearch.zip
 ```
 
 ## Pre-submission inspection
 
 ```powershell
-tar -tf .\wordpress-plugin\dist\IconSearch.zip
+tar -tf .\wordpress-plugin\dist\iconsearch.zip
 ```
 
 The archive must contain only:
@@ -64,11 +40,15 @@ iconsearch/uninstall.php
 
 Do not include local logs, `.env` files, API keys, `node_modules`, repository metadata, screenshots, or development-only documents.
 
+Do not replace the release script with Windows `Compress-Archive`. That command
+can store backslashes in ZIP entry names, which causes some WordPress
+environments to install the plugin into an invalid nested folder.
+
 ## Submit
 
 1. Sign in to WordPress.org.
 2. Open the Add Your Plugin page.
-3. Upload `IconSearch.zip`.
+3. Upload `iconsearch.zip`.
 4. Use a slug beginning with the IconSearch brand, such as `iconsearch`, if available.
 5. Wait for the Plugin Review Team email.
 6. Address review feedback in the repository before uploading a corrected package.

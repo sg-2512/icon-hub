@@ -6,6 +6,9 @@
 	}
 
 	var h = wp.element.createElement;
+	var memo = wp.element.memo || function ( component ) {
+		return component;
+	};
 	var useEffect = wp.element.useEffect;
 	var useMemo = wp.element.useMemo;
 	var useRef = wp.element.useRef;
@@ -58,6 +61,7 @@
 
 	var SIZE_PRESETS = [ 24, 32, 48, 64, 96 ];
 	var COLOR_PRESETS = [ '#111827', '#2563eb', '#7c3aed', '#e11d48', '#ea580c', '#16a34a' ];
+	var ICONS_PER_PAGE = 120;
 
 	function request( path, options ) {
 		return apiFetch( Object.assign( { path: restPath + path }, options || {} ) );
@@ -314,15 +318,53 @@
 		return h(
 			'div',
 			{ className: 'iconsearch-loading-grid', 'aria-label': 'Loading icons' },
-			[ 0, 1, 2, 3, 4, 5 ].map( function ( index ) {
+			Array.from( { length: 21 }, function ( _, index ) {
 				return h(
 					'div',
 					{ key: index, className: 'iconsearch-skeleton-card' },
-					h( 'span', { className: 'iconsearch-skeleton-preview' } ),
-					h( 'span', { className: 'iconsearch-skeleton-line' } ),
-					h( 'span', { className: 'iconsearch-skeleton-line is-short' } )
+					h( 'span', { className: 'iconsearch-skeleton-preview' } )
 				);
 			} )
+		);
+	}
+
+	function IconSearchLogo( props ) {
+		var size = props && props.size ? props.size : 20;
+		return h(
+			'svg',
+			{
+				width: String( size ),
+				height: String( size ),
+				viewBox: '0 0 128 128',
+				fill: 'none',
+				xmlns: 'http://www.w3.org/2000/svg',
+				style: { display: 'block', borderRadius: '4px' },
+			},
+			h( 'rect', { width: '128', height: '128', rx: '28', fill: 'url(#iconsearch-logo-grad)' } ),
+			h( 'circle', { cx: '100', cy: '28', r: '30', fill: 'white', fillOpacity: '0.18' } ),
+			h( 'path', { d: 'M32 42H44V86H32V42Z', fill: 'white' } ),
+			h( 'path', {
+				d: 'M55 84.5V72.8C59.8 76.2 65 77.9 70.6 77.9C74.2 77.9 77 77.3 79 76.1C81 74.9 82 73.2 82 71C82 69.1 81.2 67.6 79.7 66.5C78.2 65.4 75.5 64.3 71.6 63.1L67.1 61.8C59.2 59.4 55.2 54.8 55.2 48C55.2 42.9 57.2 39 61.3 36.2C65.4 33.4 70.7 32 77.2 32C82.9 32 87.8 32.8 92 34.5V45.7C87.7 43 82.9 41.7 77.7 41.7C74.8 41.7 72.5 42.2 70.8 43.2C69.1 44.2 68.2 45.7 68.2 47.6C68.2 49.4 69 50.8 70.5 51.8C72 52.8 74.7 53.8 78.6 55L82.4 56.2C86.8 57.6 90 59.4 92.1 61.8C94.2 64.1 95.3 67.1 95.3 70.9C95.3 76.3 93.2 80.5 89.1 83.4C85 86.3 79.2 87.8 71.7 87.8C65.4 87.8 59.8 86.7 55 84.5Z',
+				fill: 'white',
+			} ),
+			h(
+				'defs',
+				null,
+				h(
+					'linearGradient',
+					{
+						id: 'iconsearch-logo-grad',
+						x1: '17',
+						y1: '111',
+						x2: '111',
+						y2: '17',
+						gradientUnits: 'userSpaceOnUse',
+					},
+					h( 'stop', { stopColor: '#22D3EE' } ),
+					h( 'stop', { offset: '0.55', stopColor: '#3B82F6' } ),
+					h( 'stop', { offset: '1', stopColor: '#8B5CF6' } )
+				)
+			)
 		);
 	}
 
@@ -330,7 +372,11 @@
 		return h(
 			'div',
 			{ className: 'iconsearch-auth' },
-			h( 'div', { className: 'iconsearch-auth-mark', 'aria-hidden': 'true' }, 'IS' ),
+			h(
+				'div',
+				{ className: 'iconsearch-auth-mark', 'aria-hidden': 'true' },
+				h( IconSearchLogo, { size: 54 } )
+			),
 			h( 'h2', null, 'Connect IconSearch' ),
 			h(
 				'p',
@@ -389,7 +435,10 @@
 		);
 	}
 
-	function IconCard( props ) {
+	function IconCardComponent( props ) {
+		var iconName = displayName( props.icon );
+		var libraryName = props.icon.libraryName || props.icon.library;
+
 		return h(
 			'button',
 			{
@@ -405,7 +454,12 @@
 				onDragStart: function ( event ) {
 					beginIconDrag( event, props.icon, props.settings );
 				},
-				title: 'Click to select. Double-click or drag to insert.',
+				'aria-label': iconName + ' from ' + libraryName,
+				title:
+					iconName +
+					' · ' +
+					libraryName +
+					'\nClick to select. Double-click or drag to insert.',
 			},
 			h(
 				'span',
@@ -413,17 +467,22 @@
 				h( IconShape, {
 					icon: props.icon,
 					color: props.settings.color,
-					size: Math.min( 44, props.settings.size ),
+					size: clamp( props.settings.size, 28, 36 ),
 				} )
 			),
-			h( 'span', { className: 'iconsearch-card-name' }, displayName( props.icon ) ),
-			h(
-				'span',
-				{ className: 'iconsearch-card-library' },
-				props.icon.libraryName || props.icon.library
-			)
+			h( 'span', { className: 'iconsearch-card-name' }, iconName ),
+			h( 'span', { className: 'iconsearch-card-library' }, libraryName )
 		);
 	}
+
+	var IconCard = memo( IconCardComponent, function ( previous, next ) {
+		return (
+			previous.icon === next.icon &&
+			previous.selected === next.selected &&
+			previous.settings.size === next.settings.size &&
+			previous.settings.color === next.settings.color
+		);
+	} );
 
 	function IconSearchSidebar() {
 		var _useState = useState( 'checking' );
@@ -471,9 +530,6 @@
 		var _useState15 = useState( false );
 		var loading = _useState15[ 0 ];
 		var setLoading = _useState15[ 1 ];
-		var _useState16 = useState( false );
-		var loadingMore = _useState16[ 0 ];
-		var setLoadingMore = _useState16[ 1 ];
 		var _useState17 = useState( null );
 		var selected = _useState17[ 0 ];
 		var setSelected = _useState17[ 1 ];
@@ -485,6 +541,7 @@
 		var setError = _useState19[ 1 ];
 		var authAttempt = useRef( 0 );
 		var searchAttempt = useRef( 0 );
+		var loadingMoreRef = useRef( false );
 		var selectedIcon =
 			icons.find( function ( icon ) {
 				return selected && icon.id === selected.id;
@@ -541,7 +598,7 @@
 						style: style,
 						legalOnly: legalOnly ? '1' : '0',
 						page: '1',
-						limit: '40',
+						limit: String( ICONS_PER_PAGE ),
 						sort: query.trim() ? 'relevance' : 'popular',
 					} );
 
@@ -723,6 +780,11 @@
 						setAuthMessage( '' );
 						setVerificationUrl( '' );
 						setNotice( 'IconSearch connected.' );
+						setTimeout( function () {
+							if ( attempt === authAttempt.current ) {
+								setNotice( '' );
+							}
+						}, 2400 );
 						return;
 					}
 
@@ -789,9 +851,10 @@
 		}
 
 		function loadMore() {
-			if ( loadingMore || page >= totalPages ) return;
-			setLoadingMore( true );
+			if ( loading || loadingMoreRef.current || page >= totalPages ) return;
+			loadingMoreRef.current = true;
 			setError( '' );
+			var attempt = searchAttempt.current;
 			var nextPage = page + 1;
 			var parameters = new URLSearchParams( {
 				q: query.trim(),
@@ -799,12 +862,13 @@
 				style: style,
 				legalOnly: legalOnly ? '1' : '0',
 				page: String( nextPage ),
-				limit: '40',
+				limit: String( ICONS_PER_PAGE ),
 				sort: query.trim() ? 'relevance' : 'popular',
 			} );
 
 			request( '/icons?' + parameters.toString() )
 				.then( function ( payload ) {
+					if ( attempt !== searchAttempt.current ) return;
 					var additional = ( Array.isArray( payload.icons ) ? payload.icons : [] )
 						.map( normalizeIcon )
 						.filter( Boolean );
@@ -826,6 +890,7 @@
 					setTotalPages( Number( payload.totalPages ) || totalPages );
 				} )
 				.catch( function ( loadError ) {
+					if ( attempt !== searchAttempt.current ) return;
 					setError(
 						loadError && loadError.message
 							? loadError.message
@@ -833,8 +898,20 @@
 					);
 				} )
 				.finally( function () {
-					setLoadingMore( false );
+					loadingMoreRef.current = false;
 				} );
+		}
+
+		function handleResultsScroll( event ) {
+			var resultsScroller = event.currentTarget;
+			var remaining =
+				resultsScroller.scrollHeight -
+				resultsScroller.scrollTop -
+				resultsScroller.clientHeight;
+
+			if ( remaining <= 900 ) {
+				loadMore();
+			}
 		}
 
 		var content;
@@ -858,12 +935,19 @@
 				'div',
 				{ className: 'iconsearch-app' },
 				h(
+					'div',
+					{ className: 'iconsearch-fixed-pane' },
+				h(
 					'header',
 					{ className: 'iconsearch-account-bar' },
 					h(
 						'div',
 						{ className: 'iconsearch-brand' },
-						h( 'span', { className: 'iconsearch-mark', 'aria-hidden': 'true' }, 'IS' ),
+						h(
+							'span',
+							{ className: 'iconsearch-mark', 'aria-hidden': 'true' },
+							h( IconSearchLogo, { size: 32 } )
+						),
 						h(
 							'span',
 							null,
@@ -1118,13 +1202,23 @@
 					  )
 					: null,
 				notice ? h( 'div', { className: 'iconsearch-notice' }, notice ) : null,
-				error ? h( 'div', { className: 'iconsearch-error' }, error ) : null,
+				error ? h( 'div', { className: 'iconsearch-error' }, error ) : null
+				),
+				h(
+					'div',
+					{ className: 'iconsearch-results-pane' },
 				h(
 					'div',
 					{ className: 'iconsearch-results-heading' },
 					h( 'strong', null, query.trim() ? 'Search results' : 'Popular icons' ),
 					h( 'span', null, 'Drag or double-click to insert' )
 				),
+				h(
+					'div',
+					{
+						className: 'iconsearch-results-scroll',
+						onScroll: handleResultsScroll,
+					},
 				loading && ! icons.length
 					? h( LoadingGrid )
 					: h(
@@ -1143,19 +1237,9 @@
 					  ),
 				! loading && ! icons.length
 					? h( 'div', { className: 'iconsearch-empty' }, 'No icons found. Try another search or filter.' )
-					: null,
-				page < totalPages
-					? h(
-							'button',
-							{
-								type: 'button',
-								className: 'iconsearch-load-more',
-								onClick: loadMore,
-								disabled: loadingMore,
-							},
-							loadingMore ? 'Loading...' : 'Load more icons'
-					  )
 					: null
+				)
+				)
 			);
 		}
 
@@ -1164,7 +1248,7 @@
 			{
 				name: 'iconsearch-sidebar',
 				title: 'IconSearch',
-				icon: 'search',
+				icon: h( IconSearchLogo, { size: 20 } ),
 				className: 'iconsearch-sidebar',
 			},
 			h( 'div', { className: 'iconsearch-panel' }, content )
@@ -1173,6 +1257,6 @@
 
 	registerPlugin( 'iconsearch', {
 		render: IconSearchSidebar,
-		icon: 'search',
+		icon: h( IconSearchLogo, { size: 20 } ),
 	} );
 } )( window.wp );
