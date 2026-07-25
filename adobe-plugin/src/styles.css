@@ -55,18 +55,11 @@ button, input, select {
   gap: 8px;
 }
 
-.brand-mark-wrapper {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-logo-svg {
+.brand-logo-img {
   width: 28px;
   height: 28px;
   border-radius: 7px;
+  object-fit: cover;
   box-shadow: 0 2px 6px rgba(37,99,235,0.25);
 }
 
@@ -151,8 +144,12 @@ h1 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
-.auth-icon-badge {
-  font-size: 32px;
+.auth-logo-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.25);
 }
 
 .auth-card h2 {
