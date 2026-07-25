@@ -7,15 +7,6 @@ plugins {
 group = "info.iconsearch"
 version = "0.1.0"
 
-kotlin {
-    jvmToolchain(21)
-}
-
-tasks.withType<JavaCompile> {
-    sourceCompatibility = "21"
-    targetCompatibility = "21"
-}
-
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
