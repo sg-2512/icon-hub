@@ -102,8 +102,8 @@ private class IconSearchPanel(private val project: Project) : JBPanel<IconSearch
         val constraints = GridBagConstraints().apply {
             fill = GridBagConstraints.HORIZONTAL
             weightx = 1.0
-            padx = 4
-            pady = 4
+            ipadx = 4
+            ipady = 4
         }
 
         constraints.gridx = 0
