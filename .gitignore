@@ -83,6 +83,9 @@ next-env.d.ts
 /google-slides-addon/.clasp.json
 /sketch-plugin/node_modules
 /sketch-plugin/dist
+/wordpress-plugin/.release
+/wordpress-plugin/dist
+/wordpress-plugin/tests/playground*.log
 /.office-addin-debugging
 /dist/
 /public/downloads/iconsearch-chrome-extension.zip

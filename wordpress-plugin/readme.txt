@@ -1,52 +1,98 @@
 === IconSearch ===
 Contributors: iconsearch
-Tags: icons, svg, gutenberg, block editor, design
+Tags: icons, svg, block editor, design, gutenberg
 Requires at least: 6.3
-Tested up to: 6.6
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Search free SVG icons in the WordPress block editor and insert styled, draggable icons into posts and pages.
+Search, customize, and insert inline SVG icons in the block editor with a free IconSearch account.
 
 == Description ==
 
-IconSearch adds a focused sidebar to the WordPress block editor. Search live icons, preview them clearly, adjust size and color, and insert the selected icon into your content.
+IconSearch adds a focused icon sidebar to the WordPress block editor. Connect a free IconSearch account, search the live icon catalog, adjust size and color, and insert a self-contained inline SVG without leaving WordPress.
 
-The plugin inserts icons as HTML blocks with inline mask styles. This keeps the selected icon size and color visible on the front end without storing media files or bundling an offline icon database.
-
-== Features ==
+= Features =
 
 * Search the live IconSearch catalog.
-* Filter by library, icon style, and commercial-safe licenses.
-* Large icon preview and high-contrast result cards.
-* Size slider and color controls.
-* Click-to-insert and drag-to-insert workflows.
-* No account required in this first version.
+* Filter by library, icon style, and commercial-safe license status.
+* Preview icons clearly in a compact two-column grid.
+* Set icon size with presets, a slider, or an exact pixel value.
+* Choose a preset color, color picker value, or custom hex color.
+* Insert icons as self-contained inline SVG in Custom HTML blocks.
+* Copy customized SVG markup.
+* Double-click or drag an icon to insert it.
+* Keep each WordPress editor's IconSearch connection separate.
+
+= IconSearch account =
+
+A free IconSearch account is required. Click "Sign in with IconSearch" in the editor sidebar, complete sign-in on iconsearch.info, approve the connection, and return to WordPress.
+
+The plugin never receives your IconSearch password. It stores an encrypted, revocable session token in your WordPress user metadata.
+
+= External service =
+
+This plugin relies on IconSearch at https://iconsearch.info to provide account authentication, icon search results, and SVG files.
+
+When a connected editor signs in or uses icon search, the plugin sends the device sign-in request, IconSearch session token, search text, selected filters, and requested icon identifiers to iconsearch.info. This happens only for logged-in WordPress editors who intentionally connect an IconSearch account and use the sidebar. The plugin does not send visitor data or published post content.
+
+IconSearch Terms: https://iconsearch.info/terms
+
+IconSearch Privacy Policy: https://iconsearch.info/privacy-policy
 
 == Installation ==
 
-1. Upload the `iconsearch` folder to `/wp-content/plugins/`.
-2. Activate IconSearch from the Plugins screen.
-3. Open the block editor and use the IconSearch sidebar.
+1. Upload the `iconsearch` folder to `/wp-content/plugins/` or install the zip from **Plugins > Add New Plugin**.
+2. Activate **IconSearch**.
+3. Open a post or page in the block editor.
+4. Open the IconSearch sidebar from the editor toolbar.
+5. Connect a free IconSearch account.
 
 == Frequently Asked Questions ==
 
-= Does this bundle icons? =
+= Is an IconSearch account required? =
 
-No. Results and SVG references come from IconSearch and trusted icon CDNs.
+Yes. A free account is required before icon search and insertion become available.
+
+= Does the plugin store my IconSearch password? =
+
+No. Authentication happens on iconsearch.info. WordPress stores only an encrypted, revocable session token for the connected editor.
+
+= Are inserted icons loaded from an external CDN? =
+
+No. The selected SVG markup is sanitized and stored directly in the post's Custom HTML block. The saved post does not need an external image URL to render the inserted icon.
 
 = Can I change icon color and size? =
 
-Yes. Use the sidebar controls before inserting an icon.
+Yes. Select an icon and use the size and color controls before inserting or copying it.
 
-= Does drag and drop work? =
+= What does drag and drop do? =
 
-Yes. Drag an icon card from the sidebar into the block editor. If a theme or editor setup blocks dropping, use the Insert selected button.
+Drag an icon card from the sidebar into the editor canvas. The plugin inserts the customized SVG at the current block editor insertion point. Double-click and the Insert SVG button provide the same result.
+
+= What data is sent to IconSearch? =
+
+For connected editors, the plugin sends authentication requests, the IconSearch session token, search text, selected filters, and requested icon identifiers. No visitor data or published post content is sent.
+
+== Privacy ==
+
+IconSearch connections are saved separately for each WordPress user. The session token is encrypted with the site's WordPress authentication salt before storage in user metadata. Deleting the plugin removes these saved sessions.
+
+Site owners can review suggested privacy-policy wording under **Settings > Privacy**.
 
 == Changelog ==
 
+= 0.2.0 =
+
+* Added required IconSearch account connection and browser approval.
+* Added encrypted per-user session storage and authenticated WordPress REST proxies.
+* Rebuilt the Gutenberg sidebar with faster loading states and aligned controls.
+* Added exact sizing, presets, custom colors, copy, double-click, and drag insertion.
+* Changed insertion to sanitized, self-contained inline SVG.
+* Added external-service and privacy disclosures.
+
 = 0.1.0 =
 
-* Initial local development version.
+* Initial local prototype.

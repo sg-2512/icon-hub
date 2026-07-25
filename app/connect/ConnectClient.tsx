@@ -31,6 +31,7 @@ const productNames: Record<string, string> = {
   tailwind: 'Tailwind plugin',
   webflow: 'Webflow extension',
   adobe: 'Adobe Express plugin',
+  wordpress: 'WordPress plugin',
 }
 
 const productShortNames: Record<string, string> = {
@@ -46,6 +47,7 @@ const productShortNames: Record<string, string> = {
   tailwind: 'Tailwind',
   webflow: 'Webflow',
   adobe: 'Adobe Express',
+  wordpress: 'WordPress',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {
