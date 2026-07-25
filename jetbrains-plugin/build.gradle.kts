@@ -9,6 +9,14 @@ version = "0.1.0"
 
 kotlin {
     jvmToolchain(23)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_23)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    sourceCompatibility = "23"
+    targetCompatibility = "23"
 }
 
 dependencies {
