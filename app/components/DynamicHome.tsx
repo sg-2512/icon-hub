@@ -690,7 +690,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
             gap: '32px',
             alignItems: 'stretch'
           }}>
@@ -1512,7 +1512,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: '16px'
           }}>
             {initialLibraries.map(icon => (

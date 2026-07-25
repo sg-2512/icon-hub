@@ -28,16 +28,18 @@ export default function HomeSearch() {
         <label className={styles.visuallyHidden} htmlFor="home-icon-search">
           Search the icon catalog
         </label>
-        <Search aria-hidden="true" className={styles.searchIcon} size={20} strokeWidth={2} />
-        <input
-          suppressHydrationWarning
-          id="home-icon-search"
-          className={styles.searchInput}
-          type="search"
-          placeholder={`Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons — try “camera” or “settings”`}
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
+        <div className={styles.searchInputRow}>
+          <Search aria-hidden="true" className={styles.searchIcon} size={20} strokeWidth={2} />
+          <input
+            suppressHydrationWarning
+            id="home-icon-search"
+            className={styles.searchInput}
+            type="search"
+            placeholder={`Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons...`}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </div>
         <button suppressHydrationWarning className={styles.searchButton} type="submit">
           Search
         </button>

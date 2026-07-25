@@ -309,9 +309,9 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
     <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
 
       {/* Dynamic workspace wrapper */}
-      <section style={{
+      <section className="icon-detail-workspace-grid" style={{
         display: 'grid',
-        gridTemplateColumns: 'minmax(300px, 1.2fr) minmax(320px, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
         gap: '32px',
         background: 'var(--bg-card)',
         border: '1px solid var(--border)',
@@ -809,14 +809,14 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           Icons in Action
         </h2>
 
-        <div style={{
+        <div className="icons-in-action-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(12, 1fr)',
           gridAutoRows: 'minmax(120px, auto)',
           gap: '24px'
         }}>
           {/* Card 1: Web Application Mockup (Span 8 cols, 2 rows) */}
-          <div style={{
+          <div className="icons-action-card card-webapp" style={{
             gridColumn: 'span 8',
             gridRow: 'span 2',
             background: 'var(--bg-card)',
@@ -869,8 +869,8 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
                 </div>
               </div>
               {/* Browser Navbar & page */}
-              <div style={{ display: 'flex', flexGrow: 1, minHeight: '140px' }}>
-                <div style={{ width: '160px', borderRight: '1px solid var(--border)', padding: '14px', display: 'flex', flexDirection: 'column', gap: '8px', background: 'rgba(0,0,0,0.1)' }}>
+              <div className="webapp-mockup-body" style={{ display: 'flex', flexGrow: 1, minHeight: '140px' }}>
+                <div className="webapp-sidebar" style={{ width: '160px', borderRight: '1px solid var(--border)', padding: '14px', display: 'flex', flexDirection: 'column', gap: '8px', background: 'rgba(0,0,0,0.1)' }}>
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -912,7 +912,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           </div>
 
           {/* Card 2: Stepper Mockup (Span 4 cols, 1 row) */}
-          <div style={{
+          <div className="icons-action-card card-stepper" style={{
             gridColumn: 'span 4',
             gridRow: 'span 1',
             background: 'var(--bg-card)',
@@ -973,7 +973,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           </div>
 
           {/* Card 3: Mobile Button UI Actions (Span 4 cols, 1 row) */}
-          <div style={{
+          <div className="icons-action-card card-buttons" style={{
             gridColumn: 'span 4',
             gridRow: 'span 1',
             background: 'var(--bg-card)',
@@ -1029,7 +1029,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           </div>
 
           {/* Card 4: Size Scale Grid (Span 6 cols, 1 row) */}
-          <div style={{
+          <div className="icons-action-card card-scalability" style={{
             gridColumn: 'span 6',
             gridRow: 'span 1',
             background: 'var(--bg-card)',
@@ -1044,7 +1044,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
             <h3 style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', margin: 0, textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: 'JetBrains Mono, monospace' }}>
               SCALABILITY & CLARITY
             </h3>
-            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', flexGrow: 1, paddingBottom: '4px' }}>
+            <div className="scalability-icons-row" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', flexGrow: 1, paddingBottom: '4px' }}>
               {[12, 16, 24, 32, 48].map(s => (
                 <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                   <div style={{
@@ -1066,7 +1066,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
           </div>
 
           {/* Card 5: Quotes box (Span 6 cols, 1 row) */}
-          <div style={{
+          <div className="icons-action-card card-quote" style={{
             gridColumn: 'span 6',
             gridRow: 'span 1',
             background: 'var(--bg-card)',

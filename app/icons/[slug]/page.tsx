@@ -277,7 +277,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>
           STATS
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {[
             { label: 'Icons', value: data.stats.iconCount.toLocaleString() },
             { label: 'GitHub Stars', value: data.stats.stars.toLocaleString() },
@@ -325,7 +325,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
             {data.stats.license === 'CC0 1.0 (Public Domain)' && `CC0 1.0 is a Universal Public Domain Dedication. The creators of ${data.name} have waived all copyrights and related rights worldwide. You are officially allowed to copy, modify, distribute, and perform the work, even for commercial purposes, without asking permission or providing attribution. It is the most open license available.`}
             {!['MIT', 'ISC', 'Apache 2.0', 'CC0 1.0 (Public Domain)'].includes(data.stats.license) && `${data.name} is licensed under the ${data.stats.license} license, which is a developer-friendly permissive open-source license. You are permitted to use it free of charge in your web and mobile applications, including commercial and SaaS products, without strict attribution requirements.`}
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: '16px', borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>✓ Permissions</div>
               <ul style={{ paddingLeft: '16px', margin: 0, fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>
@@ -412,7 +412,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
           PROS & CONS
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: '24px' }}>
           <div>
             <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '16px' }}>PROS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -443,7 +443,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
           WHO SHOULD USE THIS
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: '24px' }}>
           <div>
             <div style={{ fontSize: '12px', color: 'var(--green)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>USE IF YOU...</div>
             {data.whoShouldUse.map((item, i) => (
@@ -492,7 +492,7 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
           EXPLORE MORE
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: '24px' }}>
           <div>
             <h3 style={{ fontSize: '12px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace', marginBottom: '12px' }}>Framework Integration</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

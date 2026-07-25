@@ -44,7 +44,7 @@ export default function FreeSvgIconsPage() {
 
       {/* Stats Bar */}
       <section style={{ marginBottom: '48px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {[
             { label: 'Searchable Index', value: SEARCHABLE_ICON_COUNT.toLocaleString('en-US') },
             { label: 'Reviewed Libraries', value: NAMED_LIBRARY_COUNT.toString() },
@@ -64,7 +64,7 @@ export default function FreeSvgIconsPage() {
         <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
           REVIEWED OPEN-SOURCE ICON LIBRARIES
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {icons.map(icon => (
             <Link key={icon.slug} href={`/icons/${icon.slug}`} className="card-hover" style={{
               background: 'var(--bg-card)',

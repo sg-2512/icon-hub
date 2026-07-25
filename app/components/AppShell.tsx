@@ -20,13 +20,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div className="app-main">
         {children}
 
-        <footer style={{
-          borderTop: '1px solid var(--border)',
-          padding: '48px',
-          marginTop: '80px',
-        }}>
+        <footer className="app-footer">
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: '40px', marginBottom: '48px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(140px, 100%), 1fr))', gap: '40px', marginBottom: '48px' }}>
               <div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: '16px', color: 'var(--text)', marginBottom: '12px' }}>
                   <span style={{ color: 'var(--accent)' }}>&lt;</span>IconSearch<span style={{ color: 'var(--accent)' }}>/&gt;</span>

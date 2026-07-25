@@ -155,13 +155,16 @@ export default function CartDrawer() {
     const onStorage = (e: StorageEvent) => {
       if (e.key === PACKS_KEY || e.key === ACTIVE_KEY) refresh()
     }
+    const onCartToggle = () => setOpen((prev) => !prev)
 
     window.addEventListener(EVENT_NAME, onCartUpdated)
     window.addEventListener('storage', onStorage)
+    window.addEventListener('cart-toggle', onCartToggle)
     return () => {
       window.clearTimeout(initialRefresh)
       window.removeEventListener(EVENT_NAME, onCartUpdated)
       window.removeEventListener('storage', onStorage)
+      window.removeEventListener('cart-toggle', onCartToggle)
     }
   }, [refresh])
 
@@ -285,6 +288,7 @@ export default function CartDrawer() {
       {/* ---------- Floating Badge ---------- */}
       <button
         suppressHydrationWarning={true}
+        className="cart-floating-fab"
         aria-label="Open cart"
         onClick={() => setOpen(true)}
         style={{
@@ -368,7 +372,7 @@ export default function CartDrawer() {
           position: 'fixed',
           top: 0,
           right: 0,
-          width: 380,
+          width: 'min(380px, 100vw)',
           height: '100vh',
           zIndex: 10001,
           background: 'rgba(18,18,21,0.97)',
@@ -775,7 +779,7 @@ export default function CartDrawer() {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '520px',
+            width: 'min(520px, 94vw)',
             maxHeight: '90vh',
             overflowY: 'auto',
             background: 'rgba(18, 18, 21, 0.98)',
