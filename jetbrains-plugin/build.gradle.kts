@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.1.21"
-    id("org.jetbrains.intellij.platform") version "2.18.1"
+    id("org.jetbrains.kotlin.jvm") version "2.0.21"
+    id("org.jetbrains.intellij.platform") version "2.0.0"
 }
 
 group = "info.iconsearch"
@@ -12,10 +12,10 @@ kotlin {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
     intellijPlatform {
-        intellijIdea("2025.1")
+        create("2024.1")
         instrumentationTools()
         pluginVerifier()
         zipSigner()
@@ -29,7 +29,7 @@ intellijPlatform {
         version = project.version.toString()
 
         ideaVersion {
-            sinceBuild = "251"
+            sinceBuild = "241"
         }
     }
 }
