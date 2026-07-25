@@ -260,17 +260,26 @@ function updateAuthUI() {
 }
 
 function openExternalUrl(url) {
-  if (state.sdkReady && state.sdk?.app?.openExternalURL) {
+  if (window.addOnUISdk?.app?.openExternalURL) {
+    try {
+      window.addOnUISdk.app.openExternalURL(url);
+      return true;
+    } catch (e) {
+      console.warn("window.addOnUISdk openExternalURL error:", e);
+    }
+  }
+
+  if (state.sdk?.app?.openExternalURL) {
     try {
       state.sdk.app.openExternalURL(url);
       return true;
     } catch (e) {
-      console.warn("openExternalURL error:", e);
+      console.warn("state.sdk openExternalURL error:", e);
     }
   }
 
   try {
-    const w = window.open(url, "_blank");
+    const w = window.open(url, "_blank", "noopener,noreferrer");
     if (w) return true;
   } catch (e) {
     console.warn("window.open blocked:", e);
@@ -281,7 +290,7 @@ function openExternalUrl(url) {
 
 async function startAuthDevice() {
   setStatus("Starting IconSearch sign-in...");
-  elements.authStatusText.innerHTML = "Opening sign-in window...";
+  elements.authStatusText.textContent = "Requesting sign-in URL...";
 
   try {
     const res = await fetch(`${API_BASE}/api/device/start`, {
@@ -297,13 +306,30 @@ async function startAuthDevice() {
     state.pendingCode = data.deviceCode;
 
     const uri = data.verificationUriComplete || `${API_BASE}/connect?user_code=${data.userCode}`;
-    const opened = openExternalUrl(uri);
 
-    if (opened) {
-      elements.authStatusText.innerHTML = `Approve in your browser tab, then return here.<br/><a href="${uri}" target="_blank" style="color:#2563eb;font-weight:700;margin-top:6px;display:inline-block;">Click here if tab didn't open</a>`;
-    } else {
-      elements.authStatusText.innerHTML = `<a href="${uri}" target="_blank" style="color:#2563eb;font-weight:700;font-size:13px;display:inline-block;padding:8px 12px;background:#eff6ff;border-radius:6px;text-decoration:none;">Click to Open Sign-In Page</a>`;
-    }
+    // Create click button inside authStatusText
+    elements.authStatusText.innerHTML = "";
+    
+    const infoText = document.createElement("p");
+    infoText.style.margin = "0 0 8px 0";
+    infoText.style.fontSize = "12px";
+    infoText.style.color = "#64748b";
+    infoText.textContent = "Approve in your browser tab, then return here.";
+    elements.authStatusText.appendChild(infoText);
+
+    const openBtn = document.createElement("button");
+    openBtn.type = "button";
+    openBtn.className = "primary-button wide";
+    openBtn.style.background = "#2563eb";
+    openBtn.style.color = "#ffffff";
+    openBtn.textContent = "Open Sign-In Page";
+    openBtn.onclick = () => {
+      openExternalUrl(uri);
+    };
+    elements.authStatusText.appendChild(openBtn);
+
+    // Try auto-opening immediately as well
+    openExternalUrl(uri);
 
     startPollTimer();
   } catch (err) {
