@@ -8,15 +8,12 @@ group = "info.iconsearch"
 version = "0.1.0"
 
 kotlin {
-    jvmToolchain(23)
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_23)
-    }
+    jvmToolchain(21)
 }
 
 tasks.withType<JavaCompile> {
-    sourceCompatibility = "23"
-    targetCompatibility = "23"
+    sourceCompatibility = "21"
+    targetCompatibility = "21"
 }
 
 dependencies {
