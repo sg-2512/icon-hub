@@ -10,7 +10,21 @@
     <main class="app-shell">
       <header class="app-header">
         <div class="brand-title-row">
-          <div class="brand-mark" aria-hidden="true">IS</div>
+          <div class="brand-mark-wrapper">
+            <svg class="brand-logo-svg" width="28" height="28" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hdrLogoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2563eb"/>
+                  <stop offset="100%" stop-color="#1d4ed8"/>
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="110" fill="url(#hdrLogoBg)"/>
+              <circle cx="256" cy="256" r="160" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"/>
+              <circle cx="230" cy="230" r="80" fill="none" stroke="#ffffff" stroke-width="28" stroke-linecap="round"/>
+              <line x1="290" y1="290" x2="360" y2="360" stroke="#ffffff" stroke-width="28" stroke-linecap="round"/>
+              <path d="M230 180 L240 220 L280 230 L240 240 L230 280 L220 240 L180 230 L220 220 Z" fill="#60a5fa"/>
+            </svg>
+          </div>
           <div class="brand-copy">
             <p>IconSearch</p>
             <h1>Search icons</h1>
@@ -24,7 +38,21 @@
       <!-- Auth Screen -->
       <section id="authScreen" class="auth-screen">
         <div class="auth-card">
-          <div class="auth-icon-badge">🔒</div>
+          <div class="auth-icon-badge">
+            <svg width="64" height="64" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="cardLogoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2563eb"/>
+                  <stop offset="100%" stop-color="#1d4ed8"/>
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="110" fill="url(#cardLogoBg)"/>
+              <circle cx="256" cy="256" r="160" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="3"/>
+              <circle cx="230" cy="230" r="80" fill="none" stroke="#ffffff" stroke-width="28" stroke-linecap="round"/>
+              <line x1="290" y1="290" x2="360" y2="360" stroke="#ffffff" stroke-width="28" stroke-linecap="round"/>
+              <path d="M230 180 L240 220 L280 230 L240 240 L230 280 L220 240 L180 230 L220 220 Z" fill="#60a5fa"/>
+            </svg>
+          </div>
           <h2>Connect IconSearch Account</h2>
           <p>Sign in with your IconSearch account to search and insert 355,000+ vector SVG icons directly into your Adobe Express design.</p>
           <div class="auth-actions">
