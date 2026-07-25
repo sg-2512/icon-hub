@@ -277,14 +277,40 @@ async function startAuthDevice() {
     state.pendingCode = data.deviceCode;
 
     const uri = data.verificationUriComplete || `${API_BASE}/connect?product=${PRODUCT}&code=${data.deviceCode}`;
+    const userCode = data.userCode || "";
 
     elements.authStatusText.innerHTML = `
-      <div style="margin-top:14px;padding:14px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;text-align:center;">
-        <p style="margin:0 0 6px 0;font-size:11px;color:#64748b;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">Connect IconSearch</p>
-        <p style="margin:0 0 12px 0;font-size:12px;color:#334155;line-height:1.4;">Click below to authorize this Adobe Express Add-on in your browser tab:</p>
-        <a href="${uri}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 18px;background:#2563eb;color:#ffffff;font-weight:700;border-radius:8px;text-decoration:none;font-size:13px;box-shadow:0 2px 6px rgba(37,99,235,0.25);">Open iconsearch.info/connect ↗</a>
+      <div style="margin-top:12px;padding:14px;background:#f8fafc;border-radius:12px;border:1px solid #cbd5e1;text-align:center;">
+        <p style="margin:0 0 4px 0;font-size:11px;color:#64748b;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">PAIRING CODE</p>
+        <div style="font-size:24px;font-weight:900;letter-spacing:0.15em;color:#2563eb;margin-bottom:10px;">${userCode}</div>
+        
+        <label style="display:block;text-align:left;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">Sign-In Link:</label>
+        <input id="connectUrlInput" type="text" readonly value="${uri}" style="width:100%;height:34px;border:1px solid #cbd5e1;border-radius:6px;padding:0 8px;font-size:11px;background:#ffffff;color:#0f172a;margin-bottom:8px;" />
+
+        <button id="copyBtn" type="button" class="primary-button wide" style="background:#2563eb;color:#ffffff;">Copy Link &amp; Open New Tab</button>
+        <p id="copyStatus" style="margin:6px 0 0 0;font-size:11px;color:#15803d;display:none;font-weight:700;">✅ Copied! Paste in new browser tab to approve.</p>
       </div>
     `;
+
+    const copyBtn = document.getElementById("copyBtn");
+    const inputEl = document.getElementById("connectUrlInput");
+
+    if (inputEl) {
+      inputEl.onclick = () => inputEl.select();
+    }
+
+    if (copyBtn && inputEl) {
+      copyBtn.onclick = async () => {
+        inputEl.select();
+        try {
+          await navigator.clipboard.writeText(uri);
+          const copyStatus = document.getElementById("copyStatus");
+          if (copyStatus) copyStatus.style.display = "block";
+        } catch {
+          document.execCommand("copy");
+        }
+      };
+    }
 
     startPollTimer();
   } catch (err) {
@@ -496,7 +522,8 @@ function renderResults() {
     nameSpan.className = "icon-name";
     nameSpan.textContent = icon.displayName;
 
-    const libSpan = document.className = "icon-lib";
+    const libSpan = document.createElement("span");
+    libSpan.className = "icon-lib";
     libSpan.textContent = icon.libraryName;
 
     card.appendChild(previewSpan);

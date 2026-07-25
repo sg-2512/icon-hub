@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+  <rect width="80" height="80" rx="18" fill="url(#bg-grad)"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M26 24C23.7909 24 22 25.7909 22 28V52C22 54.2091 23.7909 56 26 56H34C36.2091 56 38 54.2091 38 52V28C38 25.7909 36.2091 24 34 24H26ZM28 30H32V50H28V30Z" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M44 42C44 39.7909 45.7909 38 48 38H54C56.2091 38 58 39.7909 58 42C58 44.2091 56.2091 46 54 46H50V50H54C56.2091 50 58 51.7909 58 54C58 56.2091 56.2091 58 54 58H48C45.7909 58 44 56.2091 44 54V42ZM50 44H52V42H50V44ZM50 54H52V52H50V54Z" fill="white"/>
+  <circle cx="51" cy="27" r="4" fill="#60A5FA"/>
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+</svg>

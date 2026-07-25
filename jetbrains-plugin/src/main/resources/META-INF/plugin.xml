@@ -1,11 +1,31 @@
 <idea-plugin>
   <id>info.iconsearch.jetbrains</id>
-  <name>IconSearch</name>
+  <name>IconSearch - 355,000+ Vector Icons</name>
+  <version>1.0.0</version>
   <vendor email="iconsearchinfo@gmail.com" url="https://iconsearch.info">IconSearch</vendor>
 
   <description><![CDATA[
-    Search IconSearch from JetBrains IDEs and copy or insert production-ready icon snippets.
+    <h1>IconSearch for JetBrains IDEs</h1>
+    <p>Search, preview, and insert <b>355,000+ open-source vector SVG icons</b> directly inside IntelliJ IDEA, WebStorm, PyCharm, PhpStorm, GoLand, and CLion.</p>
+
+    <h3>✨ Features:</h3>
+    <ul>
+      <li><b>355,000+ SVG Icons</b>: Search Lucide, Heroicons, Tabler, FontAwesome, Remix, Phosphor, Feather, Bootstrap, and Iconify collections.</li>
+      <li><b>1-Click Editor Insertion</b>: Insert React JSX components (<code>&lt;LucideSearch className="w-5 h-5" /&gt;</code>), raw SVG, Vue, Svelte, or Tailwind CSS masks directly into your active code.</li>
+      <li><b>License & Legal Filter</b>: Filter commercial-safe icons instantly.</li>
+      <li><b>Secure Session Auth</b>: 1-click device authorization saved securely in JetBrains PasswordSafe.</li>
+      <li><b>Dark & Light Mode</b>: Auto-adapts to your IDE editor theme.</li>
+    </ul>
   ]]></description>
+
+  <change-notes><![CDATA[
+    <b>v1.0.0</b>: Official release of IconSearch JetBrains Plugin.
+    <ul>
+      <li>Added instant search across 355k+ vector SVG icons.</li>
+      <li>Added 1-click insertion for React, Vue, Svelte, Raw SVG, and Tailwind CSS.</li>
+      <li>Added JetBrains PasswordSafe device authentication.</li>
+    </ul>
+  ]]></change-notes>
 
   <depends>com.intellij.modules.platform</depends>
 
@@ -20,8 +40,9 @@
     <action id="IconSearch.OpenToolWindow"
             class="info.iconsearch.jetbrains.OpenIconSearchAction"
             text="IconSearch: Search Icons"
-            description="Open IconSearch icon search">
+            description="Open IconSearch icon search tool window">
       <add-to-group group-id="ToolsMenu" anchor="last" />
+      <keyboard-shortcut keymap="$default" first-keystroke="control alt I" />
     </action>
   </actions>
 </idea-plugin>

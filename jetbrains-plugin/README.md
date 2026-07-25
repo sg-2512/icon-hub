@@ -1,24 +1,34 @@
-# IconSearch for JetBrains IDEs
+# IconSearch JetBrains Plugin
 
-Search IconSearch from IntelliJ IDEA and other JetBrains IDEs, then copy or insert production-ready icon snippets.
+Official JetBrains IDE plugin for **IconSearch** (IntelliJ IDEA, WebStorm, PyCharm, PhpStorm, GoLand, CLion).
 
-## Local Development
+## 🚀 Features
 
-Requires Gradle 9+ and Java 17+ for the IntelliJ Platform Gradle Plugin 2.x.
+- **355,000+ Vector SVG Icons**: Access Lucide, Heroicons, Tabler, Phosphor, Feather, Remix, Bootstrap, and Iconify collections.
+- **1-Click Editor Insertion**: Insert React JSX (`<LucideSearch className="w-5 h-5" />`), Raw SVG markup, Vue, Svelte, or Tailwind CSS masks into your code.
+- **Device Authentication**: Secure 1-click device authorization saved in JetBrains `PasswordSafe`.
+- **Keyboard Shortcut**: `Ctrl + Alt + I` (or `Cmd + Option + I` on macOS) to instantly open the IconSearch sidebar.
+
+## 📦 Build Instructions
+
+Requirements:
+- JDK 21+
+
+To build the plugin distribution zip:
 
 ```bash
 cd jetbrains-plugin
-gradle runIde
+./gradlew buildPlugin
 ```
 
-The plugin uses IconSearch browser device sign-in and stores only the revocable product token in JetBrains Password Safe.
+The compiled plugin package will be generated at:
+`jetbrains-plugin/build/distributions/info.iconsearch.jetbrains-1.0.0.zip`
 
-## Features
+## 🛠️ How to Install in JetBrains IDE
 
-- Tool window: `View -> Tool Windows -> IconSearch`
-- Secure browser sign-in for the `jetbrains` product
-- Live icon search against `https://iconsearch.info/api/extension/icon-search`
-- Copy or insert React, SVG, Vue, Svelte, Tailwind mask, or URL output
-- Text-first result list to keep scrolling fast in large result sets
-
-Before sign-in works in production, deploy the backend product migration for `jetbrains`.
+1. Open IntelliJ IDEA / WebStorm / PyCharm / PhpStorm.
+2. Go to **Settings / Preferences** (`Ctrl + Alt + S` / `Cmd + ,`).
+3. Select **Plugins** → Click the ⚙️ gear icon → **Install Plugin from Disk...**.
+4. Select `info.iconsearch.jetbrains-1.0.0.zip`.
+5. Restart your IDE.
+6. Click the **IconSearch** tab on the right sidebar!
