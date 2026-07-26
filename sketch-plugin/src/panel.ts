@@ -74,7 +74,9 @@ const state = {
   placement: "right" as InsertPlacement,
   view: "browse" as IconView,
   total: 0,
+  page: 1,
   loading: false,
+  loadingMore: false,
   inserting: false,
   searchTimer: 0,
   searchController: null as AbortController | null,
@@ -246,6 +248,17 @@ function bindEvents(): void {
       if (icon) void insertIcon(icon);
     }
   });
+
+  window.addEventListener("scroll", () => {
+    if (state.view !== "browse") return;
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.documentElement.offsetHeight - 400;
+    if (scrollPosition >= threshold) {
+      if (!state.loading && !state.loadingMore && state.browseIcons.length < state.total) {
+        void loadMoreIcons();
+      }
+    }
+  });
 }
 
 function updateRuntime(): void {
@@ -358,18 +371,23 @@ async function pollAuthStatus(): Promise<void> {
   } catch {}
 }
 
-async function searchIcons(): Promise<void> {
+async function searchIcons(isNewSearch = true): Promise<void> {
+  if (isNewSearch) {
+    state.page = 1;
+    state.browseIcons = [];
+    renderLoading();
+  }
   state.searchController?.abort();
   const controller = new AbortController();
   state.searchController = controller;
   state.loading = true;
-  renderLoading();
 
   const url = new URL(SEARCH_ENDPOINT);
   if (state.query) url.searchParams.set("q", state.query);
   url.searchParams.set("lib", state.library);
   url.searchParams.set("style", state.style);
   url.searchParams.set("legalOnly", state.legalOnly ? "1" : "0");
+  url.searchParams.set("page", String(state.page));
   url.searchParams.set("limit", String(SEARCH_LIMIT));
   url.searchParams.set("sort", state.query ? "relevance" : "popular");
 
@@ -393,21 +411,38 @@ async function searchIcons(): Promise<void> {
     if (!response.ok) throw new Error(`IconSearch returned ${response.status}.`);
     const payload = await response.json() as SearchPayload;
     const rawIcons = Array.isArray(payload.icons) ? payload.icons : [];
-    state.browseIcons = rawIcons.map(normalizeIcon).filter((icon): icon is IconSearchIcon => Boolean(icon));
+    const newIcons = rawIcons.map(normalizeIcon).filter((icon): icon is IconSearchIcon => Boolean(icon));
+
+    if (isNewSearch) {
+      state.browseIcons = newIcons;
+    } else {
+      state.browseIcons = [...state.browseIcons, ...newIcons];
+    }
+
     state.total = numberFrom(payload.total, state.browseIcons.length);
     state.selectedId = state.browseIcons.some((icon) => icon.id === state.selectedId) ? state.selectedId : state.browseIcons[0]?.id || "";
   } catch (error) {
     if (controller.signal.aborted) return;
-    state.browseIcons = [];
-    state.total = 0;
+    if (isNewSearch) {
+      state.browseIcons = [];
+      state.total = 0;
+    }
     setStatus(error instanceof Error ? error.message : "Could not search IconSearch.", "error");
   } finally {
     if (!controller.signal.aborted) {
       state.loading = false;
+      state.loadingMore = false;
       renderSelection();
       renderResults();
     }
   }
+}
+
+async function loadMoreIcons(): Promise<void> {
+  if (state.loading || state.loadingMore || state.browseIcons.length >= state.total) return;
+  state.loadingMore = true;
+  state.page += 1;
+  await searchIcons(false);
 }
 
 function normalizeIcon(value: unknown): IconSearchIcon | null {
