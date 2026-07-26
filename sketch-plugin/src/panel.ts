@@ -27,8 +27,6 @@ const LIBRARIES = [
   ["elusive-icons", "Elusive Icons"],
   ["teenyicons", "Teenyicons"],
   ["untitled-ui-icons", "Untitled UI Icons"],
-  ["simple-icons", "Simple Icons (Brand Logos)"],
-  ["fontawesome", "FontAwesome"],
 ] as const;
 
 const STYLES = [
@@ -72,7 +70,7 @@ const state = {
   style: "all",
   legalOnly: true,
   size: 64,
-  color: "#2563EB",
+  color: "#111827",
   placement: "right" as InsertPlacement,
   view: "browse" as IconView,
   total: 0,
