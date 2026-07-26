@@ -75,7 +75,8 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Device code insert error:', error)
-      return publicJson({ error: 'Could not start sign-in.', details: error.message || JSON.stringify(error) }, { status: 500 })
+      const errDetail = error.message || error.details || error.hint || error.code || 'Unknown DB error'
+      return publicJson({ error: 'Could not start sign-in.', details: errDetail }, { status: 500 })
     }
 
     const verificationUrl = new URL('/connect', publicSiteUrl(request))
@@ -92,7 +93,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Could not start extension authentication:', error)
     const errObj = error as Record<string, unknown>
-    const msg = typeof error === 'string' ? error : (errObj?.message ? String(errObj.message) : JSON.stringify(error))
+    const msg = typeof error === 'string' ? error : String(errObj?.message || errObj?.details || error)
     return publicJson({ error: 'Could not start sign-in.', details: msg }, { status: 500 })
   }
 }
