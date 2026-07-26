@@ -73,7 +73,10 @@ export async function POST(request: Request) {
       expires_at: expiresAt.toISOString(),
     })
 
-    if (error) throw error
+    if (error) {
+      console.error('Device code insert error:', error)
+      return publicJson({ error: 'Could not start sign-in.', details: error.message || JSON.stringify(error) }, { status: 500 })
+    }
 
     const verificationUrl = new URL('/connect', publicSiteUrl(request))
     verificationUrl.searchParams.set('product', product)
@@ -88,6 +91,8 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error('Could not start extension authentication:', error)
-    return publicJson({ error: 'Could not start sign-in.', details: getErrorText(error) }, { status: 500 })
+    const errObj = error as Record<string, unknown>
+    const msg = typeof error === 'string' ? error : (errObj?.message ? String(errObj.message) : JSON.stringify(error))
+    return publicJson({ error: 'Could not start sign-in.', details: msg }, { status: 500 })
   }
 }
