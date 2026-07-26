@@ -7,13 +7,30 @@
     <link rel="stylesheet" href="/src/panel.css" />
   </head>
   <body>
-    <div id="app">
+    <!-- AUTH SCREEN -->
+    <div id="authScreen" class="auth-screen">
+      <div class="auth-card">
+        <img src="/assets/iconsearch-logo-128.png" alt="IconSearch" class="auth-logo" />
+        <h2 class="auth-title">IconSearch for Sketch</h2>
+        <p class="auth-subtitle">Search &amp; insert 355,000+ vector SVG icons directly into your Sketch design canvas.</p>
+        
+        <div id="authStatusBox">
+          <button id="startAuthBtn" type="button" class="btn-primary">Connect IconSearch Account</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN APP SHELL -->
+    <div id="appShell" class="hidden">
       <header class="topbar">
         <div class="brand">
           <img src="/assets/iconsearch-logo-128.png" width="28" height="28" alt="" />
           <div><strong>IconSearch</strong><span>Sketch plugin</span></div>
         </div>
-        <span class="runtime-badge" id="runtimeBadge">Starting</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button id="signOutBtn" type="button" class="btn-secondary" style="height:24px;padding:0 8px;font-size:10px;">Sign out</button>
+          <span class="runtime-badge" id="runtimeBadge">Starting</span>
+        </div>
       </header>
 
       <main>

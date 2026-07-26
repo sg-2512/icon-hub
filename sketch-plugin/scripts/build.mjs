@@ -41,7 +41,7 @@ JSON.parse(manifestSource);
 const escapedJavaScript = panelJavaScript.text.replace(/<\/script/gi, "<\\/script");
 const panelHtml = template
   .replace('<link rel="stylesheet" href="/src/panel.css" />', `<style>${stylesheet}</style>`)
-  .replace('/assets/iconsearch-logo-128.png', `data:image/png;base64,${logo.toString("base64")}`)
+  .replaceAll('/assets/iconsearch-logo-128.png', `data:image/png;base64,${logo.toString("base64")}`)
   .replace('<script type="module" src="/src/panel.ts"></script>', `<script>${escapedJavaScript}</script>`);
 if (panelHtml.includes('/src/') || panelHtml.includes('/assets/')) throw new Error("The built panel contains local asset references.");
 

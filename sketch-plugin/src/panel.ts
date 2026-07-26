@@ -82,9 +82,27 @@ const state = {
   searchController: null as AbortController | null,
   previewObserver: null as IntersectionObserver | null,
   svgCache: new Map<string, string>(),
+  token: getStoredToken(),
+  pendingCode: "",
+  pollTimer: 0,
 };
 
+function getStoredToken(): string {
+  try { return localStorage.getItem("iconsearch_sketch_token") || ""; } catch { return ""; }
+}
+function setStoredToken(val: string): void {
+  try { localStorage.setItem("iconsearch_sketch_token", val); } catch {}
+}
+function clearStoredToken(): void {
+  try { localStorage.removeItem("iconsearch_sketch_token"); } catch {}
+}
+
 const elements = {
+  authScreen: requiredElement<HTMLElement>("authScreen"),
+  appShell: requiredElement<HTMLElement>("appShell"),
+  authStatusBox: requiredElement<HTMLElement>("authStatusBox"),
+  startAuthBtn: requiredElement<HTMLButtonElement>("startAuthBtn"),
+  signOutBtn: requiredElement<HTMLButtonElement>("signOutBtn"),
   runtimeBadge: requiredElement<HTMLSpanElement>("runtimeBadge"),
   searchInput: requiredElement<HTMLInputElement>("searchInput"),
   librarySelect: requiredElement<HTMLSelectElement>("librarySelect"),
@@ -113,8 +131,32 @@ async function boot(): Promise<void> {
   hydrateControls();
   bindEvents();
   updateRuntime();
-  renderLoading();
-  await searchIcons();
+
+  if (state.token) {
+    showApp();
+    renderLoading();
+    await searchIcons();
+  } else {
+    showAuth();
+  }
+}
+
+function showAuth(): void {
+  elements.authScreen.classList.remove("hidden");
+  elements.appShell.classList.add("hidden");
+}
+
+function showApp(): void {
+  elements.authScreen.classList.add("hidden");
+  elements.appShell.classList.remove("hidden");
+}
+
+function signOut(): void {
+  state.token = "";
+  state.pendingCode = "";
+  window.clearInterval(state.pollTimer);
+  clearStoredToken();
+  showAuth();
 }
 
 function hydrateControls(): void {
@@ -144,6 +186,9 @@ function fillSelect(select: HTMLSelectElement, options: ReadonlyArray<readonly [
 }
 
 function bindEvents(): void {
+  elements.startAuthBtn.onclick = () => void startAuth();
+  elements.signOutBtn.onclick = () => signOut();
+
   window.addEventListener("iconsearch:sketch-ready", () => {
     state.sketchReady = true;
     updateRuntime();
@@ -248,6 +293,73 @@ function scheduleSearch(): void {
   state.searchTimer = window.setTimeout(() => void searchIcons(), 160);
 }
 
+async function startAuth(): Promise<void> {
+  elements.authStatusBox.innerHTML = '<p style="color:var(--muted);font-size:11px;">Requesting sign-in code...</p>';
+  try {
+    const res = await fetch("https://iconsearch.info/api/device/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product: "sketch", clientName: "Sketch Plugin" })
+    });
+    const data = await res.json() as Record<string, unknown>;
+    if (!res.ok) throw new Error(String(data.error || "Failed to start device auth."));
+
+    state.pendingCode = String(data.deviceCode || "");
+    const uri = String(data.verificationUriComplete || ("https://iconsearch.info/connect?product=sketch&code=" + state.pendingCode));
+    const userCode = String(data.userCode || "");
+
+    elements.authStatusBox.innerHTML = `
+      <div style="margin-top:12px;padding:12px;background:var(--surface-subtle);border-radius:10px;border:1px solid var(--line);">
+        <p style="font-size:10px;color:var(--muted);font-weight:700;margin:0 0 4px 0;">PAIRING CODE</p>
+        <div style="font-size:22px;font-weight:900;letter-spacing:0.1em;color:var(--blue);margin:4px 0 10px 0;">${userCode}</div>
+        <a href="${uri}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:11px;height:34px;text-decoration:none;">Open Sign-In Page ↗</a>
+        <button id="copyLinkBtn" type="button" class="btn-secondary" style="margin-top:6px;font-size:10px;height:28px;">Copy Sign-In Link</button>
+      </div>
+    `;
+
+    const copyBtn = document.getElementById("copyLinkBtn");
+    if (copyBtn) {
+      copyBtn.onclick = () => {
+        void navigator.clipboard.writeText(uri);
+        setStatus("Sign-In link copied!", "success");
+      };
+    }
+
+    window.open(uri, "_blank");
+
+    window.clearInterval(state.pollTimer);
+    state.pollTimer = window.setInterval(() => void pollAuthStatus(), 3000);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Auth start failed";
+    elements.authStatusBox.innerHTML = `
+      <p style="color:var(--error);font-size:11px;margin-bottom:8px;">${msg}</p>
+      <button id="retryAuthBtn" type="button" class="btn-primary">Retry Connect</button>
+    `;
+    const retryBtn = document.getElementById("retryAuthBtn");
+    if (retryBtn) retryBtn.onclick = () => void startAuth();
+  }
+}
+
+async function pollAuthStatus(): Promise<void> {
+  if (!state.pendingCode) return;
+  try {
+    const res = await fetch("https://iconsearch.info/api/device/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deviceCode: state.pendingCode })
+    });
+    const data = await res.json() as Record<string, unknown>;
+    if (res.ok && data.status === "authorized" && typeof data.token === "string") {
+      window.clearInterval(state.pollTimer);
+      state.token = data.token;
+      setStoredToken(data.token);
+      showApp();
+      renderLoading();
+      await searchIcons();
+    }
+  } catch {}
+}
+
 async function searchIcons(): Promise<void> {
   state.searchController?.abort();
   const controller = new AbortController();
@@ -264,13 +376,22 @@ async function searchIcons(): Promise<void> {
   url.searchParams.set("sort", state.query ? "relevance" : "popular");
 
   try {
+    const headers: Record<string, string> = {
+      accept: "application/json",
+      "x-iconsearch-product": "sketch",
+    };
+    if (state.token) {
+      headers.authorization = `Bearer ${state.token}`;
+    }
+
     const response = await fetch(url.toString(), {
-      headers: {
-        accept: "application/json",
-        "x-iconsearch-product": "sketch",
-      },
+      headers,
       signal: controller.signal,
     });
+    if (response.status === 401) {
+      signOut();
+      return;
+    }
     if (!response.ok) throw new Error(`IconSearch returned ${response.status}.`);
     const payload = await response.json() as SearchPayload;
     const rawIcons = Array.isArray(payload.icons) ? payload.icons : [];

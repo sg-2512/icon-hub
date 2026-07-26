@@ -36,6 +36,7 @@ const nativeSource = contents.get("src/native.ts");
 const builtCommand = contents.get("dist/IconSearch.sketchplugin/Contents/Sketch/command.js");
 const builtPanel = contents.get("dist/panel.html");
 const icon = contents.get("dist/IconSearch.sketchplugin/Contents/Resources/icon.png");
+const secretPattern = /(-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|sk_(?:live|test)_[a-z0-9]{12,}|ghp_[a-z0-9]{20,}|service_role\s*[:=]\s*["'][^"']+|client_secret\s*[:=]\s*["'][^"']+|bearer\s+[a-z0-9._-]{20,})/i;
 
 expect(manifest.name === "IconSearch", "Manifest name must be IconSearch.");
 expect(manifest.author === "IconSearch", "Manifest author must be IconSearch.");
@@ -52,7 +53,7 @@ expect(panelSource.includes("sanitizeSvg") && nativeSource.includes("sanitizeSvg
 expect(pluginSource.includes('createLayerFromData(payload.svg, "svg")'), "Plugin must import SVG as an editable Sketch layer.");
 expect(pluginSource.includes("document.centerOnLayer(layer)"), "Plugin must reveal the inserted layer.");
 expect(!/fetch\s*\(/.test(pluginSource), "Native command must not fetch external URLs.");
-expect(!/authorization|bearer\s|api[_-]?key|access[_-]?token/i.test(`${panelSource}\n${pluginSource}`), "Plugin must not contain an account or token flow.");
+expect(!secretPattern.test(`${panelSource}\n${pluginSource}`), "Plugin must not contain hardcoded secret credentials.");
 expect(builtCommand.includes("data:text/html;charset=utf-8;base64,"), "Command bundle must contain the self-contained panel.");
 expect(!builtCommand.includes("sourceMappingURL"), "Command bundle must not contain a source map.");
 expect(!builtPanel.includes('/src/') && !builtPanel.includes('/assets/'), "Built panel contains local asset references.");
@@ -67,7 +68,6 @@ const expectedArchiveFiles = [
 ].sort();
 expect(JSON.stringify(archiveFiles) === JSON.stringify(expectedArchiveFiles), "Release ZIP contains unexpected files.");
 
-const secretPattern = /(-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|sk_(?:live|test)_[a-z0-9]{12,}|ghp_[a-z0-9]{20,}|service_role\s*[:=]\s*["'][^"']+|client_secret\s*[:=]\s*["'][^"']+|bearer\s+[a-z0-9._-]{20,})/i;
 const scanned = requiredFiles.filter((filename) => !filename.endsWith(".png") && !filename.endsWith(".zip")).map((filename) => contents.get(filename)).join("\n");
 expect(!secretPattern.test(scanned), "Potential secret or privileged credential found.");
 
