@@ -18,6 +18,7 @@ export type ExtensionProduct =
   | 'webflow'
   | 'adobe'
   | 'wordpress'
+  | 'penpot'
 
 export function parseExtensionProduct(value: unknown): ExtensionProduct | null {
   return value === 'vscode' ||
@@ -32,7 +33,8 @@ export function parseExtensionProduct(value: unknown): ExtensionProduct | null {
     value === 'tailwind' ||
     value === 'webflow' ||
     value === 'adobe' ||
-    value === 'wordpress'
+    value === 'wordpress' ||
+    value === 'penpot'
     ? value
     : null
 }

@@ -32,6 +32,7 @@ const productNames: Record<string, string> = {
   webflow: 'Webflow extension',
   adobe: 'Adobe Express plugin',
   wordpress: 'WordPress plugin',
+  penpot: 'Penpot plugin',
 }
 
 const productShortNames: Record<string, string> = {
@@ -48,6 +49,7 @@ const productShortNames: Record<string, string> = {
   webflow: 'Webflow',
   adobe: 'Adobe Express',
   wordpress: 'WordPress',
+  penpot: 'Penpot',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {

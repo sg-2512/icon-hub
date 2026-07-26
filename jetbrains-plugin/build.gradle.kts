@@ -7,15 +7,24 @@ plugins {
 group = "info.iconsearch"
 version = "0.1.0"
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_22)
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = "22"
-    targetCompatibility = "22"
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
 }
 
 dependencies {
@@ -37,6 +46,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = "241"
+            untilBuild = provider { null }
         }
     }
 }
