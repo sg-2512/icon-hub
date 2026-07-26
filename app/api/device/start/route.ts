@@ -61,11 +61,13 @@ export async function POST(request: Request) {
         ? body.clientName.trim().slice(0, 80) || 'IconSearch'
         : 'IconSearch'
 
-    // Auto-ensure product exists in products table
-    await admin.from('products').upsert(
-      { id: product, name: `IconSearch for ${product.charAt(0).toUpperCase() + product.slice(1)}`, founder_limit: 500 },
-      { onConflict: 'id' }
-    )
+    // Auto-ensure product exists in products table if possible
+    try {
+      await admin.from('products').upsert(
+        { id: product, name: `IconSearch for ${product.charAt(0).toUpperCase() + product.slice(1)}`, founder_limit: 500 },
+        { onConflict: 'id' }
+      )
+    } catch (_) {}
 
     const { error } = await admin.from('device_codes').insert({
       code_hash: hashOpaqueToken(deviceCode),
@@ -90,7 +92,6 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error('Could not start extension authentication:', error)
-    const message = error instanceof Error ? error.message : String(error)
-    return publicJson({ error: 'Could not start sign-in.', details: message }, { status: 500 })
+    return publicJson({ error: 'Could not start sign-in.', details: getErrorText(error) }, { status: 500 })
   }
 }
