@@ -1,22 +1,34 @@
 import { isSafeHex, normalizeHttpsUrl, sanitizeSvg, styleSvg } from "./svg";
 import type { InsertPayload, InsertPlacement } from "./native";
 
-const SEARCH_ENDPOINT = "https://iconsearch.info/api/icons";
+const SEARCH_ENDPOINT = "https://iconsearch.info/api/extension/icon-search";
 const DEFAULT_QUERY = "arrow";
-const SEARCH_LIMIT = 48;
+const SEARCH_LIMIT = 80;
 const RECENT_KEY = "iconsearch.sketch.recents.v1";
 const RECENT_LIMIT = 20;
 
 const LIBRARIES = [
-  ["all", "All libraries"],
-  ["lucide-icons", "Lucide"],
+  ["all", "All libraries (355k+)"],
+  ["lucide-icons", "Lucide Icons"],
   ["heroicons", "Heroicons"],
-  ["tabler-icons", "Tabler"],
-  ["phosphor-icons", "Phosphor"],
-  ["remix-icon", "Remix"],
-  ["bootstrap-icons", "Bootstrap"],
+  ["tabler-icons", "Tabler Icons"],
+  ["phosphor-icons", "Phosphor Icons"],
+  ["remix-icon", "Remix Icon"],
+  ["feather-icons", "Feather Icons"],
+  ["bootstrap-icons", "Bootstrap Icons"],
+  ["ant-design-icons", "Ant Design Icons"],
+  ["radix-icons", "Radix Icons"],
+  ["octicons", "Octicons (GitHub)"],
+  ["iconify-icons", "Material Design / Iconify"],
+  ["ionicons", "Ionicons"],
   ["iconoir", "Iconoir"],
-  ["iconify", "Iconify collections"],
+  ["devicons", "Devicons"],
+  ["circum-icons", "Circum Icons"],
+  ["elusive-icons", "Elusive Icons"],
+  ["teenyicons", "Teenyicons"],
+  ["untitled-ui-icons", "Untitled UI Icons"],
+  ["simple-icons", "Simple Icons (Brand Logos)"],
+  ["fontawesome", "FontAwesome"],
 ] as const;
 
 const STYLES = [
@@ -252,7 +264,13 @@ async function searchIcons(): Promise<void> {
   url.searchParams.set("sort", state.query ? "relevance" : "popular");
 
   try {
-    const response = await fetch(url.toString(), { headers: { accept: "application/json" }, signal: controller.signal });
+    const response = await fetch(url.toString(), {
+      headers: {
+        accept: "application/json",
+        "x-iconsearch-product": "sketch",
+      },
+      signal: controller.signal,
+    });
     if (!response.ok) throw new Error(`IconSearch returned ${response.status}.`);
     const payload = await response.json() as SearchPayload;
     const rawIcons = Array.isArray(payload.icons) ? payload.icons : [];

@@ -47,7 +47,7 @@ expect(manifest.commands?.length === 1 && manifest.commands[0]?.handler === "onR
 expect(!Object.hasOwn(manifest, "appcast"), "Do not ship a placeholder appcast URL.");
 expect(!packageJson.dependencies?.skpm && !packageJson.devDependencies?.skpm, "The deprecated skpm package must not be required.");
 
-expect(panelSource.includes("https://iconsearch.info/api/icons"), "Panel must use the public IconSearch API.");
+expect(panelSource.includes("https://iconsearch.info/api/extension/icon-search") || panelSource.includes("https://iconsearch.info/api/icons"), "Panel must use the public IconSearch API.");
 expect(panelSource.includes("sanitizeSvg") && nativeSource.includes("sanitizeSvgForSketch"), "SVG must be validated in both panel and native contexts.");
 expect(pluginSource.includes('createLayerFromData(payload.svg, "svg")'), "Plugin must import SVG as an editable Sketch layer.");
 expect(pluginSource.includes("document.centerOnLayer(layer)"), "Plugin must reveal the inserted layer.");
