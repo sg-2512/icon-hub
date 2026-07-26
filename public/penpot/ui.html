@@ -227,7 +227,7 @@
     box-shadow: 0 0 0 1px #2563eb inset;
   }
   .icon-thumb { width: 32px; height: 32px; display: grid; place-items: center; margin-bottom: 4px; }
-  .icon-thumb img, .icon-thumb svg { width: 26px; height: 26px; object-fit: contain; }
+  .icon-thumb img, .icon-thumb svg { width: 26px; height: 26px; object-fit: contain; filter: brightness(0) invert(1); }
   .icon-title { width: 100%; font-size: 10px; font-weight: 700; color: #f5e0dc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .icon-lib { width: 100%; font-size: 9px; color: #9399b2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -310,6 +310,19 @@
         <option value="remix-icon">Remix Icon</option>
         <option value="feather-icons">Feather Icons</option>
         <option value="bootstrap-icons">Bootstrap Icons</option>
+        <option value="ant-design-icons">Ant Design Icons</option>
+        <option value="radix-icons">Radix Icons</option>
+        <option value="octicons">Octicons (GitHub)</option>
+        <option value="iconify-icons">Material Design / Iconify</option>
+        <option value="ionicons">Ionicons</option>
+        <option value="iconoir">Iconoir</option>
+        <option value="devicons">Devicons</option>
+        <option value="circum-icons">Circum Icons</option>
+        <option value="elusive-icons">Elusive Icons</option>
+        <option value="teenyicons">Teenyicons</option>
+        <option value="untitled-ui-icons">Untitled UI Icons</option>
+        <option value="simple-icons">Simple Icons (Brand Logos)</option>
+        <option value="fontawesome">FontAwesome</option>
       </select>
     </div>
     <div class="field">
@@ -602,6 +615,7 @@ async function search() {
     if (!res.ok) throw new Error(data.error || "Search failed.");
 
     icons = (data.icons || []).map(normalizeIcon).filter(Boolean);
+    autoDiscoverLibraries(icons);
     elements.resultCount.textContent = (data.total || icons.length) + " icons";
     elements.statusText.textContent = "Ready";
 
@@ -609,6 +623,20 @@ async function search() {
   } catch (err) {
     elements.statusText.textContent = err.message || "Error loading icons.";
   }
+}
+
+function autoDiscoverLibraries(items) {
+  const select = elements.librarySelect;
+  const existingValues = new Set(Array.from(select.options).map(o => o.value));
+  (items || []).forEach(item => {
+    if (item.library && !existingValues.has(item.library)) {
+      existingValues.add(item.library);
+      const opt = document.createElement("option");
+      opt.value = item.library;
+      opt.textContent = item.libraryName || formatTitle(item.library);
+      select.appendChild(opt);
+    }
+  });
 }
 
 function normalizeIcon(item) {
