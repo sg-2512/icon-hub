@@ -596,6 +596,8 @@ select,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
+  content-visibility: auto;
+  contain-intrinsic-size: 104px;
 }
 
 .icon-card {

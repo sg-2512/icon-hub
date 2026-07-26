@@ -488,8 +488,9 @@ function renderResults(): void {
     const preview = document.createElement("span");
     preview.className = "icon-card-preview";
     const shape = document.createElement("img");
-    shape.className = "icon-shape is-pending";
-    shape.dataset.iconId = icon.id;
+    shape.className = "icon-shape";
+    shape.src = icon.svgUrl;
+    shape.loading = "lazy";
     shape.alt = "";
     shape.setAttribute("aria-hidden", "true");
     preview.appendChild(shape);
@@ -501,10 +502,8 @@ function renderResults(): void {
     card.addEventListener("click", () => selectIcon(icon));
     card.addEventListener("dblclick", () => void insertIcon(icon));
     fragment.appendChild(card);
-    observePreview(shape, icon);
   }
   elements.resultsGrid.replaceChildren(fragment);
-  for (const icon of icons.slice(0, 9)) void fetchIconSvg(icon).catch(() => undefined);
 }
 
 function selectIcon(icon: IconSearchIcon): void {
