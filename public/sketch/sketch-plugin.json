@@ -1,0 +1,11 @@
+{
+  "name": "IconSearch",
+  "title": "IconSearch - 355,000+ Vector Icons",
+  "description": "Search, style, and insert 355,000+ open-source vector SVG icons directly into Sketch.",
+  "author": "IconSearch",
+  "authorEmail": "support@iconsearch.info",
+  "homepage": "https://iconsearch.info/sketch",
+  "icon": "https://iconsearch.info/sketch/icon.png",
+  "version": "0.1.0",
+  "download": "https://iconsearch.info/sketch/IconSearch.sketchplugin.zip"
+}
