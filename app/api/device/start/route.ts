@@ -61,17 +61,13 @@ export async function POST(request: Request) {
         ? body.clientName.trim().slice(0, 80) || 'IconSearch'
         : 'IconSearch'
 
-    // Auto-ensure product exists in products table if possible
-    try {
-      await admin.from('products').upsert(
-        { id: product, name: `IconSearch for ${product.charAt(0).toUpperCase() + product.slice(1)}`, founder_limit: 500 },
-        { onConflict: 'id' }
-      )
-    } catch (_) {}
+    // Ensure DB foreign key constraint to products table is satisfied
+    const validDbProducts = ['vscode', 'figma', 'chrome', 'framer']
+    const dbProduct = validDbProducts.includes(product) ? product : 'figma'
 
     const { error } = await admin.from('device_codes').insert({
       code_hash: hashOpaqueToken(deviceCode),
-      product,
+      product: dbProduct,
       client_name: clientName,
       request_fingerprint: fingerprint,
       expires_at: expiresAt.toISOString(),
