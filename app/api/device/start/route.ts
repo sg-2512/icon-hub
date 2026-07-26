@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     return publicJson(
       {
         error:
-          'Product must be vscode, figma, chrome, framer, raycast, mcp, jetbrains, storybook, canva, tailwind, webflow, adobe, or wordpress.',
+          'Product must be vscode, figma, chrome, framer, raycast, mcp, jetbrains, storybook, canva, tailwind, webflow, adobe, wordpress, or penpot.',
       },
       { status: 400 }
     )
