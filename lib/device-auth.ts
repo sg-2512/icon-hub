@@ -19,6 +19,7 @@ export type ExtensionProduct =
   | 'adobe'
   | 'wordpress'
   | 'penpot'
+  | 'sketch'
 
 export function parseExtensionProduct(value: unknown): ExtensionProduct | null {
   return value === 'vscode' ||
@@ -34,7 +35,8 @@ export function parseExtensionProduct(value: unknown): ExtensionProduct | null {
     value === 'webflow' ||
     value === 'adobe' ||
     value === 'wordpress' ||
-    value === 'penpot'
+    value === 'penpot' ||
+    value === 'sketch'
     ? value
     : null
 }

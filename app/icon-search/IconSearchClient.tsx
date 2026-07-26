@@ -423,12 +423,24 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     const supabase = await createClient()
     if (!supabase) return
     try {
-      // Upsert each pack
+      // Ensure user-scoped pack IDs so primary key 'id' in Supabase never conflicts across users
+      const updatedLocalPacks: WorkspacePack[] = []
+      let packsNeedUpdate = false
+
       for (const pack of packsData) {
+        const cloudId = pack.id.startsWith(`${user.id}_`)
+          ? pack.id
+          : `${user.id}_${pack.id}`
+
+        if (cloudId !== pack.id) {
+          packsNeedUpdate = true
+        }
+        updatedLocalPacks.push({ ...pack, id: cloudId })
+
         const { error } = await supabase
           .from('packs')
           .upsert({
-            id: pack.id,
+            id: cloudId,
             user_id: user.id,
             name: pack.name,
             items: pack.items,
@@ -436,12 +448,17 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
           }, { onConflict: 'id' })
         if (error) {
           console.warn('Pack sync error:', error.message)
-          alert('Pack sync error: ' + error.message)
+          setCloudSyncStatus('Sync warning: ' + error.message)
         }
+      }
+
+      if (packsNeedUpdate) {
+        setPacks(updatedLocalPacks)
+        setActivePackId((prev) => (prev === 'default' ? `${user.id}_default` : prev))
       }
     } catch (e) {
       console.warn('Cloud sync failed (packs):', e)
-      alert('Cloud sync failed: ' + getErrorMessage(e))
+      setCloudSyncStatus('Cloud sync offline')
     }
   }, [user])
 
@@ -451,11 +468,23 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
     const supabase = await createClient()
     if (!supabase) return
     try {
+      const updatedLocalPresets: StylePreset[] = []
+      let presetsNeedUpdate = false
+
       for (const preset of presetsData) {
+        const cloudId = preset.id.startsWith(`${user.id}_`)
+          ? preset.id
+          : `${user.id}_${preset.id}`
+
+        if (cloudId !== preset.id) {
+          presetsNeedUpdate = true
+        }
+        updatedLocalPresets.push({ ...preset, id: cloudId })
+
         const { error } = await supabase
           .from('presets')
           .upsert({
-            id: preset.id,
+            id: cloudId,
             user_id: user.id,
             name: preset.name,
             size: preset.size,
@@ -463,6 +492,10 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
             color: preset.color,
           }, { onConflict: 'id' })
         if (error) console.warn('Preset sync error:', error.message)
+      }
+
+      if (presetsNeedUpdate) {
+        setPresets(updatedLocalPresets)
       }
     } catch (e) {
       console.warn('Cloud sync failed (presets):', e)

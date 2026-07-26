@@ -33,6 +33,7 @@ const productNames: Record<string, string> = {
   adobe: 'Adobe Express plugin',
   wordpress: 'WordPress plugin',
   penpot: 'Penpot plugin',
+  sketch: 'Sketch plugin',
 }
 
 const productShortNames: Record<string, string> = {
@@ -50,6 +51,7 @@ const productShortNames: Record<string, string> = {
   adobe: 'Adobe Express',
   wordpress: 'WordPress',
   penpot: 'Penpot',
+  sketch: 'Sketch',
 }
 
 export default function ConnectClient({ product, code, authError }: ConnectClientProps) {

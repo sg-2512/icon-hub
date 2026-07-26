@@ -17,7 +17,8 @@ VALUES
   ('webflow', 'IconSearch for Webflow', 500),
   ('adobe', 'IconSearch for Adobe Express', 500),
   ('wordpress', 'IconSearch for WordPress', 500),
-  ('penpot', 'IconSearch for Penpot', 500)
+  ('penpot', 'IconSearch for Penpot', 500),
+  ('sketch', 'IconSearch for Sketch', 500)
 ON CONFLICT (id) DO UPDATE
 SET name = EXCLUDED.name,
     founder_limit = EXCLUDED.founder_limit,

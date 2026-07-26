@@ -21,6 +21,7 @@ type Entitlement = {
     | 'webflow'
     | 'adobe'
     | 'penpot'
+    | 'sketch'
   tier: 'free' | 'founder'
   status: 'active' | 'revoked'
   founder_number: number | null
@@ -34,6 +35,7 @@ const products = [
   { id: 'webflow', label: 'Webflow extension' },
   { id: 'adobe', label: 'Adobe Express plugin' },
   { id: 'penpot', label: 'Penpot plugin' },
+  { id: 'sketch', label: 'Sketch plugin' },
   { id: 'raycast', label: 'Raycast extension' },
   { id: 'mcp', label: 'MCP server' },
   { id: 'jetbrains', label: 'JetBrains plugin' },
