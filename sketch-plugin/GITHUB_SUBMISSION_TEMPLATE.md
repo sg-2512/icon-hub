@@ -17,10 +17,10 @@ Your plugin assets are live and hosted on Vercel:
 ## 📝 2. Submit to Sketch Official GitHub Directory
 
 Sketch indexes plugins from their official open-source GitHub repository:
-👉 **[github.com/sketch-plugins/plugin-directory](https://github.com/sketch-plugins/plugin-directory)**
+👉 **[github.com/sketchplugins/plugin-directory](https://github.com/sketchplugins/plugin-directory)**
 
 ### Step A: Create Pull Request or Issue
-Open a Pull Request or Issue on [github.com/sketch-plugins/plugin-directory](https://github.com/sketch-plugins/plugin-directory/issues/new) to add `IconSearch` to `plugins.json`.
+Open a Pull Request or Issue on [github.com/sketchplugins/plugin-directory](https://github.com/sketchplugins/plugin-directory/issues/new) to add `IconSearch` to `plugins.json`.
 
 ### Step B: JSON Entry to Add to `plugins.json`:
 ```json
