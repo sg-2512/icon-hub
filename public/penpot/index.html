@@ -493,6 +493,16 @@ function bindEvents() {
   elements.insertBtn.onclick = () => doInsert(false);
   elements.copyBtn.onclick = () => doInsert(true);
 
+  // Infinite Scroll Listener
+  elements.resultsGrid.addEventListener("scroll", () => {
+    const { scrollTop, scrollHeight, clientHeight } = elements.resultsGrid;
+    if (scrollHeight - scrollTop - clientHeight < 250) {
+      if (!isFetchingPage && icons.length < totalCount) {
+        loadNextPage();
+      }
+    }
+  });
+
   // Unified Penpot message listener
   function handleMainMessage(msg) {
     if (!msg || typeof msg !== "object") return;
@@ -590,19 +600,30 @@ function signOut() {
   showAuth();
 }
 
-async function search() {
+let currentPage = 1;
+let totalCount = 0;
+let isFetchingPage = false;
+
+async function search(isNewSearch = true) {
   if (!token) return;
-  elements.statusText.textContent = "Searching...";
+
+  if (isNewSearch) {
+    currentPage = 1;
+    icons = [];
+    elements.resultsGrid.innerHTML = "";
+    elements.statusText.textContent = "Searching...";
+  }
 
   const q = elements.searchInput.value.trim();
   const lib = elements.librarySelect.value;
   const style = elements.styleSelect.value;
 
-  let url = API_BASE + "/api/extension/icon-search?limit=60&page=1&legalOnly=1&sort=" + (q ? "relevance" : "popular");
+  let url = API_BASE + "/api/extension/icon-search?limit=80&page=" + currentPage + "&legalOnly=1&sort=" + (q ? "relevance" : "popular");
   if (q) url += "&q=" + encodeURIComponent(q);
   if (lib !== "all") url += "&lib=" + encodeURIComponent(lib);
   if (style !== "all") url += "&style=" + encodeURIComponent(style);
 
+  isFetchingPage = true;
   try {
     const res = await fetch(url, {
       headers: {
@@ -614,15 +635,32 @@ async function search() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Search failed.");
 
-    icons = (data.icons || []).map(normalizeIcon).filter(Boolean);
-    autoDiscoverLibraries(icons);
-    elements.resultCount.textContent = (data.total || icons.length) + " icons";
+    const newIcons = (data.icons || []).map(normalizeIcon).filter(Boolean);
+    totalCount = data.total || (icons.length + newIcons.length);
+
+    if (isNewSearch) {
+      icons = newIcons;
+    } else {
+      icons = icons.concat(newIcons);
+    }
+
+    autoDiscoverLibraries(newIcons);
+    elements.resultCount.textContent = totalCount.toLocaleString() + " icons";
     elements.statusText.textContent = "Ready";
 
-    renderGrid();
+    renderGridBatch(newIcons, isNewSearch);
   } catch (err) {
     elements.statusText.textContent = err.message || "Error loading icons.";
+  } finally {
+    isFetchingPage = false;
   }
+}
+
+async function loadNextPage() {
+  if (isFetchingPage) return;
+  currentPage++;
+  elements.statusText.textContent = "Loading page " + currentPage + "...";
+  await search(false);
 }
 
 function autoDiscoverLibraries(items) {
@@ -655,8 +693,11 @@ function normalizeIcon(item) {
   };
 }
 
-function renderGrid() {
-  elements.resultsGrid.innerHTML = "";
+function renderGridBatch(newItems, isNewSearch) {
+  if (isNewSearch) {
+    elements.resultsGrid.innerHTML = "";
+  }
+
   if (icons.length === 0) {
     elements.resultsGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:30px;color:#a6adc8;">No icons found.</p>';
     selectedIcon = null;
@@ -670,7 +711,7 @@ function renderGrid() {
 
   const fragment = document.createDocumentFragment();
 
-  icons.forEach(icon => {
+  newItems.forEach(icon => {
     const card = document.createElement("div");
     card.className = "icon-card" + (icon.id === selectedIcon.id ? " active" : "");
     
