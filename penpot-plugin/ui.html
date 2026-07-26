@@ -281,13 +281,6 @@
     
     <div id="authStatusBox">
       <button id="startAuthBtn" type="button" class="btn-primary">Connect IconSearch Account</button>
-      <div style="margin-top:14px;padding-top:10px;border-top:1px solid #313244;">
-        <p style="font-size:10px;color:#a6adc8;margin-bottom:6px;font-weight:700;">OR PASTE TOKEN MANUALLY</p>
-        <div style="display:flex;gap:6px;">
-          <input id="initialManualInput" type="password" placeholder="Paste session token..." style="flex:1;height:32px;background:#0f0f17;border:1px solid #363654;border-radius:6px;padding:0 8px;color:#cdd6f4;" />
-          <button id="initialSaveBtn" type="button" class="btn-secondary" style="margin:0;width:54px;height:32px;font-size:11px;">Save</button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -538,32 +531,13 @@ async function startAuth() {
         <p style="font-size:10px;color:#a6adc8;font-weight:700;">PAIRING CODE</p>
         <div style="font-size:22px;font-weight:900;letter-spacing:0.1em;color:#2563eb;margin:4px 0 10px 0;">` + userCode + `</div>
         <a href="` + uri + `" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:11px;height:34px;text-decoration:none;">Open Sign-In Page ↗</a>
-        <button id="copyLinkBtn" type="button" class="btn-secondary" style="margin-top:6px;font-size:10px;height:28px;">Copy Link & Code</button>
-        
-        <div style="margin-top:10px;padding-top:8px;border-top:1px solid #313244;">
-          <p style="font-size:9px;color:#a6adc8;margin-bottom:4px;font-weight:700;">PASTE TOKEN MANUALLY</p>
-          <div style="display:flex;gap:4px;">
-            <input id="manualTokenInput" type="password" placeholder="Paste token..." style="flex:1;height:28px;background:#181825;border:1px solid #363654;border-radius:6px;padding:0 6px;color:#cdd6f4;" />
-            <button id="saveManualTokenBtn" type="button" class="btn-secondary" style="margin:0;width:48px;height:28px;font-size:10px;">Save</button>
-          </div>
-        </div>
+        <button id="copyLinkBtn" type="button" class="btn-secondary" style="margin-top:6px;font-size:10px;height:28px;">Copy Sign-In Link</button>
       </div>
     `;
 
     document.getElementById("copyLinkBtn").onclick = () => {
       navigator.clipboard.writeText(uri);
       showToast("Sign-In link copied!");
-    };
-
-    document.getElementById("saveManualTokenBtn").onclick = () => {
-      const val = document.getElementById("manualTokenInput").value.trim();
-      if (val) {
-        clearInterval(pollTimer);
-        token = val;
-        setStoredToken(val);
-        showApp();
-        search();
-      }
     };
 
     window.open(uri, "_blank");
