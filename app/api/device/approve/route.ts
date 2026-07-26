@@ -49,9 +49,10 @@ export async function POST(request: Request) {
       .eq('code_hash', codeHash)
       .maybeSingle()
 
-    if (deviceError) throw deviceError
+    const validDbProducts = ['vscode', 'figma', 'chrome', 'framer']
+    const expectedDbProduct = validDbProducts.includes(product) ? product : 'figma'
 
-    if (!device || device.product !== product) {
+    if (!device || (device.product !== product && device.product !== expectedDbProduct)) {
       return Response.json({ error: 'This sign-in link is invalid.' }, { status: 400 })
     }
     if (new Date(device.expires_at).getTime() <= Date.now()) {
