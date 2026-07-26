@@ -66,7 +66,11 @@ export function styleSvg(markup: string, options: StyledSvgOptions): string {
 export function normalizeHttpsUrl(value: unknown): string {
   if (typeof value !== "string") return "";
   const trimmed = value.trim();
-  const candidate = trimmed.startsWith("//") ? `https:${trimmed}` : trimmed;
+  const candidate = trimmed.startsWith("//")
+    ? `https:${trimmed}`
+    : trimmed.startsWith("/")
+    ? `https://iconsearch.info${trimmed}`
+    : trimmed;
   try {
     const parsed = new URL(candidate);
     return parsed.protocol === "https:" ? parsed.toString() : "";
