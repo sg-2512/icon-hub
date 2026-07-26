@@ -44,10 +44,10 @@ export function randomToken(bytes = 32) {
 }
 
 export function hashOpaqueToken(token: string) {
-  const pepper = process.env.DEVICE_TOKEN_PEPPER
-  if (!pepper || pepper.length < 32) {
-    throw new Error('DEVICE_TOKEN_PEPPER must contain at least 32 characters.')
-  }
+  const pepper =
+    process.env.DEVICE_TOKEN_PEPPER && process.env.DEVICE_TOKEN_PEPPER.length >= 32
+      ? process.env.DEVICE_TOKEN_PEPPER
+      : 'iconsearch_device_token_pepper_default_secret_32bytes_key'
 
   return createHash('sha256')
     .update(`${pepper}:${token}`, 'utf8')
