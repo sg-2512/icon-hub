@@ -636,6 +636,11 @@ select,
   height: 36px;
   display: block;
   object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.selected-preview {
+  filter: brightness(0) invert(1);
 }
 
 .icon-card strong,
