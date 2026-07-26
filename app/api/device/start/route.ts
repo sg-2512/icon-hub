@@ -1,6 +1,7 @@
 import {
   DEVICE_CODE_TTL_MS,
   DEVICE_POLL_INTERVAL_SECONDS,
+  getErrorText,
   getRequestFingerprint,
   hashOpaqueToken,
   parseExtensionProduct,
@@ -61,13 +62,17 @@ export async function POST(request: Request) {
         ? body.clientName.trim().slice(0, 80) || 'IconSearch'
         : 'IconSearch'
 
-    // Ensure DB foreign key constraint to products table is satisfied
-    const validDbProducts = ['vscode', 'figma', 'chrome', 'framer']
-    const dbProduct = validDbProducts.includes(product) ? product : 'figma'
+    // Auto-ensure product exists in products table
+    try {
+      await admin.from('products').upsert(
+        { id: product, name: `IconSearch for ${product.charAt(0).toUpperCase() + product.slice(1)}`, founder_limit: 500 },
+        { onConflict: 'id' }
+      )
+    } catch (_) {}
 
     const { error } = await admin.from('device_codes').insert({
       code_hash: hashOpaqueToken(deviceCode),
-      product: dbProduct,
+      product,
       client_name: clientName,
       request_fingerprint: fingerprint,
       expires_at: expiresAt.toISOString(),
