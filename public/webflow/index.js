@@ -20900,6 +20900,7 @@
   var SEARCH_ENDPOINT = "https://iconsearch.info/api/extension/icon-search";
   var DEVICE_START_ENDPOINT = "https://iconsearch.info/api/device/start";
   var DEVICE_STATUS_ENDPOINT = "https://iconsearch.info/api/device/status";
+  var TOKEN_KEY = "iconsearch_webflow_token";
   var SEARCH_LIMIT = 60;
   var LIBRARIES = [
     ["all", "All libraries (355k+)"],
@@ -20930,7 +20931,28 @@
     ["twotone", "Two-tone"],
     ["sharp", "Sharp"]
   ];
+  function getSavedToken() {
+    try {
+      return sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY);
+    } catch {
+      return null;
+    }
+  }
+  function saveToken(t) {
+    try {
+      sessionStorage.setItem(TOKEN_KEY, t);
+    } catch {
+    }
+  }
+  function clearToken() {
+    try {
+      sessionStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(TOKEN_KEY);
+    } catch {
+    }
+  }
   function App() {
+    const [token, setToken] = (0, import_react.useState)(getSavedToken());
     const [query, setQuery] = (0, import_react.useState)("arrow");
     const [library, setLibrary] = (0, import_react.useState)("all");
     const [style, setStyle] = (0, import_react.useState)("all");
@@ -20945,11 +20967,10 @@
     const [page, setPage] = (0, import_react.useState)(1);
     const [loading, setLoading] = (0, import_react.useState)(false);
     const [loadingMore, setLoadingMore] = (0, import_react.useState)(false);
-    const [token, setToken] = (0, import_react.useState)(null);
-    const [authenticated, setAuthenticated] = (0, import_react.useState)(false);
-    const [deviceCode, setDeviceCode] = (0, import_react.useState)(null);
     const [userCode, setUserCode] = (0, import_react.useState)(null);
     const [verificationUri, setVerificationUri] = (0, import_react.useState)(null);
+    const [authError, setAuthError] = (0, import_react.useState)(null);
+    const [startingAuth, setStartingAuth] = (0, import_react.useState)(false);
     const [selection, setSelection] = (0, import_react.useState)({
       hasSelection: false,
       canInsert: false,
@@ -20960,18 +20981,6 @@
     const pollTimerRef = (0, import_react.useRef)(null);
     const searchControllerRef = (0, import_react.useRef)(null);
     (0, import_react.useEffect)(() => {
-      async function initAuth() {
-        const idToken = await resolveWebflowUserToken();
-        if (idToken) {
-          setToken(idToken);
-          setAuthenticated(true);
-        } else {
-          setAuthenticated(true);
-        }
-      }
-      void initAuth();
-    }, []);
-    (0, import_react.useEffect)(() => {
       async function pollSelection() {
         const state = await checkSelectionState();
         setSelection(state);
@@ -20980,7 +20989,19 @@
       const interval = setInterval(() => void pollSelection(), 1200);
       return () => clearInterval(interval);
     }, []);
+    (0, import_react.useEffect)(() => {
+      async function checkNativeIdToken() {
+        if (token) return;
+        const idToken = await resolveWebflowUserToken();
+        if (idToken) {
+          setToken(idToken);
+          saveToken(idToken);
+        }
+      }
+      void checkNativeIdToken();
+    }, [token]);
     const fetchIcons = (0, import_react.useCallback)(async (isNewSearch = true) => {
+      if (!token) return;
       if (isNewSearch) {
         setPage(1);
         setIcons([]);
@@ -21003,15 +21024,18 @@
       try {
         const headers = {
           accept: "application/json",
-          "x-iconsearch-product": "webflow"
+          "x-iconsearch-product": "webflow",
+          authorization: `Bearer ${token}`
         };
-        if (token) {
-          headers.authorization = `Bearer ${token}`;
-        }
         const res = await fetch(url.toString(), {
           headers,
           signal: controller.signal
         });
+        if (res.status === 401) {
+          clearToken();
+          setToken(null);
+          return;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const rawList = Array.isArray(data.icons) ? data.icons : [];
@@ -21056,12 +21080,13 @@
       }
     }, [query, library, style, legalOnly, page, token]);
     (0, import_react.useEffect)(() => {
+      if (!token) return;
       const timer = setTimeout(() => void fetchIcons(true), 200);
       return () => clearTimeout(timer);
-    }, [query, library, style, legalOnly]);
+    }, [query, library, style, legalOnly, token]);
     (0, import_react.useEffect)(() => {
       function handleScroll() {
-        if (view !== "browse" || loading || loadingMore || icons.length >= total) return;
+        if (!token || view !== "browse" || loading || loadingMore || icons.length >= total) return;
         const scrollPosition = window.innerHeight + window.scrollY;
         const threshold = document.documentElement.offsetHeight - 400;
         if (scrollPosition >= threshold) {
@@ -21070,8 +21095,10 @@
       }
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
-    }, [view, loading, loadingMore, icons.length, total, fetchIcons]);
+    }, [view, loading, loadingMore, icons.length, total, fetchIcons, token]);
     async function handleStartAuth() {
+      setStartingAuth(true);
+      setAuthError(null);
       try {
         const res = await fetch(DEVICE_START_ENDPOINT, {
           method: "POST",
@@ -21079,11 +21106,10 @@
           body: JSON.stringify({ product: "webflow", clientName: "Webflow Extension" })
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(String(data.error || "Failed to start auth"));
+        if (!res.ok) throw new Error(String(data.error || "Failed to start device auth."));
         const code = String(data.deviceCode || "");
         const uCode = String(data.userCode || "");
         const uri = String(data.verificationUriComplete || `https://iconsearch.info/connect?product=webflow&code=${code}`);
-        setDeviceCode(code);
         setUserCode(uCode);
         setVerificationUri(uri);
         if (uri.startsWith("https://iconsearch.info")) {
@@ -21100,16 +21126,23 @@
             const statusData = await statusRes.json();
             if (statusRes.ok && statusData.status === "authorized" && typeof statusData.token === "string") {
               if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+              saveToken(statusData.token);
               setToken(statusData.token);
-              setAuthenticated(true);
-              setDeviceCode(null);
             }
           } catch {
           }
         }, 3e3);
       } catch (err) {
-        setStatusMessage(err instanceof Error ? err.message : "Pairing failed");
+        setAuthError(err instanceof Error ? err.message : "Pairing failed");
+      } finally {
+        setStartingAuth(false);
       }
+    }
+    function handleSignOut() {
+      clearToken();
+      setToken(null);
+      setUserCode(null);
+      setVerificationUri(null);
     }
     async function handleInsertIcon(icon) {
       if (!selection.canInsert) {
@@ -21147,159 +21180,178 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "app-subtitle", children: "Webflow Designer Extension" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "header-status", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `status-badge ${selection.canInsert ? "is-ready" : "is-warning"}`, children: selection.canInsert ? selection.elementName ? `Target: ${selection.elementName}` : "Ready to Insert" : "No Selection" }) })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "header-status", children: token ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: handleSignOut, className: "tab-btn", style: { padding: "2px 6px", fontSize: 10 }, children: "Sign Out" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `status-badge ${selection.canInsert ? "is-ready" : "is-warning"}`, children: selection.canInsert ? selection.elementName ? `Target: ${selection.elementName}` : "Ready to Insert" : "No Selection" }) })
       ] }),
-      userCode && verificationUri && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "pairing-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "pairing-label", children: "Webflow Account Pairing Code" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "pairing-code", children: userCode }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "a",
-          {
-            href: verificationUri,
-            target: "_blank",
-            rel: "noopener noreferrer",
-            className: "btn-primary",
-            children: "Approve Webflow Extension \u2197"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { className: "app-main", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "search-bar", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "input",
-          {
-            type: "text",
-            className: "search-input",
-            value: query,
-            onChange: (e) => setQuery(e.target.value),
-            placeholder: "Search 355,000+ vector icons..."
-          }
-        ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "filter-grid", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("select", { value: library, onChange: (e) => setLibrary(e.target.value), className: "select-control", children: LIBRARIES.map(([val, label]) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: val, children: label }, val)) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("select", { value: style, onChange: (e) => setStyle(e.target.value), className: "select-control", children: STYLES.map(([val, label]) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: val, children: label }, val)) })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "view-tabs", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-            "button",
-            {
-              type: "button",
-              className: `tab-btn ${view === "browse" ? "is-active" : ""}`,
-              onClick: () => setView("browse"),
-              children: [
-                "Browse (",
-                total.toLocaleString(),
-                ")"
-              ]
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-            "button",
-            {
-              type: "button",
-              className: `tab-btn ${view === "recent" ? "is-active" : ""}`,
-              onClick: () => setView("recent"),
-              children: [
-                "Recent (",
-                recentIcons.length,
-                ")"
-              ]
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-panel", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "selected-preview-box", children: selectedIcon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: selectedIcon.svgUrl, alt: selectedIcon.displayName, className: "selected-preview-img" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "no-selection-placeholder", children: "No Icon Selected" }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-info", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { className: "selected-title", children: selectedIcon ? selectedIcon.displayName : "Select an Icon" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "selected-meta", children: selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click any icon below" })
-          ] })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "controls-box", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "control-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-                "Size (",
-                size,
-                "px)"
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "input",
-                {
-                  type: "range",
-                  min: "16",
-                  max: "512",
-                  step: "8",
-                  value: size,
-                  onChange: (e) => setSize(Number(e.target.value)),
-                  className: "range-input"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Color" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "color-picker-wrap", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    type: "color",
-                    value: color,
-                    onChange: (e) => setColor(e.target.value),
-                    className: "color-input"
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: color.toUpperCase(),
-                    onChange: (e) => isSafeHex(e.target.value) && setColor(e.target.value),
-                    className: "hex-input",
-                    maxLength: 7
-                  }
-                )
-              ] })
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "swatch-row", children: ["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "button",
-            {
-              type: "button",
-              className: `swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`,
-              style: { backgroundColor: swatchColor },
-              onClick: () => setColor(swatchColor),
-              "aria-label": `Select color ${swatchColor}`
-            },
-            swatchColor
-          )) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "button",
-            {
-              type: "button",
-              className: "btn-primary insert-btn",
-              disabled: !selectedIcon || !selection.canInsert || inserting,
-              onClick: () => selectedIcon && void handleInsertIcon(selectedIcon),
-              children: inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"
-            }
-          )
-        ] }),
-        statusMessage && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "status-banner", children: statusMessage }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "results-grid", children: displayedIcons.map((icon) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+      !token ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "auth-card", style: { padding: "24px 16px", textAlign: "center", background: "var(--surface)", borderRadius: 10, border: "1px solid var(--line)", margin: "20px 0" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 44, height: 44, borderRadius: 10, background: "#2563EB", color: "#FFFFFF", display: "grid", placeItems: "center", fontWeight: 900, fontSize: 18, margin: "0 auto 12px" }, children: "IS" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { fontSize: 16, fontWeight: 800, marginBottom: 6 }, children: "Connect IconSearch Account" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: 11, color: "var(--muted)", marginBottom: 16, lineHeight: 1.4 }, children: "Sign in to pair your IconSearch account and search 355,000+ vector icons inside Webflow." }),
+        !userCode ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           "button",
           {
             type: "button",
-            className: `icon-card ${selectedIcon?.id === icon.id ? "is-selected" : ""}`,
-            onClick: () => setSelectedIcon(icon),
-            onDoubleClick: () => void handleInsertIcon(icon),
-            title: `${icon.displayName} | ${icon.libraryName}`,
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "icon-card-preview", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: icon.svgUrl, loading: "lazy", alt: "", className: "icon-img" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "icon-name", children: icon.displayName }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "icon-lib", children: icon.libraryName })
-            ]
-          },
-          icon.id
-        )) }),
-        loadingMore && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-indicator", children: "Loading more icons..." })
-      ] })
+            className: "btn-primary",
+            disabled: startingAuth,
+            onClick: handleStartAuth,
+            children: startingAuth ? "Requesting pairing code..." : "Sign in with IconSearch"
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 12, background: "var(--surface-subtle)", borderRadius: 8, border: "1px solid var(--line)" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: 10, color: "var(--muted)", fontWeight: 700, margin: "0 0 4px" }, children: "PAIRING CODE" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 24, fontWeight: 900, letterSpacing: "0.1em", color: "#2563EB", margin: "4px 0 10px" }, children: userCode }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            "a",
+            {
+              href: verificationUri || "#",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "btn-primary",
+              style: { display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", height: 36 },
+              children: "Open Sign-In Page \u2197"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: 10, color: "var(--muted)", marginTop: 8 }, children: "Waiting for browser approval..." })
+        ] }),
+        authError && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: 11, color: "#ef4444", marginTop: 10 }, children: authError })
+      ] }) : (
+        /* MAIN CATALOG INTERFACE */
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { className: "app-main", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "search-bar", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            "input",
+            {
+              type: "text",
+              className: "search-input",
+              value: query,
+              onChange: (e) => setQuery(e.target.value),
+              placeholder: "Search 355,000+ vector icons..."
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "filter-grid", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("select", { value: library, onChange: (e) => setLibrary(e.target.value), className: "select-control", children: LIBRARIES.map(([val, label]) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: val, children: label }, val)) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("select", { value: style, onChange: (e) => setStyle(e.target.value), className: "select-control", children: STYLES.map(([val, label]) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: val, children: label }, val)) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "view-tabs", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "button",
+              {
+                type: "button",
+                className: `tab-btn ${view === "browse" ? "is-active" : ""}`,
+                onClick: () => setView("browse"),
+                children: [
+                  "Browse (",
+                  total.toLocaleString(),
+                  ")"
+                ]
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "button",
+              {
+                type: "button",
+                className: `tab-btn ${view === "recent" ? "is-active" : ""}`,
+                onClick: () => setView("recent"),
+                children: [
+                  "Recent (",
+                  recentIcons.length,
+                  ")"
+                ]
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-panel", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "selected-preview-box", children: selectedIcon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: selectedIcon.svgUrl, alt: selectedIcon.displayName, className: "selected-preview-img" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "no-selection-placeholder", children: "No Icon Selected" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-info", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { className: "selected-title", children: selectedIcon ? selectedIcon.displayName : "Select an Icon" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "selected-meta", children: selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click any icon below" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "controls-box", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "control-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+                  "Size (",
+                  size,
+                  "px)"
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    type: "range",
+                    min: "16",
+                    max: "512",
+                    step: "8",
+                    value: size,
+                    onChange: (e) => setSize(Number(e.target.value)),
+                    className: "range-input"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Color" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "color-picker-wrap", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "input",
+                    {
+                      type: "color",
+                      value: color,
+                      onChange: (e) => setColor(e.target.value),
+                      className: "color-input"
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "input",
+                    {
+                      type: "text",
+                      value: color.toUpperCase(),
+                      onChange: (e) => isSafeHex(e.target.value) && setColor(e.target.value),
+                      className: "hex-input",
+                      maxLength: 7
+                    }
+                  )
+                ] })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "swatch-row", children: ["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                type: "button",
+                className: `swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`,
+                style: { backgroundColor: swatchColor },
+                onClick: () => setColor(swatchColor),
+                "aria-label": `Select color ${swatchColor}`
+              },
+              swatchColor
+            )) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                type: "button",
+                className: "btn-primary insert-btn",
+                disabled: !selectedIcon || !selection.canInsert || inserting,
+                onClick: () => selectedIcon && void handleInsertIcon(selectedIcon),
+                children: inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"
+              }
+            )
+          ] }),
+          statusMessage && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "status-banner", children: statusMessage }),
+          loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-indicator", children: "Searching icons..." }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "results-grid", children: displayedIcons.map((icon) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+            "button",
+            {
+              type: "button",
+              className: `icon-card ${selectedIcon?.id === icon.id ? "is-selected" : ""}`,
+              onClick: () => setSelectedIcon(icon),
+              onDoubleClick: () => void handleInsertIcon(icon),
+              title: `${icon.displayName} | ${icon.libraryName}`,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "icon-card-preview", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: icon.svgUrl, loading: "lazy", alt: "", className: "icon-img" }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "icon-name", children: icon.displayName }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "icon-lib", children: icon.libraryName })
+              ]
+            },
+            icon.id
+          )) }),
+          loadingMore && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-indicator", children: "Loading more icons..." })
+        ] })
+      )
     ] });
   }
 
