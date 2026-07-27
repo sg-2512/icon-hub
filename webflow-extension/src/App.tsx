@@ -297,7 +297,7 @@ export function App() {
       {/* HEADER */}
       <header className="app-header">
         <div className="brand-section">
-          <img src="https://iconsearch.info/favicon.ico" alt="" className="app-logo" />
+          <div style={{ width: 28, height: 28, borderRadius: 6, background: "#2563EB", color: "#FFFFFF", display: "grid", placeItems: "center", fontWeight: 800, fontSize: 13 }}>IS</div>
           <div>
             <h1 className="app-title">IconSearch</h1>
             <p className="app-subtitle">Webflow Designer Extension</p>

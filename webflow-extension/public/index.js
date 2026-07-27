@@ -21141,7 +21141,7 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "app-container", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: "app-header", children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "brand-section", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: "https://iconsearch.info/favicon.ico", alt: "", className: "app-logo" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 28, height: 28, borderRadius: 6, background: "#2563EB", color: "#FFFFFF", display: "grid", placeItems: "center", fontWeight: 800, fontSize: 13 }, children: "IS" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { className: "app-title", children: "IconSearch" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "app-subtitle", children: "Webflow Designer Extension" })
