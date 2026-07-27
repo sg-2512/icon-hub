@@ -1,0 +1,474 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { normalizeHttpsUrl, isSafeHex, styleSvg, sanitizeSvg } from "./svg";
+import { checkSelectionState, insertIconToCanvas, resolveWebflowUserToken, SelectionState } from "./webflow-api";
+
+const SEARCH_ENDPOINT = "https://iconsearch.info/api/extension/icon-search";
+const DEVICE_START_ENDPOINT = "https://iconsearch.info/api/device/start";
+const DEVICE_STATUS_ENDPOINT = "https://iconsearch.info/api/device/status";
+const SEARCH_LIMIT = 60;
+
+type IconSearchIcon = {
+  id: string;
+  name: string;
+  displayName: string;
+  library: string;
+  libraryName: string;
+  license: string;
+  svgUrl: string;
+  previewUrls: string[];
+};
+
+const LIBRARIES = [
+  ["all", "All libraries (355k+)"],
+  ["lucide-icons", "Lucide Icons"],
+  ["heroicons", "Heroicons"],
+  ["tabler-icons", "Tabler Icons"],
+  ["phosphor-icons", "Phosphor Icons"],
+  ["remix-icon", "Remix Icon"],
+  ["feather-icons", "Feather Icons"],
+  ["bootstrap-icons", "Bootstrap Icons"],
+  ["ant-design-icons", "Ant Design Icons"],
+  ["radix-icons", "Radix Icons"],
+  ["octicons", "Octicons (GitHub)"],
+  ["iconify-icons", "Material Design / Iconify"],
+  ["ionicons", "Ionicons"],
+  ["iconoir", "Iconoir"],
+  ["devicons", "Devicons"],
+  ["circum-icons", "Circum Icons"],
+  ["elusive-icons", "Elusive Icons"],
+  ["teenyicons", "Teenyicons"],
+  ["untitled-ui-icons", "Untitled UI Icons"],
+] as const;
+
+const STYLES = [
+  ["all", "All styles"],
+  ["stroke", "Outline"],
+  ["solid", "Solid"],
+  ["duotone", "Duotone"],
+  ["twotone", "Two-tone"],
+  ["sharp", "Sharp"],
+] as const;
+
+export function App() {
+  const [query, setQuery] = useState("arrow");
+  const [library, setLibrary] = useState("all");
+  const [style, setStyle] = useState("all");
+  const [legalOnly, setLegalOnly] = useState(true);
+  const [size, setSize] = useState(64);
+  const [color, setColor] = useState("#111827");
+  const [view, setView] = useState<"browse" | "recent">("browse");
+
+  const [icons, setIcons] = useState<IconSearchIcon[]>([]);
+  const [recentIcons, setRecentIcons] = useState<IconSearchIcon[]>([]);
+  const [selectedIcon, setSelectedIcon] = useState<IconSearchIcon | null>(null);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const [token, setToken] = useState<string | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [deviceCode, setDeviceCode] = useState<string | null>(null);
+  const [userCode, setUserCode] = useState<string | null>(null);
+  const [verificationUri, setVerificationUri] = useState<string | null>(null);
+
+  const [selection, setSelection] = useState<SelectionState>({
+    hasSelection: false,
+    canInsert: false,
+    reason: "Checking Webflow selection..."
+  });
+  const [statusMessage, setStatusMessage] = useState<string>("");
+  const [inserting, setInserting] = useState(false);
+
+  const pollTimerRef = useRef<number | null>(null);
+  const searchControllerRef = useRef<AbortController | null>(null);
+
+  // Initialize Webflow ID Token or Auto-Auth
+  useEffect(() => {
+    async function initAuth() {
+      const idToken = await resolveWebflowUserToken();
+      if (idToken) {
+        setToken(idToken);
+        setAuthenticated(true);
+      } else {
+        // Automatically start session for Webflow extension
+        setAuthenticated(true);
+      }
+    }
+    void initAuth();
+  }, []);
+
+  // Poll Webflow Designer Canvas selection
+  useEffect(() => {
+    async function pollSelection() {
+      const state = await checkSelectionState();
+      setSelection(state);
+    }
+    void pollSelection();
+    const interval = setInterval(() => void pollSelection(), 1200);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Execute Icon Search
+  const fetchIcons = useCallback(async (isNewSearch = true) => {
+    if (isNewSearch) {
+      setPage(1);
+      setIcons([]);
+      setLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
+
+    searchControllerRef.current?.abort();
+    const controller = new AbortController();
+    searchControllerRef.current = controller;
+
+    const currentPage = isNewSearch ? 1 : page + 1;
+    const url = new URL(SEARCH_ENDPOINT);
+    if (query.trim()) url.searchParams.set("q", query.trim());
+    url.searchParams.set("lib", library);
+    url.searchParams.set("style", style);
+    url.searchParams.set("legalOnly", legalOnly ? "1" : "0");
+    url.searchParams.set("page", String(currentPage));
+    url.searchParams.set("limit", String(SEARCH_LIMIT));
+    url.searchParams.set("sort", query.trim() ? "relevance" : "popular");
+
+    try {
+      const headers: Record<string, string> = {
+        accept: "application/json",
+        "x-iconsearch-product": "webflow"
+      };
+      if (token) {
+        headers.authorization = `Bearer ${token}`;
+      }
+
+      const res = await fetch(url.toString(), {
+        headers,
+        signal: controller.signal
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json() as { icons?: unknown[]; total?: number };
+      const rawList = Array.isArray(data.icons) ? data.icons : [];
+
+      const parsedIcons: IconSearchIcon[] = [];
+      for (const item of rawList) {
+        if (!item || typeof item !== "object") continue;
+        const record = item as Record<string, unknown>;
+        const name = String(record.name || "").trim();
+        const lib = String(record.library || "").trim();
+        const svgUrl = normalizeHttpsUrl(record.svgUrl);
+        if (!name || !lib || !svgUrl) continue;
+        parsedIcons.push({
+          id: String(record.id || `${lib}-${name}`),
+          name,
+          displayName: String(record.displayName || name),
+          library: lib,
+          libraryName: String(record.libraryName || lib),
+          license: String(record.license || "Open License"),
+          svgUrl,
+          previewUrls: [svgUrl]
+        });
+      }
+
+      if (isNewSearch) {
+        setIcons(parsedIcons);
+        if (parsedIcons.length > 0) setSelectedIcon(parsedIcons[0]);
+      } else {
+        setIcons((prev) => [...prev, ...parsedIcons]);
+        setPage(currentPage);
+      }
+
+      setTotal(Number(data.total) || parsedIcons.length);
+    } catch (err) {
+      if (controller.signal.aborted) return;
+      if (isNewSearch) {
+        setIcons([]);
+        setTotal(0);
+      }
+    } finally {
+      if (!controller.signal.aborted) {
+        setLoading(false);
+        setLoadingMore(false);
+      }
+    }
+  }, [query, library, style, legalOnly, page, token]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => void fetchIcons(true), 200);
+    return () => clearTimeout(timer);
+  }, [query, library, style, legalOnly]);
+
+  // Handle Infinite Scroll
+  useEffect(() => {
+    function handleScroll() {
+      if (view !== "browse" || loading || loadingMore || icons.length >= total) return;
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.documentElement.offsetHeight - 400;
+      if (scrollPosition >= threshold) {
+        void fetchIcons(false);
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [view, loading, loadingMore, icons.length, total, fetchIcons]);
+
+  // Start Device Pairing (if manually triggered)
+  async function handleStartAuth() {
+    try {
+      const res = await fetch(DEVICE_START_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product: "webflow", clientName: "Webflow Extension" })
+      });
+      const data = await res.json() as Record<string, unknown>;
+      if (!res.ok) throw new Error(String(data.error || "Failed to start auth"));
+
+      const code = String(data.deviceCode || "");
+      const uCode = String(data.userCode || "");
+      const uri = String(data.verificationUriComplete || `https://iconsearch.info/connect?product=webflow&code=${code}`);
+
+      setDeviceCode(code);
+      setUserCode(uCode);
+      setVerificationUri(uri);
+
+      // Validate popup origin strictly before opening
+      if (uri.startsWith("https://iconsearch.info")) {
+        window.open(uri, "_blank", "noopener,noreferrer");
+      }
+
+      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+      pollTimerRef.current = window.setInterval(async () => {
+        try {
+          const statusRes = await fetch(DEVICE_STATUS_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ deviceCode: code })
+          });
+          const statusData = await statusRes.json() as Record<string, unknown>;
+          if (statusRes.ok && statusData.status === "authorized" && typeof statusData.token === "string") {
+            if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+            setToken(statusData.token);
+            setAuthenticated(true);
+            setDeviceCode(null);
+          }
+        } catch {}
+      }, 3000);
+    } catch (err) {
+      setStatusMessage(err instanceof Error ? err.message : "Pairing failed");
+    }
+  }
+
+  // Handle Icon Insertion into Webflow Canvas
+  async function handleInsertIcon(icon: IconSearchIcon) {
+    if (!selection.canInsert) {
+      setStatusMessage(selection.reason || "Select a Webflow canvas element first.");
+      return;
+    }
+    setInserting(true);
+    setStatusMessage(`Inserting ${icon.displayName}...`);
+
+    try {
+      const res = await fetch(icon.svgUrl, { headers: { accept: "image/svg+xml,text/plain" } });
+      if (!res.ok) throw new Error("Could not fetch SVG content.");
+      const rawMarkup = await res.text();
+      const sanitized = sanitizeSvg(rawMarkup);
+      const styled = styleSvg(sanitized, { color, title: icon.displayName });
+
+      await insertIconToCanvas({
+        svgMarkup: styled,
+        iconName: icon.displayName,
+        size
+      });
+
+      setStatusMessage(`Inserted ${icon.displayName} successfully!`);
+      setRecentIcons((prev) => [icon, ...prev.filter((i) => i.id !== icon.id)].slice(0, 20));
+    } catch (err) {
+      setStatusMessage(err instanceof Error ? err.message : "Failed to insert icon.");
+    } finally {
+      setInserting(false);
+    }
+  }
+
+  const displayedIcons = view === "recent" ? recentIcons : icons;
+
+  return (
+    <div className="app-container">
+      {/* HEADER */}
+      <header className="app-header">
+        <div className="brand-section">
+          <img src="https://iconsearch.info/favicon.ico" alt="" className="app-logo" />
+          <div>
+            <h1 className="app-title">IconSearch</h1>
+            <p className="app-subtitle">Webflow Designer Extension</p>
+          </div>
+        </div>
+        <div className="header-status">
+          <span className={`status-badge ${selection.canInsert ? "is-ready" : "is-warning"}`}>
+            {selection.canInsert ? (selection.elementName ? `Target: ${selection.elementName}` : "Ready to Insert") : "No Selection"}
+          </span>
+        </div>
+      </header>
+
+      {/* PAIRING NOTICE / AUTH CARD (if applicable) */}
+      {userCode && verificationUri && (
+        <div className="pairing-card">
+          <p className="pairing-label">Webflow Account Pairing Code</p>
+          <div className="pairing-code">{userCode}</div>
+          <a
+            href={verificationUri}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
+            Approve Webflow Extension ↗
+          </a>
+        </div>
+      )}
+
+      {/* MAIN SEARCH & CONTROLS */}
+      <main className="app-main">
+        {/* SEARCH BAR */}
+        <div className="search-bar">
+          <input
+            type="text"
+            className="search-input"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search 355,000+ vector icons..."
+          />
+        </div>
+
+        {/* FILTERS */}
+        <div className="filter-grid">
+          <select value={library} onChange={(e) => setLibrary(e.target.value)} className="select-control">
+            {LIBRARIES.map(([val, label]) => (
+              <option key={val} value={val}>{label}</option>
+            ))}
+          </select>
+          <select value={style} onChange={(e) => setStyle(e.target.value)} className="select-control">
+            {STYLES.map(([val, label]) => (
+              <option key={val} value={val}>{label}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* TABS */}
+        <div className="view-tabs">
+          <button
+            type="button"
+            className={`tab-btn ${view === "browse" ? "is-active" : ""}`}
+            onClick={() => setView("browse")}
+          >
+            Browse ({total.toLocaleString()})
+          </button>
+          <button
+            type="button"
+            className={`tab-btn ${view === "recent" ? "is-active" : ""}`}
+            onClick={() => setView("recent")}
+          >
+            Recent ({recentIcons.length})
+          </button>
+        </div>
+
+        {/* SELECTED ICON CARD */}
+        <div className="selected-panel">
+          <div className="selected-preview-box">
+            {selectedIcon ? (
+              <img src={selectedIcon.svgUrl} alt={selectedIcon.displayName} className="selected-preview-img" />
+            ) : (
+              <span className="no-selection-placeholder">No Icon Selected</span>
+            )}
+          </div>
+          <div className="selected-info">
+            <h2 className="selected-title">{selectedIcon ? selectedIcon.displayName : "Select an Icon"}</h2>
+            <p className="selected-meta">{selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click any icon below"}</p>
+          </div>
+        </div>
+
+        {/* CONTROLS */}
+        <div className="controls-box">
+          <div className="control-row">
+            <label className="control-label">
+              <span>Size ({size}px)</span>
+              <input
+                type="range"
+                min="16"
+                max="512"
+                step="8"
+                value={size}
+                onChange={(e) => setSize(Number(e.target.value))}
+                className="range-input"
+              />
+            </label>
+            <label className="control-label">
+              <span>Color</span>
+              <div className="color-picker-wrap">
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                  className="color-input"
+                />
+                <input
+                  type="text"
+                  value={color.toUpperCase()}
+                  onChange={(e) => isSafeHex(e.target.value) && setColor(e.target.value)}
+                  className="hex-input"
+                  maxLength={7}
+                />
+              </div>
+            </label>
+          </div>
+
+          <div className="swatch-row">
+            {["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => (
+              <button
+                key={swatchColor}
+                type="button"
+                className={`swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`}
+                style={{ backgroundColor: swatchColor }}
+                onClick={() => setColor(swatchColor)}
+                aria-label={`Select color ${swatchColor}`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className="btn-primary insert-btn"
+            disabled={!selectedIcon || !selection.canInsert || inserting}
+            onClick={() => selectedIcon && void handleInsertIcon(selectedIcon)}
+          >
+            {inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"}
+          </button>
+        </div>
+
+        {/* STATUS BAR */}
+        {statusMessage && <div className="status-banner">{statusMessage}</div>}
+
+        {/* ICON GRID */}
+        <div className="results-grid">
+          {displayedIcons.map((icon) => (
+            <button
+              key={icon.id}
+              type="button"
+              className={`icon-card ${selectedIcon?.id === icon.id ? "is-selected" : ""}`}
+              onClick={() => setSelectedIcon(icon)}
+              onDoubleClick={() => void handleInsertIcon(icon)}
+              title={`${icon.displayName} | ${icon.libraryName}`}
+            >
+              <div className="icon-card-preview">
+                <img src={icon.svgUrl} loading="lazy" alt="" className="icon-img" />
+              </div>
+              <span className="icon-name">{icon.displayName}</span>
+              <span className="icon-lib">{icon.libraryName}</span>
+            </button>
+          ))}
+        </div>
+
+        {loadingMore && <div className="loading-indicator">Loading more icons...</div>}
+      </main>
+    </div>
+  );
+}
