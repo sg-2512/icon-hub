@@ -116,6 +116,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-T75PM4NWBD');
           `}
         </Script>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7157745573382727"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </head>
       <body suppressHydrationWarning>
         <AppShell>{children}</AppShell>
