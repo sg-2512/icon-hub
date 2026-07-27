@@ -21257,81 +21257,6 @@
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-panel", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "selected-preview-box", children: selectedIcon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: selectedIcon.svgUrl, alt: selectedIcon.displayName, className: "selected-preview-img" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "no-selection-placeholder", children: "No Icon Selected" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-info", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { className: "selected-title", children: selectedIcon ? selectedIcon.displayName : "Select an Icon" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "selected-meta", children: selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click any icon below" })
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "controls-box", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "control-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-                  "Size (",
-                  size,
-                  "px)"
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    type: "range",
-                    min: "16",
-                    max: "512",
-                    step: "8",
-                    value: size,
-                    onChange: (e) => setSize(Number(e.target.value)),
-                    className: "range-input"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Color" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "color-picker-wrap", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    "input",
-                    {
-                      type: "color",
-                      value: color,
-                      onChange: (e) => setColor(e.target.value),
-                      className: "color-input"
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    "input",
-                    {
-                      type: "text",
-                      value: color.toUpperCase(),
-                      onChange: (e) => isSafeHex(e.target.value) && setColor(e.target.value),
-                      className: "hex-input",
-                      maxLength: 7
-                    }
-                  )
-                ] })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "swatch-row", children: ["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                type: "button",
-                className: `swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`,
-                style: { backgroundColor: swatchColor },
-                onClick: () => setColor(swatchColor),
-                "aria-label": `Select color ${swatchColor}`
-              },
-              swatchColor
-            )) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                type: "button",
-                className: "btn-primary insert-btn",
-                disabled: !selectedIcon || !selection.canInsert || inserting,
-                onClick: () => selectedIcon && void handleInsertIcon(selectedIcon),
-                children: inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"
-              }
-            )
-          ] }),
           statusMessage && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "status-banner", children: statusMessage }),
           loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-indicator", children: "Searching icons..." }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "results-grid", children: displayedIcons.map((icon) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
             "button",
@@ -21349,7 +21274,84 @@
             },
             icon.id
           )) }),
-          loadingMore && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-indicator", children: "Loading more icons..." })
+          loadingMore && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-indicator", children: "Loading more icons..." }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "sticky-bottom-dock", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-panel", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "selected-preview-box", children: selectedIcon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: selectedIcon.svgUrl, alt: selectedIcon.displayName, className: "selected-preview-img" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "no-selection-placeholder", children: "No Icon" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-info", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { className: "selected-title", children: selectedIcon ? selectedIcon.displayName : "Select an Icon" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "selected-meta", children: selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click grid item" })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "controls-box", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "control-row", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+                    "Size (",
+                    size,
+                    "px)"
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "input",
+                    {
+                      type: "range",
+                      min: "16",
+                      max: "512",
+                      step: "8",
+                      value: size,
+                      onChange: (e) => setSize(Number(e.target.value)),
+                      className: "range-input"
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Color" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "color-picker-wrap", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "input",
+                      {
+                        type: "color",
+                        value: color,
+                        onChange: (e) => setColor(e.target.value),
+                        className: "color-input"
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "input",
+                      {
+                        type: "text",
+                        value: color.toUpperCase(),
+                        onChange: (e) => isSafeHex(e.target.value) && setColor(e.target.value),
+                        className: "hex-input",
+                        maxLength: 7
+                      }
+                    )
+                  ] })
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "swatch-row", children: ["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                "button",
+                {
+                  type: "button",
+                  className: `swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`,
+                  style: { backgroundColor: swatchColor },
+                  onClick: () => setColor(swatchColor),
+                  "aria-label": `Select color ${swatchColor}`
+                },
+                swatchColor
+              )) }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                "button",
+                {
+                  type: "button",
+                  className: "btn-primary insert-btn",
+                  disabled: !selectedIcon || !selection.canInsert || inserting,
+                  onClick: () => selectedIcon && void handleInsertIcon(selectedIcon),
+                  children: inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"
+                }
+              )
+            ] })
+          ] })
         ] })
       )
     ] });

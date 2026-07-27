@@ -433,83 +433,10 @@ export function App() {
             </button>
           </div>
 
-          {/* SELECTED ICON CARD */}
-          <div className="selected-panel">
-            <div className="selected-preview-box">
-              {selectedIcon ? (
-                <img src={selectedIcon.svgUrl} alt={selectedIcon.displayName} className="selected-preview-img" />
-              ) : (
-                <span className="no-selection-placeholder">No Icon Selected</span>
-              )}
-            </div>
-            <div className="selected-info">
-              <h2 className="selected-title">{selectedIcon ? selectedIcon.displayName : "Select an Icon"}</h2>
-              <p className="selected-meta">{selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click any icon below"}</p>
-            </div>
-          </div>
-
-          {/* CONTROLS */}
-          <div className="controls-box">
-            <div className="control-row">
-              <label className="control-label">
-                <span>Size ({size}px)</span>
-                <input
-                  type="range"
-                  min="16"
-                  max="512"
-                  step="8"
-                  value={size}
-                  onChange={(e) => setSize(Number(e.target.value))}
-                  className="range-input"
-                />
-              </label>
-              <label className="control-label">
-                <span>Color</span>
-                <div className="color-picker-wrap">
-                  <input
-                    type="color"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                    className="color-input"
-                  />
-                  <input
-                    type="text"
-                    value={color.toUpperCase()}
-                    onChange={(e) => isSafeHex(e.target.value) && setColor(e.target.value)}
-                    className="hex-input"
-                    maxLength={7}
-                  />
-                </div>
-              </label>
-            </div>
-
-            <div className="swatch-row">
-              {["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => (
-                <button
-                  key={swatchColor}
-                  type="button"
-                  className={`swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`}
-                  style={{ backgroundColor: swatchColor }}
-                  onClick={() => setColor(swatchColor)}
-                  aria-label={`Select color ${swatchColor}`}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              className="btn-primary insert-btn"
-              disabled={!selectedIcon || !selection.canInsert || inserting}
-              onClick={() => selectedIcon && void handleInsertIcon(selectedIcon)}
-            >
-              {inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"}
-            </button>
-          </div>
-
           {/* STATUS BAR */}
           {statusMessage && <div className="status-banner">{statusMessage}</div>}
 
-          {/* ICON GRID */}
+          {/* ICON GRID (SCROLLABLE MIDDLE) */}
           {loading ? (
             <div className="loading-indicator">Searching icons...</div>
           ) : (
@@ -534,6 +461,82 @@ export function App() {
           )}
 
           {loadingMore && <div className="loading-indicator">Loading more icons...</div>}
+
+          {/* STICKY BOTTOM DOCK (ALWAYS VISIBLE PINNED AT BOTTOM) */}
+          <div className="sticky-bottom-dock">
+            {/* SELECTED ICON CARD */}
+            <div className="selected-panel">
+              <div className="selected-preview-box">
+                {selectedIcon ? (
+                  <img src={selectedIcon.svgUrl} alt={selectedIcon.displayName} className="selected-preview-img" />
+                ) : (
+                  <span className="no-selection-placeholder">No Icon</span>
+                )}
+              </div>
+              <div className="selected-info">
+                <h2 className="selected-title">{selectedIcon ? selectedIcon.displayName : "Select an Icon"}</h2>
+                <p className="selected-meta">{selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click grid item"}</p>
+              </div>
+            </div>
+
+            {/* CONTROLS & INSERT BUTTON */}
+            <div className="controls-box">
+              <div className="control-row">
+                <label className="control-label">
+                  <span>Size ({size}px)</span>
+                  <input
+                    type="range"
+                    min="16"
+                    max="512"
+                    step="8"
+                    value={size}
+                    onChange={(e) => setSize(Number(e.target.value))}
+                    className="range-input"
+                  />
+                </label>
+                <label className="control-label">
+                  <span>Color</span>
+                  <div className="color-picker-wrap">
+                    <input
+                      type="color"
+                      value={color}
+                      onChange={(e) => setColor(e.target.value)}
+                      className="color-input"
+                    />
+                    <input
+                      type="text"
+                      value={color.toUpperCase()}
+                      onChange={(e) => isSafeHex(e.target.value) && setColor(e.target.value)}
+                      className="hex-input"
+                      maxLength={7}
+                    />
+                  </div>
+                </label>
+              </div>
+
+              <div className="swatch-row">
+                {["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => (
+                  <button
+                    key={swatchColor}
+                    type="button"
+                    className={`swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`}
+                    style={{ backgroundColor: swatchColor }}
+                    onClick={() => setColor(swatchColor)}
+                    aria-label={`Select color ${swatchColor}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                className="btn-primary insert-btn"
+                disabled={!selectedIcon || !selection.canInsert || inserting}
+                onClick={() => selectedIcon && void handleInsertIcon(selectedIcon)}
+              >
+                {inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"}
+              </button>
+            </div>
+          </div>
         </main>
       )}
     </div>
