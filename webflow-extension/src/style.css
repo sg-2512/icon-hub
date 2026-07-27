@@ -315,6 +315,7 @@ body {
 }
 
 .icon-card {
+  position: relative;
   height: 98px;
   padding: 6px;
   background: var(--surface);
@@ -324,7 +325,33 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  color: var(--text);
   cursor: pointer;
+}
+
+.card-add-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  opacity: 0.85;
+  transition: opacity 150ms ease, transform 150ms ease;
+  z-index: 5;
+}
+
+.icon-card:hover .card-add-btn {
+  opacity: 1;
+  transform: scale(1.1);
+  background: var(--blue-dark);
 }
 
 .icon-card.is-selected {
@@ -352,6 +379,7 @@ body {
 .icon-name {
   font-size: 10px;
   font-weight: 700;
+  color: var(--text);
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

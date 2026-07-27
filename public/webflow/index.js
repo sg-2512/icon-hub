@@ -21267,6 +21267,19 @@
               onDoubleClick: () => void handleInsertIcon(icon),
               title: `${icon.displayName} | ${icon.libraryName}`,
               children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "span",
+                  {
+                    className: "card-add-btn",
+                    onClick: (e) => {
+                      e.stopPropagation();
+                      setSelectedIcon(icon);
+                      void handleInsertIcon(icon);
+                    },
+                    title: "Insert into Webflow canvas",
+                    children: "+"
+                  }
+                ),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "icon-card-preview", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: icon.svgUrl, loading: "lazy", alt: "", className: "icon-img" }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "icon-name", children: icon.displayName }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "icon-lib", children: icon.libraryName })
@@ -21280,10 +21293,10 @@
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "selected-preview-box", children: selectedIcon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: selectedIcon.svgUrl, alt: selectedIcon.displayName, className: "selected-preview-img" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "no-selection-placeholder", children: "No Icon" }) }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "selected-info", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { className: "selected-title", children: selectedIcon ? selectedIcon.displayName : "Select an Icon" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "selected-meta", children: selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click grid item" })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "selected-meta", children: selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click + or double-click to insert" })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "controls-box", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "controls-box", style: { marginBottom: 0 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "control-row", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "control-label", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
@@ -21329,7 +21342,7 @@
                   ] })
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "swatch-row", children: ["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "swatch-row", style: { marginBottom: 0 }, children: ["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "button",
                 {
                   type: "button",
@@ -21339,17 +21352,7 @@
                   "aria-label": `Select color ${swatchColor}`
                 },
                 swatchColor
-              )) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  type: "button",
-                  className: "btn-primary insert-btn",
-                  disabled: !selectedIcon || !selection.canInsert || inserting,
-                  onClick: () => selectedIcon && void handleInsertIcon(selectedIcon),
-                  children: inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"
-                }
-              )
+              )) })
             ] })
           ] })
         ] })

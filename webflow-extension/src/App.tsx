@@ -450,6 +450,17 @@ export function App() {
                   onDoubleClick={() => void handleInsertIcon(icon)}
                   title={`${icon.displayName} | ${icon.libraryName}`}
                 >
+                  <span
+                    className="card-add-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedIcon(icon);
+                      void handleInsertIcon(icon);
+                    }}
+                    title="Insert into Webflow canvas"
+                  >
+                    +
+                  </span>
                   <div className="icon-card-preview">
                     <img src={icon.svgUrl} loading="lazy" alt="" className="icon-img" />
                   </div>
@@ -475,12 +486,12 @@ export function App() {
               </div>
               <div className="selected-info">
                 <h2 className="selected-title">{selectedIcon ? selectedIcon.displayName : "Select an Icon"}</h2>
-                <p className="selected-meta">{selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click grid item"}</p>
+                <p className="selected-meta">{selectedIcon ? `${selectedIcon.libraryName} | ${selectedIcon.license}` : "Click + or double-click to insert"}</p>
               </div>
             </div>
 
-            {/* CONTROLS & INSERT BUTTON */}
-            <div className="controls-box">
+            {/* COMPACT CONTROLS */}
+            <div className="controls-box" style={{ marginBottom: 0 }}>
               <div className="control-row">
                 <label className="control-label">
                   <span>Size ({size}px)</span>
@@ -514,7 +525,7 @@ export function App() {
                 </label>
               </div>
 
-              <div className="swatch-row">
+              <div className="swatch-row" style={{ marginBottom: 0 }}>
                 {["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => (
                   <button
                     key={swatchColor}
@@ -526,15 +537,6 @@ export function App() {
                   />
                 ))}
               </div>
-
-              <button
-                type="button"
-                className="btn-primary insert-btn"
-                disabled={!selectedIcon || !selection.canInsert || inserting}
-                onClick={() => selectedIcon && void handleInsertIcon(selectedIcon)}
-              >
-                {inserting ? "Inserting..." : selection.canInsert ? "+ Insert Vector Icon" : "Select Canvas Element First"}
-              </button>
             </div>
           </div>
         </main>
