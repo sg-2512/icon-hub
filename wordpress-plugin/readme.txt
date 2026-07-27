@@ -1,4 +1,4 @@
-=== IconSearch ===
+=== IconSearch Studio - Inline SVG Icons ===
 Contributors: iconsearch
 Tags: icons, svg, block editor, design, gutenberg
 Requires at least: 6.3

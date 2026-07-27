@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       IconSearch
+ * Plugin Name:       IconSearch Studio - Inline SVG Icons
  * Plugin URI:        https://iconsearch.info/wordpress-plugin
  * Description:       Search, customize, and insert editable SVG icons in the WordPress block editor.
  * Version:           0.2.0
@@ -10,7 +10,7 @@
  * Author URI:        https://iconsearch.info
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       iconsearch
+ * Text Domain:       iconsearch-studio-inline-svg-icons
  *
  * @package IconSearch
  */
