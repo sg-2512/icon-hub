@@ -11,6 +11,16 @@ export type InsertOptions = {
   size: number;
 };
 
+function utf8ToBase64(str: string): string {
+  const encoder = new TextEncoder();
+  const bytes = encoder.encode(str);
+  let binary = "";
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
 export async function resolveWebflowUserToken(): Promise<string | null> {
   try {
     if (typeof webflow !== "undefined" && typeof (webflow as any).getIdToken === "function") {
@@ -55,6 +65,43 @@ export async function checkSelectionState(): Promise<SelectionState> {
   }
 }
 
+export function subscribeToSelection(callback: (state: SelectionState) => void): (() => void) {
+  if (typeof webflow === "undefined") {
+    callback({
+      hasSelection: true,
+      canInsert: true,
+      reason: "Preview mode (Webflow SDK simulator)"
+    });
+    return () => {};
+  }
+
+  void checkSelectionState().then(callback);
+
+  try {
+    if (typeof (webflow as any).subscribe === "function") {
+      const unsubscribe = (webflow as any).subscribe("selectedelement", (element: any) => {
+        if (!element) {
+          callback({
+            hasSelection: false,
+            canInsert: false,
+            reason: "Please select an element on the canvas."
+          });
+        } else {
+          const type = element.type || "Element";
+          callback({
+            hasSelection: true,
+            elementName: String(type),
+            canInsert: true
+          });
+        }
+      });
+      if (typeof unsubscribe === "function") return unsubscribe;
+    }
+  } catch {}
+
+  return () => {};
+}
+
 export async function insertIconToCanvas(options: InsertOptions): Promise<void> {
   if (typeof webflow === "undefined") {
     throw new Error("Webflow Designer SDK is not initialized.");
@@ -65,13 +112,12 @@ export async function insertIconToCanvas(options: InsertOptions): Promise<void> 
     throw new Error("Please select an element in the Webflow Designer canvas before inserting an icon.");
   }
 
-  const base64Svg = btoa(unescape(encodeURIComponent(options.svgMarkup)));
+  const base64Svg = utf8ToBase64(options.svgMarkup);
   const dataUrl = `data:image/svg+xml;base64,${base64Svg}`;
   const filename = `${options.iconName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.svg`;
 
   let createdAsset: any = null;
   try {
-    // webflow.createAsset
     if (typeof (webflow as any).createAsset === "function") {
       createdAsset = await (webflow as any).createAsset(dataUrl, filename);
     }

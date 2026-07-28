@@ -10,6 +10,9 @@ const options = {
   target: ["es2022"],
   minify: false,
   sourcemap: true,
+  define: {
+    "process.env.NODE_ENV": '"production"'
+  },
   drop: watch ? [] : ["console", "debugger"],
   legalComments: "inline",
   logLevel: "info",

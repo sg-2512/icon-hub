@@ -1,12 +1,23 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { normalizeHttpsUrl, isSafeHex, styleSvg, sanitizeSvg } from "./svg";
-import { checkSelectionState, insertIconToCanvas, resolveWebflowUserToken, SelectionState } from "./webflow-api";
+import { subscribeToSelection, insertIconToCanvas, resolveWebflowUserToken, SelectionState } from "./webflow-api";
 
 const SEARCH_ENDPOINT = "https://iconsearch.info/api/extension/icon-search";
 const DEVICE_START_ENDPOINT = "https://iconsearch.info/api/device/start";
 const DEVICE_STATUS_ENDPOINT = "https://iconsearch.info/api/device/status";
-const TOKEN_KEY = "iconsearch_webflow_token";
 const SEARCH_LIMIT = 60;
+
+export function isAllowedAuthUrl(uri: string | null): boolean {
+  if (!uri || typeof uri !== "string") return false;
+  try {
+    const parsed = new URL(uri.trim());
+    if (parsed.protocol !== "https:") return false;
+    const hostname = parsed.hostname.toLowerCase();
+    return hostname === "iconsearch.info" || hostname === "www.iconsearch.info";
+  } catch {
+    return false;
+  }
+}
 
 type IconSearchIcon = {
   id: string;
@@ -50,29 +61,8 @@ const STYLES = [
   ["sharp", "Sharp"],
 ] as const;
 
-function getSavedToken(): string | null {
-  try {
-    return sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function saveToken(t: string): void {
-  try {
-    sessionStorage.setItem(TOKEN_KEY, t);
-  } catch {}
-}
-
-function clearToken(): void {
-  try {
-    sessionStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(TOKEN_KEY);
-  } catch {}
-}
-
 export function App() {
-  const [token, setToken] = useState<string | null>(getSavedToken());
+  const [token, setToken] = useState<string | null>(null);
   const [query, setQuery] = useState("arrow");
   const [library, setLibrary] = useState("all");
   const [style, setStyle] = useState("all");
@@ -105,25 +95,28 @@ export function App() {
   const pollTimerRef = useRef<number | null>(null);
   const searchControllerRef = useRef<AbortController | null>(null);
 
-  // Poll Webflow Designer Canvas selection
+  // Subscribe to Webflow Designer selection events
   useEffect(() => {
-    async function pollSelection() {
-      const state = await checkSelectionState();
+    const unsubscribe = subscribeToSelection((state) => {
       setSelection(state);
-    }
-    void pollSelection();
-    const interval = setInterval(() => void pollSelection(), 1200);
-    return () => clearInterval(interval);
+    });
+    return () => unsubscribe();
   }, []);
 
-  // Try auto-resolution via Webflow ID Token on mount
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => {
+      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+    };
+  }, []);
+
+  // Auto-resolution via Webflow ID Token on mount
   useEffect(() => {
     async function checkNativeIdToken() {
       if (token) return;
       const idToken = await resolveWebflowUserToken();
       if (idToken) {
         setToken(idToken);
-        saveToken(idToken);
       }
     }
     void checkNativeIdToken();
@@ -168,7 +161,6 @@ export function App() {
       });
 
       if (res.status === 401) {
-        clearToken();
         setToken(null);
         return;
       }
@@ -240,7 +232,7 @@ export function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [view, loading, loadingMore, icons.length, total, fetchIcons, token]);
 
-  // Start Device Auth Pairing
+  // Start Device Auth Pairing with bounded polling loop
   async function handleStartAuth() {
     setStartingAuth(true);
     setAuthError(null);
@@ -255,18 +247,37 @@ export function App() {
 
       const code = String(data.deviceCode || "");
       const uCode = String(data.userCode || "");
-      const uri = String(data.verificationUriComplete || `https://iconsearch.info/connect?product=webflow&code=${code}`);
+      const rawUri = String(data.verificationUriComplete || `https://iconsearch.info/connect?product=webflow&code=${code}`);
 
       setUserCode(uCode);
-      setVerificationUri(uri);
 
-      // Validate popup origin strictly before opening
-      if (uri.startsWith("https://iconsearch.info")) {
-        window.open(uri, "_blank", "noopener,noreferrer");
+      if (isAllowedAuthUrl(rawUri)) {
+        setVerificationUri(rawUri);
+        window.open(rawUri, "_blank", "noopener,noreferrer");
+      } else {
+        const fallbackUri = `https://iconsearch.info/connect?product=webflow&code=${code}`;
+        if (isAllowedAuthUrl(fallbackUri)) {
+          setVerificationUri(fallbackUri);
+          window.open(fallbackUri, "_blank", "noopener,noreferrer");
+        } else {
+          throw new Error("Invalid authorization URL origin.");
+        }
       }
 
       if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+      let pollAttempts = 0;
+      const MAX_POLL_ATTEMPTS = 60; // 3 minutes max (60 * 3s)
+
       pollTimerRef.current = window.setInterval(async () => {
+        pollAttempts++;
+        if (pollAttempts > MAX_POLL_ATTEMPTS) {
+          if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+          setAuthError("Pairing session expired. Please click Sign in to try again.");
+          setUserCode(null);
+          setVerificationUri(null);
+          return;
+        }
+
         try {
           const statusRes = await fetch(DEVICE_STATUS_ENDPOINT, {
             method: "POST",
@@ -276,8 +287,12 @@ export function App() {
           const statusData = await statusRes.json() as Record<string, unknown>;
           if (statusRes.ok && statusData.status === "authorized" && typeof statusData.token === "string") {
             if (pollTimerRef.current) clearInterval(pollTimerRef.current);
-            saveToken(statusData.token);
             setToken(statusData.token);
+          } else if (statusData.status === "expired" || statusData.status === "denied") {
+            if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+            setAuthError(`Pairing session ${statusData.status}. Please try again.`);
+            setUserCode(null);
+            setVerificationUri(null);
           }
         } catch {}
       }, 3000);
@@ -289,7 +304,6 @@ export function App() {
   }
 
   function handleSignOut() {
-    clearToken();
     setToken(null);
     setUserCode(null);
     setVerificationUri(null);
@@ -372,15 +386,17 @@ export function App() {
             <div style={{ padding: 12, background: "var(--surface-subtle)", borderRadius: 8, border: "1px solid var(--line)" }}>
               <p style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, margin: "0 0 4px" }}>PAIRING CODE</p>
               <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: "0.1em", color: "#2563EB", margin: "4px 0 10px" }}>{userCode}</div>
-              <a
-                href={verificationUri || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", height: 36 }}
-              >
-                Open Sign-In Page ↗
-              </a>
+              {isAllowedAuthUrl(verificationUri) && (
+                <a
+                  href={verificationUri!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
+                  style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", height: 36 }}
+                >
+                  Open Sign-In Page ↗
+                </a>
+              )}
               <p style={{ fontSize: 10, color: "var(--muted)", marginTop: 8 }}>Waiting for browser approval...</p>
             </div>
           )}

@@ -1,13 +1,11 @@
+import DOMPurify from "dompurify";
+
 const ALLOWED_HOSTNAMES = new Set([
   "iconsearch.info",
   "www.iconsearch.info",
-  "cdn.iconsearch.info",
-  "cdn.jsdelivr.net",
-  "raw.githubusercontent.com",
-  "api.iconify.design"
+  "cdn.iconsearch.info"
 ]);
 
-const BLOCKED_ELEMENTS = "script, foreignObject, iframe, object, embed, style, image, audio, video, base";
 const PAINT_ATTRIBUTES = ["fill", "stroke"] as const;
 
 export type StyledSvgOptions = {
@@ -47,29 +45,22 @@ export function isSafeHex(value: string): boolean {
 }
 
 export function sanitizeSvg(markup: string): string {
-  const documentNode = parseSvg(markup);
-  const root = documentNode.documentElement;
-
-  documentNode.querySelectorAll(BLOCKED_ELEMENTS).forEach((element) => element.remove());
-  documentNode.querySelectorAll("*").forEach((element) => {
-    for (const attribute of [...element.attributes]) {
-      const name = attribute.name.toLowerCase();
-      const value = attribute.value.trim();
-      const hasExternalUrl = /url\(\s*["']?(?!#)/i.test(value);
-      const unsafeReference = (name === "href" || name === "xlink:href") && !value.startsWith("#");
-      if (name.startsWith("on") || name === "style" || name === "src" || unsafeReference || hasExternalUrl) {
-        element.removeAttribute(attribute.name);
-      }
-    }
+  const cleanSvg = DOMPurify.sanitize(markup.trim(), {
+    USE_PROFILES: { svg: true, svgFilters: true },
+    RETURN_DOM: false,
+    ADD_ATTR: ["target"]
   });
 
+  const documentNode = parseSvg(cleanSvg);
+  const root = documentNode.documentElement;
   root.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   return new XMLSerializer().serializeToString(root);
 }
 
 export function styleSvg(markup: string, options: StyledSvgOptions): string {
   if (!isSafeHex(options.color)) throw new Error("Icon color must be a six-digit hex value.");
-  const documentNode = parseSvg(sanitizeSvg(markup));
+  const sanitized = sanitizeSvg(markup);
+  const documentNode = parseSvg(sanitized);
   const root = documentNode.documentElement;
   let hasPaint = false;
 
