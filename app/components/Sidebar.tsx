@@ -5,10 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
-import { Home, KeyRound, List, LogIn, Search, UserCheck } from 'lucide-react'
+import { Bookmark, Home, KeyRound, List, LogIn, Search, UserCheck } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase'
-import { formatIconifyCollectionName, namedLibraries } from '../../data/library-catalog'
+import { allLibraries, namedLibraries } from '../../data/library-catalog'
 
 const AuthModal = dynamic(() => import('./AuthModal'), { ssr: false })
 
@@ -17,6 +17,7 @@ const navLinks = [
   { label: 'Home', href: '/', Icon: Home, color: '#9aa8ff' },
   { label: 'Search', href: '/icon-search', Icon: Search, color: '#53c9ff' },
   { label: 'Browse', href: '/free-svg-icons', Icon: List, color: '#50d3a2' },
+  { label: 'Bookmarks', href: '/bookmarks', Icon: Bookmark, color: '#f43f5e' },
 ]
 
 const integrationLinks = [
@@ -135,12 +136,12 @@ export default function Sidebar() {
           suppressHydrationWarning
           onClick={() => window.dispatchEvent(new CustomEvent('cart-toggle'))}
           className="mobile-top-cart"
-          aria-label="Toggle Cart"
+          aria-label="Toggle Bundle"
         >
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <path d="M16 10a4 4 0 01-8 0" />
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
           </svg>
           {cartCount > 0 && <span className="mobile-cart-badge">{cartCount}</span>}
         </button>
@@ -338,20 +339,18 @@ export default function Sidebar() {
           </div>
 
           <div style={{ borderTop: '1px solid var(--border)', marginTop: '12px', padding: '14px 8px 4px' }}>
-            <label htmlFor="sidebar-iconify-collection" style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.3px', marginBottom: '8px' }}>
-              Iconify Collections
+            <label htmlFor="sidebar-library-collection" style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.3px', marginBottom: '8px' }}>
+              All Library Collections
             </label>
             <select
-              id="sidebar-iconify-collection"
+              id="sidebar-library-collection"
               suppressHydrationWarning
-              aria-label="Browse Iconify collections"
+              aria-label="Browse all library collections"
               defaultValue=""
-              onFocus={fetchIconifySets}
-              onClick={fetchIconifySets}
               onChange={(event) => {
-                const collection = event.target.value
-                if (!collection) return
-                router.push(`/icon-search?lib=iconify&iconifySet=${encodeURIComponent(collection)}`)
+                const slug = event.target.value
+                if (!slug) return
+                router.push(`/icons/${slug}`)
                 setMobileOpen(false)
               }}
               style={{
@@ -368,19 +367,19 @@ export default function Sidebar() {
               }}
             >
               <option value="">
-                {iconifySets.length ? `${iconifySets.length} collections` : 'Loading collections...'}
+                Select collection (242)
               </option>
-              {iconifySets.map((set) => (
-                <option key={set} value={set}>
-                  {formatIconifyCollectionName(set)}
+              {allLibraries.map((lib) => (
+                <option key={lib.id} value={lib.slug}>
+                  {lib.name} ({lib.iconCount.toLocaleString('en-US')})
                 </option>
               ))}
             </select>
             <Link
-              href="/icon-search?lib=iconify"
+              href="/icon-search"
               style={{ display: 'block', marginTop: '8px', color: 'var(--accent)', textDecoration: 'none', fontSize: '12px', padding: '4px 2px' }}
             >
-              Browse all Iconify icons
+              Search all 355k+ icons →
             </Link>
           </div>
         </div>

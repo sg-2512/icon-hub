@@ -1,52 +1,43 @@
 import { staticPages } from '../data/static-pages'
 import { icons } from '../lib/icons'
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
 import HomeExperience from './components/HomeExperience'
 
 export const metadata = {
-  title: 'IconSearch — Find & Compare Free SVG Icon Libraries (2026)',
-  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections. Compare ${NAMED_LIBRARY_COUNT} React icon libraries by size, stars, and license.`,
-  keywords: 'free svg icons, react icons, icon library comparison, lucide icons, heroicons, tabler icons, phosphor icons, open source icons, bootstrap icons, remix icons, feather icons, iconoir icons, iconify',
+  title: `IconSearch — Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Free SVG Icons & Compare ${NAMED_LIBRARY_COUNT} Libraries (2026)`,
+  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source icon libraries. Compare React icon libraries by size, stars, and license.`,
+  alternates: {
+    canonical: 'https://iconsearch.info',
+  },
   openGraph: {
-    title: 'IconSearch — Find & Compare Free SVG Icon Libraries',
-    description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+    title: `IconSearch — Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Free SVG Icons`,
+    description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source icon libraries.`,
     url: 'https://iconsearch.info',
-    siteName: 'IconSearch',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IconSearch — Find & Compare Free SVG Icon Libraries',
-    description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
-  },
-  alternates: {
-    canonical: 'https://iconsearch.info',
+    title: `IconSearch — Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Free SVG Icons`,
+    description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source icon libraries.`,
+    creator: '@IconSearchinfo',
   },
 }
 
-export default function HomePage() {
+export default function Home() {
   const allRecentItems = [...staticPages]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5)
 
-  const faqSchema = {
+  const homeFaqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'What is the best free icon library for React?',
+        name: 'What is IconSearch?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Lucide Icons, Heroicons, and Iconoir are highly popular outline choices for React.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Are these icon libraries free to use commercially?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes — all libraries use MIT or ISC licenses which allow free commercial use.',
+          text: `IconSearch is an open platform to search and compare ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source libraries.`,
         },
       },
       {
@@ -54,7 +45,7 @@ export default function HomePage() {
         name: 'Which icon library has the most icons?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `IconSearch indexes ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons, including ${ICONIFY_COLLECTION_COUNT} Iconify collections. For the ${NAMED_LIBRARY_COUNT} named libraries, Tabler Icons has the largest collection with 6,100+ icons.`,
+          text: `IconSearch indexes ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons across ${NAMED_LIBRARY_COUNT} libraries. Tabler Icons has 6,100+ icons, and Fluent UI System Icons has 20,000+ icons.`,
         },
       },
       {
@@ -72,7 +63,7 @@ export default function HomePage() {
     <div suppressHydrationWarning>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
       />
       <HomeExperience initialLibraries={icons} recentItems={allRecentItems} />
     </div>

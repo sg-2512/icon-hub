@@ -23,7 +23,7 @@ const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 
 export const metadata: Metadata = {
   title: `IconSearch Figma Plugin - Search ${formattedIconCount} Free SVG Icons`,
-  description: `Install the live IconSearch Figma plugin to search, filter, and insert ${formattedIconCount} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+  description: `Install the live IconSearch Figma plugin to search, filter, and insert ${formattedIconCount} free SVG icons from 229 open-source icon libraries.`,
   alternates: {
     canonical: '/figma-plugin',
   },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 const stats = [
   { value: formattedIconCount, label: 'searchable SVG icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
+  { value: '229', label: 'icon collections' },
   { value: 'Live', label: 'on Figma Community' },
 ]
 

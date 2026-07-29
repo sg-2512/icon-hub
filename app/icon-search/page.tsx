@@ -6,7 +6,7 @@ import { SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
 
 export const metadata = {
   title: `Icon Search Engine — ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Free SVG Icons (2026)`,
-  description: 'Search across Lucide, Heroicons, Phosphor, Tabler, Iconoir and Iconify. Copy SVG, export to React, Vue, Svelte, or generate SVG sprites dynamically.',
+  description: 'Search across Lucide, Heroicons, Phosphor, Tabler, Iconoir, and 229+ open-source icon libraries. Copy SVG, export to React, Vue, Svelte, or generate SVG sprites dynamically.',
 }
 
 export default async function IconSearchServerPage() {

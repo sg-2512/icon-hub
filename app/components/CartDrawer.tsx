@@ -289,7 +289,7 @@ export default function CartDrawer() {
       <button
         suppressHydrationWarning={true}
         className="cart-floating-fab"
-        aria-label="Open cart"
+        aria-label="Open bundle"
         onClick={() => setOpen(true)}
         style={{
           position: 'fixed',
@@ -316,11 +316,11 @@ export default function CartDrawer() {
           ;(e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'
         }}
       >
-        {/* Shopping bag SVG */}
+        {/* Package/Bundle SVG */}
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <path d="M16 10a4 4 0 01-8 0" />
+          <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
         </svg>
 
         {/* Count overlay */}
@@ -330,52 +330,32 @@ export default function CartDrawer() {
               position: 'absolute',
               top: -4,
               right: -4,
-              minWidth: 22,
-              height: 22,
-              borderRadius: 11,
               background: '#ef4444',
               color: '#fff',
               fontSize: 11,
               fontWeight: 700,
-              fontFamily: 'var(--font-mono, "JetBrains Mono", monospace)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0 6px',
-              lineHeight: 1,
+              borderRadius: '999px',
+              padding: '2px 7px',
+              border: '2px solid #000',
               boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-              animation: 'cart-fade-in 0.2s ease',
             }}
           >
-            {totalCount > 99 ? '99+' : totalCount}
+            {totalCount}
           </span>
         )}
       </button>
 
-      {/* ---------- Overlay ---------- */}
-      {open && (
-        <div
-          onClick={() => setOpen(false)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 10000,
-            background: 'rgba(0,0,0,0.55)',
-            animation: 'cart-fade-in 0.2s ease',
-          }}
-        />
-      )}
-
-      {/* ---------- Side Sheet ---------- */}
+      {/* ---------- Drawer Panel ---------- */}
       <div
         style={{
           position: 'fixed',
           top: 0,
           right: 0,
-          width: 'min(380px, 100vw)',
-          height: '100vh',
-          zIndex: 10001,
-          background: 'rgba(18,18,21,0.97)',
+          bottom: 0,
+          width: 'min(420px, 100vw)',
+          background: 'var(--bg-card, #12131a)',
+          zIndex: 1000,
+          boxShadow: '-12px 0 36px rgba(0,0,0,0.6)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           borderLeft: '1px solid var(--border, rgba(255,255,255,0.08))',
@@ -399,7 +379,7 @@ export default function CartDrawer() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 16, fontWeight: 700 }}>Your Cart</span>
+            <span style={{ fontSize: 16, fontWeight: 700 }}>Your Bundle</span>
             <span
               style={{
                 fontSize: 11,
@@ -413,7 +393,7 @@ export default function CartDrawer() {
             </span>
           </div>
           <button suppressHydrationWarning
-            aria-label="Close cart"
+            aria-label="Close bundle"
             onClick={() => setOpen(false)}
             style={{
               background: 'none',
@@ -450,14 +430,14 @@ export default function CartDrawer() {
                 marginBottom: 6,
               }}
             >
-              ACTIVE PACK
+              ACTIVE BUNDLE
             </label>
             <select suppressHydrationWarning
               id="cart-active-pack"
               value={activeId}
               onChange={(e) => switchPack(e.target.value)}
-              aria-label="Active pack"
-              title="Active pack"
+              aria-label="Active bundle"
+              title="Active bundle"
               style={{
                 width: '100%',
                 padding: '8px 12px',
@@ -509,13 +489,13 @@ export default function CartDrawer() {
                 strokeLinejoin="round"
                 style={{ opacity: 0.35, animation: 'cart-empty-bounce 2.5s ease-in-out infinite' }}
               >
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 01-8 0" />
+                <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
               </svg>
-              <span style={{ fontSize: 14, fontWeight: 500 }}>Your cart is empty</span>
-              <span style={{ fontSize: 12, textAlign: 'center', lineHeight: 1.6, maxWidth: 220 }}>
-                Browse icon libraries and add icons to build your custom pack.
+              <span style={{ fontSize: 14, fontWeight: 500 }}>Your bundle is empty</span>
+              <span style={{ fontSize: 12, textAlign: 'center', lineHeight: 1.6, maxWidth: 240 }}>
+                Browse icon libraries and add icons to build your custom icon bundle.
               </span>
               <Link
                 href="/icon-search"

@@ -6,7 +6,7 @@ const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 
 export const metadata: Metadata = {
   title: `IconSearch Chrome Extension - Launching Soon`,
-  description: `The IconSearch Chrome extension is launching soon with ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+  description: `The IconSearch Chrome extension is launching soon with ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} curated open-source icon libraries.`,
   alternates: {
     canonical: '/chrome-extension',
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const stats = [
   { value: formattedIconCount, label: 'searchable icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
+  { value: '229', label: 'icon collections' },
   { value: '0', label: 'offline icon bundles' },
 ]
 
@@ -34,7 +34,7 @@ const featureCards = [
   },
   {
     title: 'Copy production snippets',
-    text: 'Copy React Iconify usage, raw SVG markup, or an online SVG URL without hunting through package docs.',
+    text: 'Copy React component usage, raw SVG markup, or an online SVG URL without hunting through package docs.',
   },
   {
     title: 'Download SVG fast',

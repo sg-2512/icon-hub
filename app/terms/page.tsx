@@ -28,7 +28,7 @@ export default function TermsPage() {
         {[
           {
             title: '1. Description of Platform & Services',
-            content: `IconSearch is an open-source icon discovery engine and developer productivity platform. We index and serve over 355,000 free SVG icons from 18 named open-source libraries (including Lucide Icons, Heroicons, Tabler Icons, Phosphor Icons, Bootstrap Icons, Radix Icons, Iconoir, Remix Icon, Feather Icons, and others) and hundreds of Iconify collections.
+            content: `IconSearch is an open-source icon discovery engine and developer productivity platform. We index and serve over 355,000 free SVG icons from 229 open-source icon libraries (including Lucide Icons, Heroicons, Tabler Icons, Phosphor Icons, Bootstrap Icons, Radix Icons, Iconoir, Remix Icon, Feather Icons, and others).
 
 Our Platform provides in-memory fast-path icon search, an interactive SVG customizer (adjusting size, stroke weight, and color palette), code generation (React JSX, Vue, Svelte, SVG, and SVG sprite exports), cloud synchronization of icon packs and style presets, and 18 specialized developer integrations (including VS Code extensions, Figma plugins, Chrome extensions, MCP servers, Raycast extensions, and design tool plugins).`,
           },

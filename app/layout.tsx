@@ -23,7 +23,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://iconsearch.info'),
   title: `IconSearch — Find & Compare ${NAMED_LIBRARY_COUNT} Free SVG Icon Libraries (2026)`,
-  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections. Compare ${NAMED_LIBRARY_COUNT} React icon libraries by size, stars, and license.`,
+  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source icon libraries. Compare React icon libraries by size, stars, and license.`,
   twitter: {
     card: 'summary_large_image',
     site: '@IconSearchinfo',

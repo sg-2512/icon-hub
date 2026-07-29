@@ -218,7 +218,7 @@ export const integrationCatalog: Record<IntegrationSlug, IntegrationConfig> = {
     features: [
       { title: 'Raycast-native search', text: 'A compact list and detail workflow keeps keyboard navigation fast and previews readable.' },
       { title: 'Copy or paste output', text: 'Send React, SVG, Vue, Svelte, Tailwind, URL, or an SVG file to the active app.' },
-      { title: 'Focused filters', text: 'Narrow results by library, Iconify collection, style, and commercial-safety status.' },
+      { title: 'Focused filters', text: 'Narrow results by library, icon collection, style, and commercial-safety status.' },
       { title: 'Secure connection', text: 'Browser approval stores only a revocable IconSearch product token in Raycast.' },
     ],
     workflow: ['Open Search Icons in Raycast', 'Connect a free IconSearch account', 'Search and filter the live catalog', 'Copy or paste the selected output'],
@@ -246,12 +246,12 @@ export const integrationCatalog: Record<IntegrationSlug, IntegrationConfig> = {
     output: '<span class="is-icon-[lucide--home] text-2xl text-cyan-500"></span>',
     account: 'Free IconSearch account',
     dragAndDrop: false,
-    capabilities: ['Secure browser sign-in', 'Tailwind 3.4 and 4', 'currentColor styling', 'Iconify-compatible names'],
+    capabilities: ['Secure browser sign-in', 'Tailwind 3.4 and 4', 'currentColor styling', 'Standard icon names'],
     features: [
       { title: 'Native utility workflow', text: 'Use dynamic icon selectors beside familiar text color and font-size utilities.' },
       { title: 'One IconSearch account', text: 'Connect through the browser once, then use the same free account and entitlement system as every IconSearch integration.' },
       { title: 'Tailwind 3 and 4', text: 'Configure the package from JavaScript or load it with the Tailwind 4 CSS plugin directive.' },
-      { title: 'Broad icon coverage', text: 'Reference Iconify-compatible collection and icon names without shipping a local SVG bundle.' },
+      { title: 'Broad icon coverage', text: 'Reference standard collection and icon names without shipping a local SVG bundle.' },
     ],
     workflow: ['Install the package as a dev dependency', 'Connect or create a free IconSearch account', 'Register the plugin in CSS or config', 'Style an icon with Tailwind size and color utilities'],
     requirements: ['Node.js 18.18 or newer', 'Tailwind CSS 3.4 or newer', 'Free IconSearch account'],

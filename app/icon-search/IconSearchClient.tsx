@@ -9,8 +9,8 @@ import { ICON_PREVIEW_CACHE_VERSION, getBestIconPreviewUrl, getCleanSvgUrl, getI
 import { createClient, isSupabaseConfigured } from '@/lib/supabase'
 import { trackSearch, trackAddToCart, trackCartImport, trackExport } from '@/lib/analytics'
 import AuthModal from '../components/AuthModal'
+import LibraryFilter from '../components/LibraryFilter'
 import {
-  formatIconifyCollectionName,
   getNamedLibraryName,
   namedLibraries,
   NAMED_LIBRARY_COUNT,
@@ -1275,31 +1275,8 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         </div>
       </section>
 
-      <section className="icon-search-filter-bar" style={{ position: 'relative', zIndex: 2, marginBottom: '20px', background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px', display: 'grid', gridTemplateColumns: 'repeat(6, minmax(0, 1fr))', gap: '10px' }}>
-        <select suppressHydrationWarning
-          aria-label="Filter by library"
-          title="Filter by library"
-          value={selectedLibraryValue}
-          onChange={(e) => handleLibraryChange(e.target.value)}
-          className="icon-search-select"
-        >
-          <option value="all">All libraries</option>
-          <optgroup label={`Named libraries (${NAMED_LIBRARY_COUNT})`}>
-            {libraryOptions.filter((lib) => lib !== 'all' && lib !== 'iconify').map((lib) => (
-              <option key={lib} value={lib}>
-                {getNamedLibraryName(lib)}
-              </option>
-            ))}
-          </optgroup>
-          <optgroup label={`Iconify collections (${Math.max(0, iconifySetOptions.length - 1)})`}>
-            <option value="iconify">All Iconify collections</option>
-            {iconifySetOptions.filter((set) => set !== 'all').map((set) => (
-              <option key={`iconify:${set}`} value={`iconify:${set}`}>
-                {formatIconifyCollectionName(set)}
-              </option>
-            ))}
-          </optgroup>
-        </select>
+      <section className="icon-search-filter-bar" style={{ position: 'relative', zIndex: 50, marginBottom: '20px', background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+        <LibraryFilter value={selectedLib} onChange={(newLib) => handleLibraryChange(newLib)} />
         <select suppressHydrationWarning aria-label="Filter by category" title="Filter by category" value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)} className="icon-search-select">
           {CATEGORIES.map((cat) => <option key={cat.id} value={cat.id}>{cat.icon} {cat.name}</option>)}
         </select>
@@ -1325,7 +1302,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
         </div>
       </section>
 
-      <section style={{ position: 'relative', zIndex: 2 }}>
+      <section style={{ position: 'relative', zIndex: 1 }}>
         <div className="icon-search-results-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(132px, 1fr))', gap: '12px' }}>
           {results.icons.map((icon) => {
             const color = LIBRARY_COLORS[icon.library] || 'var(--accent)'
@@ -1486,7 +1463,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
                     className="icon-search-btn icon-search-btn-small"
                     style={{ width: '100%', fontSize: '9px', padding: '4px', background: 'var(--accent-dim)', color: 'var(--accent)', borderColor: 'var(--border)' }}
                   >
-                    Apply Preset to All Icons in Cart
+                    Apply Preset to All Icons in Bundle
                   </button>
                 )}
               </div>
@@ -1505,7 +1482,7 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
 {selectedIcon.reactUsage}
             </pre>
             <button suppressHydrationWarning onClick={addToCart} className="icon-search-btn" style={{ marginTop: '12px', width: '100%', background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>
-              Add to Cart
+              Add to Bundle
             </button>
           </aside>
         </>

@@ -8,7 +8,7 @@ const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 
 export const metadata: Metadata = {
   title: `IconSearch VS Code Extension - Search ${formattedIconCount} SVG Icons`,
-  description: `Install the IconSearch VS Code extension to search and insert ${formattedIconCount} free online SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+  description: `Install the IconSearch VS Code extension to search and insert ${formattedIconCount} free online SVG icons from 229 open-source icon libraries.`,
   alternates: {
     canonical: '/vscode-extension',
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const stats = [
   { value: formattedIconCount, label: 'online icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
+  { value: '229', label: 'icon collections' },
   { value: '0', label: 'offline icon bundles' },
 ]
 

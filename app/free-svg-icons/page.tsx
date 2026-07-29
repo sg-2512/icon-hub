@@ -1,106 +1,16 @@
-import { icons } from '../../lib/icons'
-import Link from 'next/link'
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { Metadata } from 'next'
+import { allLibraries, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import BrowsePageClient from './BrowsePageClient'
 
-export const metadata = {
-  title: 'Free SVG Icons for Web Projects (2026) — Open Source Collections',
-  description: `Browse ${NAMED_LIBRARY_COUNT} named SVG icon libraries for web projects, search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons across ${ICONIFY_COLLECTION_COUNT} Iconify collections, or compare libraries like Lucide, Heroicons, and Tabler.`,
+export const metadata: Metadata = {
+  title: 'Free SVG Icons for Web Projects — All 242 Open Source Libraries',
+  description: `Browse 242 open-source SVG icon libraries for web projects, search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons across Lucide, Heroicons, Mage, Solar, Tabler, Material Symbols, and more.`,
 }
 
 export default function FreeSvgIconsPage() {
-  const curatedIconCount = icons.reduce((sum, icon) => sum + icon.iconCount, 0)
-
   return (
-    <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px' }}>
-
-      {/* Header */}
-      <section style={{ marginBottom: '48px', paddingBottom: '48px', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ fontSize: '12px', color: 'var(--accent)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '12px' }}>
-          // BROWSE
-        </div>
-        <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, lineHeight: 1.1, marginBottom: '16px' }}>
-          Free SVG Icons<br />
-          <span style={{ color: 'var(--accent)' }}>for Web Projects</span>
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '18px', maxWidth: '560px', marginBottom: '24px' }}>
-          Search {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} SVG icons across {NAMED_LIBRARY_COUNT} reviewed libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections. The directory below highlights {curatedIconCount.toLocaleString('en-US')}+ icons from the reviewed libraries.
-        </p>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          {['MIT License', 'ISC License', 'Apache 2.0', 'TypeScript', 'React', 'Next.js', 'Vue', 'Svelte'].map(tag => (
-            <span key={tag} style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-muted)',
-              padding: '4px 12px',
-              borderRadius: '100px',
-              fontSize: '12px',
-              fontFamily: 'JetBrains Mono, monospace',
-            }}>
-              {tag}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats Bar */}
-      <section style={{ marginBottom: '48px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
-          {[
-            { label: 'Searchable Index', value: SEARCHABLE_ICON_COUNT.toLocaleString('en-US') },
-            { label: 'Reviewed Libraries', value: NAMED_LIBRARY_COUNT.toString() },
-            { label: 'Iconify Collections', value: ICONIFY_COLLECTION_COUNT.toString() },
-            { label: 'Curated Library Icons', value: curatedIconCount.toLocaleString('en-US') + '+' },
-          ].map(stat => (
-            <div key={stat.label} style={{ background: 'var(--bg-card)', padding: '20px', textAlign: 'center' }}>
-              <div style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent)', marginBottom: '4px' }}>{stat.value}</div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* All Libraries */}
-      <section style={{ marginBottom: '48px' }}>
-        <h2 style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '2px', marginBottom: '20px' }}>
-          REVIEWED OPEN-SOURCE ICON LIBRARIES
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
-          {icons.map(icon => (
-            <Link key={icon.slug} href={`/icons/${icon.slug}`} className="card-hover" style={{
-              background: 'var(--bg-card)',
-              padding: '24px',
-              textDecoration: 'none',
-              color: 'var(--text)',
-              display: 'block',
-              transition: 'background 0.2s',
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                <h3 style={{ fontWeight: 700, fontSize: '16px' }}>{icon.name}</h3>
-                <span style={{ fontSize: '11px', color: 'var(--green)', background: '#4ade8015', border: '1px solid var(--green)', padding: '2px 8px', borderRadius: '4px', fontFamily: 'JetBrains Mono, monospace' }}>
-                  {icon.license}
-                </span>
-              </div>
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px', lineHeight: 1.5 }}>
-                {icon.description}
-              </p>
-              <div style={{ display: 'flex', gap: '16px', marginBottom: '12px' }}>
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>⭐ {icon.stars.toLocaleString('en-US')}</span>
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>◆ {icon.iconCount.toLocaleString('en-US')} icons</span>
-              </div>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                {icon.frameworks.map(f => (
-                  <span key={f} style={{ fontSize: '10px', color: 'var(--accent)', background: 'var(--accent-dim)', border: '1px solid var(--accent)', padding: '1px 6px', borderRadius: '3px', fontFamily: 'JetBrains Mono, monospace' }}>
-                    {f}
-                  </span>
-                ))}
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-
-
+    <main>
+      <BrowsePageClient libraries={allLibraries} totalIconCount={SEARCHABLE_ICON_COUNT} />
     </main>
   )
 }

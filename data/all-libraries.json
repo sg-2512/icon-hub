@@ -1,0 +1,1605 @@
+[
+  {
+    "id": "iconify-fluent",
+    "slug": "fluent",
+    "name": "Fluent UI System Icons",
+    "iconCount": 20322,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-material-symbols",
+    "slug": "material-symbols",
+    "name": "Material Symbols",
+    "iconCount": 18614,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-material-symbols-light",
+    "slug": "material-symbols-light",
+    "name": "Material Symbols Light",
+    "iconCount": 16033,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-arcticons",
+    "slug": "arcticons",
+    "name": "Arcticons",
+    "iconCount": 15099,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "iconify-mdi",
+    "slug": "mdi",
+    "name": "Material Design Icons",
+    "iconCount": 14001,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "tabler-icons",
+    "slug": "tabler-icons",
+    "name": "Tabler Icons",
+    "iconCount": 12524,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-ic",
+    "slug": "ic",
+    "name": "Google Material Icons",
+    "iconCount": 11914,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "phosphor-icons",
+    "slug": "phosphor-icons",
+    "name": "Phosphor Icons",
+    "iconCount": 10731,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-solar",
+    "slug": "solar",
+    "name": "Solar Icons",
+    "iconCount": 7410,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "remix-icon",
+    "slug": "remix-icon",
+    "name": "Remix Icon",
+    "iconCount": 6473,
+    "license": "Apache 2.0"
+  },
+  {
+    "id": "iconify-hugeicons",
+    "slug": "hugeicons",
+    "name": "Huge Icons",
+    "iconCount": 5116,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-twemoji",
+    "slug": "twemoji",
+    "name": "Twitter Emoji",
+    "iconCount": 4728,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-openmoji",
+    "slug": "openmoji",
+    "name": "OpenMoji",
+    "iconCount": 4582,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "bootstrap-icons",
+    "slug": "bootstrap-icons",
+    "name": "Bootstrap Icons",
+    "iconCount": 4168,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-game-icons",
+    "slug": "game-icons",
+    "name": "Game Icons",
+    "iconCount": 4137,
+    "license": "CC-BY-3.0"
+  },
+  {
+    "id": "iconify-noto",
+    "slug": "noto",
+    "name": "Noto Emoji",
+    "iconCount": 4104,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-streamline",
+    "slug": "streamline",
+    "name": "Streamline Icons",
+    "iconCount": 4002,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "lucide-icons",
+    "slug": "lucide-icons",
+    "name": "Lucide Icons",
+    "iconCount": 3947,
+    "license": "ISC"
+  },
+  {
+    "id": "iconify-boxicons",
+    "slug": "boxicons",
+    "name": "Boxicons",
+    "iconCount": 3768,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-simple-icons",
+    "slug": "simple-icons",
+    "name": "Simple Icons",
+    "iconCount": 3721,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-glyphs",
+    "slug": "glyphs",
+    "name": "Glyphs Icons",
+    "iconCount": 3452,
+    "license": "MIT"
+  },
+  {
+    "id": "iconoir",
+    "slug": "iconoir",
+    "name": "Iconoir",
+    "iconCount": 3403,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-healthicons",
+    "slug": "healthicons",
+    "name": "Health Icons",
+    "iconCount": 3373,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-mingcute",
+    "slug": "mingcute",
+    "name": "MingCute Icon Icons",
+    "iconCount": 3352,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-fluent-emoji-flat",
+    "slug": "fluent-emoji-flat",
+    "name": "Fluent Emoji Flat",
+    "iconCount": 3181,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fluent-emoji",
+    "slug": "fluent-emoji",
+    "name": "Fluent Emoji",
+    "iconCount": 3181,
+    "license": "MIT"
+  },
+  {
+    "id": "patternfly-icons",
+    "slug": "patternfly-icons",
+    "name": "PatternFly Icons",
+    "iconCount": 2884,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-mynaui",
+    "slug": "mynaui",
+    "name": "Myna UI Icons",
+    "iconCount": 2852,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-carbon",
+    "slug": "carbon",
+    "name": "Carbon Icons",
+    "iconCount": 2686,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-icon-park-outline",
+    "slug": "icon-park-outline",
+    "name": "IconPark Outline Icons",
+    "iconCount": 2658,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-icon-park",
+    "slug": "icon-park",
+    "name": "IconPark Icons",
+    "iconCount": 2658,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-ion",
+    "slug": "ionicons",
+    "name": "Ionicons",
+    "iconCount": 2607,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-bx",
+    "slug": "bx",
+    "name": "BoxIcons v2",
+    "iconCount": 2423,
+    "license": "MIT"
+  },
+  {
+    "id": "teenyicons",
+    "slug": "teenyicons",
+    "name": "Teenyicons",
+    "iconCount": 2400,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-tdesign",
+    "slug": "tdesign",
+    "name": "TDesign Icons",
+    "iconCount": 2364,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-la",
+    "slug": "la",
+    "name": "Line Awesome Icons",
+    "iconCount": 2353,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-noto-v1",
+    "slug": "noto-v1",
+    "name": "Noto Emoji V1",
+    "iconCount": 2319,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-emojione",
+    "slug": "emojione",
+    "name": "Emoji One",
+    "iconCount": 2159,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-whh",
+    "slug": "whh",
+    "name": "WebHostingHub Glyphs Icons",
+    "iconCount": 2125,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-token-branded",
+    "slug": "token-branded",
+    "name": "Web3 Icons Branded",
+    "iconCount": 2118,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-pinhead",
+    "slug": "pinhead",
+    "name": "Pinhead Map Icons",
+    "iconCount": 2105,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-logos",
+    "slug": "logos",
+    "name": "SVG Logos Icons",
+    "iconCount": 2098,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-streamline-color",
+    "slug": "streamline-color",
+    "name": "Streamline color Icons",
+    "iconCount": 2000,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-ultimate",
+    "slug": "streamline-ultimate",
+    "name": "Ultimate free icons",
+    "iconCount": 1999,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-fa7-solid",
+    "slug": "fa7-solid",
+    "name": "Font Awesome Solid Icons",
+    "iconCount": 1999,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-icon-park-solid",
+    "slug": "icon-park-solid",
+    "name": "IconPark Solid Icons",
+    "iconCount": 1970,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-icon-park-twotone",
+    "slug": "icon-park-twotone",
+    "name": "IconPark TwoTone Icons",
+    "iconCount": 1947,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-ant-design",
+    "slug": "ant-design-icons",
+    "name": "Ant Design Icons",
+    "iconCount": 1870,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-token",
+    "slug": "token",
+    "name": "Web3 Icons",
+    "iconCount": 1854,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-iconamoon",
+    "slug": "iconamoon",
+    "name": "Iconamoon Icons",
+    "iconCount": 1818,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-fluent-mdl2",
+    "slug": "fluent-mdl2",
+    "name": "Fluent UI MDL2 Icons",
+    "iconCount": 1735,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-emojione-monotone",
+    "slug": "emojione-monotone",
+    "name": "Emoji One Monotone",
+    "iconCount": 1713,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-cbi",
+    "slug": "cbi",
+    "name": "Custom Brand Icons",
+    "iconCount": 1665,
+    "license": "CC-BY-NC-SA-4.0"
+  },
+  {
+    "id": "devicons",
+    "slug": "devicons",
+    "name": "Devicons",
+    "iconCount": 1623,
+    "license": "MIT"
+  },
+  {
+    "id": "heroicons",
+    "slug": "heroicons",
+    "name": "Heroicons",
+    "iconCount": 1621,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fluent-emoji-high-contrast",
+    "slug": "fluent-emoji-high-contrast",
+    "name": "Fluent Emoji High Contrast",
+    "iconCount": 1596,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-lets-icons",
+    "slug": "lets-icons",
+    "name": "Lets Icons",
+    "iconCount": 1544,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-emojione-v1",
+    "slug": "emojione-v1",
+    "name": "Emoji One V1",
+    "iconCount": 1529,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "iconify-vscode-icons",
+    "slug": "vscode-icons",
+    "name": "VSCode Icons",
+    "iconCount": 1505,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-streamline-sharp",
+    "slug": "streamline-sharp",
+    "name": "Sharp free icons",
+    "iconCount": 1500,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-flex",
+    "slug": "streamline-flex",
+    "name": "Flex free icons",
+    "iconCount": 1500,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-plump",
+    "slug": "streamline-plump",
+    "name": "Plump free icons",
+    "iconCount": 1499,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-ix",
+    "slug": "ix",
+    "name": "Siemens Industrial Experience Icons",
+    "iconCount": 1434,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fa6-solid",
+    "slug": "fa6-solid",
+    "name": "Font Awesome 6 Solid Icons",
+    "iconCount": 1408,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-logos",
+    "slug": "streamline-logos",
+    "name": "Logos free icons",
+    "iconCount": 1362,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-famicons",
+    "slug": "famicons",
+    "name": "Famicons",
+    "iconCount": 1342,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-si",
+    "slug": "si",
+    "name": "Sargam Icons",
+    "iconCount": 1305,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-pepicons-pop",
+    "slug": "pepicons-pop",
+    "name": "Pepicons Pop!",
+    "iconCount": 1298,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-pepicons-print",
+    "slug": "pepicons-print",
+    "name": "Pepicons Print",
+    "iconCount": 1286,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-line-md",
+    "slug": "line-md",
+    "name": "Material Line Icons",
+    "iconCount": 1279,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-pepicons-pencil",
+    "slug": "pepicons-pencil",
+    "name": "Pepicons Pencil",
+    "iconCount": 1275,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-f7",
+    "slug": "f7",
+    "name": "Framework7 Icons",
+    "iconCount": 1253,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-uil",
+    "slug": "uil",
+    "name": "Unicons",
+    "iconCount": 1244,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-dinkie-icons",
+    "slug": "dinkie-icons",
+    "name": "Dinkie Icons",
+    "iconCount": 1198,
+    "license": "MIT"
+  },
+  {
+    "id": "untitled-ui-icons",
+    "slug": "untitled-ui-icons",
+    "name": "Untitled UI Icons",
+    "iconCount": 1179,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-material-icon-theme",
+    "slug": "material-icon-theme",
+    "name": "Material Icon Theme Icons",
+    "iconCount": 1171,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-pixelarticons",
+    "slug": "pixelarticons",
+    "name": "Pixelarticons",
+    "iconCount": 1108,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-clarity",
+    "slug": "clarity",
+    "name": "Clarity Icons",
+    "iconCount": 1105,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-majesticons",
+    "slug": "majesticons",
+    "name": "Majesticons",
+    "iconCount": 1045,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-mage",
+    "slug": "mage",
+    "name": "Mage Icons",
+    "iconCount": 1042,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-fxemoji",
+    "slug": "fxemoji",
+    "name": "Firefox OS Emoji",
+    "iconCount": 1034,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-garden",
+    "slug": "garden",
+    "name": "Garden SVG Icons",
+    "iconCount": 1027,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-fa-solid",
+    "slug": "fa-solid",
+    "name": "Font Awesome 5 Solid Icons",
+    "iconCount": 1024,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-freehand",
+    "slug": "streamline-freehand",
+    "name": "Freehand free icons",
+    "iconCount": 1000,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-plump-color",
+    "slug": "streamline-plump-color",
+    "name": "Plump color icons",
+    "iconCount": 1000,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-freehand-color",
+    "slug": "streamline-freehand-color",
+    "name": "Freehand color icons",
+    "iconCount": 1000,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-flex-color",
+    "slug": "streamline-flex-color",
+    "name": "Flex color icons",
+    "iconCount": 1000,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-sharp-color",
+    "slug": "streamline-sharp-color",
+    "name": "Sharp color icons",
+    "iconCount": 1000,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-ultimate-color",
+    "slug": "streamline-ultimate-color",
+    "name": "Ultimate color icons",
+    "iconCount": 998,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-stash",
+    "slug": "stash",
+    "name": "Stash Icons",
+    "iconCount": 982,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-lineicons",
+    "slug": "lineicons",
+    "name": "Lineicons",
+    "iconCount": 962,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-jam",
+    "slug": "jam",
+    "name": "Jam Icons",
+    "iconCount": 940,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-octicon",
+    "slug": "octicons",
+    "name": "Octicons",
+    "iconCount": 933,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-file-icons",
+    "slug": "file-icons",
+    "name": "File Icons",
+    "iconCount": 930,
+    "license": "ISC"
+  },
+  {
+    "id": "iconify-fluent-color",
+    "slug": "fluent-color",
+    "name": "Fluent UI System Color Icons",
+    "iconCount": 890,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-qlementine-icons",
+    "slug": "qlementine-icons",
+    "name": "Qlementine Icons",
+    "iconCount": 885,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-zmdi",
+    "slug": "zmdi",
+    "name": "Material Design Iconic Font Icons",
+    "iconCount": 885,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-glyphs-poly",
+    "slug": "glyphs-poly",
+    "name": "Glyphs Poly Icons",
+    "iconCount": 863,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-flowbite",
+    "slug": "flowbite",
+    "name": "Flowbite Icons",
+    "iconCount": 833,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-cib",
+    "slug": "cib",
+    "name": "CoreUI Brands Icons",
+    "iconCount": 831,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-picon",
+    "slug": "picon",
+    "name": "Pico-icon Icons",
+    "iconCount": 824,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-si-glyph",
+    "slug": "si-glyph",
+    "name": "SmartIcons Glyph",
+    "iconCount": 799,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "iconify-devicon-plain",
+    "slug": "devicon-plain",
+    "name": "Devicon Plain Icons",
+    "iconCount": 787,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-streamline-emojis",
+    "slug": "streamline-emojis",
+    "name": "Streamline Emojis",
+    "iconCount": 787,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-fa",
+    "slug": "fa",
+    "name": "Font Awesome 4 Icons",
+    "iconCount": 786,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-gravity-ui",
+    "slug": "gravity-ui",
+    "name": "Gravity UI Icons",
+    "iconCount": 781,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-circle-flags",
+    "slug": "circle-flags",
+    "name": "Circle Flags Icons",
+    "iconCount": 737,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-ci",
+    "slug": "ci",
+    "name": "coolicons",
+    "iconCount": 716,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-lsicon",
+    "slug": "lsicon",
+    "name": "Lsicon Icons",
+    "iconCount": 716,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-gg",
+    "slug": "gg",
+    "name": "css.gg Icons",
+    "iconCount": 705,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-bxs",
+    "slug": "bxs",
+    "name": "BoxIcons v2 Solid",
+    "iconCount": 665,
+    "license": "MIT"
+  },
+  {
+    "id": "radix-icons",
+    "slug": "radix-icons",
+    "name": "Radix Icons",
+    "iconCount": 663,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-streamline-pixel",
+    "slug": "streamline-pixel",
+    "name": "Pixel free icons",
+    "iconCount": 662,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-catppuccin",
+    "slug": "catppuccin",
+    "name": "Catppuccin Icons",
+    "iconCount": 660,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-memory",
+    "slug": "memory",
+    "name": "Memory Icons",
+    "iconCount": 655,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-grommet-icons",
+    "slug": "grommet-icons",
+    "name": "Grommet Icons",
+    "iconCount": 637,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-vaadin",
+    "slug": "vaadin",
+    "name": "Vaadin Icons",
+    "iconCount": 636,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-fontisto",
+    "slug": "fontisto",
+    "name": "Fontisto Icons",
+    "iconCount": 615,
+    "license": "MIT"
+  },
+  {
+    "id": "elusive-icons",
+    "slug": "elusive-icons",
+    "name": "Elusive Icons",
+    "iconCount": 608,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-codicon",
+    "slug": "codicon",
+    "name": "Codicons",
+    "iconCount": 605,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-maki",
+    "slug": "maki",
+    "name": "Maki Icons",
+    "iconCount": 604,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-wi",
+    "slug": "wi",
+    "name": "Weather Icons",
+    "iconCount": 601,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-marketeq",
+    "slug": "marketeq",
+    "name": "Marketeq Icons",
+    "iconCount": 590,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fa7-brands",
+    "slug": "fa7-brands",
+    "name": "Font Awesome Brands Icons",
+    "iconCount": 586,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-pixel",
+    "slug": "pixel",
+    "name": "Pixel Icon Icons",
+    "iconCount": 578,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "circum-icons",
+    "slug": "circum-icons",
+    "name": "Circum Icons",
+    "iconCount": 576,
+    "license": "MPL-2.0"
+  },
+  {
+    "id": "feather-icons",
+    "slug": "feather-icons",
+    "name": "Feather Icons",
+    "iconCount": 573,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-proicons",
+    "slug": "proicons",
+    "name": "Proicons",
+    "iconCount": 572,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-roentgen",
+    "slug": "roentgen",
+    "name": "Röntgen Icons",
+    "iconCount": 566,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-cil",
+    "slug": "cil",
+    "name": "CoreUI Free Icons",
+    "iconCount": 562,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-temaki",
+    "slug": "temaki",
+    "name": "Temaki Icons",
+    "iconCount": 557,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-flag",
+    "slug": "flag",
+    "name": "Flag Icons",
+    "iconCount": 548,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fa6-brands",
+    "slug": "fa6-brands",
+    "name": "Font Awesome 6 Brands Icons",
+    "iconCount": 518,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-cyber",
+    "slug": "streamline-cyber",
+    "name": "Cyber free icons",
+    "iconCount": 500,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-streamline-cyber-color",
+    "slug": "streamline-cyber-color",
+    "name": "Cyber color icons",
+    "iconCount": 500,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-basil",
+    "slug": "basil",
+    "name": "Basil Icons",
+    "iconCount": 497,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-icomoon-free",
+    "slug": "icomoon-free",
+    "name": "IcoMoon Free Icons",
+    "iconCount": 491,
+    "license": "GPL-3.0-or-later"
+  },
+  {
+    "id": "iconify-eva",
+    "slug": "eva",
+    "name": "Eva Icons",
+    "iconCount": 490,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-cryptocurrency",
+    "slug": "cryptocurrency",
+    "name": "Cryptocurrency Icons",
+    "iconCount": 489,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-cryptocurrency-color",
+    "slug": "cryptocurrency-color",
+    "name": "Cryptocurrency Color Icons",
+    "iconCount": 483,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-ps",
+    "slug": "ps",
+    "name": "PrestaShop Icons",
+    "iconCount": 479,
+    "license": "CC-BY-NC-4.0"
+  },
+  {
+    "id": "iconify-akar-icons",
+    "slug": "akar-icons",
+    "name": "Akar Icons",
+    "iconCount": 464,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fa-brands",
+    "slug": "fa-brands",
+    "name": "Font Awesome 5 Brands Icons",
+    "iconCount": 461,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-meteocons",
+    "slug": "meteocons",
+    "name": "Meteocons Icons",
+    "iconCount": 450,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-oui",
+    "slug": "oui",
+    "name": "OpenSearch UI Icons",
+    "iconCount": 444,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-system-uicons",
+    "slug": "system-uicons",
+    "name": "System UIcons",
+    "iconCount": 432,
+    "license": "Unlicense"
+  },
+  {
+    "id": "iconify-pepicons",
+    "slug": "pepicons",
+    "name": "Pepicons",
+    "iconCount": 430,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-pajamas",
+    "slug": "pajamas",
+    "name": "Gitlab SVGs Icons",
+    "iconCount": 416,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-streamline-kameleon-color",
+    "slug": "streamline-kameleon-color",
+    "name": "Kameleon color icons",
+    "iconCount": 400,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-skill-icons",
+    "slug": "skill-icons",
+    "name": "Skill Icons",
+    "iconCount": 400,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-heroicons-solid",
+    "slug": "heroicons-solid",
+    "name": "HeroIcons v1 Solid",
+    "iconCount": 389,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-lucide-lab",
+    "slug": "lucide-lab",
+    "name": "Lucide Lab Icons",
+    "iconCount": 388,
+    "license": "ISC"
+  },
+  {
+    "id": "iconify-heroicons-outline",
+    "slug": "heroicons-outline",
+    "name": "HeroIcons v1 Outline",
+    "iconCount": 385,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-ooui",
+    "slug": "ooui",
+    "name": "Ooui Icons",
+    "iconCount": 371,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-gis",
+    "slug": "gis",
+    "name": "Font-GIS Icons",
+    "iconCount": 367,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-guidance",
+    "slug": "guidance",
+    "name": "Guidance Icons",
+    "iconCount": 360,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-ls",
+    "slug": "ls",
+    "name": "Ligature Symbols",
+    "iconCount": 348,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-dashicons",
+    "slug": "dashicons",
+    "name": "Dashicons",
+    "iconCount": 347,
+    "license": "GPL-2.0-or-later"
+  },
+  {
+    "id": "iconify-typcn",
+    "slug": "typcn",
+    "name": "Typicons",
+    "iconCount": 336,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "iconify-wordpress",
+    "slug": "wordpress",
+    "name": "WordPress Icons",
+    "iconCount": 334,
+    "license": "GPL-2.0-or-later"
+  },
+  {
+    "id": "iconify-bitcoin-icons",
+    "slug": "bitcoin-icons",
+    "name": "Bitcoin Icons",
+    "iconCount": 330,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-flat-color-icons",
+    "slug": "flat-color-icons",
+    "name": "Flat Color Icons",
+    "iconCount": 329,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-meteor-icons",
+    "slug": "meteor-icons",
+    "name": "Meteor Icons",
+    "iconCount": 321,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-entypo",
+    "slug": "entypo",
+    "name": "Entypo+ Icons",
+    "iconCount": 321,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "iconify-prime",
+    "slug": "prime",
+    "name": "Prime Icons",
+    "iconCount": 313,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-subway",
+    "slug": "subway",
+    "name": "Subway Icon Set Icons",
+    "iconCount": 307,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-mdi-light",
+    "slug": "mdi-light",
+    "name": "Material Design Light Icons",
+    "iconCount": 304,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-zondicons",
+    "slug": "zondicons",
+    "name": "Zondicons",
+    "iconCount": 301,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-bxl",
+    "slug": "bxl",
+    "name": "Boxicons Brands",
+    "iconCount": 301,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-streamline-block",
+    "slug": "streamline-block",
+    "name": "Streamline Block Icons",
+    "iconCount": 300,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-uim",
+    "slug": "uim",
+    "name": "Unicons Monochrome",
+    "iconCount": 298,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-wpf",
+    "slug": "wpf",
+    "name": "Icons8 Windows 8 Icons",
+    "iconCount": 294,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-ep",
+    "slug": "ep",
+    "name": "Element Plus Icons",
+    "iconCount": 293,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-humbleicons",
+    "slug": "humbleicons",
+    "name": "Humbleicons",
+    "iconCount": 288,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-foundation",
+    "slug": "foundation",
+    "name": "Foundation Icons",
+    "iconCount": 283,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fa7-regular",
+    "slug": "fa7-regular",
+    "name": "Font Awesome Regular Icons",
+    "iconCount": 272,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-raphael",
+    "slug": "raphael",
+    "name": "Raphael Icons",
+    "iconCount": 266,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-charm",
+    "slug": "charm",
+    "name": "Charm Icons",
+    "iconCount": 263,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-flagpack",
+    "slug": "flagpack",
+    "name": "Flagpack Icons",
+    "iconCount": 256,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-fe",
+    "slug": "fe",
+    "name": "Feather Icon Icons",
+    "iconCount": 255,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-eos-icons",
+    "slug": "eos-icons",
+    "name": "EOS Icons",
+    "iconCount": 253,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-nrk",
+    "slug": "nrk",
+    "name": "NRK Core Icons",
+    "iconCount": 241,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-icons8",
+    "slug": "icons8",
+    "name": "Icons8 Windows 10 Icons",
+    "iconCount": 234,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-sidekickicons",
+    "slug": "sidekickicons",
+    "name": "Sidekickicons",
+    "iconCount": 232,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-oi",
+    "slug": "oi",
+    "name": "Open Iconic Icons",
+    "iconCount": 223,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-uit",
+    "slug": "uit",
+    "name": "Unicons Thin Line",
+    "iconCount": 216,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-uiw",
+    "slug": "uiw",
+    "name": "uiw icons",
+    "iconCount": 214,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-gcp",
+    "slug": "gcp",
+    "name": "Google Cloud Icons",
+    "iconCount": 214,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-rivet-icons",
+    "slug": "rivet-icons",
+    "name": "Rivet Icons",
+    "iconCount": 210,
+    "license": "BSD-3-Clause"
+  },
+  {
+    "id": "iconify-gridicons",
+    "slug": "gridicons",
+    "name": "Gridicons",
+    "iconCount": 207,
+    "license": "GPL-2.0-only"
+  },
+  {
+    "id": "iconify-streamline-stickies-color",
+    "slug": "streamline-stickies-color",
+    "name": "Stickies color icons",
+    "iconCount": 200,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-cif",
+    "slug": "cif",
+    "name": "CoreUI Flags Icons",
+    "iconCount": 199,
+    "license": "CC0-1.0"
+  },
+  {
+    "id": "iconify-simple-line-icons",
+    "slug": "simple-line-icons",
+    "name": "Simple line icons",
+    "iconCount": 194,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-uis",
+    "slug": "uis",
+    "name": "Unicons Solid",
+    "iconCount": 190,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-cuida",
+    "slug": "cuida",
+    "name": "Cuida Icons",
+    "iconCount": 182,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-mi",
+    "slug": "mi",
+    "name": "Mono Icons",
+    "iconCount": 180,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-mono-icons",
+    "slug": "mono-icons",
+    "name": "Mono Icons (mono-icons)",
+    "iconCount": 180,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-vs",
+    "slug": "vs",
+    "name": "Vesper Icons",
+    "iconCount": 172,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-map",
+    "slug": "map",
+    "name": "Map Icons",
+    "iconCount": 167,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-fa6-regular",
+    "slug": "fa6-regular",
+    "name": "Font Awesome 6 Regular Icons",
+    "iconCount": 164,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-weui",
+    "slug": "weui",
+    "name": "WeUI Icon Icons",
+    "iconCount": 162,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-academicons",
+    "slug": "academicons",
+    "name": "Academicons",
+    "iconCount": 158,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-fad",
+    "slug": "fad",
+    "name": "FontAudio Icons",
+    "iconCount": 155,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-fa-regular",
+    "slug": "fa-regular",
+    "name": "Font Awesome 5 Regular Icons",
+    "iconCount": 151,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-quill",
+    "slug": "quill",
+    "name": "Quill Icons",
+    "iconCount": 146,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-formkit",
+    "slug": "formkit",
+    "name": "FormKit Icons",
+    "iconCount": 144,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-medical-icon",
+    "slug": "medical-icon",
+    "name": "Medical Icons",
+    "iconCount": 144,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-covid",
+    "slug": "covid",
+    "name": "Covid Icons",
+    "iconCount": 142,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "id": "iconify-nimbus",
+    "slug": "nimbus",
+    "name": "Nimbus Icons",
+    "iconCount": 140,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-bpmn",
+    "slug": "bpmn",
+    "name": "Bpmn Icons",
+    "iconCount": 112,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-iwwa",
+    "slug": "iwwa",
+    "name": "Innowatio Font Icons",
+    "iconCount": 105,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-bytesize",
+    "slug": "bytesize",
+    "name": "Bytesize Icons",
+    "iconCount": 102,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-et",
+    "slug": "et",
+    "name": "Elegant Icons",
+    "iconCount": 100,
+    "license": "GPL-3.0-or-later"
+  },
+  {
+    "id": "iconify-flat-ui",
+    "slug": "flat-ui",
+    "name": "Flat UI Icons",
+    "iconCount": 100,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-duo-icons",
+    "slug": "duo-icons",
+    "name": "Duoicons",
+    "iconCount": 91,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-topcoat",
+    "slug": "topcoat",
+    "name": "TopCoat Icons",
+    "iconCount": 89,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-websymbol",
+    "slug": "websymbol",
+    "name": "Web Symbols Liga",
+    "iconCount": 85,
+    "license": "OFL-1.1"
+  },
+  {
+    "id": "iconify-il",
+    "slug": "il",
+    "name": "Icalicons",
+    "iconCount": 84,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-codex",
+    "slug": "codex",
+    "name": "CodeX Icons",
+    "iconCount": 78,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-entypo-social",
+    "slug": "entypo-social",
+    "name": "Entypo+ Social Icons",
+    "iconCount": 76,
+    "license": "CC-BY-SA-4.0"
+  },
+  {
+    "id": "iconify-ei",
+    "slug": "ei",
+    "name": "Evil Icons",
+    "iconCount": 70,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-nonicons",
+    "slug": "nonicons",
+    "name": "Nonicons",
+    "iconCount": 69,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-unjs",
+    "slug": "unjs",
+    "name": "UnJS Logos Icons",
+    "iconCount": 63,
+    "license": "Apache-2.0"
+  },
+  {
+    "id": "iconify-gala",
+    "slug": "gala",
+    "name": "Gala Icons",
+    "iconCount": 55,
+    "license": "GPL-3.0"
+  },
+  {
+    "id": "iconify-ginetex",
+    "slug": "ginetex",
+    "name": "Ginetex Care Symbols",
+    "iconCount": 50,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-svg-spinners",
+    "slug": "svg-spinners",
+    "name": "SVG Spinners Icons",
+    "iconCount": 46,
+    "license": "MIT"
+  },
+  {
+    "id": "iconify-brandico",
+    "slug": "brandico",
+    "name": "Brandico Icons",
+    "iconCount": 45,
+    "license": "CC-BY-SA-3.0"
+  },
+  {
+    "id": "iconify-fontelico",
+    "slug": "fontelico",
+    "name": "Fontelico Icons",
+    "iconCount": 34,
+    "license": "CC-BY-SA-3.0"
+  },
+  {
+    "id": "iconify-geo",
+    "slug": "geo",
+    "name": "GeoGlyphs Icons",
+    "iconCount": 30,
+    "license": "MIT"
+  }
+]

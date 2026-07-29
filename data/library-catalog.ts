@@ -5,13 +5,24 @@ export type NamedLibrary = {
   color: string
 }
 
+export type IconLibraryMeta = {
+  id: string
+  slug: string
+  name: string
+  iconCount: number
+  license: string
+  color?: string
+}
+
 import snapshot from './icon-search.snapshot.json'
+import allLibrariesData from './all-libraries.json'
 
 export const SEARCHABLE_ICON_COUNT = snapshot.totalIcons || 355_702
 export const LEGAL_SAFE_ICON_COUNT = snapshot.commercialSafeIcons || 259_070
-export const ICONIFY_ICON_COUNT = 332_012
-export const ICONIFY_COLLECTION_COUNT = 227
+export const ICONIFY_ICON_COUNT = SEARCHABLE_ICON_COUNT
+export const ICONIFY_COLLECTION_COUNT = 242
 
+export const allLibraries: IconLibraryMeta[] = allLibrariesData as IconLibraryMeta[]
 
 export const namedLibraries: NamedLibrary[] = [
   { id: 'lucide-icons', name: 'Lucide Icons', slug: 'lucide-icons', color: '#818cf8' },
@@ -34,20 +45,42 @@ export const namedLibraries: NamedLibrary[] = [
   { id: 'elusive-icons', name: 'Elusive Icons', slug: 'elusive-icons', color: '#38bdf8' },
 ]
 
-export const NAMED_LIBRARY_COUNT = namedLibraries.length
-export const COMPARISON_COUNT = NAMED_LIBRARY_COUNT * (NAMED_LIBRARY_COUNT - 1) / 2
+export const NAMED_LIBRARY_COUNT = allLibraries.length
+export const COMPARISON_COUNT = namedLibraries.length * (namedLibraries.length - 1) / 2
 
-const namedLibraryNames = new Map(namedLibraries.map((library) => [library.id, library.name]))
+const libraryMapById = new Map<string, IconLibraryMeta>()
+const libraryMapBySlug = new Map<string, IconLibraryMeta>()
+
+allLibraries.forEach((lib) => {
+  libraryMapById.set(lib.id, lib)
+  libraryMapBySlug.set(lib.slug.toLowerCase(), lib)
+  libraryMapBySlug.set(lib.id.toLowerCase(), lib)
+})
+
 const acronymParts = new Set(['ai', 'bi', 'fa', 'gis', 'ic', 'mdi', 'svg', 'ui'])
 
 export function getNamedLibraryName(id: string): string {
-  return namedLibraryNames.get(id) || id
+  const lib = libraryMapById.get(id)
+  if (lib) return lib.name
+  return formatCollectionName(id)
 }
 
-export function formatIconifyCollectionName(id: string): string {
-  return id
-    .replace(/^iconify-/, '')
+export function resolveLibraryMeta(slugOrId: string): IconLibraryMeta | undefined {
+  const clean = slugOrId.toLowerCase().trim()
+  return libraryMapBySlug.get(clean) || libraryMapById.get(clean) || libraryMapBySlug.get(`iconify-${clean}`)
+}
+
+export function formatCollectionName(id: string): string {
+  const clean = id.replace(/^iconify-/, '')
+  const found = libraryMapBySlug.get(clean)
+  if (found) return found.name
+
+  return clean
     .split('-')
     .map((part) => acronymParts.has(part) ? part.toUpperCase() : `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
     .join(' ')
 }
+
+// Deprecated alias for backwards compatibility during migration
+export const formatIconifyCollectionName = formatCollectionName
+

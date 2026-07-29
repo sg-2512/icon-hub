@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { icons } from '../lib/icons'
+import { allLibraries } from '../data/library-catalog'
 import { categories } from '../data/categories'
 import { useCases } from '../data/usecases'
 
@@ -42,6 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/tailwind-icons`,   lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/typescript-icons`, lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/icon-search`,      lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${base}/bookmarks`,        lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/best-for-you`,     lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/licenses`,         lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/stats`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
@@ -57,8 +59,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   // ─── Library pages ────────────────────────────────────────────────────────
-  const libraryPages: MetadataRoute.Sitemap = icons.map(icon => ({
-    url: `${base}/icons/${icon.slug}`,
+  const libraryPages: MetadataRoute.Sitemap = allLibraries.map(lib => ({
+    url: `${base}/icons/${lib.slug}`,
     lastModified: now,
     changeFrequency: 'monthly' as const,
     priority: 0.8,

@@ -353,7 +353,7 @@ export default function Command() {
     setIcons([]);
     setTotalPages(0);
     setError("Your IconSearch session expired. Connect again to continue.");
-  }, []);
+  }, [setError, setIcons, setSession, setTotalPages]);
 
   const loadPage = useCallback(
     async (nextPage: number, append: boolean) => {
@@ -471,7 +471,7 @@ export default function Command() {
     setSession({ token: "" });
     setIcons([]);
     setTotalPages(0);
-  }, []);
+  }, [setIcons, setSession, setTotalPages]);
 
   const rememberIcon = useCallback(
     async (icon: IconSearchIcon) => {

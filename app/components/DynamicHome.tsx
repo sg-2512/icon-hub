@@ -487,7 +487,7 @@ export default function DynamicHome({ initialLibraries, recentItems }: DynamicHo
             marginBottom: '32px',
             lineHeight: '1.6'
           }}>
-            Instant search across <span style={{ color: 'var(--text)', fontWeight: 600 }}>{SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons</span> from {NAMED_LIBRARY_COUNT} named libraries and {ICONIFY_COLLECTION_COUNT} Iconify collections. Zero packages required to customize and export.
+            Instant search across <span style={{ color: 'var(--text)', fontWeight: 600 }}>{SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons</span> from 229 open-source icon libraries. Zero packages required to customize and export.
           </p>
 
           {/* Core Search Form */}

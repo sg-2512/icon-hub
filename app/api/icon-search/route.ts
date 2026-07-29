@@ -370,7 +370,12 @@ export async function GET(request: Request) {
           filtered = filtered.filter(icon => icon.library.toLowerCase() === normalized)
         }
       } else {
-        filtered = filtered.filter(icon => icon.library === lib)
+        const cleanLib = lib.toLowerCase().replace(/^iconify-/, '')
+        filtered = filtered.filter(icon => {
+          const iconLib = icon.library.toLowerCase()
+          const iconClean = iconLib.replace(/^iconify-/, '')
+          return iconLib === lib.toLowerCase() || iconClean === cleanLib
+        })
       }
     }
     

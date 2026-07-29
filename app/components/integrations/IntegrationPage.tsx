@@ -122,7 +122,7 @@ export default function IntegrationPage({ config }: { config: IntegrationConfig 
 
             <div className={styles.resultsPanel}>
               <div className={styles.searchRow}>
-                <div><Search size={17} /><span>Search home, arrow, cart...</span></div>
+                <div><Search size={17} /><span>Search home, arrow, user...</span></div>
                 <button type="button"><SlidersHorizontal size={16} /> Filters</button>
               </div>
               <div className={styles.filterRow}>
@@ -181,7 +181,7 @@ export default function IntegrationPage({ config }: { config: IntegrationConfig 
       <section className={styles.stats} aria-label={`${config.name} overview`}>
         <div><strong>{iconCount}</strong><span>searchable icons</span></div>
         <div><strong>{NAMED_LIBRARY_COUNT}</strong><span>named libraries</span></div>
-        <div><strong>{ICONIFY_COLLECTION_COUNT}</strong><span>Iconify collections</span></div>
+        <div><strong>{ICONIFY_COLLECTION_COUNT}</strong><span>icon collections</span></div>
         <div><strong>{config.account}</strong><span>access model</span></div>
       </section>
 

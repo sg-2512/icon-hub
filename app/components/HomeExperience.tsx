@@ -185,7 +185,7 @@ export default function HomeExperience({ initialLibraries, recentItems }: HomeEx
         </div>
         <div>
           <strong>{ICONIFY_COLLECTION_COUNT}</strong>
-          <span>Iconify collections indexed</span>
+          <span>Open-source collections indexed</span>
         </div>
         <div>
           <strong>MIT / ISC</strong>

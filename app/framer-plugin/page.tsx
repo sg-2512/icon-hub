@@ -7,7 +7,7 @@ const framerMarketplaceUrl = 'https://www.framer.com/community/marketplace/plugi
 
 export const metadata: Metadata = {
   title: 'IconSearch Framer Plugin - Free SVG Icons for Framer',
-  description: `Install the free IconSearch Framer plugin to search, customize, and insert ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections.`,
+  description: `Install the free IconSearch Framer plugin to search, customize, and insert ${formattedIconCount} online SVG icons from 229 open-source icon libraries.`,
   alternates: {
     canonical: '/framer-plugin',
   },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const stats = [
   { value: formattedIconCount, label: 'online icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
+  { value: '229', label: 'icon collections' },
 ]
 
 const features = [
@@ -40,7 +40,7 @@ const features = [
   },
   {
     title: 'Designer-friendly filters',
-    text: 'Filter by named libraries, Iconify collections, style, and legal-safe results without leaving your Framer workflow.',
+    text: 'Filter by named libraries, icon collections, style, and legal-safe results without leaving your Framer workflow.',
   },
 ]
 

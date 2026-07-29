@@ -654,7 +654,7 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
             </button>
           </div>
 
-          {/* Add to Cart CTA */}
+          {/* Add to Bundle CTA */}
           <button suppressHydrationWarning
             onClick={handleAddToCart}
             style={{
@@ -687,12 +687,12 @@ export default function IconDetailClient({ icon, initialSvg, relatedIcons, libra
             {addedToCart ? (
               <>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Added to Workspace Cart!
+                Added to Bundle!
               </>
             ) : (
               <>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                Add to Cart
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                Add to Bundle
               </>
             )}
           </button>

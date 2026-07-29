@@ -2,14 +2,13 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import {
   COMPARISON_COUNT,
-  ICONIFY_COLLECTION_COUNT,
   NAMED_LIBRARY_COUNT,
   SEARCHABLE_ICON_COUNT,
 } from '../../data/library-catalog'
 
 export const metadata: Metadata = {
-  title: 'About IconSearch — Free SVG Icon Library Comparison Tool (2026)',
-  description: `IconSearch indexes ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections, with ${COMPARISON_COUNT} library comparisons.`,
+  title: 'About IconSearch — Free SVG Icon Library Discovery Platform (2026)',
+  description: `IconSearch indexes ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} SVG icons from ${NAMED_LIBRARY_COUNT} open-source icon libraries, with ${COMPARISON_COUNT} library comparisons.`,
 }
 
 export default function AboutPage() {
@@ -24,7 +23,7 @@ export default function AboutPage() {
           About <span style={{ color: 'var(--accent)' }}>IconSearch</span>
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '18px', lineHeight: 1.7, maxWidth: '600px' }}>
-          The definitive independent comparison and discovery platform for free open-source SVG icon libraries — built for developers who want fast, data-driven decisions.
+          The definitive independent discovery platform for free open-source SVG icon libraries — built for developers who want fast, data-driven decisions.
         </p>
       </section>
 
@@ -36,10 +35,10 @@ export default function AboutPage() {
             What is IconSearch?
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8, marginBottom: '12px' }}>
-            IconSearch is an independent search platform covering {NAMED_LIBRARY_COUNT} named free SVG icon libraries in the web development ecosystem. We help React, Next.js, Vue, and Svelte developers find the right icon library through real benchmark data and honest recommendations — all in one place.
+            IconSearch is an independent search platform covering {NAMED_LIBRARY_COUNT} free SVG icon libraries in the web development ecosystem. We help React, Next.js, Vue, and Svelte developers find the right icon library through real benchmark data and honest recommendations — all in one place.
           </p>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.8 }}>
-            The site covers major open-source icon libraries such as Lucide Icons, Heroicons, Tabler Icons, PatternFly Icons, Untitled UI Icons, Phosphor Icons, Remix Icon, Feather Icons, Bootstrap Icons, Radix Icons, Iconoir, IonIcons, Octicons, Ant Design Icons, Devicons, and hundreds of Iconify collections.
+            The site covers major open-source icon libraries such as Lucide Icons, Heroicons, Tabler Icons, PatternFly Icons, Untitled UI Icons, Phosphor Icons, Remix Icon, Feather Icons, Bootstrap Icons, Radix Icons, Iconoir, IonIcons, Octicons, Ant Design Icons, Devicons, Mage Icons, Solar Icons, and hundreds of open-source vector collections.
           </p>
         </div>
 
@@ -51,8 +50,7 @@ export default function AboutPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
             {[
               { value: SEARCHABLE_ICON_COUNT.toLocaleString('en-US'), label: 'Searchable icons' },
-              { value: NAMED_LIBRARY_COUNT.toString(), label: 'Named libraries' },
-              { value: ICONIFY_COLLECTION_COUNT.toString(), label: 'Iconify collections' },
+              { value: NAMED_LIBRARY_COUNT.toString(), label: 'Icon libraries' },
               { value: '10', label: 'Icon category guides' },
               { value: '10', label: 'Use case guides' },
               { value: '6', label: 'Framework guides' },
@@ -92,7 +90,7 @@ export default function AboutPage() {
               {
                 title: 'Icon Search Tool',
                 link: '/icon-search',
-                desc: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} named libraries and ${ICONIFY_COLLECTION_COUNT} Iconify collections. No npm install required.`,
+                desc: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries. No npm install required.`,
               },
               {
                 title: 'SVG Customizer Sandbox',
@@ -152,7 +150,7 @@ export default function AboutPage() {
         {/* Libraries Covered */}
         <div>
           <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '16px', color: 'var(--text)', fontFamily: 'JetBrains Mono, monospace' }}>
-            Libraries Covered (16 Total)
+            Libraries Covered ({NAMED_LIBRARY_COUNT} Total)
           </h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {[
@@ -166,12 +164,12 @@ export default function AboutPage() {
               { name: 'Radix Icons', license: 'MIT' },
               { name: 'Font Awesome', license: 'Mixed' },
               { name: 'React Icons', license: 'MIT' },
-              { name: 'Material Icons', license: 'MIT' },
-              { name: 'Iconify', license: 'MIT' },
+              { name: 'Material Symbols', license: 'Apache 2.0' },
               { name: 'Simple Icons', license: 'CC0' },
               { name: 'Iconoir', license: 'MIT' },
               { name: 'IonIcons', license: 'MIT' },
               { name: 'Octicons', license: 'MIT' },
+              { name: 'Mage Icons', license: 'Apache 2.0' },
             ].map(lib => (
               <div key={lib.name} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '6px', padding: '8px 14px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text)' }}>{lib.name}</span>
