@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import AppShell from './components/AppShell'
 import GoogleAdSense from './components/GoogleAdSense'
+import GoogleAnalytics from './components/GoogleAnalytics'
 import { JetBrains_Mono, Inter } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from "@vercel/analytics/next"
@@ -111,22 +112,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=G-T75PM4NWBD`}
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-T75PM4NWBD');
-          `}
-        </Script>
       </head>
       <body suppressHydrationWarning>
         <AppShell>{children}</AppShell>
         <GoogleAdSense client="ca-pub-7157745573382727" />
+        <GoogleAnalytics gaId="G-T75PM4NWBD" />
         <Analytics />
       </body>
     </html>

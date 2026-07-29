@@ -6,9 +6,11 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
 import { Home, KeyRound, List, LogIn, Search, UserCheck } from 'lucide-react'
-import AuthModal from './AuthModal'
+import dynamic from 'next/dynamic'
 import { createClient } from '@/lib/supabase'
 import { formatIconifyCollectionName, namedLibraries } from '../../data/library-catalog'
+
+const AuthModal = dynamic(() => import('./AuthModal'), { ssr: false })
 
 
 const navLinks = [

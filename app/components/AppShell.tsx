@@ -2,9 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import Sidebar from './Sidebar'
-import CartDrawer from './CartDrawer'
 import { footerLegalLinks, internalLinkGroups } from '../../data/internal-links'
+
+const CartDrawer = dynamic(() => import('./CartDrawer'), { ssr: false })
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
