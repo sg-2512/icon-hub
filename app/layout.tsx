@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import AppShell from './components/AppShell'
+import GoogleAdSense from './components/GoogleAdSense'
 import { JetBrains_Mono, Inter } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from "@vercel/analytics/next"
@@ -104,11 +105,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })();
           `}
         </Script>
+        <link rel="preconnect" href="https://fundingchoicesmessages.google.com" />
+        <link rel="dns-prefetch" href="https://fundingchoicesmessages.google.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=G-T75PM4NWBD`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -116,15 +123,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-T75PM4NWBD');
           `}
         </Script>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7157745573382727"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
       </head>
       <body suppressHydrationWarning>
         <AppShell>{children}</AppShell>
+        <GoogleAdSense client="ca-pub-7157745573382727" />
         <Analytics />
       </body>
     </html>
