@@ -31,13 +31,10 @@ export default function GoogleAnalytics({ gaId }: { gaId: string }) {
       events.forEach(e => window.removeEventListener(e, loadGA))
     }
 
-    const events = ['pointermove', 'scroll', 'touchstart', 'keydown']
+    const events = ['pointermove', 'scroll', 'touchstart', 'keydown', 'click']
     events.forEach(e => window.addEventListener(e, loadGA, { passive: true, once: true }))
 
-    const timer = setTimeout(loadGA, 3500)
-
     return () => {
-      clearTimeout(timer)
       events.forEach(e => window.removeEventListener(e, loadGA))
     }
   }, [gaId])

@@ -67,23 +67,19 @@ export default function Sidebar() {
     return () => window.clearTimeout(timer)
   }, [pathname])
 
-  useEffect(() => {
-    const controller = new AbortController()
+  const [hasFetchedSets, setHasFetchedSets] = useState(false)
 
-    fetch('/api/icon-search?limit=1&legalOnly=0', { signal: controller.signal })
+  const fetchIconifySets = () => {
+    if (hasFetchedSets) return
+    setHasFetchedSets(true)
+    fetch('/api/icon-search?limit=1&legalOnly=0')
       .then((response) => response.ok ? response.json() : Promise.reject(new Error(`Catalog returned ${response.status}`)))
       .then((data) => {
         const sets = Array.isArray(data?.facets?.iconifySets) ? data.facets.iconifySets : []
         setIconifySets(sets)
       })
-      .catch((error) => {
-        if ((error as Error).name !== 'AbortError') {
-          console.error('Could not load Iconify collections', error)
-        }
-      })
-
-    return () => controller.abort()
-  }, [])
+      .catch((error) => console.error('Could not load Iconify collections', error))
+  }
 
   const [cartCount, setCartCount] = useState(0)
 
@@ -350,6 +346,8 @@ export default function Sidebar() {
               suppressHydrationWarning
               aria-label="Browse Iconify collections"
               defaultValue=""
+              onFocus={fetchIconifySets}
+              onClick={fetchIconifySets}
               onChange={(event) => {
                 const collection = event.target.value
                 if (!collection) return

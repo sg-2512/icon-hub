@@ -19,13 +19,10 @@ export default function GoogleAdSense({ client }: { client: string }) {
       events.forEach(e => window.removeEventListener(e, loadScript))
     }
 
-    const events = ['pointermove', 'scroll', 'touchstart', 'keydown']
+    const events = ['pointermove', 'scroll', 'touchstart', 'keydown', 'click']
     events.forEach(e => window.addEventListener(e, loadScript, { passive: true, once: true }))
 
-    const timer = setTimeout(loadScript, 3500)
-
     return () => {
-      clearTimeout(timer)
       events.forEach(e => window.removeEventListener(e, loadScript))
     }
   }, [client])
