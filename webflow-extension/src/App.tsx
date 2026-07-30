@@ -1,22 +1,47 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { normalizeHttpsUrl, isSafeHex, styleSvg, sanitizeSvg } from "./svg";
-import { subscribeToSelection, insertIconToCanvas, resolveWebflowUserToken, SelectionState } from "./webflow-api";
+import { normalizeHttpsUrl, isAllowedHost, isSafeHex, styleSvg, sanitizeSvg } from "./svg";
+import { subscribeToSelection, insertIconToCanvas, SelectionState } from "./webflow-api";
 
 const SEARCH_ENDPOINT = "https://iconsearch.info/api/extension/icon-search";
 const DEVICE_START_ENDPOINT = "https://iconsearch.info/api/device/start";
 const DEVICE_STATUS_ENDPOINT = "https://iconsearch.info/api/device/status";
+const AUTHORIZATION_ENDPOINT = "https://iconsearch.info/connect";
 const SEARCH_LIMIT = 60;
+const DEVICE_CODE_PATTERN = /^[A-Za-z0-9_-]{16,256}$/;
+const SESSION_TOKEN_PATTERN = /^[A-Za-z0-9_-]{32,256}$/;
 
 export function isAllowedAuthUrl(uri: string | null): boolean {
   if (!uri || typeof uri !== "string") return false;
   try {
     const parsed = new URL(uri.trim());
-    if (parsed.protocol !== "https:") return false;
-    const hostname = parsed.hostname.toLowerCase();
-    return hostname === "iconsearch.info" || hostname === "www.iconsearch.info";
+    const entries = Array.from(parsed.searchParams.entries());
+    const code = parsed.searchParams.get("code") || "";
+    return (
+      parsed.origin === "https://iconsearch.info" &&
+      parsed.pathname === "/connect" &&
+      parsed.hash === "" &&
+      parsed.username === "" &&
+      parsed.password === "" &&
+      entries.length === 2 &&
+      parsed.searchParams.getAll("product").length === 1 &&
+      parsed.searchParams.get("product") === "webflow" &&
+      parsed.searchParams.getAll("code").length === 1 &&
+      DEVICE_CODE_PATTERN.test(code)
+    );
   } catch {
     return false;
   }
+}
+
+function createAuthorizationUrl(deviceCode: string): string {
+  if (!DEVICE_CODE_PATTERN.test(deviceCode)) {
+    throw new Error("The authorization server returned an invalid device code.");
+  }
+
+  const url = new URL(AUTHORIZATION_ENDPOINT);
+  url.searchParams.set("product", "webflow");
+  url.searchParams.set("code", deviceCode);
+  return url.toString();
 }
 
 type IconSearchIcon = {
@@ -61,6 +86,15 @@ const STYLES = [
   ["sharp", "Sharp"],
 ] as const;
 
+const SWATCHES = [
+  ["#111827", "swatch-ink"],
+  ["#FFFFFF", "swatch-white"],
+  ["#2563EB", "swatch-blue"],
+  ["#059669", "swatch-green"],
+  ["#DC2626", "swatch-red"],
+  ["#F4B400", "swatch-yellow"],
+] as const;
+
 export function App() {
   const [token, setToken] = useState<string | null>(null);
   const [query, setQuery] = useState("arrow");
@@ -93,6 +127,7 @@ export function App() {
   const [inserting, setInserting] = useState(false);
 
   const pollTimerRef = useRef<number | null>(null);
+  const authControllerRef = useRef<AbortController | null>(null);
   const searchControllerRef = useRef<AbortController | null>(null);
 
   // Subscribe to Webflow Designer selection events
@@ -106,29 +141,21 @@ export function App() {
   // Cleanup timers on unmount
   useEffect(() => {
     return () => {
-      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+      if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
+      authControllerRef.current?.abort();
+      searchControllerRef.current?.abort();
     };
   }, []);
 
-  // Auto-resolution via Webflow ID Token on mount
-  useEffect(() => {
-    async function checkNativeIdToken() {
-      if (token) return;
-      const idToken = await resolveWebflowUserToken();
-      if (idToken) {
-        setToken(idToken);
-      }
-    }
-    void checkNativeIdToken();
-  }, [token]);
-
-  // Execute Icon Search
+  // Search requests only run after an explicit Search action.
   const fetchIcons = useCallback(async (isNewSearch = true) => {
     if (!token) return;
 
     if (isNewSearch) {
       setPage(1);
       setIcons([]);
+      setSelectedIcon(null);
+      setStatusMessage("");
       setLoading(true);
     } else {
       setLoadingMore(true);
@@ -162,6 +189,7 @@ export function App() {
 
       if (res.status === 401) {
         setToken(null);
+        setStatusMessage("Your IconSearch session expired. Sign in again to continue.");
         return;
       }
 
@@ -204,6 +232,7 @@ export function App() {
         setIcons([]);
         setTotal(0);
       }
+      setStatusMessage("Icon search failed. Check your connection and try again.");
     } finally {
       if (!controller.signal.aborted) {
         setLoading(false);
@@ -211,12 +240,6 @@ export function App() {
       }
     }
   }, [query, library, style, legalOnly, page, token]);
-
-  useEffect(() => {
-    if (!token) return;
-    const timer = setTimeout(() => void fetchIcons(true), 200);
-    return () => clearTimeout(timer);
-  }, [query, library, style, legalOnly, token]);
 
   // Handle Infinite Scroll
   useEffect(() => {
@@ -234,44 +257,36 @@ export function App() {
 
   // Start Device Auth Pairing with bounded polling loop
   async function handleStartAuth() {
+    authControllerRef.current?.abort();
+    const authController = new AbortController();
+    authControllerRef.current = authController;
     setStartingAuth(true);
     setAuthError(null);
     try {
       const res = await fetch(DEVICE_START_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product: "webflow", clientName: "Webflow Extension" })
+        body: JSON.stringify({ product: "webflow", clientName: "Webflow Extension" }),
+        signal: authController.signal
       });
       const data = await res.json() as Record<string, unknown>;
       if (!res.ok) throw new Error(String(data.error || "Failed to start device auth."));
 
       const code = String(data.deviceCode || "");
       const uCode = String(data.userCode || "");
-      const rawUri = String(data.verificationUriComplete || `https://iconsearch.info/connect?product=webflow&code=${code}`);
+      const authorizationUri = createAuthorizationUrl(code);
 
       setUserCode(uCode);
+      setVerificationUri(authorizationUri);
 
-      if (isAllowedAuthUrl(rawUri)) {
-        setVerificationUri(rawUri);
-        window.open(rawUri, "_blank", "noopener,noreferrer");
-      } else {
-        const fallbackUri = `https://iconsearch.info/connect?product=webflow&code=${code}`;
-        if (isAllowedAuthUrl(fallbackUri)) {
-          setVerificationUri(fallbackUri);
-          window.open(fallbackUri, "_blank", "noopener,noreferrer");
-        } else {
-          throw new Error("Invalid authorization URL origin.");
-        }
-      }
-
-      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+      if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
       let pollAttempts = 0;
-      const MAX_POLL_ATTEMPTS = 60; // 3 minutes max (60 * 3s)
+      const MAX_POLL_ATTEMPTS = 60;
 
-      pollTimerRef.current = window.setInterval(async () => {
+      const pollDeviceStatus = async () => {
         pollAttempts++;
         if (pollAttempts > MAX_POLL_ATTEMPTS) {
-          if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+          pollTimerRef.current = null;
           setAuthError("Pairing session expired. Please click Sign in to try again.");
           setUserCode(null);
           setVerificationUri(null);
@@ -282,35 +297,72 @@ export function App() {
           const statusRes = await fetch(DEVICE_STATUS_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ deviceCode: code })
+            body: JSON.stringify({ deviceCode: code }),
+            signal: authController.signal
           });
           const statusData = await statusRes.json() as Record<string, unknown>;
-          if (statusRes.ok && statusData.status === "authorized" && typeof statusData.token === "string") {
-            if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+          if (
+            statusRes.ok &&
+            statusData.status === "authorized" &&
+            typeof statusData.token === "string" &&
+            SESSION_TOKEN_PATTERN.test(statusData.token)
+          ) {
+            pollTimerRef.current = null;
             setToken(statusData.token);
+            setUserCode(null);
+            setVerificationUri(null);
+            setStatusMessage("Connected. Press Search when you are ready to load icons.");
+            return;
+          } else if (statusData.status === "authorized") {
+            pollTimerRef.current = null;
+            setAuthError("The authorization server returned an invalid session. Please try again.");
+            setUserCode(null);
+            setVerificationUri(null);
+            return;
           } else if (statusData.status === "expired" || statusData.status === "denied") {
-            if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+            pollTimerRef.current = null;
             setAuthError(`Pairing session ${statusData.status}. Please try again.`);
             setUserCode(null);
             setVerificationUri(null);
+            return;
           }
-        } catch {}
-      }, 3000);
+        } catch {
+          if (authController.signal.aborted) return;
+        }
+
+        if (!authController.signal.aborted) {
+          pollTimerRef.current = window.setTimeout(() => void pollDeviceStatus(), 3000);
+        }
+      };
+
+      pollTimerRef.current = window.setTimeout(() => void pollDeviceStatus(), 3000);
     } catch (err) {
-      setAuthError(err instanceof Error ? err.message : "Pairing failed");
+      if (!authController.signal.aborted) {
+        setAuthError(err instanceof Error ? err.message : "Pairing failed");
+      }
     } finally {
-      setStartingAuth(false);
+      if (authControllerRef.current === authController) {
+        setStartingAuth(false);
+      }
     }
   }
 
   function handleSignOut() {
+    searchControllerRef.current?.abort();
+    authControllerRef.current?.abort();
+    if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     setToken(null);
     setUserCode(null);
     setVerificationUri(null);
+    setIcons([]);
+    setSelectedIcon(null);
+    setTotal(0);
+    setStatusMessage("");
   }
 
   // Handle Icon Insertion into Webflow Canvas
   async function handleInsertIcon(icon: IconSearchIcon) {
+    if (inserting) return;
     if (!selection.canInsert) {
       setStatusMessage(selection.reason || "Select a Webflow canvas element first.");
       return;
@@ -321,9 +373,13 @@ export function App() {
     try {
       const res = await fetch(icon.svgUrl, { headers: { accept: "image/svg+xml,text/plain" } });
       if (!res.ok) throw new Error("Could not fetch SVG content.");
+      if (!isAllowedHost(res.url)) throw new Error("The SVG response came from an unapproved host.");
+      const contentLength = Number(res.headers.get("content-length") || "0");
+      if (contentLength > 1_000_000) throw new Error("The selected SVG is too large to import safely.");
       const rawMarkup = await res.text();
+      if (rawMarkup.length > 1_000_000) throw new Error("The selected SVG is too large to import safely.");
       const sanitized = sanitizeSvg(rawMarkup);
-      const styled = styleSvg(sanitized, { color, title: icon.displayName });
+      const styled = styleSvg(sanitized, { color, title: icon.displayName, size });
 
       await insertIconToCanvas({
         svgMarkup: styled,
@@ -347,7 +403,7 @@ export function App() {
       {/* HEADER */}
       <header className="app-header">
         <div className="brand-section">
-          <div style={{ width: 28, height: 28, borderRadius: 6, background: "#2563EB", color: "#FFFFFF", display: "grid", placeItems: "center", fontWeight: 800, fontSize: 13 }}>IS</div>
+          <div className="brand-mark">IS</div>
           <div>
             <h1 className="app-title">IconSearch</h1>
             <p className="app-subtitle">Webflow Designer Extension</p>
@@ -355,7 +411,7 @@ export function App() {
         </div>
         <div className="header-status">
           {token ? (
-            <button type="button" onClick={handleSignOut} className="tab-btn" style={{ padding: "2px 6px", fontSize: 10 }}>Sign Out</button>
+            <button type="button" onClick={handleSignOut} className="tab-btn sign-out-button">Sign Out</button>
           ) : (
             <span className={`status-badge ${selection.canInsert ? "is-ready" : "is-warning"}`}>
               {selection.canInsert ? (selection.elementName ? `Target: ${selection.elementName}` : "Ready to Insert") : "No Selection"}
@@ -366,14 +422,14 @@ export function App() {
 
       {/* CONNECT SCREEN FIRST (If not signed in) */}
       {!token ? (
-        <div className="auth-card" style={{ padding: "24px 16px", textAlign: "center", background: "var(--surface)", borderRadius: 10, border: "1px solid var(--line)", margin: "20px 0" }}>
-          <div style={{ width: 44, height: 44, borderRadius: 10, background: "#2563EB", color: "#FFFFFF", display: "grid", placeItems: "center", fontWeight: 900, fontSize: 18, margin: "0 auto 12px" }}>IS</div>
-          <h2 style={{ fontSize: 16, fontWeight: 800, marginBottom: 6 }}>Connect IconSearch Account</h2>
-          <p style={{ fontSize: 11, color: "var(--muted)", marginBottom: 16, lineHeight: 1.4 }}>
+        <div className="auth-card">
+          <div className="brand-mark brand-mark-large">IS</div>
+          <h2 className="auth-title">Connect IconSearch Account</h2>
+          <p className="auth-description">
             Sign in to pair your IconSearch account and search 355,000+ vector icons inside Webflow.
           </p>
 
-          {!userCode ? (
+          {!verificationUri ? (
             <button
               type="button"
               className="btn-primary"
@@ -383,31 +439,40 @@ export function App() {
               {startingAuth ? "Requesting pairing code..." : "Sign in with IconSearch"}
             </button>
           ) : (
-            <div style={{ padding: 12, background: "var(--surface-subtle)", borderRadius: 8, border: "1px solid var(--line)" }}>
-              <p style={{ fontSize: 10, color: "var(--muted)", fontWeight: 700, margin: "0 0 4px" }}>PAIRING CODE</p>
-              <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: "0.1em", color: "#2563EB", margin: "4px 0 10px" }}>{userCode}</div>
+            <div className="pairing-panel">
+              {userCode && (
+                <>
+                  <p className="pairing-label">PAIRING CODE</p>
+                  <div className="pairing-code">{userCode}</div>
+                </>
+              )}
               {isAllowedAuthUrl(verificationUri) && (
                 <a
                   href={verificationUri!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary"
-                  style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", height: 36 }}
+                  className="btn-primary auth-link"
                 >
                   Open Sign-In Page ↗
                 </a>
               )}
-              <p style={{ fontSize: 10, color: "var(--muted)", marginTop: 8 }}>Waiting for browser approval...</p>
+              <p className="auth-waiting">Waiting for browser approval...</p>
             </div>
           )}
 
-          {authError && <p style={{ fontSize: 11, color: "#ef4444", marginTop: 10 }}>{authError}</p>}
+          {authError && <p className="auth-error">{authError}</p>}
         </div>
       ) : (
         /* MAIN CATALOG INTERFACE */
         <main className="app-main">
           {/* SEARCH BAR */}
-          <div className="search-bar">
+          <form
+            className="search-bar"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void fetchIcons(true);
+            }}
+          >
             <input
               type="text"
               className="search-input"
@@ -415,7 +480,10 @@ export function App() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search 355,000+ vector icons..."
             />
-          </div>
+            <button type="submit" className="btn-primary search-button" disabled={loading}>
+              {loading ? "Searching..." : "Search"}
+            </button>
+          </form>
 
           {/* FILTERS */}
           <div className="filter-grid">
@@ -450,7 +518,7 @@ export function App() {
           </div>
 
           {/* STATUS BAR */}
-          {statusMessage && <div className="status-banner">{statusMessage}</div>}
+          {statusMessage && <div className="status-banner" role="status" aria-live="polite">{statusMessage}</div>}
 
           {/* ICON GRID (SCROLLABLE MIDDLE) */}
           {loading ? (
@@ -507,7 +575,7 @@ export function App() {
             </div>
 
             {/* COMPACT CONTROLS */}
-            <div className="controls-box" style={{ marginBottom: 0 }}>
+            <div className="controls-box controls-box-flush">
               <div className="control-row">
                 <label className="control-label">
                   <span>Size ({size}px)</span>
@@ -541,18 +609,30 @@ export function App() {
                 </label>
               </div>
 
-              <div className="swatch-row" style={{ marginBottom: 0 }}>
-                {["#111827", "#FFFFFF", "#2563EB", "#059669", "#DC2626", "#F4B400"].map((swatchColor) => (
+              <div className="swatch-row swatch-row-flush">
+                {SWATCHES.map(([swatchColor, swatchClass]) => (
                   <button
                     key={swatchColor}
                     type="button"
-                    className={`swatch-btn ${color.toUpperCase() === swatchColor ? "is-active" : ""}`}
-                    style={{ backgroundColor: swatchColor }}
+                    className={`swatch-btn ${swatchClass} ${color.toUpperCase() === swatchColor ? "is-active" : ""}`}
                     onClick={() => setColor(swatchColor)}
                     aria-label={`Select color ${swatchColor}`}
                   />
                 ))}
               </div>
+
+              <button
+                type="button"
+                className="btn-primary insert-selected-button"
+                disabled={!selectedIcon || !selection.canInsert || inserting}
+                onClick={() => selectedIcon && void handleInsertIcon(selectedIcon)}
+              >
+                {inserting
+                  ? "Inserting icon..."
+                  : selectedIcon
+                    ? "Insert selected icon"
+                    : "Select an icon to insert"}
+              </button>
             </div>
           </div>
         </main>

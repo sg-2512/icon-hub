@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run sync:penpot",
     "dev": "next dev",
+    "prebuild": "npm run sync:penpot",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "build:icons": "node scripts/build-icon-db.mjs",
     "check:chrome-extension": "node scripts/check-chrome-extension.mjs",
-    "package:chrome": "powershell -ExecutionPolicy Bypass -File scripts/package-chrome-extension.ps1"
+    "package:chrome": "powershell -ExecutionPolicy Bypass -File scripts/package-chrome-extension.ps1",
+    "sync:penpot": "node scripts/sync-penpot-plugin.mjs",
+    "check:penpot": "node scripts/check-penpot-plugin.mjs",
+    "test:penpot": "npm run sync:penpot && npm run check:penpot && node scripts/test-penpot-plugin.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

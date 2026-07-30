@@ -1,27 +1,38 @@
-# IconSearch Penpot Plugin
+# IconSearch for Penpot
 
-> **Search & Insert 355,000+ Vector Icons directly into Penpot designs.**
+Search 355,000+ icons and insert sanitized, editable SVG vectors directly into a Penpot canvas.
 
-![IconSearch Penpot Banner](https://iconsearch.info/iconsearch-logo-500.png)
+## Production files
 
----
+- `manifest.json`: Penpot manifest v2 with relative production assets
+- `code.js`: Penpot main process; opens the hosted HTTPS UI
+- `index.html`: hosted plugin UI
+- `icon.png`: square plugin icon
 
-## ✨ Features
+`npm run sync:penpot` copies these files to `public/penpot` and generates the local-only `code.local.js`.
 
-- **Connect Screen FIRST**: Clean device code pairing authentication with 1-click browser sign-in and manual token paste option.
-- **355,000+ Vector Icons**: Search icons across Lucide, Heroicons, Tabler, Phosphor, Remix, Feather, Bootstrap, and more.
-- **Ultra-Fast 60 FPS Scrolling**: Powered by CSS `content-visibility: auto` and DOM document fragments for buttery smooth performance.
-- **Live Color & Size Customizer**: Change icon colors with preset swatches or custom HEX color picker, and adjust sizes (16px to 128px).
-- **1-Click Native Vector Import**: Inserts crisp, editable vector SVG shapes directly onto your active Penpot canvas.
-- **Double-Click Shortcut**: Double-click any icon card to insert it directly into your design!
+## Confirm locally
 
----
+1. From the repository root, run `npm run test:penpot`.
+2. Run `npm run dev`.
+3. Confirm `http://localhost:3000/penpot/manifest.local.json` opens and references `code.local.js`.
+4. In a Penpot design file, open the Plugin Manager (`Ctrl+Alt+P`, or `Cmd+Option+P` on macOS).
+5. Install a plugin from this manifest URL:
 
-## 🚀 How to Load in Penpot
+   `http://localhost:3000/penpot/manifest.local.json`
 
-1. Open **Penpot** ([penpot.app](https://penpot.app) or your local/self-hosted Penpot workspace).
-2. Open any design file.
-3. Click the **Plugins** menu or press **`Ctrl + Alt + P`** (or **`Cmd + Option + P`** on macOS).
-4. Click **`Add Plugin from Manifest`** or **`Install Local Plugin`**.
-5. Select the `manifest.json` file inside the `penpot-plugin/` directory.
-6. Click **Run Plugin**! 🎨
+6. Run IconSearch, connect, search for an icon, and select **Insert into Penpot**.
+7. Confirm one editable vector is created at the viewport center and selected in the Layers panel.
+
+The local manifest is only for development. Do not submit it to Penpot.
+
+## Production verification
+
+After deploying the site, verify:
+
+- `https://iconsearch.info/penpot/manifest.json`
+- `https://iconsearch.info/penpot/code.js`
+- `https://iconsearch.info/penpot/index.html`
+- `https://iconsearch.info/penpot/icon.png`
+
+The manifest is a URL-based Penpot installation; there is no plugin bundle to upload.

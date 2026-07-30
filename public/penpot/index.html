@@ -104,6 +104,13 @@
     justify-content: center;
   }
   .btn-secondary:hover { background: #313244; }
+  .sign-out-button {
+    width: auto;
+    padding: 0 10px;
+    margin: 0;
+    height: 26px;
+    font-size: 10px;
+  }
 
   /* App Shell */
   .app-shell { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -152,6 +159,7 @@
     align-items: center;
     border-bottom: 1px solid #2b2b3d;
   }
+  .style-label { font-size: 9px; font-weight: 800; color: #a6adc8; }
   .swatches { display: flex; gap: 6px; align-items: center; flex: 1; }
   .swatch {
     width: 20px;
@@ -164,6 +172,12 @@
   }
   .swatch:hover { transform: scale(1.1); }
   .swatch.active { transform: scale(1.15); box-shadow: 0 0 0 2px #2563eb; }
+  .swatch-white { background: #ffffff; }
+  .swatch-blue { background: #3b82f6; }
+  .swatch-green { background: #10b981; }
+  .swatch-purple { background: #a855f7; }
+  .swatch-red { background: #f43f5e; }
+  .swatch-orange { background: #f97316; }
   .color-picker-btn {
     width: 20px;
     height: 20px;
@@ -255,6 +269,47 @@
   .footer-actions { display: flex; flex-direction: column; gap: 6px; }
   .footer-row { display: flex; gap: 6px; }
   .footer-row select { flex: 1; height: 28px; background: #232334; border: 1px solid #363654; border-radius: 6px; padding: 0 6px; font-size: 10px; }
+  .size-select { flex: 0.8 !important; }
+  .format-select { flex: 1.2 !important; }
+  .insert-button { height: 30px; font-size: 11px; }
+  .copy-button { height: 30px; font-size: 11px; margin: 0; width: 64px; }
+
+  .auth-progress, .auth-error, .empty-state {
+    color: #a6adc8;
+    font-size: 11px;
+  }
+  .auth-error { color: #f38ba8; }
+  .auth-panel {
+    margin-top: 12px;
+    padding: 12px;
+    background: #11111b;
+    border-radius: 10px;
+    border: 1px solid #313244;
+  }
+  .auth-code-label {
+    font-size: 10px;
+    color: #a6adc8;
+    font-weight: 700;
+  }
+  .auth-code {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #2563eb;
+    margin: 4px 0 10px;
+  }
+  .auth-link {
+    font-size: 11px;
+    height: 34px;
+    text-decoration: none;
+  }
+  .copy-link-button { margin-top: 6px; font-size: 10px; height: 28px; }
+  .retry-button { margin-top: 10px; }
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+  }
 
   .status-bar {
     padding: 5px 10px;
@@ -275,7 +330,7 @@
 <!-- AUTH SCREEN -->
 <div id="authScreen" class="auth-screen">
   <div class="auth-card">
-    <img src="/icon.png" alt="IconSearch" class="auth-logo" />
+    <img src="./icon.png" alt="IconSearch" class="auth-logo" />
     <h2 class="auth-title">IconSearch for Penpot</h2>
     <p class="auth-subtitle">Search &amp; insert 355,000+ vector SVG icons directly into your Penpot design canvas.</p>
     
@@ -289,10 +344,10 @@
 <div id="appShell" class="app-shell hidden">
   <div class="app-header">
     <div class="brand">
-      <img src="/icon.png" alt="" />
+      <img src="./icon.png" alt="" />
       <span>IconSearch</span>
     </div>
-    <button id="signOutBtn" type="button" class="btn-secondary" style="width: auto; padding: 0 10px; margin: 0; height: 26px; font-size: 10px;">Sign out</button>
+    <button id="signOutBtn" type="button" class="btn-secondary sign-out-button">Sign out</button>
   </div>
 
   <div class="controls">
@@ -337,14 +392,14 @@
   </div>
 
   <div class="style-bar">
-    <span style="font-size: 9px; font-weight: 800; color: #a6adc8;">COLOR:</span>
+    <span class="style-label">COLOR:</span>
     <div class="swatches">
-      <div class="swatch active" data-color="#ffffff" style="background: #ffffff;"></div>
-      <div class="swatch" data-color="#3b82f6" style="background: #3b82f6;"></div>
-      <div class="swatch" data-color="#10b981" style="background: #10b981;"></div>
-      <div class="swatch" data-color="#a855f7" style="background: #a855f7;"></div>
-      <div class="swatch" data-color="#f43f5e" style="background: #f43f5e;"></div>
-      <div class="swatch" data-color="#f97316" style="background: #f97316;"></div>
+      <button type="button" class="swatch swatch-white active" data-color="#ffffff" aria-label="White"></button>
+      <button type="button" class="swatch swatch-blue" data-color="#3b82f6" aria-label="Blue"></button>
+      <button type="button" class="swatch swatch-green" data-color="#10b981" aria-label="Green"></button>
+      <button type="button" class="swatch swatch-purple" data-color="#a855f7" aria-label="Purple"></button>
+      <button type="button" class="swatch swatch-red" data-color="#f43f5e" aria-label="Red"></button>
+      <button type="button" class="swatch swatch-orange" data-color="#f97316" aria-label="Orange"></button>
       <div class="color-picker-btn">
         <input id="customColorPicker" type="color" value="#3b82f6" />
       </div>
@@ -357,7 +412,7 @@
     <div id="previewBox" class="preview-box"></div>
     <div class="footer-actions">
       <div class="footer-row">
-        <select id="sizeSelect" style="flex: 0.8;">
+        <select id="sizeSelect" class="size-select">
           <option value="16">16 px</option>
           <option value="20">20 px</option>
           <option value="24" selected>24 px</option>
@@ -367,7 +422,7 @@
           <option value="96">96 px</option>
           <option value="128">128 px</option>
         </select>
-        <select id="formatSelect" style="flex: 1.2;">
+        <select id="formatSelect" class="format-select">
           <option value="penpot">Native Penpot Vector</option>
           <option value="react">React JSX</option>
           <option value="svg">Raw SVG</option>
@@ -377,8 +432,8 @@
         </select>
       </div>
       <div class="footer-row">
-        <button id="insertBtn" type="button" class="btn-primary" style="height: 30px; font-size: 11px;">Insert into Penpot</button>
-        <button id="copyBtn" type="button" class="btn-secondary" style="height: 30px; font-size: 11px; margin: 0; width: 64px;">Copy</button>
+        <button id="insertBtn" type="button" class="btn-primary insert-button">Insert into Penpot</button>
+        <button id="copyBtn" type="button" class="btn-secondary copy-button">Copy</button>
       </div>
     </div>
   </div>
@@ -392,11 +447,33 @@
 <script>
 const API_BASE = "https://iconsearch.info";
 const PRODUCT = "penpot";
+const MAX_RESPONSE_LENGTH = 1_000_000;
+const MAX_POLL_ATTEMPTS = 60;
+const DEVICE_CODE_PATTERN = /^[A-Za-z0-9_-]{16,256}$/;
+const SESSION_TOKEN_PATTERN = /^[A-Za-z0-9_-]{32,256}$/;
+const SAFE_HEX_PATTERN = /^#[0-9a-f]{6}$/i;
+const INTERNAL_FRAGMENT_PATTERN = /^#[A-Za-z_][A-Za-z0-9_.:-]*$/;
+const INTERNAL_FRAGMENT_URL_PATTERN = /^url\(\s*#[A-Za-z_][A-Za-z0-9_.:-]*\s*\)$/i;
+const ALLOWED_ICON_HOSTS = new Set(["iconsearch.info", "www.iconsearch.info", "cdn.iconsearch.info"]);
+const FORBIDDEN_SVG_ELEMENTS = new Set([
+  "script", "foreignobject", "iframe", "object", "embed", "image", "feimage",
+  "style", "audio", "video", "base", "link", "meta", "animate", "animatemotion",
+  "animatetransform", "set"
+]);
+const URL_REFERENCE_ATTRIBUTES = new Set([
+  "clip-path", "cursor", "filter", "marker-end", "marker-mid", "marker-start", "mask"
+]);
 
 function getStoredToken() {
-  try { return localStorage.getItem("iconsearch_penpot_token") || ""; } catch(e) { return ""; }
+  try {
+    const value = localStorage.getItem("iconsearch_penpot_token") || "";
+    return SESSION_TOKEN_PATTERN.test(value) ? value : "";
+  } catch(e) {
+    return "";
+  }
 }
 function setStoredToken(val) {
+  if (!SESSION_TOKEN_PATTERN.test(val)) return;
   try { localStorage.setItem("iconsearch_penpot_token", val); } catch(e) {}
 }
 function clearStoredToken() {
@@ -406,9 +483,13 @@ function clearStoredToken() {
 let token = getStoredToken();
 let pendingCode = "";
 let pollTimer = null;
+let pollAttempts = 0;
 let icons = [];
 let selectedIcon = null;
 let currentColor = "#ffffff";
+let authController = null;
+let searchController = null;
+let insertionInProgress = false;
 
 const elements = {
   authScreen: document.getElementById("authScreen"),
@@ -457,19 +538,6 @@ function bindEvents() {
   elements.startAuthBtn.onclick = startAuth;
   elements.signOutBtn.onclick = signOut;
 
-  const initSave = document.getElementById("initialSaveBtn");
-  if (initSave) {
-    initSave.onclick = () => {
-      const val = document.getElementById("initialManualInput").value.trim();
-      if (val) {
-        token = val;
-        setStoredToken(val);
-        showApp();
-        search();
-      }
-    };
-  }
-
   elements.searchInput.oninput = debounce(search, 200);
   elements.librarySelect.onchange = search;
   elements.styleSelect.onchange = search;
@@ -513,10 +581,8 @@ function bindEvents() {
     }
   }
 
-  if (window.penpot && window.penpot.ui && typeof window.penpot.ui.onMessage === "function") {
-    window.penpot.ui.onMessage((msg) => handleMainMessage(msg));
-  }
   window.addEventListener("message", (event) => {
+    if (event.source !== parent) return;
     const data = event.data;
     if (data && data.pluginMessage) handleMainMessage(data.pluginMessage);
     else if (data && data.type) handleMainMessage(data);
@@ -525,79 +591,182 @@ function bindEvents() {
 
 function sendToMain(msg) {
   try {
-    if (window.penpot && window.penpot.ui && typeof window.penpot.ui.sendMessage === "function") {
-      window.penpot.ui.sendMessage(msg);
-    }
-  } catch(e) {}
-  try {
-    parent.postMessage({ pluginMessage: msg, ...msg }, "*");
+    parent.postMessage(msg, "*");
   } catch(e) {}
 }
 
 async function startAuth() {
-  elements.authStatusBox.innerHTML = '<p style="color:#a6adc8;font-size:11px;">Requesting sign-in code...</p>';
+  stopAuthPolling();
+  authController = new AbortController();
+  setAuthMessage("Requesting a secure sign-in link...");
   try {
     const res = await fetch(API_BASE + "/api/device/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ product: PRODUCT, clientName: "Penpot Web Plugin" })
+      body: JSON.stringify({ product: PRODUCT, clientName: "IconSearch for Penpot" }),
+      signal: authController.signal
     });
-    const data = await res.json();
+    const data = await readJsonResponse(res, "Authentication");
     if (!res.ok) throw new Error(data.error || "Failed to start device auth.");
+    if (!DEVICE_CODE_PATTERN.test(data.deviceCode || "")) {
+      throw new Error("The sign-in service returned an invalid code.");
+    }
 
     pendingCode = data.deviceCode;
-    const uri = data.verificationUriComplete || (API_BASE + "/connect?product=" + PRODUCT + "&code=" + data.deviceCode);
-    const userCode = data.userCode || "";
-
-    elements.authStatusBox.innerHTML = `
-      <div style="margin-top:12px;padding:12px;background:#11111b;border-radius:10px;border:1px solid #313244;">
-        <p style="font-size:10px;color:#a6adc8;font-weight:700;">PAIRING CODE</p>
-        <div style="font-size:22px;font-weight:900;letter-spacing:0.1em;color:#2563eb;margin:4px 0 10px 0;">` + userCode + `</div>
-        <a href="` + uri + `" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:11px;height:34px;text-decoration:none;">Open Sign-In Page ↗</a>
-        <button id="copyLinkBtn" type="button" class="btn-secondary" style="margin-top:6px;font-size:10px;height:28px;">Copy Sign-In Link</button>
-      </div>
-    `;
-
-    document.getElementById("copyLinkBtn").onclick = () => {
-      navigator.clipboard.writeText(uri);
-      showToast("Sign-In link copied!");
-    };
-
-    window.open(uri, "_blank");
-
-    clearInterval(pollTimer);
-    pollTimer = setInterval(pollAuthStatus, 3000);
+    const authorizationUrl = createAuthorizationUrl(pendingCode);
+    renderPairingState(data.userCode, authorizationUrl);
+    pollAttempts = 0;
+    pollTimer = setTimeout(() => pollAuthStatus(authController), 3000);
   } catch (err) {
-    elements.authStatusBox.innerHTML = '<p style="color:#f38ba8;font-size:11px;">' + err.message + '</p><button id="startAuthBtn" type="button" class="btn-primary" style="margin-top:10px;">Retry Connect</button>';
-    document.getElementById("startAuthBtn").onclick = startAuth;
+    if (err && err.name === "AbortError") return;
+    setAuthMessage(err && err.message ? err.message : "Could not start sign-in.", true, true);
   }
 }
 
-async function pollAuthStatus() {
-  if (!pendingCode) return;
+async function pollAuthStatus(controller) {
+  if (!pendingCode || controller !== authController || controller.signal.aborted) return;
+  pollAttempts++;
+  if (pollAttempts > MAX_POLL_ATTEMPTS) {
+    stopAuthPolling();
+    setAuthMessage("The sign-in link expired. Please connect again.", true, true);
+    return;
+  }
+
   try {
     const res = await fetch(API_BASE + "/api/device/status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deviceCode: pendingCode })
+      body: JSON.stringify({ deviceCode: pendingCode }),
+      signal: controller.signal
     });
-    const data = await res.json();
-    if (res.ok && data.status === "authorized" && data.token) {
-      clearInterval(pollTimer);
+    const data = await readJsonResponse(res, "Sign-in status");
+    if (res.ok && data.status === "authorized") {
+      if (!SESSION_TOKEN_PATTERN.test(data.token || "")) {
+        throw new Error("The sign-in service returned an invalid session.");
+      }
       token = data.token;
       setStoredToken(data.token);
+      stopAuthPolling();
       showApp();
       search();
+      return;
     }
-  } catch (e) {}
+
+    if (data.status === "expired" || data.status === "consumed" || data.status === "invalid") {
+      stopAuthPolling();
+      setAuthMessage("The sign-in link is no longer valid. Please connect again.", true, true);
+      return;
+    }
+  } catch (err) {
+    if (err && err.name === "AbortError") return;
+    if (pollAttempts >= MAX_POLL_ATTEMPTS) {
+      stopAuthPolling();
+      setAuthMessage("Could not complete sign-in. Please try again.", true, true);
+      return;
+    }
+  }
+
+  if (controller === authController && !controller.signal.aborted) {
+    pollTimer = setTimeout(() => pollAuthStatus(controller), 3000);
+  }
 }
 
 function signOut() {
+  stopAuthPolling();
+  if (searchController) searchController.abort();
   token = "";
   pendingCode = "";
-  clearInterval(pollTimer);
+  icons = [];
+  selectedIcon = null;
+  elements.resultsGrid.replaceChildren();
+  elements.previewBox.replaceChildren();
+  elements.resultCount.textContent = "0 icons";
   clearStoredToken();
+  setAuthMessage("", false, true);
   showAuth();
+}
+
+function stopAuthPolling(clearController = true) {
+  if (pollTimer) clearTimeout(pollTimer);
+  pollTimer = null;
+  pollAttempts = 0;
+  if (clearController && authController) {
+    authController.abort();
+    authController = null;
+  }
+}
+
+function createAuthorizationUrl(deviceCode) {
+  const url = new URL("/connect", API_BASE);
+  url.searchParams.set("product", PRODUCT);
+  url.searchParams.set("code", deviceCode);
+  return url.toString();
+}
+
+function renderPairingState(userCode, authorizationUrl) {
+  const panel = document.createElement("div");
+  panel.className = "auth-panel";
+
+  const label = document.createElement("p");
+  label.className = "auth-code-label";
+  label.textContent = "SECURE SIGN-IN";
+  panel.appendChild(label);
+
+  const validatedUserCode = safeText(userCode, 32);
+  if (validatedUserCode) {
+    const code = document.createElement("div");
+    code.className = "auth-code";
+    code.textContent = validatedUserCode;
+    panel.appendChild(code);
+  }
+
+  const link = document.createElement("a");
+  link.className = "btn-primary auth-link";
+  link.href = authorizationUrl;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = "Open Sign-In Page";
+  panel.appendChild(link);
+
+  const copyButton = document.createElement("button");
+  copyButton.type = "button";
+  copyButton.className = "btn-secondary copy-link-button";
+  copyButton.textContent = "Copy Sign-In Link";
+  copyButton.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(authorizationUrl);
+      showToast("Sign-in link copied!");
+    } catch (err) {
+      showToast("Could not copy the sign-in link.");
+    }
+  };
+  panel.appendChild(copyButton);
+
+  const progress = document.createElement("p");
+  progress.className = "auth-progress";
+  progress.textContent = "After approving the link, return here to continue.";
+  panel.appendChild(progress);
+
+  elements.authStatusBox.replaceChildren(panel);
+}
+
+function setAuthMessage(message, isError = false, showConnect = false) {
+  const children = [];
+  if (message) {
+    const status = document.createElement("p");
+    status.className = isError ? "auth-error" : "auth-progress";
+    status.textContent = safeText(message, 240);
+    children.push(status);
+  }
+  if (showConnect) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn-primary retry-button";
+    button.textContent = isError ? "Retry Connect" : "Connect IconSearch Account";
+    button.onclick = startAuth;
+    children.push(button);
+  }
+  elements.authStatusBox.replaceChildren(...children);
 }
 
 let currentPage = 1;
@@ -608,13 +777,18 @@ async function search(isNewSearch = true) {
   if (!token) return;
 
   if (isNewSearch) {
+    if (searchController) searchController.abort();
+    searchController = new AbortController();
     currentPage = 1;
     icons = [];
-    elements.resultsGrid.innerHTML = "";
+    elements.resultsGrid.replaceChildren();
     elements.statusText.textContent = "Searching...";
+  } else if (!searchController || searchController.signal.aborted) {
+    searchController = new AbortController();
   }
 
-  const q = elements.searchInput.value.trim();
+  const controller = searchController;
+  const q = elements.searchInput.value.trim().slice(0, 100);
   const lib = elements.librarySelect.value;
   const style = elements.styleSelect.value;
 
@@ -630,13 +804,22 @@ async function search(isNewSearch = true) {
         "accept": "application/json",
         "authorization": "Bearer " + token,
         "x-iconsearch-product": PRODUCT
-      }
+      },
+      signal: controller.signal
     });
-    const data = await res.json();
+    const data = await readJsonResponse(res, "Icon search");
+    if (res.status === 401 || res.status === 403) {
+      signOut();
+      throw new Error("Your session expired. Please connect again.");
+    }
     if (!res.ok) throw new Error(data.error || "Search failed.");
 
-    const newIcons = (data.icons || []).map(normalizeIcon).filter(Boolean);
-    totalCount = data.total || (icons.length + newIcons.length);
+    const responseIcons = Array.isArray(data.icons) ? data.icons : [];
+    const newIcons = responseIcons.map(normalizeIcon).filter(Boolean);
+    const parsedTotal = Number(data.total);
+    totalCount = Number.isFinite(parsedTotal) && parsedTotal >= 0
+      ? Math.floor(parsedTotal)
+      : icons.length + newIcons.length;
 
     if (isNewSearch) {
       icons = newIcons;
@@ -650,9 +833,10 @@ async function search(isNewSearch = true) {
 
     renderGridBatch(newIcons, isNewSearch);
   } catch (err) {
+    if (err && err.name === "AbortError") return;
     elements.statusText.textContent = err.message || "Error loading icons.";
   } finally {
-    isFetchingPage = false;
+    if (controller === searchController) isFetchingPage = false;
   }
 }
 
@@ -679,27 +863,33 @@ function autoDiscoverLibraries(items) {
 
 function normalizeIcon(item) {
   if (!item || !item.name || !item.library || !item.svgUrl) return null;
-  const rawSvg = item.svgUrl;
-  const absoluteSvg = rawSvg.startsWith("/") ? API_BASE + rawSvg : rawSvg;
+  const absoluteSvg = normalizeIconUrl(item.svgUrl);
+  if (!absoluteSvg) return null;
+  const name = safeText(item.name, 120);
+  const library = safeText(item.library, 120);
+  if (!name || !library) return null;
   return {
-    id: item.id || (item.library + "-" + item.name),
-    name: item.name,
-    displayName: formatTitle(item.displayName || item.name),
-    library: item.library,
-    libraryName: item.libraryName || formatTitle(item.library),
+    id: safeText(item.id, 180) || (library + "-" + name),
+    name,
+    displayName: formatTitle(safeText(item.displayName, 120) || name),
+    library,
+    libraryName: safeText(item.libraryName, 120) || formatTitle(library),
     svgUrl: absoluteSvg,
-    reactImport: item.reactImport,
-    reactUsage: item.reactUsage
+    reactImport: safeText(item.reactImport, 500),
+    reactUsage: safeText(item.reactUsage, 500)
   };
 }
 
 function renderGridBatch(newItems, isNewSearch) {
   if (isNewSearch) {
-    elements.resultsGrid.innerHTML = "";
+    elements.resultsGrid.replaceChildren();
   }
 
   if (icons.length === 0) {
-    elements.resultsGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:30px;color:#a6adc8;">No icons found.</p>';
+    const emptyState = document.createElement("p");
+    emptyState.className = "empty-state";
+    emptyState.textContent = "No icons found.";
+    elements.resultsGrid.replaceChildren(emptyState);
     selectedIcon = null;
     updatePreview();
     return;
@@ -714,12 +904,27 @@ function renderGridBatch(newItems, isNewSearch) {
   newItems.forEach(icon => {
     const card = document.createElement("div");
     card.className = "icon-card" + (icon.id === selectedIcon.id ? " active" : "");
-    
-    card.innerHTML = `
-      <div class="icon-thumb"><img src="` + icon.svgUrl + `" alt="" loading="lazy" /></div>
-      <div class="icon-title">` + icon.displayName + `</div>
-      <div class="icon-lib">` + icon.libraryName + `</div>
-    `;
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", icon.displayName + " from " + icon.libraryName);
+
+    const thumb = document.createElement("div");
+    thumb.className = "icon-thumb";
+    const image = document.createElement("img");
+    image.src = icon.svgUrl;
+    image.alt = "";
+    image.loading = "lazy";
+    image.referrerPolicy = "no-referrer";
+    thumb.appendChild(image);
+
+    const title = document.createElement("div");
+    title.className = "icon-title";
+    title.textContent = icon.displayName;
+
+    const library = document.createElement("div");
+    library.className = "icon-lib";
+    library.textContent = icon.libraryName;
+    card.append(thumb, title, library);
 
     card.onclick = () => {
       selectedIcon = icon;
@@ -729,6 +934,12 @@ function renderGridBatch(newItems, isNewSearch) {
     };
 
     card.ondblclick = () => doInsert(false);
+    card.onkeydown = (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        card.click();
+      }
+    };
 
     fragment.appendChild(card);
   });
@@ -739,22 +950,29 @@ function renderGridBatch(newItems, isNewSearch) {
 
 async function updatePreview() {
   if (!selectedIcon) {
-    elements.previewBox.innerHTML = "";
+    elements.previewBox.replaceChildren();
     return;
   }
   try {
     const svgText = await fetchSvg(selectedIcon);
     const styled = styleSvg(svgText, currentColor, parseInt(elements.sizeSelect.value, 10) || 24);
-    elements.previewBox.innerHTML = styled;
+    renderSvgPreview(styled);
   } catch (e) {
-    elements.previewBox.innerHTML = '<img src="' + selectedIcon.svgUrl + '" alt="' + selectedIcon.name + '" />';
+    const image = document.createElement("img");
+    image.src = selectedIcon.svgUrl;
+    image.alt = selectedIcon.displayName;
+    image.referrerPolicy = "no-referrer";
+    elements.previewBox.replaceChildren(image);
   }
 }
 
 async function doInsert(isCopy) {
-  if (!selectedIcon) return;
+  if (!selectedIcon || insertionInProgress) return;
   const format = elements.formatSelect.value;
   const size = parseInt(elements.sizeSelect.value, 10) || 24;
+  insertionInProgress = true;
+  elements.insertBtn.disabled = true;
+  elements.copyBtn.disabled = true;
 
   try {
     const rawSvg = await fetchSvg(selectedIcon);
@@ -788,29 +1006,162 @@ async function doInsert(isCopy) {
     }
   } catch (err) {
     showToast("Error: " + (err.message || "Action failed"));
+  } finally {
+    insertionInProgress = false;
+    elements.insertBtn.disabled = false;
+    elements.copyBtn.disabled = false;
   }
 }
 
 const svgCache = {};
 async function fetchSvg(icon) {
   if (svgCache[icon.id]) return svgCache[icon.id];
-  const res = await fetch(icon.svgUrl);
+  const safeUrl = normalizeIconUrl(icon.svgUrl);
+  if (!safeUrl) throw new Error("The icon URL is not allowed.");
+  const res = await fetch(safeUrl, {
+    headers: { "accept": "image/svg+xml,text/plain;q=0.8" },
+    referrerPolicy: "no-referrer"
+  });
+  if (!res.ok) throw new Error("Could not download this icon.");
+  if (!normalizeIconUrl(res.url || safeUrl)) {
+    throw new Error("The icon download was redirected to an untrusted host.");
+  }
+  const declaredLength = Number(res.headers.get("content-length") || "0");
+  if (declaredLength > MAX_RESPONSE_LENGTH) throw new Error("The icon file is too large.");
   const text = await res.text();
-  svgCache[icon.id] = text;
-  return text;
+  if (text.length > MAX_RESPONSE_LENGTH) throw new Error("The icon file is too large.");
+  const sanitized = sanitizeSvg(text);
+  svgCache[icon.id] = sanitized;
+  return sanitized;
 }
 
 function styleSvg(svgText, color, size) {
-  let s = svgText.trim();
-  if (size) {
-    s = s.replace(/width="[^"]*"/i, 'width="' + size + '"');
-    s = s.replace(/height="[^"]*"/i, 'height="' + size + '"');
+  const svg = parseSvg(svgText);
+  const safeColor = SAFE_HEX_PATTERN.test(color || "") ? color : "#ffffff";
+  const safeSize = Math.max(8, Math.min(512, Number(size) || 24));
+
+  svg.setAttribute("width", String(safeSize));
+  svg.setAttribute("height", String(safeSize));
+  svg.setAttribute("color", safeColor);
+  svg.setAttribute("role", "img");
+
+  svg.querySelectorAll("*").forEach((element) => {
+    ["fill", "stroke"].forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) return;
+      const value = element.getAttribute(attribute).trim();
+      if (
+        value &&
+        value.toLowerCase() !== "none" &&
+        value.toLowerCase() !== "transparent" &&
+        !INTERNAL_FRAGMENT_URL_PATTERN.test(value)
+      ) {
+        element.setAttribute(attribute, safeColor);
+      }
+    });
+  });
+
+  return new XMLSerializer().serializeToString(svg);
+}
+
+function sanitizeSvg(svgText) {
+  const svg = parseSvg(svgText);
+
+  Array.from(svg.querySelectorAll("*")).forEach((element) => {
+    const tagName = element.localName.toLowerCase();
+    if (FORBIDDEN_SVG_ELEMENTS.has(tagName)) {
+      element.remove();
+      return;
+    }
+
+    Array.from(element.attributes).forEach((attribute) => {
+      const name = attribute.name.toLowerCase();
+      const value = attribute.value.trim();
+      if (name.startsWith("on") || name === "style" || name === "src") {
+        element.removeAttribute(attribute.name);
+        return;
+      }
+      if (name === "href" || name === "xlink:href") {
+        if (!INTERNAL_FRAGMENT_PATTERN.test(value)) element.removeAttribute(attribute.name);
+        return;
+      }
+      if (URL_REFERENCE_ATTRIBUTES.has(name)) {
+        if (!INTERNAL_FRAGMENT_URL_PATTERN.test(value)) element.removeAttribute(attribute.name);
+        return;
+      }
+      if (/url\s*\(/i.test(value) && !INTERNAL_FRAGMENT_URL_PATTERN.test(value)) {
+        element.removeAttribute(attribute.name);
+      }
+    });
+  });
+
+  Array.from(svg.attributes).forEach((attribute) => {
+    const name = attribute.name.toLowerCase();
+    if (name.startsWith("on") || name === "style") svg.removeAttribute(attribute.name);
+  });
+
+  if (!svg.hasAttribute("viewBox")) {
+    const width = parseFloat(svg.getAttribute("width") || "");
+    const height = parseFloat(svg.getAttribute("height") || "");
+    if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
+      svg.setAttribute("viewBox", "0 0 " + width + " " + height);
+    }
   }
-  if (color) {
-    s = s.replace(/stroke="((?!none)[^"]*)"/gi, 'stroke="' + color + '"');
-    s = s.replace(/fill="((?!none)[^"]*)"/gi, 'fill="' + color + '"');
+  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+  return new XMLSerializer().serializeToString(svg);
+}
+
+function parseSvg(svgText) {
+  if (typeof svgText !== "string" || svgText.length === 0 || svgText.length > MAX_RESPONSE_LENGTH) {
+    throw new Error("The icon SVG is invalid.");
   }
-  return s;
+  const documentNode = new DOMParser().parseFromString(svgText, "image/svg+xml");
+  if (documentNode.querySelector("parsererror")) throw new Error("The icon SVG could not be parsed.");
+  const svg = documentNode.documentElement;
+  if (!svg || svg.localName.toLowerCase() !== "svg") {
+    throw new Error("The icon response is not an SVG.");
+  }
+  return svg;
+}
+
+function renderSvgPreview(svgText) {
+  const svg = parseSvg(svgText);
+  elements.previewBox.replaceChildren(document.importNode(svg, true));
+}
+
+function normalizeIconUrl(value) {
+  if (typeof value !== "string" || value.length > 2048) return "";
+  try {
+    const url = new URL(value, API_BASE);
+    if (url.protocol !== "https:" || !ALLOWED_ICON_HOSTS.has(url.hostname.toLowerCase())) return "";
+    url.username = "";
+    url.password = "";
+    url.hash = "";
+    return url.toString();
+  } catch (err) {
+    return "";
+  }
+}
+
+function safeText(value, maxLength) {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .replace(/[<>"'&]/g, "")
+    .trim()
+    .slice(0, maxLength);
+}
+
+async function readJsonResponse(response, label) {
+  const declaredLength = Number(response.headers.get("content-length") || "0");
+  if (declaredLength > MAX_RESPONSE_LENGTH) throw new Error(label + " response was too large.");
+  const text = await response.text();
+  if (text.length > MAX_RESPONSE_LENGTH) throw new Error(label + " response was too large.");
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    throw new Error(label + " returned an invalid response.");
+  }
 }
 
 function showToast(msg) {

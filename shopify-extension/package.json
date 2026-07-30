@@ -2,14 +2,11 @@
   "name": "iconsearch-shopify-theme-extension",
   "version": "0.1.0",
   "private": true,
-  "description": "Shopify theme app extension for inserting styled IconSearch icons.",
-  "author": "iconsearch",
-  "license": "MIT",
+  "description": "IconSearch Shopify Theme App Extension for Online Store 2.0 themes.",
+  "main": "assets/iconsearch-shopify.js",
   "scripts": {
-    "check": "node scripts/check-extension.mjs"
-  },
-  "engines": {
-    "node": ">=18.18"
+    "check": "node scripts/check-extension.mjs",
+    "serve": "npx serve .",
+    "test": "npm run check"
   }
 }
-

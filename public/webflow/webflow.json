@@ -2,5 +2,11 @@
   "name": "IconSearch",
   "apiVersion": "2",
   "clientId": "f30411176a762ebc93aba4619ffb307b661a2047c3686eed1eb54e005fcec75a",
-  "size": "comfortable"
+  "size": "comfortable",
+  "publicDir": "public",
+  "telemetry": {
+    "global": {
+      "allowTelemetry": false
+    }
+  }
 }

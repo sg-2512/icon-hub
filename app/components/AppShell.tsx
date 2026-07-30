@@ -10,7 +10,7 @@ const CartDrawer = dynamic(() => import('./CartDrawer'), { ssr: false })
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const standalone = pathname === '/connect'
+  const standalone = pathname === '/connect' || pathname === '/framer-template'
 
   if (standalone) {
     return <div className="standalone-main">{children}</div>

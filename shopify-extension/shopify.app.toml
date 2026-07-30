@@ -1,0 +1,20 @@
+client_id = "7d4181321b2d831ae83c28c19b79f2ce"
+name = "IconSearch"
+handle = "iconsearch"
+application_url = "https://iconsearch.info/shopify"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "iconsearch.myshopify.com"
+
+[access_scopes]
+scopes = "read_themes,write_themes"
+
+[auth]
+redirect_urls = [
+  "https://iconsearch.info/shopify"
+]
+
+[webhooks]
+api_version = "2026-07"

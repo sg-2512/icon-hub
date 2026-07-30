@@ -11,51 +11,67 @@ export type InsertOptions = {
   size: number;
 };
 
-function utf8ToBase64(str: string): string {
-  const encoder = new TextEncoder();
-  const bytes = encoder.encode(str);
-  let binary = "";
-  for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
+async function getSelectionState(element: AnyElement | null): Promise<SelectionState> {
+  if (!element) {
+    return {
+      hasSelection: false,
+      canInsert: false,
+      reason: "Please select a container on the Webflow canvas."
+    };
   }
-  return btoa(binary);
-}
 
-export async function resolveWebflowUserToken(): Promise<string | null> {
+  const elementName = element.type || "Element";
+  if (!element.children || !("append" in element) || typeof element.append !== "function") {
+    return {
+      hasSelection: true,
+      elementName,
+      canInsert: false,
+      reason: "The selected element cannot contain an image. Select Body, a Section, or a Div Block."
+    };
+  }
+
   try {
-    if (typeof webflow !== "undefined" && typeof (webflow as any).getIdToken === "function") {
-      const idToken = await (webflow as any).getIdToken();
-      if (idToken) return String(idToken);
+    const abilities = await webflow.canForAppMode([
+      webflow.appModes.canManageAssets,
+      webflow.appModes.canModifyImageElement
+    ]);
+
+    if (!abilities.canManageAssets || !abilities.canModifyImageElement) {
+      return {
+        hasSelection: true,
+        elementName,
+        canInsert: false,
+        reason: "Switch Webflow to Design mode on the main canvas, then try again."
+      };
     }
-  } catch {}
-  return null;
+  } catch {
+    return {
+      hasSelection: true,
+      elementName,
+      canInsert: false,
+      reason: "IconSearch could not confirm permission to add an image in the current Webflow mode."
+    };
+  }
+
+  return {
+    hasSelection: true,
+    elementName,
+    canInsert: true
+  };
 }
 
 export async function checkSelectionState(): Promise<SelectionState> {
   if (typeof webflow === "undefined") {
     return {
-      hasSelection: true,
-      canInsert: true,
-      reason: "Preview mode (Webflow SDK simulator)"
+      hasSelection: false,
+      canInsert: false,
+      reason: "Open IconSearch inside Webflow Designer."
     };
   }
 
   try {
     const element = await webflow.getSelectedElement();
-    if (!element) {
-      return {
-        hasSelection: false,
-        canInsert: false,
-        reason: "Please select an element on the canvas."
-      };
-    }
-
-    const type = (element as any).type || "Element";
-    return {
-      hasSelection: true,
-      elementName: String(type),
-      canInsert: true
-    };
+    return await getSelectionState(element);
   } catch {
     return {
       hasSelection: false,
@@ -68,9 +84,9 @@ export async function checkSelectionState(): Promise<SelectionState> {
 export function subscribeToSelection(callback: (state: SelectionState) => void): (() => void) {
   if (typeof webflow === "undefined") {
     callback({
-      hasSelection: true,
-      canInsert: true,
-      reason: "Preview mode (Webflow SDK simulator)"
+      hasSelection: false,
+      canInsert: false,
+      reason: "Open IconSearch inside Webflow Designer."
     });
     return () => {};
   }
@@ -78,25 +94,12 @@ export function subscribeToSelection(callback: (state: SelectionState) => void):
   void checkSelectionState().then(callback);
 
   try {
-    if (typeof (webflow as any).subscribe === "function") {
-      const unsubscribe = (webflow as any).subscribe("selectedelement", (element: any) => {
-        if (!element) {
-          callback({
-            hasSelection: false,
-            canInsert: false,
-            reason: "Please select an element on the canvas."
-          });
-        } else {
-          const type = element.type || "Element";
-          callback({
-            hasSelection: true,
-            elementName: String(type),
-            canInsert: true
-          });
-        }
+    const unsubscribe = webflow.subscribe("selectedelement", (element) => {
+      void getSelectionState(element).then((state) => {
+        callback(state);
       });
-      if (typeof unsubscribe === "function") return unsubscribe;
-    }
+    });
+    return unsubscribe;
   } catch {}
 
   return () => {};
@@ -112,40 +115,37 @@ export async function insertIconToCanvas(options: InsertOptions): Promise<void> 
     throw new Error("Please select an element in the Webflow Designer canvas before inserting an icon.");
   }
 
-  const base64Svg = utf8ToBase64(options.svgMarkup);
-  const dataUrl = `data:image/svg+xml;base64,${base64Svg}`;
-  const filename = `${options.iconName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.svg`;
-
-  let createdAsset: any = null;
-  try {
-    if (typeof (webflow as any).createAsset === "function") {
-      createdAsset = await (webflow as any).createAsset(dataUrl, filename);
-    }
-  } catch {}
-
-  const imagePreset = webflow.elementPresets.Image;
-  let newElement: any = null;
-
-  if (typeof (selectedElement as any).append === "function") {
-    newElement = await (selectedElement as any).append(imagePreset);
-  } else if (typeof (selectedElement as any).prepend === "function") {
-    newElement = await (selectedElement as any).prepend(imagePreset);
+  if (!selectedElement.children || !("append" in selectedElement) || typeof selectedElement.append !== "function") {
+    throw new Error("The selected element cannot contain an image. Select Body, a Section, or a Div Block.");
   }
 
-  if (newElement) {
-    if (createdAsset && typeof newElement.setAsset === "function") {
-      try {
-        await newElement.setAsset(createdAsset);
-      } catch {}
-    } else if (typeof newElement.setAttribute === "function") {
-      try {
-        await newElement.setAttribute("src", dataUrl);
-        await newElement.setAttribute("alt", options.iconName);
-        await newElement.setAttribute("width", String(options.size));
-        await newElement.setAttribute("height", String(options.size));
-      } catch {}
-    }
+  const abilities = await webflow.canForAppMode([
+    webflow.appModes.canManageAssets,
+    webflow.appModes.canModifyImageElement
+  ]);
+  if (!abilities.canManageAssets || !abilities.canModifyImageElement) {
+    throw new Error("Switch Webflow to Design mode on the main canvas, then try again.");
   }
+
+  const safeName = options.iconName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "icon";
+  const filename = `iconsearch-${safeName}-${options.size}.svg`;
+  const svgFile = new File([options.svgMarkup], filename, { type: "image/svg+xml" });
+  const createdAsset = await webflow.createAsset(svgFile);
+
+  const newElement = await selectedElement.append(webflow.elementPresets.Image);
+
+  if (newElement.type !== "Image") {
+    throw new Error("Webflow could not create a compatible Image element.");
+  }
+
+  await newElement.setAsset(createdAsset);
+  await newElement.setAltText(options.iconName);
+  await newElement.setAttribute("width", String(options.size));
+  await newElement.setAttribute("height", String(options.size));
+  await newElement.setDisplayName(`Icon - ${options.iconName}`);
 
   try {
     await webflow.notify({

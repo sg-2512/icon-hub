@@ -11,12 +11,15 @@
   "scripts": {
     "build": "npm run typecheck && node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
-    "serve": "node scripts/serve.mjs",
+    "serve": "webflow extension serve",
     "dev": "npm run build && concurrently --kill-others-on-fail \"npm:watch\" \"npm:serve\"",
-    "bundle": "npm run build && webflow extension bundle",
+    "bundle": "npm test && webflow extension bundle && npm run sync:release",
+    "sync:release": "node scripts/sync-release.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check": "node scripts/check-extension.mjs",
-    "test": "npm run check && npm run build"
+    "test:svg": "node scripts/test-svg-security.mjs",
+    "test:insert": "node scripts/test-webflow-insert.mjs",
+    "test": "npm run build && npm run test:svg && npm run test:insert && npm run check"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.5",
@@ -26,6 +29,7 @@
     "@webflow/webflow-cli": "^2.2.0",
     "concurrently": "^9.2.1",
     "esbuild": "^0.28.1",
+    "jsdom": "^26.1.0",
     "typescript": "^7.0.2"
   },
   "overrides": {

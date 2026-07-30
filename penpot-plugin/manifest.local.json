@@ -1,0 +1,11 @@
+{
+  "name": "IconSearch - Local Development",
+  "description": "Local development build of IconSearch for Penpot.",
+  "version": 2,
+  "code": "code.local.js",
+  "icon": "icon.png",
+  "permissions": [
+    "content:write",
+    "allow:localstorage"
+  ]
+}

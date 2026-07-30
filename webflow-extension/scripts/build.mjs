@@ -1,6 +1,13 @@
 import { build, context } from "esbuild";
+import { rm } from "node:fs/promises";
 
 const watch = process.argv.includes("--watch");
+await Promise.all([
+  rm("public/index.js.map", { force: true }),
+  rm("public/index.css.map", { force: true }),
+  rm("public/style.css", { force: true })
+]);
+
 const options = {
   entryPoints: ["src/index.tsx"],
   outfile: "public/index.js",
@@ -8,8 +15,8 @@ const options = {
   format: "iife",
   platform: "browser",
   target: ["es2022"],
-  minify: false,
-  sourcemap: true,
+  minify: !watch,
+  sourcemap: watch ? "inline" : false,
   define: {
     "process.env.NODE_ENV": '"production"'
   },

@@ -1,0 +1,132 @@
+{% liquid
+  assign icon_ids = block.settings.icon_ids | default: 'lucide-icons-shopping-cart,lucide-icons-shield-check,lucide-icons-truck'
+  assign icon_size = block.settings.icon_size | default: 40
+  assign icon_color = block.settings.icon_color | default: '#111827'
+  assign icon_gap = block.settings.icon_gap | default: 18
+  assign icon_alignment = block.settings.alignment | default: 'center'
+  assign show_labels = block.settings.show_labels
+  assign helper_enabled = block.settings.editor_helper
+%}
+
+<div
+  class="iconsearch-shopify"
+  data-iconsearch-block="{{ block.id }}"
+  data-icon-ids="{{ icon_ids | escape }}"
+  data-icon-size="{{ icon_size }}"
+  data-icon-color="{{ icon_color }}"
+  data-icon-gap="{{ icon_gap }}"
+  data-icon-alignment="{{ icon_alignment }}"
+  data-show-labels="{{ show_labels }}"
+  data-helper-enabled="{{ helper_enabled }}"
+  data-design-mode="{% if request.design_mode %}true{% else %}false{% endif %}"
+  style="
+    --is-shopify-icon-size: {{ icon_size }}px;
+    --is-shopify-icon-color: {{ icon_color }};
+    --is-shopify-icon-gap: {{ icon_gap }}px;
+    --is-shopify-justify: {% if icon_alignment == 'left' %}flex-start{% elsif icon_alignment == 'right' %}flex-end{% else %}center{% endif %};
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="iconsearch-shopify__shell">
+    {% if block.settings.heading != blank %}
+      <div class="iconsearch-shopify__heading">{{ block.settings.heading | escape }}</div>
+    {% endif %}
+
+    <div class="iconsearch-shopify__icons" role="list" aria-label="{{ block.settings.accessibility_label | escape }}">
+      {% assign ids = icon_ids | newline_to_br | replace: '<br />', ',' | split: ',' %}
+      {% for icon_id in ids limit: 24 %}
+        {% assign clean_id = icon_id | strip %}
+        {% if clean_id != blank %}
+          <span class="iconsearch-shopify__icon is-loading" role="listitem" aria-label="{{ clean_id | escape }}">
+            <span class="iconsearch-shopify__fallback">{{ clean_id | slice: 0, 1 | upcase }}</span>
+          </span>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if request.design_mode and helper_enabled %}
+      <div class="iconsearch-shopify__designer" data-iconsearch-designer>
+        <div class="iconsearch-shopify__designer-loading">Loading IconSearch picker...</div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Icon row",
+  "target": "section",
+  "stylesheet": "iconsearch-shopify.css",
+  "javascript": "iconsearch-shopify.js",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted by shoppers"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_ids",
+      "label": "Icon IDs",
+      "default": "lucide-icons-shopping-cart,lucide-icons-shield-check,lucide-icons-truck",
+      "info": "Use the helper below in the theme editor to search icons, drag them into a tray, then copy the generated ID list here."
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 18,
+      "max": 128,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#111827"
+    },
+    {
+      "type": "range",
+      "id": "icon_gap",
+      "label": "Icon spacing",
+      "min": 4,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_labels",
+      "label": "Show icon labels",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Accessibility label",
+      "default": "Store feature icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "editor_helper",
+      "label": "Show search helper in theme editor",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

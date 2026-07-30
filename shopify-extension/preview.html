@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IconSearch Shopify Theme App Extension - Local Preview</title>
+  <link rel="stylesheet" href="./assets/iconsearch-shopify.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #f1f5f9;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+    }
+    .preview-container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+    .preview-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .preview-header h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .preview-header p {
+      margin: 0;
+      font-size: 13px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="preview-container">
+    <div class="preview-header">
+      <h1>🛍️ IconSearch Shopify Theme App Extension (Local Test)</h1>
+      <p>Simulating Theme Editor mode with interactive icon search, drag-and-drop, and live block rendering.</p>
+    </div>
+
+    <!-- SIMULATED SHOPIFY THEME APP BLOCK -->
+    <div
+      class="iconsearch-shopify"
+      data-iconsearch-block="preview-block-1"
+      data-icon-ids="lucide-icons-shopping-cart,lucide-icons-shield-check,lucide-icons-truck"
+      data-icon-size="40"
+      data-icon-color="#111827"
+      data-icon-gap="18"
+      data-icon-alignment="center"
+      data-show-labels="true"
+      data-helper-enabled="true"
+      data-design-mode="true"
+      style="
+        --is-shopify-icon-size: 40px;
+        --is-shopify-icon-color: #111827;
+        --is-shopify-icon-gap: 18px;
+        --is-shopify-justify: center;
+      "
+    >
+      <div class="iconsearch-shopify__shell">
+        <div class="iconsearch-shopify__heading">Trusted by 50,000+ Shoppers</div>
+        <div class="iconsearch-shopify__icons" role="list" aria-label="Store feature icons">
+          <span class="iconsearch-shopify__icon is-loading" role="listitem">
+            <span class="iconsearch-shopify__fallback">L</span>
+          </span>
+        </div>
+        <div class="iconsearch-shopify__designer" data-iconsearch-designer>
+          <div class="iconsearch-shopify__designer-loading">Loading IconSearch picker...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/iconsearch-shopify.js"></script>
+</body>
+</html>

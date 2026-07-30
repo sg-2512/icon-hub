@@ -1,11 +1,11 @@
 {
   "name": "IconSearch - 355,000+ Vector Icons",
   "description": "Instant search & 1-click vector SVG icon insertion for Penpot designs.",
-  "host": "http://localhost:3000",
-  "code": "/code.js",
-  "icon": "/icon.png",
+  "version": 2,
+  "code": "code.js",
+  "icon": "icon.png",
   "permissions": [
     "content:write",
-    "library:write"
+    "allow:localstorage"
   ]
 }

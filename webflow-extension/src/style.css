@@ -49,6 +49,27 @@ body {
   gap: 10px;
 }
 
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.brand-mark-large {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 900;
+  margin: 0 auto 12px;
+}
+
 .app-logo {
   width: 32px;
   height: 32px;
@@ -88,6 +109,9 @@ body {
 }
 
 .search-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
@@ -105,6 +129,10 @@ body {
 
 .search-input:focus {
   border-color: var(--blue);
+}
+
+.search-button {
+  height: 36px;
 }
 
 .filter-grid {
@@ -146,6 +174,75 @@ body {
 .tab-btn.is-active {
   color: var(--blue);
   border-bottom-color: var(--blue);
+}
+
+.sign-out-button {
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.auth-card {
+  padding: 24px 16px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.auth-title {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.auth-description {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.pairing-panel {
+  padding: 12px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.pairing-label {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.pairing-code {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  margin: 4px 0 10px;
+}
+
+.auth-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  height: 36px;
+}
+
+.auth-waiting {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.auth-error {
+  font-size: 11px;
+  color: #ef4444;
+  margin-top: 10px;
 }
 
 .sticky-bottom-dock {
@@ -211,6 +308,10 @@ body {
   margin-bottom: 12px;
 }
 
+.controls-box-flush {
+  margin-bottom: 0;
+}
+
 .control-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -266,6 +367,10 @@ body {
   margin-bottom: 10px;
 }
 
+.swatch-row-flush {
+  margin-bottom: 0;
+}
+
 .swatch-btn {
   width: 20px;
   height: 20px;
@@ -276,6 +381,30 @@ body {
 
 .swatch-btn.is-active {
   box-shadow: 0 0 0 2px var(--blue);
+}
+
+.swatch-ink {
+  background-color: #111827;
+}
+
+.swatch-white {
+  background-color: #ffffff;
+}
+
+.swatch-blue {
+  background-color: #2563eb;
+}
+
+.swatch-green {
+  background-color: #059669;
+}
+
+.swatch-red {
+  background-color: #dc2626;
+}
+
+.swatch-yellow {
+  background-color: #f4b400;
 }
 
 .btn-primary {
@@ -293,6 +422,10 @@ body {
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.insert-selected-button {
+  margin-top: 10px;
 }
 
 .status-banner {
