@@ -25,7 +25,7 @@ export default function robots(): MetadataRoute.Robots {
     ],
     sitemap: [
       `${SITE_URL}/sitemap.xml`,
-      `${SITE_URL}/icons/sitemap.xml`,
+      `${SITE_URL}/icons/sitemap-index.xml`,
     ],
     host: SITE_URL,
   }
