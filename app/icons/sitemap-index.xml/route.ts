@@ -13,7 +13,7 @@ function buildSitemapIndex() {
     { length: ICON_SITEMAP_PAGE_COUNT },
     (_, index) => [
       '<sitemap>',
-      `<loc>${SITE_URL}/icons/icon-sitemaps/${index + 1}</loc>`,
+      `<loc>${SITE_URL}/icons/icon-sitemaps/${index + 1}.xml</loc>`,
       `<lastmod>${snapshot.generatedAt}</lastmod>`,
       '</sitemap>',
     ].join(''),
