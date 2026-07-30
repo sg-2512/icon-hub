@@ -1,10 +1,12 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Heroicons License — MIT, Official Source & Commercial Use (2026)',
-  description: 'Heroicons is MIT licensed by Tailwind Labs. Free for commercial use, no attribution required. Official license source, full breakdown of all icon library licenses.',
-}
+export const metadata = createPageMetadata({
+  title: 'Icon Library Licenses — MIT, ISC and Apache 2.0 Guide',
+  description: 'Check official licenses, commercial-use rules, and attribution for Heroicons, Tabler, Phosphor, Lucide, Feather, Bootstrap, Remix, and Radix icons.',
+  path: '/licenses',
+  type: 'article',
+})
 
 const licenseData = [
   {
@@ -165,7 +167,7 @@ export default function LicensesPage() {
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {licenseData.map(lib => (
-            <div key={lib.slug} style={{ background: 'var(--bg-card)', padding: '24px 28px' }}>
+            <div id={lib.slug} key={lib.slug} style={{ background: 'var(--bg-card)', padding: '24px 28px', scrollMarginTop: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '12px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <h3 style={{ fontSize: '18px', fontWeight: 700 }}>{lib.name}</h3>

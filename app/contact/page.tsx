@@ -1,7 +1,10 @@
-export const metadata = {
+import { createPageMetadata } from '../../lib/seo'
+
+export const metadata = createPageMetadata({
   title: 'Contact — IconSearch',
   description: 'Get in touch with the IconSearch team. We welcome feedback, suggestions, and partnership inquiries.',
-}
+  path: '/contact',
+})
 
 export default function ContactPage() {
   return (

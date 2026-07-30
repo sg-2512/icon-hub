@@ -4,10 +4,16 @@ import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
 import { loadIcons } from '../../../api/icon-search/route'
 import IconDetailClient from './IconDetailClient'
-import { namedLibraries } from '../../../../data/library-catalog'
+import { namedLibraries, resolveLibraryMeta } from '../../../../data/library-catalog'
 import { getCleanSvgUrl } from '../../../../lib/icon-preview'
+import { SITE_URL } from '../../../../lib/seo'
 
-export const dynamic = 'force-dynamic'
+export const dynamicParams = true
+export const revalidate = 604800
+
+export function generateStaticParams() {
+  return []
+}
 
 const namedLibrarySlugs = new Set(namedLibraries.map((library) => library.slug))
 
@@ -120,47 +126,57 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!icon) {
     return {
       title: 'Icon Not Found - IconSearch',
+      robots: {
+        index: false,
+        follow: false,
+      },
     }
   }
 
   const displayName = icon.displayName || icon.name
-  const title = `${displayName} SVG Icon — Customize, Copy & Download Free (${icon.libraryName})`
-  const description = `Download the free ${displayName} SVG icon from ${icon.libraryName}. Customize color, size, and stroke width. Copy raw SVG code, React component JSX, or Base64 instantly.`
+  const title = `${displayName} SVG Icon — Free Download | ${icon.libraryName}`
+  const description = `Download the free ${displayName} SVG icon from ${icon.libraryName}. Customize color, size, and stroke width, then copy SVG or React JSX code.`
+  const canonicalSlug = resolveLibraryMeta(slug)?.slug || icon.library
+  const canonicalPath = `/icons/${encodeURIComponent(canonicalSlug)}/${encodeURIComponent(icon.name)}`
+  const canonicalUrl = `${SITE_URL}${canonicalPath}`
 
   return {
     title,
     description,
     alternates: {
-      canonical: `https://iconsearch.info/icons/${slug}/${iconName}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title,
       description,
-      url: `https://iconsearch.info/icons/${slug}/${iconName}`,
+      url: canonicalUrl,
       siteName: 'IconSearch',
-      images: [
-        {
-          url: icon.svgUrl,
-          width: 256,
-          height: 256,
-          alt: `${displayName} icon preview`,
-        }
-      ],
       type: 'website',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
-      images: [icon.svgUrl],
-    }
+      site: '@IconSearchinfo',
+      creator: '@IconSearchinfo',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   }
 }
 
 function toAbsoluteUrl(url: string): string {
   if (!url) return ''
   if (url.startsWith('/')) {
-    const origin = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, '') || 'http://localhost:3000'
+    const origin = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, '') || SITE_URL
     return `${origin}${url}`
   }
   return url
@@ -173,7 +189,10 @@ async function getServerSvgContent(icon: { library: string; name: string; svgUrl
   if (localSvg) return localSvg
 
   const normalizedName = icon.name.replace(/\.svg$/i, '').replace(/_/g, '-')
-  const cachePath = join(process.cwd(), '.cache', 'svgs', icon.library, `${normalizedName}.svg`)
+  const cacheRoot = process.env.VERCEL
+    ? join('/tmp', '.cache', 'svgs')
+    : join(/* turbopackIgnore: true */ process.cwd(), '.cache', 'svgs')
+  const cachePath = join(cacheRoot, icon.library, `${normalizedName}.svg`)
   if (existsSync(cachePath)) {
     return readFileSync(cachePath, 'utf8')
   }
@@ -232,28 +251,36 @@ export default async function IconDetailPage({ params }: { params: Promise<{ slu
   const displayName = icon.displayName || icon.name
   const libraryHref = getLibraryHref(slug)
   const imageAttribution = getIconAttribution(icon)
+  const canonicalSlug = resolveLibraryMeta(slug)?.slug || icon.library
+  const canonicalUrl = `${SITE_URL}/icons/${encodeURIComponent(canonicalSlug)}/${encodeURIComponent(icon.name)}`
+  const contentUrl = `${SITE_URL}/api/svg/${encodeURIComponent(icon.library)}/${encodeURIComponent(icon.name)}`
 
   // JSON-LD Structured Data
   const jsonLdBreadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://iconsearch.info" },
-      { "@type": "ListItem", "position": 2, "name": "Icon Libraries", "item": "https://iconsearch.info/free-svg-icons" },
-      { "@type": "ListItem", "position": 3, "name": icon.libraryName, "item": `https://iconsearch.info${libraryHref}` },
-      { "@type": "ListItem", "position": 4, "name": `${displayName} Icon`, "item": `https://iconsearch.info/icons/${slug}/${iconName}` }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+      { "@type": "ListItem", "position": 2, "name": "Icon Libraries", "item": `${SITE_URL}/free-svg-icons` },
+      { "@type": "ListItem", "position": 3, "name": icon.libraryName, "item": `${SITE_URL}${libraryHref}` },
+      { "@type": "ListItem", "position": 4, "name": `${displayName} Icon`, "item": canonicalUrl }
     ]
   }
 
   const jsonLdImage = {
     "@context": "https://schema.org",
     "@type": "ImageObject",
+    "@id": `${canonicalUrl}#icon`,
     "name": `${displayName} SVG Icon`,
-    "description": `Free vector SVG icon ${displayName} from ${icon.libraryName} collection. MIT/open-source licensed.`,
-    "contentUrl": icon.svgUrl,
-    "thumbnailUrl": icon.svgUrl,
-    "license": icon.licenseUrl || "https://iconsearch.info/licenses",
-    "acquireLicensePage": "https://iconsearch.info/licenses",
+    "description": `Free vector SVG icon ${displayName} from the ${icon.libraryName} collection, licensed under ${icon.license}.`,
+    "contentUrl": contentUrl,
+    "thumbnailUrl": contentUrl,
+    "encodingFormat": "image/svg+xml",
+    "representativeOfPage": true,
+    "mainEntityOfPage": canonicalUrl,
+    "isAccessibleForFree": true,
+    "license": icon.licenseUrl || `${SITE_URL}/licenses`,
+    "acquireLicensePage": `${SITE_URL}/licenses`,
     "creditText": imageAttribution.creditText,
     "creator": {
       "@type": imageAttribution.creatorType,

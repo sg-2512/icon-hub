@@ -6,7 +6,6 @@ import {
   Check,
   CircleDashed,
   Feather,
-  GitCompareArrows,
   Layers3,
   Orbit,
   Search,
@@ -127,7 +126,7 @@ export default function HomeExperience({ initialLibraries, recentItems }: HomeEx
           <p className={styles.kicker}>IconSearch / open-source icon directory</p>
           <h1 className={styles.heroTitle}>Find your icon system.</h1>
           <p className={styles.heroLead}>
-            Search a single index of free SVG icons, then compare the libraries behind them before you commit to a visual language.
+            Search a single index of free SVG icons, then review the libraries behind them before you commit to a visual language.
           </p>
 
           <HomeSearch />

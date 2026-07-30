@@ -1,10 +1,13 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Best Icon Libraries for Next.js (2026) — Free & Open Source',
-  description: 'Find the best free icon libraries for Next.js App Router. Compare Lucide, Heroicons, Tabler and more. All verified to work with Next.js 14+.',
-}
+export const metadata = createPageMetadata({
+  title: 'Next.js Icons — Best SVG Libraries for App Router (2026)',
+  description: 'Compare free icon libraries for the Next.js App Router, including Lucide, Heroicons, and Tabler, with installation guidance, TypeScript support, and SSR notes.',
+  path: '/nextjs-icons',
+  type: 'article',
+})
 
 export default function NextjsIconsPage() {
   const nextjsIcons = icons.filter(i => i.frameworks.includes('nextjs'))

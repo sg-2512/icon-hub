@@ -1,10 +1,13 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Best TypeScript Icon Libraries (2026) — Typed SVG Icons for React',
-  description: 'The best icon libraries with full TypeScript support for React and Next.js. Autocomplete, type safety, and zero runtime errors.',
-}
+export const metadata = createPageMetadata({
+  title: 'TypeScript Icons — Best Typed SVG Libraries for React (2026)',
+  description: 'Compare SVG icon libraries with TypeScript support for React and Next.js, including typed props, autocomplete, tree shaking, and package installation.',
+  path: '/typescript-icons',
+  type: 'article',
+})
 
 export default function TypescriptIconsPage() {
   const tsIcons = icons.filter(i => i.typescript)

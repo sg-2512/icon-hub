@@ -22,6 +22,7 @@ const navLinks = [
 
 const integrationLinks = [
   { label: 'Figma plugin', href: '/figma-plugin', iconSrc: '/integration-logos/figma.svg' },
+  { label: 'Penpot plugin', href: '/penpot-plugin', iconSrc: '/integration-logos/penpot.svg' },
   { label: 'Sketch plugin', href: '/sketch-plugin', iconSrc: '/integration-logos/sketch.svg' },
   { label: 'VS Code extension', href: '/vscode-extension', iconSrc: '/integration-logos/vscode.svg' },
   { label: 'Chrome extension', href: '/chrome-extension', iconSrc: '/integration-logos/chrome.svg' },
@@ -413,4 +414,3 @@ export default function Sidebar() {
     </>
   )
 }
-

@@ -1,10 +1,12 @@
 import { useCases } from '../../data/usecases'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Icon Libraries by Use Case (2026) — Find the Right Icons for Your Project',
-  description: 'Find the best icon library for your specific use case — SaaS, dashboards, mobile apps, landing pages, ecommerce and more.',
-}
+export const metadata = createPageMetadata({
+  title: 'Best SVG Icon Libraries by Use Case — SaaS, Apps and Web',
+  description: 'Find free SVG icon libraries for SaaS, dashboards, mobile apps, landing pages, ecommerce, dark mode, developer tools, forms, and notifications.',
+  path: '/use-cases',
+})
 
 export default function UseCasesPage() {
   return (

@@ -4,6 +4,7 @@ import { gunzipSync } from 'zlib'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getCleanSvgUrl } from '../../../../lib/icon-preview'
+import { createPageMetadata } from '../../../../lib/seo'
 
 export const dynamicParams = true
 
@@ -82,25 +83,12 @@ export async function generateMetadata({ params }: { params: Promise<{ tag: stri
   const cleanTag = tag.replace('-icons', '').toLowerCase()
   const capitalized = cleanTag.charAt(0).toUpperCase() + cleanTag.slice(1)
   
-  return {
-    title: `100+ Free ${capitalized} SVG Icons — Customizer & React Code (2026)`,
-    description: `Browse and export the best free, MIT licensed ${cleanTag} icons. Adjust colors, stroke-width, and sizes dynamically. Instant download SVG sprites, JSX, Vue and clean Tailwind codes.`,
-    alternates: {
-      canonical: `https://iconsearch.info/icons/collection/${tag}`,
-    },
-    openGraph: {
-      title: `100+ Free ${capitalized} SVG Icons — Customizer & React Code`,
-      description: `Browse, customize, and export the best free ${cleanTag} SVG icons.`,
-      url: `https://iconsearch.info/icons/collection/${tag}`,
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `100+ Free ${capitalized} SVG Icons`,
-      description: `Customize and download free ${cleanTag} icons.`,
-      creator: '@IconSearchinfo',
-    },
-  }
+  return createPageMetadata({
+    title: `Free ${capitalized} SVG Icons — Customize and Download`,
+    description: `Browse up to 100 commercially usable ${cleanTag} SVG icons from open-source libraries. Customize color and size, then copy SVG or React JSX code.`,
+    path: `/icons/collection/${tag}`,
+    type: 'article',
+  })
 }
 
 export default async function CollectionPage({ params }: { params: Promise<{ tag: string }> }) {
@@ -134,7 +122,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ tag
         "name": `Can I use these ${cleanTag} icons commercially?`,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `Yes, absolutely. All ${matchingIcons.length} ${cleanTag} icons displayed in this curated collection utilize highly permissive open-source licenses (MIT, ISC, or CC0), allowing unlimited free commercial and private usage without mandatory attribution.`
+          "text": `The ${matchingIcons.length} ${cleanTag} icons shown here are marked for commercial use. License and attribution requirements vary by source library, so review the applicable license before distribution.`
         }
       },
       {
@@ -180,8 +168,8 @@ export default async function CollectionPage({ params }: { params: Promise<{ tag
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '16px', maxWidth: '850px', lineHeight: 1.8 }}>
           Finding consistent and legal {cleanTag} icons for technical web products is now simple. We compiled over 
-          <strong> {matchingIcons.length} premium, commercially-safe {cleanTag} icons</strong> across Lucide, Heroicons, Tabler, 
-          Phosphor, and Radix. You can search, inspect their package size, and copy their code directly. Use our central 
+          <strong> {matchingIcons.length} commercially usable {cleanTag} icons</strong> across open-source libraries.
+          License and attribution terms vary by source, so check the linked library details before distribution. You can search and copy code directly. Use our central
           <Link href="/icon-search" style={{ color: 'var(--accent)', textDecoration: 'none', margin: '0 4px' }}>interactive customizer</Link> 
           to adjust strokes and colors dynamically before exporting.
         </p>
@@ -275,7 +263,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ tag
               Are these {cleanTag} icons free to use commercially?
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
-              Yes, all icons cataloged under the {cleanTag} collection page are certified open-source, utilizing highly permissive licenses such as MIT, ISC, or public domain dedications. This covers SaaS dashboards, landing pages, corporate applications, and print designs completely royalty-free.
+              These results are filtered to icons marked for commercial use. Their open-source licenses can have different notice or attribution requirements, so confirm the source library&apos;s terms in the <Link href="/licenses" style={{ color: 'var(--accent)', textDecoration: 'none' }}>license guide</Link>.
             </p>
           </div>
           <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '24px' }}>

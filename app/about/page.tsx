@@ -1,15 +1,15 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
 import {
-  COMPARISON_COUNT,
   NAMED_LIBRARY_COUNT,
   SEARCHABLE_ICON_COUNT,
 } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata: Metadata = {
-  title: 'About IconSearch — Free SVG Icon Library Discovery Platform (2026)',
-  description: `IconSearch indexes ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} SVG icons from ${NAMED_LIBRARY_COUNT} open-source icon libraries, with ${COMPARISON_COUNT} library comparisons.`,
-}
+export const metadata = createPageMetadata({
+  title: 'About IconSearch — Free SVG Icon Search and Discovery',
+  description: `Learn how IconSearch indexes ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} searchable SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries for developers and designers.`,
+  path: '/about',
+})
 
 export default function AboutPage() {
   return (

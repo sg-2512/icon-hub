@@ -1,7 +1,10 @@
-export const metadata = {
+import { createPageMetadata } from '../../lib/seo'
+
+export const metadata = createPageMetadata({
   title: 'Terms and Conditions — IconSearch',
   description: 'Terms and conditions governing your use of IconSearch. Read our policies on intellectual property, disclaimers, and liability.',
-}
+  path: '/terms',
+})
 
 export default function TermsPage() {
   return (

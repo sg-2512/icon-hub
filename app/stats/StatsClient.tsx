@@ -164,7 +164,7 @@ export default function StatsClient() {
         </div>
       </section>
 
-      {/* Full 229 Libraries Data Table */}
+      {/* Full library data table */}
       <section>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '16px' }}>
           <div>
@@ -181,7 +181,7 @@ export default function StatsClient() {
             <input
               suppressHydrationWarning
               type="text"
-              placeholder="Search 229 libraries..."
+              placeholder={`Search ${totalLibraries} libraries...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{

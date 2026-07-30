@@ -70,6 +70,12 @@
   color: var(--integration-accent);
 }
 
+.platformLogo {
+  width: 19px;
+  height: 27px;
+  object-fit: contain;
+}
+
 .identity strong,
 .identity span {
   display: block;
@@ -292,6 +298,12 @@
   font-weight: 900;
 }
 
+.previewLogo {
+  width: 15px;
+  height: 22px;
+  object-fit: contain;
+}
+
 .previewRail button {
   border: 0;
   background: transparent;
@@ -373,7 +385,7 @@
 
 .iconGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 9px;
 }
 
@@ -423,6 +435,343 @@
   margin-top: 2px;
   color: #64748b;
   font-size: 10px;
+}
+
+.hostPreview {
+  overflow: hidden;
+  margin-top: 14px;
+  border: 1px solid #d8e0eb;
+  border-radius: 9px;
+  background: #ffffff;
+}
+
+.hostPreviewHeader {
+  display: flex;
+  min-height: 35px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 11px;
+}
+
+.hostPreviewHeader span {
+  color: #475569;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+}
+
+.hostPreviewHeader strong {
+  color: var(--integration-accent);
+  font-size: 10px;
+}
+
+.hostSurface {
+  position: relative;
+  display: grid;
+  min-height: 152px;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  background: #f1f5f9;
+  padding: 24px 22px 18px;
+}
+
+.sceneChrome {
+  position: absolute;
+  inset: 9px auto auto 10px;
+  display: flex;
+  gap: 4px;
+}
+
+.sceneChrome i {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #94a3b8;
+}
+
+.sceneArtwork {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 104px;
+  height: 88px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--integration-accent) 65%, #cbd5e1);
+  border-radius: 7px;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+}
+
+.sceneCopy {
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-width: 0;
+}
+
+.sceneCopy strong,
+.sceneCopy small {
+  display: block;
+}
+
+.sceneCopy strong {
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.sceneCopy small {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.sceneCode {
+  position: absolute;
+  z-index: 1;
+  inset: auto 14px 12px;
+  display: none;
+  overflow: hidden;
+  color: #a7f3d0;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-size: 9px;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hostPreview[data-scene="design"] .hostSurface {
+  background-color: #f8fafc;
+  background-image:
+    linear-gradient(#dfe6ef 1px, transparent 1px),
+    linear-gradient(90deg, #dfe6ef 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.hostPreview[data-scene="design"] .sceneArtwork::before,
+.hostPreview[data-scene="design"] .sceneArtwork::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--integration-accent);
+  background: #ffffff;
+}
+
+.hostPreview[data-scene="design"] .sceneArtwork::before {
+  top: -4px;
+  left: -4px;
+}
+
+.hostPreview[data-scene="design"] .sceneArtwork::after {
+  right: -4px;
+  bottom: -4px;
+}
+
+.hostPreview[data-scene="slides"] .hostSurface {
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  background: #dbe2ea;
+  padding: 18px;
+}
+
+.hostPreview[data-scene="slides"] .sceneArtwork {
+  width: min(250px, 78%);
+  height: 112px;
+  justify-content: end;
+  border: 0;
+  border-radius: 3px;
+  background:
+    linear-gradient(135deg, var(--integration-accent-muted), transparent 55%),
+    #ffffff;
+  padding-right: 34px;
+  color: var(--integration-accent);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.17);
+}
+
+.hostPreview[data-scene="slides"] .sceneCopy {
+  position: absolute;
+  top: 46px;
+  left: calc(50% - min(125px, 39%) + 22px);
+  max-width: 120px;
+}
+
+.hostPreview[data-scene="slides"] .sceneCopy strong {
+  font-size: 12px;
+}
+
+.hostPreview[data-scene="command"] .hostSurface {
+  grid-template-columns: 52px minmax(0, 1fr);
+  min-height: 152px;
+  background:
+    linear-gradient(180deg, rgba(244, 63, 94, 0.12), transparent 75%),
+    #15151a;
+  padding: 35px 24px 24px;
+}
+
+.hostPreview[data-scene="command"] .sceneArtwork {
+  width: 48px;
+  height: 48px;
+  border-color: rgba(255, 255, 255, 0.16);
+  background: var(--integration-accent);
+  color: #ffffff;
+  box-shadow: 0 0 30px var(--integration-accent-muted);
+}
+
+.hostPreview[data-scene="command"] .sceneCopy {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 13px;
+}
+
+.hostPreview[data-scene="command"] .sceneCopy strong {
+  color: #ffffff;
+}
+
+.hostPreview[data-scene="command"] .sceneCopy small {
+  color: #a1a1aa;
+}
+
+.hostPreview[data-scene="code"] .hostSurface,
+.hostPreview[data-scene="agent"] .hostSurface {
+  grid-template-columns: 50px minmax(0, 1fr);
+  align-items: start;
+  background: #111827;
+  padding-top: 32px;
+  padding-bottom: 42px;
+}
+
+.hostPreview[data-scene="code"] .sceneArtwork,
+.hostPreview[data-scene="agent"] .sceneArtwork {
+  width: 48px;
+  height: 48px;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: #1f2937;
+  color: var(--integration-accent);
+  box-shadow: none;
+}
+
+.hostPreview[data-scene="code"] .sceneCopy strong,
+.hostPreview[data-scene="agent"] .sceneCopy strong {
+  color: #f8fafc;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+}
+
+.hostPreview[data-scene="code"] .sceneCopy small,
+.hostPreview[data-scene="agent"] .sceneCopy small {
+  color: #94a3b8;
+}
+
+.hostPreview[data-scene="code"] .sceneCode,
+.hostPreview[data-scene="agent"] .sceneCode {
+  display: block;
+}
+
+.hostPreview[data-scene="agent"] .hostSurface {
+  background:
+    radial-gradient(circle at 92% 20%, var(--integration-accent-muted), transparent 30%),
+    #07111f;
+}
+
+.hostPreview[data-scene="components"] .hostSurface {
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 13px 13px;
+}
+
+.hostPreview[data-scene="components"] .sceneArtwork {
+  width: 150px;
+  height: 58px;
+  border: 0;
+  background: var(--integration-accent);
+  color: #ffffff;
+}
+
+.hostPreview[data-scene="components"] .sceneCopy {
+  display: none;
+}
+
+.hostPreview[data-scene="creative"] .hostSurface {
+  grid-template-columns: 90px minmax(0, 1fr);
+  background:
+    radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.46), transparent 18%),
+    linear-gradient(135deg, var(--integration-accent), #6d28d9 74%, #111827);
+}
+
+.hostPreview[data-scene="creative"] .sceneArtwork {
+  width: 82px;
+  height: 82px;
+  border-color: rgba(255, 255, 255, 0.52);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+}
+
+.hostPreview[data-scene="creative"] .sceneCopy strong,
+.hostPreview[data-scene="creative"] .sceneCopy small {
+  color: #ffffff;
+}
+
+.hostPreview[data-scene="creative"] .sceneCopy strong {
+  font-size: 18px;
+}
+
+.hostPreview[data-scene="content"] .hostSurface {
+  grid-template-columns: 64px minmax(0, 1fr);
+  max-width: 92%;
+  min-height: 132px;
+  margin: 10px auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background:
+    linear-gradient(#e2e8f0 1px, transparent 1px) 92px 79px / calc(100% - 120px) 18px no-repeat,
+    #ffffff;
+  padding: 25px 22px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.hostPreview[data-scene="content"] .sceneArtwork {
+  width: 56px;
+  height: 56px;
+  background: var(--integration-accent-muted);
+  color: var(--integration-accent);
+  box-shadow: none;
+}
+
+.hostPreview[data-scene="commerce"] .hostSurface {
+  grid-template-columns: 100px minmax(0, 1fr);
+  background: #eef3f0;
+}
+
+.hostPreview[data-scene="commerce"] .sceneArtwork {
+  width: 92px;
+  height: 98px;
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 40%, var(--integration-accent-muted), transparent 48%),
+    #ffffff;
+  color: var(--integration-accent);
+}
+
+.hostPreview[data-scene="commerce"] .sceneCopy::after {
+  content: "$48.00";
+  display: inline-block;
+  margin-top: 11px;
+  border-radius: 999px;
+  background: var(--integration-accent);
+  color: #07120d;
+  padding: 5px 9px;
+  font-size: 10px;
+  font-weight: 900;
 }
 
 .inspector {
@@ -827,6 +1176,12 @@
   padding: 12px 14px;
   font-size: 12px;
   font-weight: 900;
+}
+
+.releaseLogo {
+  width: 12px;
+  height: 17px;
+  object-fit: contain;
 }
 
 @media (max-width: 1080px) {

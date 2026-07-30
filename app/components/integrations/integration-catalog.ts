@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
-import { SEARCHABLE_ICON_COUNT } from '../../../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../../data/library-catalog'
+import { createPageMetadata, DEFAULT_OG_IMAGE } from '../../../lib/seo'
 
 export type IntegrationSlug =
   | 'webflow-extension'
+  | 'penpot-plugin'
   | 'sketch-plugin'
   | 'powerpoint-addin'
   | 'google-slides-addon'
@@ -38,6 +40,8 @@ export type IntegrationConfig = {
   name: string
   platform: string
   icon: IntegrationIcon
+  logoSrc?: string
+  socialImage?: string
   mark: string
   status: IntegrationStatus
   statusTone: 'ready' | 'local' | 'development'
@@ -63,6 +67,41 @@ export type IntegrationConfig = {
 }
 
 export const integrationCatalog: Record<IntegrationSlug, IntegrationConfig> = {
+  'penpot-plugin': {
+    slug: 'penpot-plugin',
+    name: 'Penpot Plugin',
+    platform: 'Penpot',
+    icon: 'layout',
+    logoSrc: '/integration-logos/penpot.svg',
+    socialImage: '/og-penpot.png',
+    mark: 'PP',
+    status: 'Package ready',
+    statusTone: 'ready',
+    eyebrow: 'OPEN-SOURCE DESIGN ICONS',
+    title: 'Place editable SVG icons directly on the Penpot canvas.',
+    description: 'Connect only when you are ready, search the live IconSearch catalog, tune size and color, then insert a sanitized SVG as a native, selected Penpot vector group.',
+    accent: '#2dd4bf',
+    accentMuted: 'rgba(45, 212, 191, 0.15)',
+    previewContext: 'IconSearch — Penpot Plugin',
+    previewAction: 'Insert into Penpot',
+    outputLabel: 'Native vector group',
+    output: 'lucide:house · editable SVG · 96 px · #111827',
+    account: 'Free IconSearch account',
+    dragAndDrop: false,
+    styleControls: true,
+    capabilities: ['Manifest v2', 'Editable native vectors', 'Secure account pairing'],
+    features: [
+      { title: 'Live catalog search', text: 'Browse the current IconSearch catalog with focused library and style filters instead of shipping a stale icon bundle.' },
+      { title: 'Style before insertion', text: 'Choose a precise size and color while keeping a large preview visible beside the search results.' },
+      { title: 'Native Penpot vectors', text: 'Create an editable SVG group at the viewport center and select it immediately for the next design action.' },
+      { title: 'Hardened SVG pipeline', text: 'Oversized payloads, scripts, external resources, unsafe links, embedded images, and non-fragment URL references are rejected.' },
+    ],
+    workflow: ['Install the hosted or local manifest URL in Penpot', 'Open IconSearch and approve account pairing', 'Search, select, and style an icon', 'Insert one editable vector group onto the canvas'],
+    requirements: ['A Penpot design file with plugin access', 'A free IconSearch account', 'Node.js only when using the local development manifest'],
+    setup: 'npm run test:penpot\nnpm run dev\n\n# Install this manifest in Penpot:\nhttp://localhost:3000/penpot/manifest.local.json',
+    releaseTitle: 'Production package ready for hosted verification.',
+    releaseText: 'Manifest v2, minimal permissions, secure pairing, bounded SVG sanitization, single-message insertion, responsive UI, automated checks, and the production build all pass. Deploy the site and install the production manifest once before final Penpot Hub review.',
+  },
   'webflow-extension': {
     slug: 'webflow-extension',
     name: 'Webflow Designer Extension',
@@ -519,17 +558,14 @@ export const integrationCatalog: Record<IntegrationSlug, IntegrationConfig> = {
 
 export function createIntegrationMetadata(config: IntegrationConfig): Metadata {
   const iconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
-  const description = `${config.description} Explore ${iconCount} searchable icons with IconSearch for ${config.platform}.`
+  const description = `${config.description} Search ${iconCount} icons from ${NAMED_LIBRARY_COUNT} open-source libraries without leaving ${config.platform}.`
+  const socialImage = config.socialImage || DEFAULT_OG_IMAGE
 
-  return {
-    title: `IconSearch ${config.name} - ${config.status}`,
+  return createPageMetadata({
+    title: `IconSearch ${config.name} — Search and Insert Free SVG Icons`,
     description,
-    alternates: { canonical: `/${config.slug}` },
-    openGraph: {
-      title: `IconSearch ${config.name}`,
-      description,
-      url: `/${config.slug}`,
-      type: 'website',
-    },
-  }
+    path: `/${config.slug}`,
+    image: socialImage,
+    imageAlt: `IconSearch ${config.name} for ${config.platform}`,
+  })
 }

@@ -3,6 +3,7 @@ import { join } from 'path'
 import { gunzipSync } from 'zlib'
 import { notFound } from 'next/navigation'
 import { allLibraries, resolveLibraryMeta, type IconLibraryMeta } from '../../../data/library-catalog'
+import { createPageMetadata, SITE_URL } from '../../../lib/seo'
 import CollectionPageClient from './CollectionPageClient'
 
 export const dynamicParams = true
@@ -89,24 +90,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const meta = resolveLibraryMeta(slug)
   if (!meta) return {}
 
-  return {
-    title: `${meta.name} — Free Vector SVG Icon Collection (${meta.iconCount.toLocaleString('en-US')})`,
-    description: `Explore ${meta.iconCount.toLocaleString('en-US')} high quality, open-source ${meta.name} icons. Licensed under ${meta.license}. Customize colors, stroke width, download SVG, PNG, WebP, or copy JSX React code.`,
-    alternates: {
-      canonical: `https://iconsearch.info/icons/${meta.slug}`,
-    },
-    openGraph: {
-      title: `${meta.name} — Vector SVG Icon Collection`,
-      description: `Browse and customize ${meta.iconCount.toLocaleString('en-US')} free ${meta.name} icons.`,
-      url: `https://iconsearch.info/icons/${meta.slug}`,
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${meta.name} Collection`,
-      description: `${meta.iconCount.toLocaleString('en-US')} free vector icons in ${meta.name}.`,
-    },
-  }
+  return createPageMetadata({
+    title: `${meta.name}: ${meta.license} License & ${meta.iconCount.toLocaleString('en-US')} Free SVG Icons`,
+    description: `Browse ${meta.iconCount.toLocaleString('en-US')} ${meta.name} SVG icons under the ${meta.license} license. Customize color and stroke width, then copy JSX or download SVG, PNG, and WebP.`,
+    path: `/icons/${meta.slug}`,
+    imageAlt: `${meta.name} SVG icon collection on IconSearch`,
+  })
 }
 
 export default async function LibraryPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -118,21 +107,52 @@ export default async function LibraryPage({ params }: { params: Promise<{ slug: 
   }
 
   const icons = getIconsForLibrary(meta)
+  const canonicalUrl = `${SITE_URL}/icons/${encodeURIComponent(meta.slug)}`
 
-  // Structured Data Schema
   const collectionSchema = {
     '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: meta.name,
-    description: `Collection of ${meta.iconCount} open-source vector SVG icons in ${meta.name}.`,
-    url: `https://iconsearch.info/icons/${meta.slug}`,
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': `${canonicalUrl}#collection`,
+        name: meta.name,
+        description: `Collection of ${meta.iconCount} open-source vector SVG icons in ${meta.name}.`,
+        url: canonicalUrl,
+        inLanguage: 'en',
+        isPartOf: {
+          '@id': `${SITE_URL}/#website`,
+        },
+        breadcrumb: {
+          '@id': `${canonicalUrl}#breadcrumb`,
+        },
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: icons.length,
+          itemListElement: icons.slice(0, 24).map((icon, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            url: `${canonicalUrl}/${encodeURIComponent(icon.name)}`,
+            name: icon.displayName || icon.name,
+          })),
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonicalUrl}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+          { '@type': 'ListItem', position: 2, name: 'Icon Libraries', item: `${SITE_URL}/free-svg-icons` },
+          { '@type': 'ListItem', position: 3, name: meta.name, item: canonicalUrl },
+        ],
+      },
+    ],
   }
 
   return (
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema).replace(/</g, '\\u003c') }}
       />
       <CollectionPageClient meta={meta} icons={icons} />
     </main>

@@ -1,10 +1,12 @@
 import { categories } from '../../../data/categories'
 import Link from 'next/link'
+import { createPageMetadata } from '../../../lib/seo'
 
-export const metadata = {
-  title: 'Browse Icons by Category (2026) — Free SVG Icon Libraries',
-  description: 'Browse free SVG icon libraries by category — UI icons, social media icons, dashboard icons, ecommerce icons and more.',
-}
+export const metadata = createPageMetadata({
+  title: 'Free SVG Icons by Category — UI, Social, Weather and More',
+  description: 'Browse free SVG icons and recommended open-source libraries by category, including UI, social media, dashboard, ecommerce, weather, medical, and finance icons.',
+  path: '/icons/category',
+})
 
 export default function CategoriesPage() {
   return (

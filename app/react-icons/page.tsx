@@ -1,10 +1,13 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Best Icon Libraries for React (2026) — Free & Open Source',
-  description: 'Find the best free icon libraries for React. Compare Lucide, Heroicons, Tabler, Phosphor and more with installation guides and examples.',
-}
+export const metadata = createPageMetadata({
+  title: 'React Icons — Best Free SVG Libraries and NPM Examples (2026)',
+  description: 'Compare the best free React icon libraries, including Lucide, Heroicons, Tabler, and Phosphor, with NPM installation commands, TypeScript support, and examples.',
+  path: '/react-icons',
+  type: 'article',
+})
 
 export default function ReactIconsPage() {
   const reactIcons = icons.filter(i => i.frameworks.includes('react'))

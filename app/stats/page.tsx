@@ -1,10 +1,12 @@
 import StatsClient from './StatsClient'
-import { SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: `Icon Library Stats & Rankings (2026) — ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Icons Across 229 Libraries`,
-  description: 'Live statistics and ecosystem analytics for 229 open-source icon libraries. Icon counts, license breakdown, volume rankings, and library metadata compared.',
-}
+export const metadata = createPageMetadata({
+  title: `Icon Library Statistics 2026 — Compare ${NAMED_LIBRARY_COUNT} Libraries`,
+  description: `Explore statistics for ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} icons across ${NAMED_LIBRARY_COUNT} open-source libraries, including icon counts, license breakdowns, and size rankings.`,
+  path: '/stats',
+})
 
 export default function StatsPage() {
   return <StatsClient />

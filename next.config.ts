@@ -1,6 +1,60 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/icons/react-icons",
+        destination: "/react-icons",
+        permanent: true,
+      },
+      {
+        source: "/icons/material-icons",
+        destination: "/icons/material-symbols",
+        permanent: true,
+      },
+      {
+        source: "/icons/font-awesome",
+        destination: "/icons/fa7-solid",
+        permanent: true,
+      },
+      {
+        source: "/blog/lucide-icons-complete-guide-2026",
+        destination: "/icons/lucide-icons",
+        permanent: true,
+      },
+      {
+        source: "/blog/how-to-use-svg-icons-in-react",
+        destination: "/react-icons",
+        permanent: true,
+      },
+      {
+        source: "/blog/react-icons-vs-lucide-react-2026",
+        destination: "/react-icons",
+        permanent: true,
+      },
+      {
+        source: "/blog/how-to-choose-right-icons-for-ui",
+        destination: "/best-for-you",
+        permanent: true,
+      },
+      {
+        source: "/blog/tailwind-css-v4-icons-complete-guide-2026",
+        destination: "/tailwind-icons",
+        permanent: true,
+      },
+      {
+        source: "/blog/svg-icons-dark-mode-react-nextjs-2026",
+        destination: "/use-cases/icons-for-dark-mode",
+        permanent: true,
+      },
+      {
+        source: "/blog/icon-library-pricing-comparison-2026",
+        destination: "/free-svg-icons",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

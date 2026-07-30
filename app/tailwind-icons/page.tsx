@@ -1,10 +1,13 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Best Icon Libraries for Tailwind CSS (2026) — Free & Open Source',
-  description: 'The best free icon libraries that work perfectly with Tailwind CSS. Heroicons, Lucide, Tabler and more with Tailwind integration examples.',
-}
+export const metadata = createPageMetadata({
+  title: 'Tailwind CSS Icons — Best Free SVG Libraries (2026)',
+  description: 'Compare Heroicons, Lucide, Tabler, and other free SVG icon libraries for Tailwind CSS, with className sizing, color, hover-state, and installation examples.',
+  path: '/tailwind-icons',
+  type: 'article',
+})
 
 export default function TailwindIconsPage() {
   const tailwindFriendly = icons.filter(i => i.frameworks.includes('react'))

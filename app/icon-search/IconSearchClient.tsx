@@ -10,12 +10,7 @@ import { createClient, isSupabaseConfigured } from '@/lib/supabase'
 import { trackSearch, trackAddToCart, trackCartImport, trackExport } from '@/lib/analytics'
 import AuthModal from '../components/AuthModal'
 import LibraryFilter from '../components/LibraryFilter'
-import {
-  getNamedLibraryName,
-  namedLibraries,
-  NAMED_LIBRARY_COUNT,
-  SEARCHABLE_ICON_COUNT,
-} from '../../data/library-catalog'
+import { namedLibraries } from '../../data/library-catalog'
 
 type Icon = {
   id: string
@@ -1143,23 +1138,15 @@ export default function IconSearchClient({ initialData }: { initialData?: ApiRes
   }
 
   return (
-    <main className="icon-search-page-main" style={{ maxWidth: '1500px', margin: '0 auto', padding: '40px 48px', position: 'relative', minHeight: '100vh' }}>
+    <main className="icon-search-page-main" style={{ maxWidth: '1500px', margin: '0 auto', padding: '16px 48px 40px', position: 'relative', minHeight: '100vh' }}>
       <div className="glow-grid-overlay" />
       <div className="glow-gradient-node" />
 
       <section style={{ position: 'relative', zIndex: 1, marginBottom: '24px' }}>
-        <div className="icon-search-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <h1 style={{ fontSize: 'clamp(34px, 5vw, 56px)', fontWeight: 900, lineHeight: 1.1, marginBottom: '12px' }}>
-              Search {SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Icons
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '16px', maxWidth: '760px', lineHeight: 1.7 }}>
-              explorer with lightning-fast API search, clean cards, rich filters, and polished dark UI.
-            </p>
-            <p style={{ color: 'var(--green)', fontSize: '12px', marginTop: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
-              Legal-safe icons in current scope: {loading ? 'loading...' : formatNumber(results.facets?.legalSafeCount || 0)}
-            </p>
-          </div>
+        <div className="icon-search-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <p style={{ color: 'var(--green)', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace' }}>
+            Legal-safe icons in current scope: {loading ? 'loading...' : formatNumber(results.facets?.legalSafeCount || 0)}
+          </p>
 
           {/* Auth / Profile Area */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>

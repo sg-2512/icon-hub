@@ -1,10 +1,13 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Best Icon Libraries for Vue 3 (2026) — Free & Open Source',
-  description: 'Find the best free icon libraries for Vue 3. Compare Lucide, Tabler, Remix Icon and more with installation guides and usage examples.',
-}
+export const metadata = createPageMetadata({
+  title: 'Vue 3 Icons — Best Free SVG Libraries and Examples (2026)',
+  description: 'Compare the best free Vue 3 icon libraries, including Lucide, Tabler, and Remix Icon, with package installation, TypeScript support, and usage examples.',
+  path: '/vue-icons',
+  type: 'article',
+})
 
 export default function VueIconsPage() {
   const vueIcons = icons.filter(i => i.frameworks.includes('vue'))

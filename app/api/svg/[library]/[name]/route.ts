@@ -2,14 +2,12 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import path from 'path'
 import { NextResponse } from 'next/server'
 import { publicOptions, publicJson } from '@/lib/device-auth'
-import { readExtensionSession } from '@/lib/extension-session'
-import { createServerSupabaseClient } from '@/lib/supabase-server'
 
 export const runtime = 'nodejs'
 
 const SVG_HEADERS = {
   'Content-Type': 'image/svg+xml; charset=utf-8',
-  'Cache-Control': 'private, max-age=86400',
+  'Cache-Control': 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=604800',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, content-type, x-iconsearch-product',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -17,7 +15,7 @@ const SVG_HEADERS = {
 
 const CACHE_DIR = process.env.VERCEL
   ? path.join('/tmp', '.cache', 'svgs')
-  : path.join(process.cwd(), '.cache', 'svgs')
+  : path.join(/* turbopackIgnore: true */ process.cwd(), '.cache', 'svgs')
 
 function isSafeSegment(value: string) {
   return /^[a-z0-9][a-z0-9._-]*$/i.test(value)

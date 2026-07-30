@@ -1,28 +1,20 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 
 const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 const framerMarketplaceUrl = 'https://www.framer.com/community/marketplace/plugins/iconsearch-svg-icons/'
 
-export const metadata: Metadata = {
-  title: 'IconSearch Framer Plugin - Free SVG Icons for Framer',
-  description: `Install the free IconSearch Framer plugin to search, customize, and insert ${formattedIconCount} online SVG icons from 229 open-source icon libraries.`,
-  alternates: {
-    canonical: '/framer-plugin',
-  },
-  openGraph: {
-    title: 'IconSearch Framer Plugin - Now Live',
-    description: `Install the free Framer Community plugin to search, customize, and insert ${formattedIconCount} open source SVG icons directly inside Framer.`,
-    url: '/framer-plugin',
-    type: 'website',
-  },
-}
+export const metadata = createPageMetadata({
+  title: 'IconSearch Framer Plugin — Free SVG Icons for Framer',
+  description: `Install the free IconSearch Framer plugin to search, customize, and insert ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries.`,
+  path: '/framer-plugin',
+})
 
 const stats = [
   { value: formattedIconCount, label: 'online icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: '229', label: 'icon collections' },
+  { value: NAMED_LIBRARY_COUNT.toString(), label: 'icon collections' },
 ]
 
 const features = [

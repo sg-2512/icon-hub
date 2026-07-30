@@ -2,6 +2,7 @@ import { categories } from '../../../../data/categories'
 import { icons } from '../../../../lib/icons'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { createPageMetadata } from '../../../../lib/seo'
 
 export async function generateStaticParams() {
   return categories.map(cat => ({ slug: cat.slug }))
@@ -11,25 +12,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const cat = categories.find(c => c.slug === slug)
   if (!cat) return {}
-  return {
-    title: `${cat.name} — Best Free SVG Icon Libraries (2026)`,
-    description: cat.description,
-    alternates: {
-      canonical: `https://iconsearch.info/icons/category/${slug}`,
-    },
-    openGraph: {
-      title: `${cat.name} — Best Free SVG Icon Libraries`,
-      description: cat.description,
-      url: `https://iconsearch.info/icons/category/${slug}`,
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${cat.name} — Best Free SVG Icon Libraries`,
-      description: cat.description,
-      creator: '@IconSearchinfo',
-    },
-  }
+  return createPageMetadata({
+    title: `Free ${cat.name} for Web and React — SVG Library Guide`,
+    description: `${cat.description} Compare recommended open-source libraries.`,
+    path: `/icons/category/${slug}`,
+    type: 'article',
+  })
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {

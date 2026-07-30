@@ -6,7 +6,13 @@ import GoogleAnalytics from './components/GoogleAnalytics'
 import { JetBrains_Mono, Inter } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from "@vercel/analytics/next"
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../data/library-catalog'
+import {
+  DEFAULT_OG_IMAGE,
+  DEFAULT_TWITTER_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+} from '../lib/seo'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -21,13 +27,54 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://iconsearch.info'),
-  title: `IconSearch — Find & Compare ${NAMED_LIBRARY_COUNT} Free SVG Icon Libraries (2026)`,
-  description: `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source icon libraries. Compare React icon libraries by size, stars, and license.`,
+  metadataBase: new URL(SITE_URL),
+  title: `Free SVG Icons — Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Icons | IconSearch`,
+  description: `Search, customize, and download ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons from ${NAMED_LIBRARY_COUNT} open-source icon libraries.`,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: 'technology',
+  referrer: 'origin-when-cross-origin',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    title: `IconSearch — ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Free SVG Icons`,
+    description: `Search, customize, and download free SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries.`,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: 'IconSearch — search, customize, and download free SVG icons',
+      },
+    ],
+  },
   twitter: {
     card: 'summary_large_image',
     site: '@IconSearchinfo',
     creator: '@IconSearchinfo',
+    title: `IconSearch — ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} Free SVG Icons`,
+    description: `Search, customize, and download free SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries.`,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 }
 
@@ -47,21 +94,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
+                "@id": `${SITE_URL}/#website`,
                 "name": "IconSearch",
                 "alternateName": "IconSearch",
-                "url": "https://iconsearch.info",
+                "url": SITE_URL,
+                "description": `Search ${SEARCHABLE_ICON_COUNT.toLocaleString('en-US')} free SVG icons across ${NAMED_LIBRARY_COUNT} open-source icon libraries.`,
+                "inLanguage": "en",
+                "publisher": {
+                  "@id": `${SITE_URL}/#organization`
+                },
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": "https://iconsearch.info/icon-search?q={search_term_string}",
+                  "target": `${SITE_URL}/icon-search?q={search_term_string}`,
                   "query-input": "required name=search_term_string"
                 }
               },
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
+                "@id": `${SITE_URL}/#organization`,
                 "name": "IconSearch",
-                "url": "https://iconsearch.info",
-                "logo": "https://iconsearch.info/iconsearch-logo-128.png"
+                "url": SITE_URL,
+                "description": `An independent discovery platform for ${NAMED_LIBRARY_COUNT} open-source SVG icon libraries.`,
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": `${SITE_URL}/iconsearch-logo-900.png`,
+                  "width": 900,
+                  "height": 900
+                }
               }
             ])
           }}

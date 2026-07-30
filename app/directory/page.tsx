@@ -1,16 +1,15 @@
 import Link from 'next/link'
 import { icons } from '../../lib/icons'
-import { getComparisonPairs } from '../../lib/icons'
 import { SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Site Directory — IconSearch',
-  description: 'Complete directory of all icon libraries, comparisons, frameworks, use cases, and resources available on IconSearch.',
-}
+export const metadata = createPageMetadata({
+  title: 'IconSearch Directory — Icon Libraries, Guides and Tools',
+  description: 'Browse every IconSearch icon library, framework guide, use-case guide, category, search tool, and open-source license resource.',
+  path: '/directory',
+})
 
 export default function DirectoryPage() {
-  const pairs = getComparisonPairs()
-
   return (
     <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 48px' }}>
       
@@ -30,7 +29,7 @@ export default function DirectoryPage() {
           Explore the Full Site
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '16px', maxWidth: '600px', lineHeight: 1.8 }}>
-          A complete index of every icon library, framework guide, technical comparison, and use-case analysis available on IconSearch.
+          A complete index of every icon library, framework guide, category, search tool, and use-case resource available on IconSearch.
         </p>
       </section>
 

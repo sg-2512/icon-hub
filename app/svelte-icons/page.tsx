@@ -1,10 +1,13 @@
 import { icons } from '../../lib/icons'
 import Link from 'next/link'
+import { createPageMetadata } from '../../lib/seo'
 
-export const metadata = {
-  title: 'Best Icon Libraries for Svelte (2026) — Free & Open Source',
-  description: 'Find the best free icon libraries for Svelte and SvelteKit. Compare Lucide, Tabler and more with installation guides.',
-}
+export const metadata = createPageMetadata({
+  title: 'Svelte Icons — Best SVG Libraries for SvelteKit (2026)',
+  description: 'Compare free icon libraries for Svelte and SvelteKit, including Lucide and Tabler, with official package guidance, installation commands, and TypeScript support.',
+  path: '/svelte-icons',
+  type: 'article',
+})
 
 export default function SvelteIconsPage() {
   const svelteIcons = icons.filter(i => i.frameworks.includes('svelte'))

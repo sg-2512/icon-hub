@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
   Bell,
@@ -15,30 +14,27 @@ import {
   Star,
   type LucideIcon,
 } from 'lucide-react'
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 import styles from './figma-plugin.module.css'
 
 const FIGMA_PLUGIN_URL = 'https://www.figma.com/community/plugin/1652731113142368438/iconsearch-free-svg-icons'
 const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 
-export const metadata: Metadata = {
-  title: `IconSearch Figma Plugin - Search ${formattedIconCount} Free SVG Icons`,
-  description: `Install the live IconSearch Figma plugin to search, filter, and insert ${formattedIconCount} free SVG icons from 229 open-source icon libraries.`,
-  alternates: {
-    canonical: '/figma-plugin',
-  },
-  openGraph: {
-    title: 'IconSearch Figma Plugin',
-    description: `Search and insert ${formattedIconCount} free SVG icons directly inside Figma.`,
-    url: '/figma-plugin',
-    type: 'website',
-  },
-}
+export const metadata = createPageMetadata({
+  title: `IconSearch Figma Plugin — Search ${formattedIconCount} Free SVG Icons`,
+  description: `Install the live IconSearch Figma plugin to search, filter, and insert ${formattedIconCount} free SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries.`,
+  path: '/figma-plugin',
+  image: 'https://iconsearch.info/figma-plugin-thumbnail.png',
+  imageAlt: 'IconSearch Figma plugin interface',
+  imageWidth: 1920,
+  imageHeight: 1080,
+})
 
 const stats = [
   { value: formattedIconCount, label: 'searchable SVG icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: '229', label: 'icon collections' },
+  { value: NAMED_LIBRARY_COUNT.toString(), label: 'icon collections' },
   { value: 'Live', label: 'on Figma Community' },
 ]
 

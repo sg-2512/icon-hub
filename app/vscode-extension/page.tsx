@@ -1,29 +1,21 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 
 const VSCODE_MARKETPLACE_URL =
   'https://marketplace.visualstudio.com/items?itemName=IconSearch.iconsearch-integration&ssr=false#overview'
 const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 
-export const metadata: Metadata = {
-  title: `IconSearch VS Code Extension - Search ${formattedIconCount} SVG Icons`,
-  description: `Install the IconSearch VS Code extension to search and insert ${formattedIconCount} free online SVG icons from 229 open-source icon libraries.`,
-  alternates: {
-    canonical: '/vscode-extension',
-  },
-  openGraph: {
-    title: 'IconSearch VS Code Extension',
-    description: `Search and insert ${formattedIconCount} free online SVG icons directly inside VS Code.`,
-    url: '/vscode-extension',
-    type: 'website',
-  },
-}
+export const metadata = createPageMetadata({
+  title: `IconSearch VS Code Extension — Search ${formattedIconCount} SVG Icons`,
+  description: `Install the IconSearch VS Code extension to search and insert ${formattedIconCount} free online SVG icons from ${NAMED_LIBRARY_COUNT} open-source libraries.`,
+  path: '/vscode-extension',
+})
 
 const stats = [
   { value: formattedIconCount, label: 'online icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: '229', label: 'icon collections' },
+  { value: NAMED_LIBRARY_COUNT.toString(), label: 'icon collections' },
   { value: '0', label: 'offline icon bundles' },
 ]
 

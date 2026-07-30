@@ -3,6 +3,7 @@ import { icons } from '../../../lib/icons'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { SEARCHABLE_ICON_COUNT } from '../../../data/library-catalog'
+import { createPageMetadata } from '../../../lib/seo'
 
 export async function generateStaticParams() {
   return useCases.map(uc => ({ slug: uc.slug }))
@@ -12,25 +13,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const uc = useCases.find(u => u.slug === slug)
   if (!uc) return {}
-  return {
-    title: `${uc.name} — Best Free Icon Libraries (2026)`,
+  return createPageMetadata({
+    title: `${uc.name}: Best Free SVG Libraries (2026)`,
     description: uc.description,
-    alternates: {
-      canonical: `https://iconsearch.info/use-cases/${slug}`,
-    },
-    openGraph: {
-      title: `${uc.name} — Best Free Icon Libraries`,
-      description: uc.description,
-      url: `https://iconsearch.info/use-cases/${slug}`,
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${uc.name} — Best Free Icon Libraries`,
-      description: uc.description,
-      creator: '@IconSearchinfo',
-    },
-  }
+    path: `/use-cases/${slug}`,
+    type: 'article',
+  })
 }
 
 export default async function UseCasePage({ params }: { params: Promise<{ slug: string }> }) {

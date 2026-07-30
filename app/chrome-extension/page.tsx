@@ -1,27 +1,19 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ICONIFY_COLLECTION_COUNT, NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { NAMED_LIBRARY_COUNT, SEARCHABLE_ICON_COUNT } from '../../data/library-catalog'
+import { createPageMetadata } from '../../lib/seo'
 
 const formattedIconCount = SEARCHABLE_ICON_COUNT.toLocaleString('en-US')
 
-export const metadata: Metadata = {
-  title: `IconSearch Chrome Extension - Launching Soon`,
+export const metadata = createPageMetadata({
+  title: 'IconSearch Chrome Extension — Free SVG Icon Search',
   description: `The IconSearch Chrome extension is launching soon with ${formattedIconCount} online SVG icons from ${NAMED_LIBRARY_COUNT} curated open-source icon libraries.`,
-  alternates: {
-    canonical: '/chrome-extension',
-  },
-  openGraph: {
-    title: 'IconSearch Chrome Extension - Launching Soon',
-    description: `A Chrome Web Store extension for searching, previewing, copying, and downloading ${formattedIconCount} online SVG icons from any tab.`,
-    url: '/chrome-extension',
-    type: 'website',
-  },
-}
+  path: '/chrome-extension',
+})
 
 const stats = [
   { value: formattedIconCount, label: 'searchable icons' },
   { value: NAMED_LIBRARY_COUNT.toString(), label: 'named libraries' },
-  { value: '229', label: 'icon collections' },
+  { value: NAMED_LIBRARY_COUNT.toString(), label: 'icon collections' },
   { value: '0', label: 'offline icon bundles' },
 ]
 

@@ -187,8 +187,12 @@ export default function CollectionPageClient({ meta, icons }: Props) {
           {meta.name}
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '16px', maxWidth: '850px', lineHeight: 1.7, marginBottom: '24px' }}>
-          Discover {meta.iconCount.toLocaleString('en-US')} high-quality icons in the {meta.name} collection. 
-          Licensed under {meta.license}, perfect for web, app, and design projects.
+          Browse {meta.iconCount.toLocaleString('en-US')} high-quality icons in the {meta.name} collection.
+          The collection uses the {meta.license} license; review the{' '}
+          <Link href={`/licenses#${meta.slug}`} style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+            icon license guide
+          </Link>{' '}
+          for commercial-use and attribution details.
         </p>
 
         {/* Action Buttons */}
@@ -300,46 +304,51 @@ export default function CollectionPageClient({ meta, icons }: Props) {
                 const previewUrl = `/api/svg/${encodeURIComponent(icon.library)}/${encodeURIComponent(icon.name)}`
 
                 return (
-                  <button
+                  <div
                     key={icon.id}
-                    onClick={() => setSelectedIcon(icon)}
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      height: '110px',
+                      minHeight: '120px',
                       borderRadius: '16px',
                       border: isSelected ? '2px solid #f43f5e' : '1px solid #e2e8f0',
                       background: '#ffffff',
                       boxShadow: isSelected ? '0 4px 16px rgba(244,63,94,0.25)' : '0 2px 6px rgba(0,0,0,0.04)',
-                      cursor: 'pointer',
                       position: 'relative',
                       transition: 'all 0.15s ease',
-                      padding: '12px',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.borderColor = '#f43f5e'
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.borderColor = '#e2e8f0'
-                        e.currentTarget.style.transform = 'translateY(0)'
-                      }
+                      padding: '10px',
                     }}
                   >
-                    <img
-                      src={previewUrl}
-                      alt={icon.name}
-                      width={32}
-                      height={32}
-                      loading="lazy"
-                      style={{ objectFit: 'contain', marginBottom: '8px' }}
-                    />
-                    <span style={{
+                    <button
+                      type="button"
+                      aria-label={`Customize ${icon.displayName || icon.name}`}
+                      onClick={() => setSelectedIcon(icon)}
+                      style={{
+                        width: '100%',
+                        flex: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'transparent',
+                        border: 0,
+                        cursor: 'pointer',
+                        padding: '6px',
+                      }}
+                    >
+                      <img
+                        src={previewUrl}
+                        alt={`${icon.displayName || icon.name} SVG icon`}
+                        width={32}
+                        height={32}
+                        loading="lazy"
+                        style={{ objectFit: 'contain' }}
+                      />
+                    </button>
+                    <Link
+                      href={`/icons/${encodeURIComponent(meta.slug)}/${encodeURIComponent(icon.name)}`}
+                      style={{
                       fontSize: '11px',
                       color: '#475569',
                       fontWeight: 500,
@@ -348,10 +357,11 @@ export default function CollectionPageClient({ meta, icons }: Props) {
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
                       fontFamily: 'var(--font-mono, monospace)',
+                      textDecoration: 'none',
                     }}>
                       {icon.displayName || icon.name}
-                    </span>
-                  </button>
+                    </Link>
+                  </div>
                 )
               })}
             </div>

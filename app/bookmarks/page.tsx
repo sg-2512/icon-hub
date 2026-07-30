@@ -4,6 +4,10 @@ import BookmarksClient from './BookmarksClient'
 export const metadata: Metadata = {
   title: 'Bookmarks & Saved Icons — IconSearch',
   description: 'Access all your saved vector SVG icons and pinned library collections in your personal workspace.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function BookmarksPage() {
