@@ -1,43 +1,32 @@
-'use client'
-
-import { useEffect } from 'react'
+import Script from 'next/script'
 
 declare global {
   interface Window {
     dataLayer: unknown[]
+    gtag?: (...args: unknown[]) => void
   }
 }
 
 export default function GoogleAnalytics({ gaId }: { gaId: string }) {
-  useEffect(() => {
-    let loaded = false
+  const serializedGaId = JSON.stringify(gaId)
 
-    const loadGA = () => {
-      if (loaded || document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) return
-      loaded = true
-
-      window.dataLayer = window.dataLayer || []
-      function gtag(...args: unknown[]) {
-        window.dataLayer.push(args)
-      }
-      gtag('js', new Date())
-      gtag('config', gaId)
-
-      const script = document.createElement('script')
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
-      script.async = true
-      document.head.appendChild(script)
-
-      events.forEach(e => window.removeEventListener(e, loadGA))
-    }
-
-    const events = ['pointermove', 'scroll', 'touchstart', 'keydown', 'click']
-    events.forEach(e => window.addEventListener(e, loadGA, { passive: true, once: true }))
-
-    return () => {
-      events.forEach(e => window.removeEventListener(e, loadGA))
-    }
-  }, [gaId])
-
-  return null
+  return (
+    <>
+      <Script
+        id="google-analytics-loader"
+        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function gtag() {
+            window.dataLayer.push(arguments);
+          };
+          window.gtag('js', new Date());
+          window.gtag('config', ${serializedGaId});
+        `}
+      </Script>
+    </>
+  )
 }

@@ -46,20 +46,25 @@ export interface CartImportEvent {
 }
 
 type GtagWindow = Window & {
-  gtag?: (command: 'event', eventName: string, params: Record<string, unknown>) => void
+  dataLayer?: unknown[]
+  gtag?: (...args: unknown[]) => void
 }
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Safely call `window.gtag` if GA is loaded. */
+/** Queue a GA event even if the external script is still loading. */
 function fireGtagEvent(eventName: string, params: Record<string, unknown>) {
   try {
-    const gtag = typeof window !== 'undefined' ? (window as GtagWindow).gtag : undefined
-    if (typeof gtag === 'function') {
-      gtag('event', eventName, params)
-    }
+    if (typeof window === 'undefined') return
+
+    const analyticsWindow = window as GtagWindow
+    analyticsWindow.dataLayer = analyticsWindow.dataLayer || []
+    analyticsWindow.gtag = analyticsWindow.gtag || ((...args: unknown[]) => {
+      analyticsWindow.dataLayer?.push(args)
+    })
+    analyticsWindow.gtag('event', eventName, params)
   } catch {
     // silently swallow — analytics should never break the app
   }
